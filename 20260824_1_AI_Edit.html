@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* ==========================================================================
+           1. 全域初始化：導入 Google 字體與設定流暢度
+           ========================================================================== */
+        @import url('https://googleapis.com');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* 讓寬度包含內距，確保排版精準 */
+        }
+
+        body {
+            /* 莫蘭迪底色：帶有灰色調的溫柔燕麥白 */
+            background-color: #f2efeb;
+            font-family: 'Noto Sans TC', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ==========================================================================
+           2. 容器與版面配置
+           ========================================================================== */
+        .wrapper {
+            width: 1024px;
+            margin-top: 50px; /* 頂部留白，給視覺呼吸空間 */
+            margin-bottom: 50px;
+            margin-left: auto;
+            margin-right: auto;
+            /* 柔焦陰影：讓整體框架像畫框一樣精緻地浮現 */
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.02); 
+        }
+
+        .logo {
+            width: 1024px;
+            height: 140px; 
+            /* LOGO背景：莫蘭迪最具代表性的「煙燻霧霾藍」 */
+            background-color: #8da4b4;
+        }
+
+        .logo p {
+            font-size: 36px; 
+            /* LOGO文字：柔和的石英棉白 */
+            color: #f7f9fa;
+            text-align: center;
+            padding-top: 45px;
+            padding-bottom: 45px;
+            font-weight: 300; /* 細體字，呈現高級感 */
+            letter-spacing: 12px; /* 拉大字距，營造大氣質感 */
+            text-indent: 12px; /* 修正字距造成的微幅偏右，確保絕對置中 */
+        }
+
+        /* ==========================================================================
+           3. 導覽列與精緻微互動
+           ========================================================================== */
+        nav {
+            /* 導覽列背景：乾淨的純白底色 */
+            background-color: #ffffff;
+            text-align: center;
+            margin-top: 0px; 
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eae6df; /* 淡淡的泥灰色分隔線 */
+        }
+
+        nav ul {
+            display: inline-block;
+        }
+
+        nav ul li {
+            float: left;
+            list-style: none;
+        }
+
+        nav ul li a {
+            display: block;
+            background-color: transparent; /* 無框透明底設計 */
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 30px;
+            padding-right: 30px;
+            margin-right: 5px;
+            text-decoration: none;
+            font-size: 16px; 
+            font-weight: 400;
+            /* 導覽文字：內斂的暮灰藍 */
+            color: #5b656b;
+            letter-spacing: 2px;
+            /* 動態漸變：讓滑過效果在 0.3 秒內絲滑地轉變 */
+            transition: all 0.3s ease; 
+        }
+
+        nav ul li a:hover {
+            /* 滑過效果：底色轉為溫柔的淡淡石英灰 */
+            background-color: #e9eff2;
+            /* 文字轉為深霧藍 */
+            color: #3f4e59;
+            box-shadow: none; 
+            border-radius: 2px;
+        }
+
+        /* ==========================================================================
+           4. 內容核心區
+           ========================================================================== */
+        .content {
+            background-color: #ffffff;
+            /* 黃金內距比例，留白越多，雜誌感越強 */
+            padding-left: 90px;
+            padding-right: 90px;
+            padding-top: 60px;
+            padding-bottom: 70px;
+        }
+
+        .content h1 {
+            /* 歡迎光臨大標題：沉穩的深霧藍灰色 */
+            color: #3f4e59;
+            text-align: center;
+            font-size: 28px; 
+            font-weight: 500;
+            letter-spacing: 6px;
+            margin-bottom: 40px; 
+        }
+
+        .content p {
+            /* 內文文章：極度舒適的灰調碳黑，看久了眼睛完全不疲勞 */
+            color: #61686c;
+            margin-top: 24px;
+            font-size: 16px; 
+            line-height: 1.8; /* 優雅的行高，字字分明 */
+            font-weight: 300;
+            text-align: justify; /* 文字左右齊行，排版更整齊 */
+        }
+
+        .content a {
+            display: block;
+            /* 了解更多按鈕：經典莫蘭迪「乾燥玫瑰粉棕」 */
+            background-color: #c0a99d;
+            width: 140px; 
+            height: 46px;
+            line-height: 46px;
+            margin-top: 50px; 
+            margin-bottom: 0px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            text-decoration: none;
+            /* 按鈕文字：純白 */
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 15px;
+            letter-spacing: 2px;
+            text-indent: 2px;
+            border-radius: 2px; /* 2px 幾何微圓角，比圓滾滾的大圓角更顯專業 */
+            transition: all 0.3s ease; 
+        }
+
+        .content a:hover {
+            /* 滑過效果：按鈕柔和地轉為更內斂的藕粉色 */
+            background-color: #ae978b;
+            /* 微幅向上漂浮，增加網頁靈動感 */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(192, 169, 157, 0.3);
+        }
+
+        /* ==========================================================================
+           5. 頁尾
+           ========================================================================== */
+        .footer {
+            /* 頁尾背景：與頂部 LOGO 採用同款霧霾藍，達成視覺上的和諧對稱 */
+            background-color: #8da4b4;
+            /* 頁尾文字：淺石英灰 */
+            color: #e2e8ec; 
+            text-align: center;
+            font-size: 13px; 
+            font-weight: 300;
+            letter-spacing: 2px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            margin-top: 0px; 
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="banner">
+            <div class="logo">
+                <p>LOGO</p>
+            </div>
+            <!-- 導航選單  -->
+            <nav>
+                <ul>
+                    <li><a href="">首頁</a></li>
+                    <li><a href="">最新消息</a></li>
+                    <li><a href="">合作店家</a></li>
+                    <li><a href="">關於我們</a></li>
+                    <li><a href="">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="content">
+            <h1>歡迎光臨</h1>
+            <p>一塊寫出來我就經濟手冊登陸管理員進行歌詞感情表明合適，取得喜愛就會緊緊陷入有所台北暫無秘密權力不在熱情，小學好多每頁越來越適應費用不足太陽，昨日德國軍隊，但在有關部門互相不能回來不好意思外面，品牌原。</p>
+            <p>提高話題我們保健論壇命運，配合超市，制定圖書館開心再度階段老大有限公司絶對，站在這麼意識至少承受字幕走了節目忘記言論，世界上熱情然而三年機場看出材料阿宅人民共和國，出來藥品臺中協調活力上升交易三個主要突然理想，用戶點這裡原理記住開放美女算是科技有限公司，或是微微老大刪除之外陽光美容生物，失去思路外。
+            </p>
+            <p>至於戰士親愛的還可以微笑頭髮一年，要有如此，公司吸引適用臨時有着航空之後依法在這個關鍵有限責任公司什麼，普通服務注意新手兄弟不肯喜愛降低軍事，不如那些各位可惜花蓮會員區別用於精靈完成一切在他明確背後，特別是少女靜靜手裡豐原任何，出售真正億元，的確家族來源原始碼有意食物付款權力包含，閲讀者作者想要老。
+            </p>
+            <a href="">了解更多</a>
+        </div>
+        <div class="footer">
+            POWER BY APP跨平台班
+        </div>
+    </div>
+
+</body>
+
+</html>
