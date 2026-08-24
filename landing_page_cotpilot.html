@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="MORNING FORM 咖啡拉花課程：在北歐感空間裡，學會把日常拉成一朵好看的花。">
+	<title>MORNING FORM｜咖啡拉花課程</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--paper: #f5f1e9;
+			--paper-deep: #ebe3d7;
+			--ink: #28332f;
+			--muted: #6f766e;
+			--sage: #879889;
+			--sage-deep: #50675b;
+			--clay: #d48768;
+			--cream: #fffdf8;
+			--line: #d9d3c8;
+			--shadow: 0 24px 60px rgba(49, 59, 51, .13);
+		}
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body { margin: 0; overflow-x: clip; background: var(--paper); color: var(--ink); font-family: "DM Sans", "Noto Sans TC", sans-serif; line-height: 1.7; }
+		a { color: inherit; text-decoration: none; }
+		button, input, select { font: inherit; }
+		.wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+		.site-nav { position: sticky; top: 0; z-index: 10; background: rgba(245, 241, 233, .9); border-bottom: 1px solid rgba(217, 211, 200, .8); backdrop-filter: blur(16px); }
+		.nav-inner { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+		.logo { display: flex; align-items: center; gap: 11px; font-size: 13px; font-weight: 700; letter-spacing: .14em; }
+		.logo-mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--clay); color: var(--cream); font-family: Georgia, serif; font-size: 18px; }
+		.nav-links { display: flex; gap: 28px; color: var(--muted); font-size: 13px; }
+		.nav-links a:hover { color: var(--sage-deep); }
+		.nav-cta, .hero-cta { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 2px; background: var(--sage-deep); color: white; padding: 12px 20px; cursor: pointer; font-size: 13px; font-weight: 700; transition: transform .2s, background .2s; }
+		.nav-cta:hover, .hero-cta:hover { transform: translateY(-2px); background: var(--ink); }
+		.menu-toggle { display: none; border: 0; background: transparent; color: var(--ink); font-size: 24px; cursor: pointer; }
+		.hero { min-height: 690px; display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: clamp(40px, 8vw, 110px); padding: 72px 0 90px; }
+		.kicker { margin: 0 0 17px; color: var(--sage-deep); font-size: 11px; font-weight: 700; letter-spacing: .22em; }
+		h1, h2, h3 { margin: 0; font-family: "Noto Serif TC", Georgia, serif; font-weight: 500; letter-spacing: .01em; }
+		h1 { max-width: 520px; font-size: clamp(42px, 6vw, 75px); line-height: 1.14; }
+		h1 em { color: var(--clay); font-style: normal; }
+		.hero-copy > p:not(.kicker) { max-width: 490px; margin: 27px 0 30px; color: var(--muted); font-size: 16px; }
+		.hero-note { display: flex; gap: 24px; margin-top: 25px; color: var(--muted); font-size: 12px; }
+		.hero-note strong { display: block; color: var(--ink); font-size: 15px; font-weight: 600; }
+		.hero-image { position: relative; min-height: 550px; background: var(--sage); }
+		.hero-image::before { position: absolute; inset: 20px -20px -20px 20px; z-index: -1; border: 1px solid var(--clay); content: ""; }
+		.hero-image img { display: block; width: 100%; height: 550px; object-fit: cover; object-position: center; filter: saturate(.76); }
+		.hero-stamp { position: absolute; right: -37px; bottom: 35px; width: 116px; height: 116px; display: grid; place-items: center; border: 1px solid var(--ink); border-radius: 50%; background: var(--paper); color: var(--ink); text-align: center; font-size: 10px; font-weight: 700; letter-spacing: .16em; line-height: 1.5; transform: rotate(12deg); }
+		.marquee { overflow: hidden; border-block: 1px solid var(--line); background: var(--clay); color: var(--cream); }
+		.marquee-line { width: max-content; display: flex; gap: 34px; padding: 13px 0; animation: drift 24s linear infinite; font-size: 11px; font-weight: 700; letter-spacing: .2em; }
+		.marquee-line span::after { margin-left: 34px; content: "✦"; }
+		@keyframes drift { to { transform: translateX(-30%); } }
+		.section { padding: 112px 0; }
+		.section-head { max-width: 620px; margin-bottom: 54px; }
+		.section-head.center { margin-inline: auto; text-align: center; }
+		.section-head h2 { font-size: clamp(32px, 4vw, 52px); line-height: 1.25; }
+		.section-head p { margin: 18px 0 0; color: var(--muted); }
+		.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+		.feature { min-height: 250px; padding: 32px; background: var(--paper); }
+		.feature-index { color: var(--clay); font: 600 14px "DM Sans", sans-serif; }
+		.feature h3 { margin: 50px 0 9px; font-size: 22px; }
+		.feature p { margin: 0; color: var(--muted); font-size: 14px; }
+		.experience { background: var(--sage-deep); color: var(--cream); }
+		.experience-layout { display: grid; grid-template-columns: .95fr 1.05fr; align-items: center; gap: clamp(40px, 9vw, 130px); }
+		.collage { position: relative; min-height: 515px; }
+		.collage img { position: absolute; object-fit: cover; filter: saturate(.7); }
+		.collage .img-a { top: 0; left: 0; width: 68%; height: 310px; }
+		.collage .img-b { right: 0; bottom: 0; width: 55%; height: 300px; border: 9px solid var(--sage-deep); }
+		.collage .img-c { right: 25%; bottom: 62px; width: 28%; height: 165px; border: 7px solid var(--sage-deep); }
+		.experience .kicker { color: #e1b7a4; }
+		.experience h2 { max-width: 520px; font-size: clamp(32px, 4vw, 53px); line-height: 1.28; }
+		.experience-copy > p { max-width: 500px; margin: 22px 0 30px; color: #d8dfd8; }
+		.steps { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+		.step { padding-top: 14px; border-top: 1px solid rgba(255,255,255,.3); }
+		.step b { display: block; margin-bottom: 5px; color: #e8b19b; font-size: 12px; letter-spacing: .12em; }
+		.step span { color: #f7f3ec; font-size: 14px; }
+		.experience .hero-cta { margin-top: 35px; background: var(--clay); }
+		.schedule { display: grid; grid-template-columns: 1.1fr .9fr; gap: 30px; align-items: stretch; }
+		.plans { display: grid; gap: 12px; }
+		.plan { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 24px; border: 1px solid var(--line); background: var(--cream); cursor: pointer; text-align: left; }
+		.plan.active { border-color: var(--sage-deep); box-shadow: inset 4px 0 var(--clay); }
+		.plan h3 { font-size: 20px; }
+		.plan p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+		.plan-price { white-space: nowrap; color: var(--sage-deep); font: 600 20px "DM Sans", sans-serif; }
+		.schedule-card { padding: 40px; background: var(--sage); color: var(--cream); }
+		.schedule-card h3 { font-size: 30px; }
+		.schedule-card p { color: #edf0ea; font-size: 14px; }
+		.schedule-card ul { margin: 25px 0 0; padding: 0; list-style: none; color: #edf0ea; font-size: 14px; }
+		.schedule-card li { padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.25); }
+		.schedule-card li::before { margin-right: 9px; color: #f0b39e; content: "•"; }
+		.reviews { border-top: 1px solid var(--line); }
+		.review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+		.review { padding: 26px; border: 1px solid var(--line); background: rgba(255,253,248,.65); }
+		.stars { color: var(--clay); letter-spacing: .14em; }
+		.review blockquote { margin: 17px 0 26px; font-family: "Noto Serif TC", Georgia, serif; font-size: 18px; line-height: 1.7; }
+		.review cite { color: var(--muted); font-size: 12px; font-style: normal; }
+		.booking { padding: 90px 0 115px; background: var(--paper-deep); }
+		.booking-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: start; }
+		.booking h2 { font-size: clamp(34px, 4vw, 52px); line-height: 1.3; }
+		.booking-intro p { color: var(--muted); }
+		.booking-form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 32px; background: var(--cream); border-top: 4px solid var(--clay); box-shadow: var(--shadow); }
+		.field { display: grid; gap: 6px; }
+		.field.full { grid-column: 1 / -1; }
+		.field label { color: var(--muted); font-size: 12px; font-weight: 700; }
+		.field input, .field select { width: 100%; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; outline: 0; background: transparent; color: var(--ink); padding: 9px 0; }
+		.field input:focus, .field select:focus { border-color: var(--sage-deep); }
+		.form-submit { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 8px; }
+		.form-submit small { color: var(--muted); font-size: 11px; }
+		.form-submit button { border: 0; border-radius: 2px; background: var(--clay); color: white; padding: 13px 22px; cursor: pointer; font-weight: 700; }
+		.form-message { grid-column: 1 / -1; display: none; margin: 0; color: var(--sage-deep); font-size: 13px; }
+		.form-message.show { display: block; }
+		footer { padding: 25px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+		.footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+		@media (max-width: 820px) {
+			.wrap { width: min(100% - 36px, 600px); }
+			.nav-inner { min-height: 68px; }
+			.menu-toggle { display: block; }
+			.nav-links { position: absolute; top: 68px; left: 0; right: 0; display: none; flex-direction: column; gap: 0; padding: 12px 18px; border-bottom: 1px solid var(--line); background: var(--paper); }
+			.nav-links.open { display: flex; }
+			.nav-links a { padding: 10px 0; }
+			.nav-cta { display: none; }
+			.hero, .experience-layout, .schedule, .booking-layout { grid-template-columns: 1fr; }
+			.hero { padding: 58px 0 80px; gap: 55px; }
+			.hero-image, .hero-image img { min-height: 430px; height: 430px; }
+			.hero-stamp { right: -10px; }
+			.feature-grid, .review-grid { grid-template-columns: 1fr; }
+			.feature { min-height: 0; }
+			.feature h3 { margin-top: 30px; }
+			.experience-layout { gap: 45px; }
+			.collage { min-height: 430px; }
+			.collage .img-a { height: 260px; }
+			.collage .img-b { height: 250px; }
+			.collage .img-c { bottom: 48px; }
+			.booking-layout { gap: 35px; }
+		}
+		@media (max-width: 520px) {
+			.hero-note { gap: 15px; }
+			.steps, .booking-form { grid-template-columns: 1fr; }
+			.field.full, .form-submit, .form-message { grid-column: auto; }
+			.form-submit { align-items: flex-start; flex-direction: column; }
+			.schedule-card, .booking-form { padding: 24px; }
+			.footer-inner { flex-direction: column; gap: 5px; }
+		}
+		@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .marquee-line { animation: none; } }
+	</style>
+</head>
+<body>
+	<header class="site-nav">
+		<div class="wrap nav-inner">
+			<a class="logo" href="#top"><span class="logo-mark">M</span>MORNING FORM</a>
+			<button class="menu-toggle" type="button" aria-label="開啟選單" aria-expanded="false">☰</button>
+			<nav class="nav-links" aria-label="主要導覽">
+				<a href="#story">課程特色</a><a href="#experience">上課內容</a><a href="#plans">課程方案</a><a href="#booking">預約</a>
+			</nav>
+			<a class="nav-cta" href="#booking">預約一堂課</a>
+		</div>
+	</header>
+
+	<main id="top">
+		<section class="wrap hero">
+			<div class="hero-copy">
+				<p class="kicker">SLOW COFFEE · GOOD FORM</p>
+				<h1>把日常，拉成一朵<em>好看的花。</em></h1>
+				<p>一堂為生活留白的咖啡拉花課。在安靜、好拍又舒服的空間裡，從奶泡開始，完成屬於你的第一杯作品。</p>
+				<a class="hero-cta" href="#booking">預約你的咖啡時光　→</a>
+				<div class="hero-note"><div><strong>2.5 hr</strong>一堂完整體驗</div><div><strong>2–6 人</strong>小班制教學</div><div><strong>0 基礎</strong>也能參加</div></div>
+			</div>
+			<div class="hero-image">
+				<img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85" alt="桌面上的咖啡、拉花壺與植物">
+				<div class="hero-stamp">MAKE<br>YOUR<br>MORNING<br>MATTER</div>
+			</div>
+		</section>
+
+		<div class="marquee" aria-hidden="true"><div class="marquee-line"><span>COFFEE</span><span>CREATE</span><span>CAPTURE</span><span>REPEAT</span><span>COFFEE</span><span>CREATE</span><span>CAPTURE</span><span>REPEAT</span></div></div>
+
+		<section class="wrap section" id="story">
+			<div class="section-head center"><p class="kicker">WHY MORNING FORM</p><h2>美感不是額外加上的，<br>它就在每一個步驟裡。</h2><p>我們相信，一堂好的課不只讓你學會技巧，也應該讓你在離開之後，還記得那個午後的光。</p></div>
+			<div class="feature-grid">
+				<article class="feature"><span class="feature-index">01 / START</span><h3>從奶泡開始的基礎</h3><p>認識咖啡、蒸奶與流速，老師用簡單的方式帶你掌握拉花真正的關鍵。</p></article>
+				<article class="feature"><span class="feature-index">02 / MAKE</span><h3>小班制的專注練習</h3><p>每人都有自己的咖啡機與拉花壺，不追趕進度，只專心讓手感慢慢長出來。</p></article>
+				<article class="feature"><span class="feature-index">03 / KEEP</span><h3>把作品帶回生活</h3><p>完成心形與鬱金香，也帶走一張練習小卡，讓家裡的週末早晨繼續發生。</p></article>
+			</div>
+		</section>
+
+		<section class="experience section" id="experience">
+			<div class="wrap experience-layout">
+				<div class="collage">
+					<img class="img-a" src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=900&q=85" alt="咖啡師正在準備咖啡">
+					<img class="img-b" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=800&q=85" alt="咖啡豆與手沖器具">
+					<img class="img-c" src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=700&q=85" alt="明亮的咖啡店空間">
+				</div>
+				<div class="experience-copy"><p class="kicker">THE CLASS EXPERIENCE</p><h2>兩個半小時，<br>好好做一件事。</h2><p>手機可以先放一邊。這裡有咖啡香、音樂，還有一位會耐心看著你每一次注入的老師。</p><div class="steps"><div class="step"><b>01</b><span>認識豆子與濃縮</span></div><div class="step"><b>02</b><span>打出絲絨奶泡</span></div><div class="step"><b>03</b><span>練習心形、鬱金香</span></div><div class="step"><b>04</b><span>自由創作與拍照</span></div></div><a class="hero-cta" href="#plans">查看課程方案　→</a></div>
+			</div>
+		</section>
+
+		<section class="wrap section" id="plans">
+			<div class="section-head"><p class="kicker">CHOOSE YOUR MOMENT</p><h2>今天想和誰一起喝？</h2><p>選一個適合你的節奏，剩下的交給咖啡與午後的光。</p></div>
+			<div class="schedule">
+				<div class="plans" role="tablist" aria-label="課程方案">
+					<button class="plan active" type="button" role="tab" aria-selected="true" data-plan="一人慢慢學"><span><h3>一人慢慢學</h3><p>適合想靜下來專注練習的你</p></span><span class="plan-price">NT$ 1,480</span></button>
+					<button class="plan" type="button" role="tab" aria-selected="false" data-plan="兩人剛剛好"><span><h3>兩人剛剛好</h3><p>朋友、情侶或姐妹的共享時光</p></span><span class="plan-price">NT$ 2,680</span></button>
+					<button class="plan" type="button" role="tab" aria-selected="false" data-plan="小團體包場"><span><h3>小團體包場</h3><p>4–6 人，把聚會變成一堂課</p></span><span class="plan-price">NT$ 5,040</span></button>
+				</div>
+				<aside class="schedule-card"><p class="kicker">EVERYTHING INCLUDED</p><h3 id="selected-plan">一人慢慢學</h3><p>一杯自己拉出的咖啡，是送給今天的自己的一點成就感。</p><ul><li>精品咖啡豆與鮮奶</li><li>專屬咖啡機與拉花器具</li><li>課後練習小卡</li><li>作品拍攝與小禮物</li></ul></aside>
+			</div>
+		</section>
+
+		<section class="reviews section">
+			<div class="wrap"><div class="section-head center"><p class="kicker">A LITTLE LOVE NOTE</p><h2>她們的第一朵花</h2></div><div class="review-grid"><article class="review"><div class="stars">★★★★★</div><blockquote>原本以為自己是手殘，結果真的拉出心形了！空間很舒服，照片也不用修太多。</blockquote><cite>— Yuki．雙人課</cite></article><article class="review"><div class="stars">★★★★★</div><blockquote>老師教得很細，從奶泡到注入都有被照顧到。是一個人來也不會尷尬的課。</blockquote><cite>— Amber．一人課</cite></article><article class="review"><div class="stars">★★★★★</div><blockquote>把朋友生日安排在這裡很剛好，大家都有作品可以帶走，整個下午都很開心。</blockquote><cite>— 小安．包場課</cite></article></div></div>
+		</section>
+
+		<section class="booking" id="booking"><div class="wrap booking-layout"><div class="booking-intro"><p class="kicker">BOOK YOUR SLOW MORNING</p><h2>留一個下午，<br>給你的咖啡夢。</h2><p>填寫想來的日期與人數，我們會在 24 小時內回覆可預約時段。</p></div><form class="booking-form" id="booking-form"><div class="field"><label for="name">你的名字</label><input id="name" name="name" placeholder="怎麼稱呼你？" required></div><div class="field"><label for="people">參加人數</label><select id="people" name="people"><option>1 人</option><option>2 人</option><option>3–4 人</option><option>5–6 人</option></select></div><div class="field"><label for="date">希望日期</label><input id="date" name="date" type="date" required></div><div class="field"><label for="contact">聯絡方式</label><input id="contact" name="contact" placeholder="Email 或電話" required></div><div class="form-submit"><small>課程費用確認後再付款，沒有壓力。</small><button type="submit">送出預約需求　→</button></div><p class="form-message" id="form-message">收到你的預約需求了，我們會盡快和你確認一個舒服的時段。</p></form></div></section>
+	</main>
+	<footer><div class="wrap footer-inner"><span>© 2026 MORNING FORM</span><span>台北・咖啡拉花體驗課程　Instagram @morning.form</span></div></footer>
+
+	<script>
+		const menuToggle = document.querySelector('.menu-toggle');
+		const navLinks = document.querySelector('.nav-links');
+		menuToggle.addEventListener('click', () => {
+			const isOpen = navLinks.classList.toggle('open');
+			menuToggle.setAttribute('aria-expanded', String(isOpen));
+		});
+		navLinks.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => navLinks.classList.remove('open')));
+		document.querySelectorAll('.plan').forEach((plan) => plan.addEventListener('click', () => {
+			document.querySelectorAll('.plan').forEach((item) => { item.classList.remove('active'); item.setAttribute('aria-selected', 'false'); });
+			plan.classList.add('active');
+			plan.setAttribute('aria-selected', 'true');
+			document.querySelector('#selected-plan').textContent = plan.dataset.plan;
+		}));
+		document.querySelector('#booking-form').addEventListener('submit', (event) => {
+			event.preventDefault();
+			document.querySelector('#form-message').classList.add('show');
+			event.currentTarget.reset();
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="認識魚叉式網路釣魚攻擊，學會在日常工作中辨識並阻擋精心設計的詐騙訊息。">
+    <title>魚叉式網路釣魚</title>
+    <style>
+        :root {
+            --paper: #f5f7f2;
+            --surface: #ffffff;
+            --ink: #24332e;
+            --muted: #65756e;
+            --sage: #587766;
+            --sage-dark: #315646;
+            --sage-pale: #dfeae1;
+            --sky: #dbecef;
+            --line: #d7e1da;
+            --wood: #c99e72;
+            --shadow: 0 18px 50px rgba(48, 76, 61, 0.09);
+            --radius: 18px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+            line-height: 1.85;
+        }
+
+        a { color: inherit; }
+
+        a:focus-visible {
+            outline: 3px solid var(--wood);
+            outline-offset: 4px;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: 1rem;
+            top: -4rem;
+            z-index: 2;
+            padding: 0.65rem 1rem;
+            background: var(--sage-dark);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .skip-link:focus { top: 1rem; }
+
+        .site-header {
+            border-bottom: 1px solid var(--line);
+            background: rgba(245, 247, 242, 0.92);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1160px;
+            min-height: 76px;
+            margin: auto;
+            padding: 0 2rem;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: var(--sage-dark);
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--sage);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .nav-links { display: flex; gap: 1.5rem; color: var(--muted); font-size: 0.9rem; }
+        .nav-links a { text-decoration: none; }
+        .nav-links a:hover { color: var(--sage-dark); }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            align-items: center;
+            gap: clamp(2rem, 6vw, 6rem);
+            max-width: 1160px;
+            margin: auto;
+            padding: clamp(4rem, 10vw, 8rem) 2rem clamp(4rem, 8vw, 6.5rem);
+        }
+
+        .eyebrow {
+            margin: 0 0 1.2rem;
+            color: var(--sage);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+        }
+
+        h1, h2, h3 { margin: 0; line-height: 1.25; letter-spacing: 0; }
+        h1 { max-width: 650px; font-size: clamp(2.5rem, 5vw, 4.7rem); font-weight: 700; }
+        h2 { font-size: clamp(1.7rem, 3vw, 2.45rem); }
+        h3 { font-size: 1.2rem; }
+
+        .hero-lede {
+            max-width: 560px;
+            margin: 1.6rem 0 0;
+            color: var(--muted);
+            font-size: 1.08rem;
+        }
+
+        .meta { display: flex; flex-wrap: wrap; gap: 0.8rem 1.5rem; margin-top: 2rem; color: var(--muted); font-size: 0.86rem; }
+
+        .hero-visual {
+            position: relative;
+            padding: clamp(1.5rem, 5vw, 3.5rem);
+            border-radius: 42% 42% 18px 18px;
+            background: var(--sky);
+        }
+
+        .hero-visual::before {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: var(--wood);
+            content: "";
+            opacity: 0.75;
+        }
+
+        .hero-visual img { position: relative; display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
+
+        .article-shell { background: var(--surface); border-top: 1px solid var(--line); }
+
+        .article-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 240px;
+            gap: clamp(2rem, 7vw, 7rem);
+            max-width: 960px;
+            margin: auto;
+            padding: clamp(4rem, 8vw, 7rem) 2rem;
+        }
+
+        article { max-width: 650px; }
+        article p { margin: 1.4rem 0; color: #40504a; }
+        article h2 { margin-bottom: 1.5rem; color: var(--sage-dark); }
+        article h3 { margin-top: 3rem; color: var(--sage-dark); }
+
+        .toc { position: sticky; top: 2rem; align-self: start; border-left: 2px solid var(--sage-pale); padding-left: 1.3rem; color: var(--muted); font-size: 0.86rem; }
+        .toc strong { display: block; margin-bottom: 0.8rem; color: var(--ink); }
+        .toc a { display: block; margin: 0.5rem 0; text-decoration: none; }
+        .toc a:hover { color: var(--sage-dark); }
+
+        figure { margin: 2.5rem 0; }
+        figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); box-shadow: var(--shadow); }
+        figcaption { margin-top: 0.75rem; color: var(--muted); font-size: 0.78rem; }
+
+        .notice { margin: 2.5rem 0; padding: 1.5rem 1.7rem; border-left: 4px solid var(--sage); border-radius: 0 var(--radius) var(--radius) 0; background: var(--sage-pale); }
+        .notice p { margin: 0.5rem 0 0; color: var(--sage-dark); }
+
+        .checklist { display: grid; gap: 0.8rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+        .checklist li { display: flex; gap: 0.8rem; align-items: flex-start; color: #40504a; }
+        .checklist li::before { flex: 0 0 auto; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--sage); color: #fff; content: "✓"; font-size: 0.8rem; line-height: 1.4rem; text-align: center; }
+
+        .site-footer { padding: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.82rem; text-align: center; }
+
+        @media (max-width: 720px) {
+            .nav { min-height: 68px; padding: 0 1.25rem; }
+            .nav-links { gap: 0.8rem; font-size: 0.78rem; }
+            .hero { grid-template-columns: 1fr; padding: 4rem 1.25rem; }
+            h1 { font-size: clamp(2.4rem, 12vw, 3.6rem); }
+            .hero-visual { max-width: 420px; margin: 0 auto; }
+            .article-layout { grid-template-columns: 1fr; padding: 4rem 1.25rem; }
+            .toc { position: static; order: -1; border-left: 0; border-bottom: 1px solid var(--line); padding: 0 0 1.2rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">跳至主要內容</a>
+    <header class="site-header">
+        <nav class="nav" aria-label="主要導覽">
+            <a class="brand" href="temp.html"><span class="brand-mark" aria-hidden="true">◎</span>日常資安筆記</a>
+            <div class="nav-links">
+                <a href="#article">文章</a>
+                <a href="#checklist">行動清單</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="hero" aria-labelledby="page-title">
+            <div>
+                <p class="eyebrow">SECURITY / 01</p>
+                <h1 id="page-title">留一秒，辨識魚叉式網路釣魚</h1>
+                <p class="hero-lede">越像日常的訊息，越值得停下來確認。從一封看似來自熟人的郵件開始，認識攻擊者如何取得信任。</p>
+                <div class="meta"><span>閱讀時間 5 分鐘</span><span>更新於 2026.08.20</span></div>
+            </div>
+            <div class="hero-visual">
+                <img src="images/12926253.png" alt="魚叉式網路釣魚攻擊示意圖，包含魚、釣魚工具、電腦與登入視窗">
+            </div>
+        </section>
+
+        <section class="article-shell" id="article" aria-label="文章內容">
+            <div class="article-layout">
+                <article>
+                    <p class="eyebrow">UNDERSTAND THE PATTERN</p>
+                    <h2>不是撒網，而是瞄準你</h2>
+                    <p>魚叉式網路釣魚是一種針對特定對象設計的詐騙。攻擊者會先蒐集公開資訊，再模仿同事、主管、合作夥伴或熟悉的服務，讓訊息看起來像是真正的工作往來。</p>
+                    <p>與大量寄出的普通垃圾郵件不同，魚叉式攻擊常常只有一個收件人。內容可能提到你最近的工作、正在使用的服務，或一個剛好合理的緊急請求。</p>
+
+                    <figure>
+                        <img src="images/12926253.png" alt="魚叉式網路釣魚攻擊的插畫，展示偽造登入頁面與個人資料瞄準">
+                        <figcaption>看見熟悉的名字，不代表訊息來自熟悉的人。</figcaption>
+                    </figure>
+
+                    <h3>一個看似合理的故事</h3>
+                    <p>假設 Joe 是執行長 Mary 的助理。某天，Joe 收到一封來自 Mary 的緊急郵件，對方表示人在國外、手機遺失，需要 Joe 立刻提供付款或帳戶資訊。</p>
+                    <p>這個故事利用了權威、時間壓力與同理心。當訊息同時具備這三個元素時，人很容易在還沒確認來源前就採取行動。</p>
+
+                    <div class="notice">
+                        <h3>先停下來，再回覆</h3>
+                        <p>真正重要的請求，通常經得起第二個管道的確認。直接撥打你原本就知道的電話，或用既有通訊工具重新詢問，不要使用郵件裡提供的聯絡方式。</p>
+                    </div>
+
+                    <h3 id="checklist">三個簡單的確認動作</h3>
+                    <ul class="checklist">
+                        <li>檢查寄件者完整地址，不只看顯示名稱。</li>
+                        <li>將滑鼠移到連結上，確認實際網址與預期服務一致。</li>
+                        <li>遇到付款、密碼或機密資料請求，改用另一個管道核實。</li>
+                    </ul>
+                    <p>沒有任何一個單獨的線索能保證訊息安全，但多停留一秒、換一個管道確認，就能大幅降低誤信的機會。</p>
+                </article>
+
+                <aside class="toc" aria-label="文章導覽">
+                    <strong>本頁內容</strong>
+                    <a href="#article">什麼是魚叉式攻擊</a>
+                    <a href="#checklist">三個確認動作</a>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">保持好奇，也保持確認。日常資安筆記 © 2026</footer>
+</body>
+</html>
+

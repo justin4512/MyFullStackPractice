@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北歐質感咖啡拉花課程 | 你的生活儀式感</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FDFCFB;
+            --text-main: #4A4541;
+            --text-light: #7A726B;
+            --accent: #A6907C;
+            --accent-light: #D5C9BE;
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Noto Serif TC', serif;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 85vh;
+            background-image: url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(42, 38, 35, 0.4);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+            max-width: 800px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #E8E3DF;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background-color: var(--accent);
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--accent);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--white);
+            border-color: var(--white);
+        }
+
+        /* Section Global */
+        section {
+            padding: 100px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 60px;
+            color: var(--text-main);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent);
+            margin: 20px auto 0;
+        }
+
+        /* Quote Section */
+        .quote-section {
+            text-align: center;
+            padding: 80px 20px 40px;
+        }
+
+        .quote {
+            font-size: 1.8rem;
+            color: var(--accent);
+            font-style: italic;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .quote-sub {
+            color: var(--text-light);
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 50px 30px;
+            text-align: center;
+            border: 1px solid #EBE7E3;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.03);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .feature-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Split Section */
+        .split-section {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            padding: 60px 20px;
+            background-color: #F7F5F2;
+            max-width: 100%;
+        }
+        
+        .split-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .split-text {
+            flex: 1;
+        }
+
+        .split-image {
+            flex: 1;
+        }
+
+        .split-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        /* Syllabus List */
+        .syllabus {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .syllabus-item {
+            display: flex;
+            margin-bottom: 40px;
+            background: var(--white);
+            padding: 30px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
+
+        .step-num {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2rem;
+            color: var(--accent-light);
+            font-weight: 600;
+            margin-right: 30px;
+            line-height: 1;
+        }
+
+        .step-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .step-content p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            padding: 50px 40px;
+            text-align: center;
+            border: 1px solid #EBE7E3;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured::before {
+            content: '推薦';
+            position: absolute;
+            top: 25px;
+            right: -35px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        .pricing-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-family: 'Noto Serif TC', serif;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .pricing-desc {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+        }
+        
+        .btn-outline:hover {
+            background: var(--text-main);
+            color: var(--white);
+        }
+
+        /* Footer */
+        footer {
+            background: #2A2623;
+            color: #A49F9B;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        footer h2 {
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .split-content { flex-direction: column; }
+            .syllabus-item { flex-direction: column; }
+            .step-num { margin-bottom: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-subtitle">網美視角 × 北歐極簡</div>
+            <h1 class="hero-title">質 感 咖 啡 拉 花 課 程</h1>
+            <p style="margin-bottom: 40px; font-size: 1.1rem; color: #E8E3DF;">從零基礎開始，在自然光灑落的木質調空間裡，為每天早晨注入專屬的儀式感。</p>
+            <a href="#booking" class="btn">預約你的質感日常</a>
+        </div>
+    </header>
+
+    <!-- Quote -->
+    <div class="quote-section">
+        <div class="quote serif">「這不只是一杯咖啡，而是你質感生活的第一步。」</div>
+        <div class="quote-sub">日常美學 / 手作溫度 / 品味養成</div>
+    </div>
+
+    <!-- Features -->
+    <section id="features">
+        <h2 class="section-title">課程核心亮點</h2>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🌿</div>
+                <h3 class="feature-title serif">北歐極簡拉花美學</h3>
+                <p class="feature-desc">捨棄過度花俏的技法，專注於愛心、鬱金香與樹葉等俐落且優雅的經典線條，呈現乾淨的視覺享受。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📷</div>
+                <h3 class="feature-title serif">IG 質感構圖教學</h3>
+                <p class="feature-desc">獨家加碼手機攝影技巧，教你運用自然光、木質桌面與文青道具佈景，拍出充滿空氣感的百讚限時動態。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3 class="feature-title serif">沉浸式文青體驗</h3>
+                <p class="feature-desc">採小班制教學，在充滿綠植與咖啡香氣的寬闊工作室內，享受純粹且無壓力的靜謐時光。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Break -->
+    <div class="split-section">
+        <div class="split-content">
+            <div class="split-image">
+                <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80" alt="咖啡拉花近景">
+            </div>
+            <div class="split-text">
+                <h2 class="serif" style="font-size: 2rem; margin-bottom: 20px; color: #4A4541;">尋找生活中的留白</h2>
+                <p style="color: #7A726B; margin-bottom: 20px;">
+                    不管你是想在家打造私人咖啡館的品味生活家，還是喜歡在社群分享美學的質感風格者，這堂課都能為你的日常注入無可取代的品味。
+                </p>
+                <p style="color: #7A726B;">
+                    我們相信，沖煮一杯好咖啡，拉出一個完美的圖形，是一場自我沉澱的靜心練習。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Syllabus -->
+    <section id="syllabus">
+        <h2 class="section-title">質感進階大綱</h2>
+        <div class="syllabus">
+            <div class="syllabus-item">
+                <div class="step-num">01</div>
+                <div class="step-content">
+                    <h3 class="serif">萃取與奶泡的對話</h3>
+                    <p>認識義式濃縮咖啡基底，練習打出如絲絨般綿密光澤的微米級奶泡，這是完美拉花的基石。</p>
+                </div>
+            </div>
+            <div class="syllabus-item">
+                <div class="step-num">02</div>
+                <div class="step-content">
+                    <h3 class="serif">水流與重力的掌控</h3>
+                    <p>掌握鋼杯握法、注水高度與流量，從基礎圓心與實心愛心開始建立手感，感受牛奶與咖啡的融合。</p>
+                </div>
+            </div>
+            <div class="syllabus-item">
+                <div class="step-num">03</div>
+                <div class="step-content">
+                    <h3 class="serif">極簡圖形推疊</h3>
+                    <p>學習北歐風經典的「鬱金香」，運用推、蕩、收技巧完美收尾，展現乾淨且層次分明的美感。</p>
+                </div>
+            </div>
+            <div class="syllabus-item">
+                <div class="step-num">04</div>
+                <div class="step-content">
+                    <h3 class="serif">專屬你的美學擺拍</h3>
+                    <p>結合現場的生活感物件，完成作品並實作 IG 網美風格的靜物攝影，記錄下最美好的一刻。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="booking" style="background-color: #FDFCFB;">
+        <h2 class="section-title">選擇你的方案</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3 class="pricing-title serif">單人品味方案</h3>
+                <div class="pricing-price">NT$ 2,500 <span>/人</span></div>
+                <p class="pricing-desc">含精品莊園咖啡豆、頂級小農鮮乳及實體講義。適合想要專注享受獨處時光的你。</p>
+                <a href="#" class="btn btn-outline" style="width: 100%;">立即報名</a>
+            </div>
+            <div class="pricing-card featured">
+                <h3 class="pricing-title serif">雙人同行優惠</h3>
+                <div class="pricing-price">NT$ 4,500 <span>/2人</span></div>
+                <p class="pricing-desc">最適合與閨蜜、伴侶共享美好的午後時光，一起留下充滿咖啡香氣的專屬回憶。</p>
+                <a href="#" class="btn" style="width: 100%;">與好友一起報名</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h2 class="serif" style="font-size: 1.5rem;">開啟你的質感日常</h2>
+        <p style="margin-bottom: 30px; font-size: 0.9rem;">The Art of Coffee & Lifestyle.</p>
+        <p style="font-size: 0.8rem; opacity: 0.6;">© 2026 質感咖啡生活美學. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

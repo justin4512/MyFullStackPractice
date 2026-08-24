@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【一口北歐的悠閒】質感拉花體驗課程 | 專屬網美時光</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #F9F9F7;
+            --secondary-bg: #EBE8E3;
+            --cta-color: #8C7A6B;
+            --cta-hover: #756557;
+            --text-main: #333333;
+            --text-sec: #7A7A7A;
+            
+            --font-sans: 'Montserrat', 'Noto Sans TC', sans-serif;
+            --font-serif: 'Playfair Display', 'Noto Serif TC', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .serif {
+            font-family: var(--font-serif);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Reusable Components */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--cta-color);
+            color: #fff;
+            padding: 16px 36px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--cta-hover);
+            box-shadow: 0 10px 20px rgba(140, 122, 107, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            color: var(--text-main);
+            letter-spacing: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-sec);
+            margin-bottom: 64px;
+            letter-spacing: 1px;
+            font-family: var(--font-sans);
+        }
+
+        /* Section 1: Hero */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            animation: kenburns 20s infinite alternate;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(249,249,247,0.3), rgba(249,249,247,0.85));
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            padding: 0 24px;
+            animation: fadeInUp 1.2s ease-out forwards;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            color: var(--text-main);
+            letter-spacing: 4px;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-sec);
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        /* Section 2: About */
+        .about {
+            background-color: var(--primary-bg);
+        }
+
+        .about-flex {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .about-text {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+
+        .about-text p {
+            color: var(--text-sec);
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .about-visual {
+            flex: 1;
+            position: relative;
+            min-height: 500px;
+        }
+
+        .about-img-1 {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 70%;
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            z-index: 2;
+        }
+
+        .about-img-2 {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 60%;
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            z-index: 3;
+        }
+
+        /* Section 3: Features */
+        .features {
+            background-color: var(--primary-bg);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .feature-card {
+            text-align: center;
+        }
+
+        .feature-img-wrapper {
+            width: 100%;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .feature-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .feature-card:hover .feature-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .feature-card p {
+            color: var(--text-sec);
+            font-size: 0.95rem;
+        }
+
+        /* Section 4: IG Wall */
+        .ig-wall-section {
+            background-color: var(--secondary-bg);
+        }
+
+        .ig-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .ig-item {
+            position: relative;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .ig-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .ig-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(140, 122, 107, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .ig-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .ig-item:hover .ig-overlay {
+            opacity: 1;
+        }
+
+        .ig-overlay p {
+            color: #fff;
+            text-align: center;
+            font-size: 0.95rem;
+            font-style: italic;
+            font-family: var(--font-serif);
+        }
+
+        /* Section 5: Pricing */
+        .pricing {
+            background-color: var(--primary-bg);
+            text-align: center;
+        }
+
+        .pricing-card {
+            background-color: var(--secondary-bg);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.02);
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(140, 122, 107, 0.2);
+        }
+
+        .price-item:last-of-type {
+            border-bottom: none;
+            margin-bottom: 40px;
+        }
+
+        .price-title {
+            text-align: left;
+        }
+
+        .price-title h4 {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .price-title p {
+            font-size: 0.85rem;
+            color: var(--text-sec);
+        }
+
+        .price-amount {
+            font-size: 1.5rem;
+            font-family: var(--font-serif);
+            color: var(--cta-color);
+            font-weight: 600;
+        }
+
+        /* Section 6: Footer */
+        .footer {
+            background-color: var(--text-main);
+            color: #fff;
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            color: var(--text-sec);
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            font-size: 0.8rem;
+            color: var(--text-sec);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Animations */
+        @keyframes kenburns {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-flex {
+                flex-direction: column;
+            }
+            .about-visual {
+                width: 100%;
+                min-height: 400px;
+                margin-top: 40px;
+            }
+            .ig-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Swipeable IG Carousel for Mobile */
+            .ig-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none; /* Firefox */
+                gap: 12px;
+                padding-bottom: 20px;
+            }
+            .ig-grid::-webkit-scrollbar {
+                display: none; /* Chrome */
+            }
+            .ig-item {
+                min-width: 75vw;
+                scroll-snap-align: center;
+                flex-shrink: 0;
+            }
+            
+            .price-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .pricing-card {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Hero -->
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>在喧囂中，<br>拉出一抹北歐的寧靜。</h1>
+            <p>零基礎專屬｜美學與手感兼具的週末拉花體驗課</p>
+            <a href="#booking" class="btn">預約我的專屬時光</a>
+        </div>
+    </header>
+
+    <!-- Section 2: About -->
+    <section class="about section-padding">
+        <div class="container about-flex">
+            <div class="about-text">
+                <h2>Aesthetics & Lifestyle</h2>
+                <p>這不僅是一堂技術課，更是一場五感放鬆的沉浸式體驗。</p>
+                <p>從認識咖啡豆的醇厚香氣開始，我們將帶你一步步掌握綿密奶泡的訣竅，親手繪製杯中的藝術。在這裡，時間會慢下來，自然光會在木桌上作畫。帶走的不只是技能，還有那些能洗版 IG、充滿儀式感的絕美瞬間。</p>
+            </div>
+            <div class="about-visual">
+                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="咖啡生活感" class="about-img-1" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="拉花瞬間" class="about-img-2" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Features -->
+    <section class="features section-padding">
+        <div class="container">
+            <h2 class="section-title">Course Highlights</h2>
+            <p class="section-subtitle">質感與細節，成就你的完美體驗</p>
+            
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="極簡美學設備" loading="lazy">
+                    </div>
+                    <h3>極簡美學設備</h3>
+                    <p>使用純白訂製義式咖啡機與磨豆機，不僅操作流暢優雅，更是拍照的最佳背景。</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1534040385115-33dcb3ac64b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="小班制靜謐教學" loading="lazy">
+                    </div>
+                    <h3>小班制靜謐教學</h3>
+                    <p>1 對 4 精緻指導，確保每位學員都能在不被打擾的環境中，完成滿意的拉花作品。</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1445116572660-236099ac95f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="專屬網美攝影區" loading="lazy">
+                    </div>
+                    <h3>專屬網美攝影區</h3>
+                    <p>課後提供自然光攝影棚、北歐風佈景與道具，老師親授如何拍出質感大片。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: IG Wall / Testimonials -->
+    <section class="ig-wall-section section-padding">
+        <div class="container">
+            <h2 class="section-title">#NordicLatteArt</h2>
+            <p class="section-subtitle">與我們分享你的美好時光</p>
+            
+            <div class="ig-grid">
+                <div class="ig-item">
+                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Student Work 1" loading="lazy">
+                    <div class="ig-overlay">
+                        <p>「第一次拉出愛心，老師超有耐心！場地美哭😭」</p>
+                    </div>
+                </div>
+                <div class="ig-item">
+                    <img src="https://images.unsplash.com/photo-1495474472201-35011d270725?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Student Work 2" loading="lazy">
+                    <div class="ig-overlay">
+                        <p>「治癒了一週的疲憊，拍了一百張照片不誇張✨」</p>
+                    </div>
+                </div>
+                <div class="ig-item">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Student Work 3" loading="lazy">
+                    <div class="ig-overlay">
+                        <p>「空間通透舒服，連咖啡杯都好有質感🤎」</p>
+                    </div>
+                </div>
+                <div class="ig-item">
+                    <img src="https://images.unsplash.com/photo-1485808191679-5f86510681a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Student Work 4" loading="lazy">
+                    <div class="ig-overlay">
+                        <p>「和閨蜜約會的最佳行程！大推雙人方案！」</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Pricing -->
+    <section id="booking" class="pricing section-padding">
+        <div class="container">
+            <h2 class="section-title">Join Us</h2>
+            <p class="section-subtitle">選擇適合你的方案，開始你的北歐咖啡之旅</p>
+            
+            <div class="pricing-card">
+                <div class="price-item">
+                    <div class="price-title">
+                        <h4>單人體驗時光</h4>
+                        <p>2 小時完整課程 / 含 2 杯飲品與講義</p>
+                    </div>
+                    <div class="price-amount">NT$ 1,280</div>
+                </div>
+                
+                <div class="price-item">
+                    <div class="price-title">
+                        <h4>雙人同行方案</h4>
+                        <p>2 小時完整課程 / 附贈北歐風品牌帆布袋 2 只</p>
+                    </div>
+                    <div class="price-amount">NT$ 2,200</div>
+                </div>
+                
+                <a href="#" class="btn" onclick="alert('連結至金流/報名 API'); return false;" style="width: 100%;">立即保留名額</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Nordic Latte Art</div>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">LINE Official</a>
+                <a href="#">Facebook</a>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Nordic Latte Art. All rights reserved.</span>
+                <a href="#">退換課須知</a>
+                <a href="#">隱私權政策</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
