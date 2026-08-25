@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexbox 水平排列範例｜5 個元素</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, "Noto Sans TC", sans-serif;
+      background: #f4f6f8;
+      color: #263238;
+    }
+
+    .example {
+      width: min(1100px, 92%);
+      padding: 40px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.08);
+    }
+
+    .example-title {
+      margin: 0 0 10px;
+      text-align: center;
+    }
+
+    .example-description {
+      margin: 0 0 30px;
+      text-align: center;
+      color: #607d8b;
+    }
+
+    /* Flexbox 核心：主軸水平排列 */
+    .flex-container {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      padding: 20px;
+      border: 3px dashed #90a4ae;
+      border-radius: 16px;
+      background: #eceff1;
+    }
+
+    .flex-item {
+      flex: 1;
+      padding: 35px 15px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #cfd8dc;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .code-note {
+      margin: 25px 0 0;
+      padding: 16px;
+      border-radius: 10px;
+      background: #263238;
+      color: #fff;
+      font-family: Consolas, monospace;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    @media (max-width: 700px) {
+      .flex-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="example">
+    <h1 class="example-title">Flexbox 水平排列範例</h1>
+
+    <p class="example-description">
+      主軸設定為水平排列，容器內共有 5 個元素。
+    </p>
+
+    <section class="flex-container" aria-label="Flexbox 五個元素水平排列範例">
+      <article class="flex-item">元素 1</article>
+      <article class="flex-item">元素 2</article>
+      <article class="flex-item">元素 3</article>
+      <article class="flex-item">元素 4</article>
+      <article class="flex-item">元素 5</article>
+    </section>
+
+    <pre class="code-note">display: flex;
+flex-direction: row; /* 主軸水平排列 */
+gap: 16px;
+flex: 1;</pre>
+  </main>
+</body>
+</html>

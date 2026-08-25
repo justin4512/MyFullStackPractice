@@ -1,296 +1,624 @@
 <!doctype html>
 <html lang="zh-Hant">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>班級值日與外掃儀表板</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#f3f6fb;color:#1f2937;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif}.wrap{max-width:1050px;margin:auto;padding:14px}.hero{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:white;border-radius:20px;padding:22px;margin-bottom:14px}.top{display:flex;justify-content:space-between;gap:15px}.title{font-size:26px;font-weight:800}.date{text-align:right;font-size:22px;font-weight:700}.sub{opacity:.85}.nav{display:flex;gap:7px;margin-bottom:14px}.nav button,.nav input,.action select,.action button{border:0;background:white;border-radius:10px;padding:10px 12px;font-size:15px}.nav input{flex:1}.nav button,.action button{cursor:pointer;font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card,.status{background:white;border-radius:18px;padding:20px;box-shadow:0 5px 20px #0f172a12}.head{display:flex;justify-content:space-between;margin-bottom:15px}.head h2{margin:0;font-size:19px}.people{display:grid;grid-template-columns:1fr 1fr;gap:10px}.person{text-align:center;background:#f8fafc;border-radius:14px;padding:17px}.num{font-size:38px;font-weight:850;color:#2563eb}.name{font-weight:700}.badge{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;background:#e0e7ff;color:#3730a3}.badge.sub{background:#dcfce7;color:#166534}.badge.makeup{background:#fef3c7;color:#92400e}.tag{background:#dbeafe;color:#1d4ed8;border-radius:20px;padding:5px 9px;font-size:13px}.group{border:2px solid #2563eb;background:#eff6ff;border-radius:14px;padding:13px}.members{display:flex;flex-wrap:wrap;gap:7px}.member{background:white;border-radius:9px;padding:7px 9px;font-size:13px}.absent{background:#fee2e2;color:#b91c1c;text-decoration:line-through}.absence{display:flex;flex-wrap:wrap;gap:8px}.abs{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;padding:8px 11px;border-radius:10px}.empty{background:#f0fdf4;color:#15803d;padding:10px;border-radius:10px}.action{display:flex;gap:8px;flex-wrap:wrap}.action select{flex:1;min-width:190px;border:1px solid #dbe3ef}.leave{background:#fee2e2!important;color:#b91c1c}.cancel{background:#dcfce7!important;color:#166534}.stop-btn{background:#fef08a!important;color:#854d0e}.row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #e5e7eb}.row:last-child{border:0}.label{color:#64748b;white-space:nowrap}.value{font-weight:700;text-align:right}.status{margin-top:14px}.note{font-size:12px;color:#64748b;line-height:1.6;margin-top:9px}.settings{margin-top:14px}.settingsgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.settings input,.settings select{width:100%;padding:9px;border:1px solid #dbe3ef;border-radius:9px}.settings label{font-size:12px;color:#64748b}@media(max-width:700px){.top{flex-direction:column}.date{text-align:left}.grid{grid-template-columns:1fr}.settingsgrid{grid-template-columns:1fr}.nav{flex-wrap:wrap}}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="hero">
-    <div class="top">
-      <div>
-        <div class="title">📋 班級值日與外掃儀表板</div>
-        <div class="sub">23人・自動跳過假日・外掃兩組輪替・請假保留班次</div>
-      </div>
-      <div>
-        <div class="date" id="dateText">-</div>
-        <div id="weekday">-</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="nav">
-    <button id="prev">← 前一天</button>
-    <input id="date" type="date">
-    <button id="next">後一天 →</button>
-    <button id="todayBtn">今天</button>
-  </div>
-
-  <div class="grid">
-    <section class="card">
-      <div class="head"><h2>🧹 今日值日生</h2>🧹</div>
-      <div class="people">
-        <div class="person"><div class="num" id="d1">-</div><div class="name" id="n1">-</div><div class="badge" id="b1">值日</div></div>
-        <div class="person"><div class="num" id="d2">-</div><div class="name" id="n2">-</div><div class="badge" id="b2">值日</div></div>
-      </div>
-      <div class="note" id="dutyNote" style="color:#b91c1c; font-weight:bold;"></div>
-    </section>
-
-    <section class="card">
-      <div class="head"><h2>🏫 今日外掃</h2>🏫</div>
-      <div class="group">
-        <div class="head"><b id="gt">-</b><span class="tag" id="glabel">-</span></div>
-        <div class="members" id="members"></div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="head"><h2>💤 今日請假</h2>💤</div>
-      <div class="absence" id="absence"><div class="empty">✓ 今日無請假</div></div>
-      <div class="note">請假者會從當日工作中排除，班次保留到銷假當天補值。</div>
-    </section>
-
-    <section class="card">
-      <div class="head"><h2>➕ 登記/取消請假</h2>📝</div>
-      <div class="action">
-        <select id="student"></select>
-        <button class="leave" id="addLeave">登記請假</button>
-        <button class="cancel" id="delLeave">取消請假</button>
-      </div>
-      <div class="note" id="toast" style="display:none;color:#166534;font-weight:700"></div>
-    </section>
-    
-    <section class="card" style="grid-column: 1 / -1; max-width: 500px; margin: auto; width: 100%;">
-      <div class="head"><h2>🛑 停班日設定 (校慶、段考等)</h2>🛑</div>
-      <div class="action" style="display:flex;">
-        <button class="stop-btn" id="addStop" style="flex:1">設為停班日</button>
-        <button class="cancel" id="delStop" style="flex:1">取消停班</button>
-      </div>
-      <div class="note">設定目前日期為停班日，當日將暫停排班並自動順延。<br><b>註：週六與週日系統已自動跳過，不需手動設定停班。</b></div>
-    </section>
-  </div>
-
-  <div class="status">
-    <div class="row"><span class="label">全班人數</span><span class="value">23 人</span></div>
-    <div class="row"><span class="label">輪值表位置</span><span class="value" id="raw">-</span></div>
-    <div class="row"><span class="label">今日值日</span><span class="value" id="summary">-</span></div>
-    <div class="row"><span class="label">待補值(欠班)</span><span class="value" id="pending">無</span></div>
-    <div class="row"><span class="label">今日外掃</span><span class="value" id="gs">-</span></div>
-  </div>
-
-  <div class="card settings">
-    <div class="head"><h2>⚙️ 排班設定</h2></div>
-    <div class="settingsgrid">
-      <div><label>起始日期</label><input id="start" type="date" value="2026-08-19"></div>
-      <div><label>起始值日生</label><input id="startDuty" type="number" min="1" max="23" value="3"></div>
-      <div><label>起始外掃組</label><select id="startGroup"><option value="A">A組(1~12)</option><option value="B">B組(13~23)</option></select></div>
-    </div>
-  </div>
-  <div class="sync" style="text-align:center; padding:15px; color:#64748b; font-size:14px;">✓ 已載入你提供的 23 人名單</div>
-</div>
-
-<script>
-const STUDENTS=[[1,"邱宇溏"],[2,"陳旭如"],[3,"古然"],[4,"王俊皓"],[5,"林佩佩"],[6,"張婷媛"],[7,"張雅婷"],[8,"藍子捷"],[9,"王建豐"],[10,"曾錦女"],[11,"單柏文"],[12,"劉盈意"],[13,"張嘉玲"],[14,"林群偉"],[15,"許禎麟"],[16,"潘承忠"],[17,"李佳麗"],[18,"王廷渝"],[19,"魏如鵬"],[20,"何堉蓁"],[21,"蔡芮吟"],[22,"許苡甄"],[23,"孫珮珊"]];
-const N=23, names=Object.fromEntries(STUDENTS);
-let leaves={}, stopDays={};
-
-const key=()=>document.getElementById("date").value;
-const circ=n=>((n-1)%N+N)%N+1;
-const diff=(a,b)=>Math.round((new Date(a+"T00:00:00")-new Date(b+"T00:00:00"))/86400000);
-const fmt=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-const addDays=(d,k)=>{let x=new Date(d+"T00:00:00");x.setDate(x.getDate()+k);return fmt(x)};
-const abs=()=>[...(leaves[key()]||[])].sort((a,b)=>a-b);
-
-/* 
- * 逐日模擬排班 (跳過六日與停班日)
- */
-function schedule(target,startDate,startDuty,leaveMap){
-  const span=diff(target,startDate);
-  if(span<0) return {picks:[], planned:[], pending:[], isSkip:true, groupToggle:0, beforeStart:true};
-
-  let p=circ(startDuty), deferred=[], out=null, groupToggle=0;
-  const days=Math.min(span, 3650);
-
-  for(let i=0; i<=days; i++){
-    const date = addDays(startDate,i);
-    let d = new Date(date+"T00:00:00");
-    let isDuty = true;
-    
-    // 如果是六日，或是被設定為停班日，則跳過排班
-    if(d.getDay() === 0 || d.getDay() === 6 || stopDays[date]){
-      isDuty = false;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>班級值日與外掃儀表板</title>
+  <style>
+    * {
+      box-sizing: border-box
     }
 
-    if(!isDuty){
-      if(i === days) out = {picks:[], planned:[], pending:deferred.slice(), isSkip:true, groupToggle:groupToggle};
-      continue; // 跳過當天，且不推進順序
+    body {
+      margin: 0;
+      background: #f3f6fb;
+      color: #1f2937;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif
     }
 
-    const away = new Set(leaveMap[date]||[]);
-    const picks = [], planned = [p, circ(p+1)];
-
-    // 1. 先從待補值名單抓人
-    for(let k=0; k<deferred.length && picks.length<2; ){
-      if(!away.has(deferred[k])){
-        picks.push({n:deferred[k], t:"補值"});
-        deferred.splice(k,1);
-      } else k++;
+    .wrap {
+      max-width: 1050px;
+      margin: auto;
+      padding: 14px
     }
 
-    // 2. 再依輪值表往後取
-    let guard = 0;
-    while(picks.length<2 && guard<N){
-      const n = p;
-      p = circ(p+1);
-      guard++;
-      if(away.has(n)){
-        if(!deferred.includes(n)) deferred.push(n);
-        continue;
+    .hero {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 14px
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px
+    }
+
+    .title {
+      font-size: 26px;
+      font-weight: 800
+    }
+
+    .date {
+      text-align: right;
+      font-size: 22px;
+      font-weight: 700
+    }
+
+    .sub {
+      opacity: .85
+    }
+
+    .nav {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 14px
+    }
+
+    .nav button,
+    .nav input,
+    .action select,
+    .action button {
+      border: 0;
+      background: white;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 15px
+    }
+
+    .nav input {
+      flex: 1
+    }
+
+    .nav button,
+    .action button {
+      cursor: pointer;
+      font-weight: 700
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .card,
+    .status {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 5px 20px #0f172a12
+    }
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px
+    }
+
+    .head h2 {
+      margin: 0;
+      font-size: 19px
+    }
+
+    .people {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px
+    }
+
+    .person {
+      text-align: center;
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 17px
+    }
+
+    .num {
+      font-size: 38px;
+      font-weight: 850;
+      color: #2563eb
+    }
+
+    .name {
+      font-weight: 700
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #e0e7ff;
+      color: #3730a3
+    }
+
+    .badge.sub {
+      background: #dcfce7;
+      color: #166534
+    }
+
+    .badge.makeup {
+      background: #fef3c7;
+      color: #92400e
+    }
+
+    .tag {
+      background: #dbeafe;
+      color: #1d4ed8;
+      border-radius: 20px;
+      padding: 5px 9px;
+      font-size: 13px
+    }
+
+    .group {
+      border: 2px solid #2563eb;
+      background: #eff6ff;
+      border-radius: 14px;
+      padding: 13px
+    }
+
+    .members {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px
+    }
+
+    .member {
+      background: white;
+      border-radius: 9px;
+      padding: 7px 9px;
+      font-size: 13px
+    }
+
+    .absent {
+      background: #fee2e2;
+      color: #b91c1c;
+      text-decoration: line-through
+    }
+
+    .absence {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
+    .abs {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      padding: 8px 11px;
+      border-radius: 10px
+    }
+
+    .empty {
+      background: #f0fdf4;
+      color: #15803d;
+      padding: 10px;
+      border-radius: 10px
+    }
+
+    .action {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .action select {
+      flex: 1;
+      min-width: 190px;
+      border: 1px solid #dbe3ef
+    }
+
+    .leave {
+      background: #fee2e2 !important;
+      color: #b91c1c
+    }
+
+    .cancel {
+      background: #dcfce7 !important;
+      color: #166534
+    }
+
+    .stop-btn {
+      background: #fef08a !important;
+      color: #854d0e
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid #e5e7eb
+    }
+
+    .row:last-child {
+      border: 0
+    }
+
+    .label {
+      color: #64748b;
+      white-space: nowrap
+    }
+
+    .value {
+      font-weight: 700;
+      text-align: right
+    }
+
+    .status {
+      margin-top: 14px
+    }
+
+    .note {
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.6;
+      margin-top: 9px
+    }
+
+    .settings {
+      margin-top: 14px
+    }
+
+    .settingsgrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px
+    }
+
+    .settings input,
+    .settings select {
+      width: 100%;
+      padding: 9px;
+      border: 1px solid #dbe3ef;
+      border-radius: 9px
+    }
+
+    .settings label {
+      font-size: 12px;
+      color: #64748b
+    }
+
+    @media(max-width:700px) {
+      .top {
+        flex-direction: column
       }
-      picks.push({n:n, t:planned.includes(n)?"值日":"代班"});
+
+      .date {
+        text-align: left
+      }
+
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .settingsgrid {
+        grid-template-columns: 1fr
+      }
+
+      .nav {
+        flex-wrap: wrap
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="top">
+        <div>
+          <div class="title">📋 班級值日與外掃儀表板</div>
+          <div class="sub">23人・自動跳過假日・外掃兩組輪替・請假保留班次</div>
+        </div>
+        <div>
+          <div class="date" id="dateText">-</div>
+          <div id="weekday">-</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button id="prev">← 前一天</button>
+      <input id="date" type="date">
+      <button id="next">後一天 →</button>
+      <button id="todayBtn">今天</button>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <div class="head">
+          <h2>🧹 今日值日生</h2>🧹
+        </div>
+        <div class="people">
+          <div class="person">
+            <div class="num" id="d1">-</div>
+            <div class="name" id="n1">-</div>
+            <div class="badge" id="b1">值日</div>
+          </div>
+          <div class="person">
+            <div class="num" id="d2">-</div>
+            <div class="name" id="n2">-</div>
+            <div class="badge" id="b2">值日</div>
+          </div>
+        </div>
+        <div class="note" id="dutyNote" style="color:#b91c1c; font-weight:bold;"></div>
+      </section>
+
+      <section class="card">
+        <div class="head">
+          <h2>🏫 今日外掃</h2>🏫
+        </div>
+        <div class="group">
+          <div class="head"><b id="gt">-</b><span class="tag" id="glabel">-</span></div>
+          <div class="members" id="members"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="head">
+          <h2>💤 今日請假</h2>💤
+        </div>
+        <div class="absence" id="absence">
+          <div class="empty">✓ 今日無請假</div>
+        </div>
+        <div class="note">請假者會從當日工作中排除，班次保留到銷假當天補值。</div>
+      </section>
+
+      <section class="card">
+        <div class="head">
+          <h2>➕ 登記/取消請假</h2>📝
+        </div>
+        <div class="action">
+          <select id="student"></select>
+          <button class="leave" id="addLeave">登記請假</button>
+          <button class="cancel" id="delLeave">取消請假</button>
+        </div>
+        <div class="note" id="toast" style="display:none;color:#166534;font-weight:700"></div>
+      </section>
+
+      <section class="card" style="grid-column: 1 / -1; max-width: 500px; margin: auto; width: 100%;">
+        <div class="head">
+          <h2>🛑 停班日設定 (校慶、段考等)</h2>🛑
+        </div>
+        <div class="action" style="display:flex;">
+          <button class="stop-btn" id="addStop" style="flex:1">設為停班日</button>
+          <button class="cancel" id="delStop" style="flex:1">取消停班</button>
+        </div>
+        <div class="note">設定目前日期為停班日，當日將暫停排班並自動順延。<br><b>註：週六與週日系統已自動跳過，不需手動設定停班。</b></div>
+      </section>
+    </div>
+
+    <div class="status">
+      <div class="row"><span class="label">全班人數</span><span class="value">23 人</span></div>
+      <div class="row"><span class="label">輪值表位置</span><span class="value" id="raw">-</span></div>
+      <div class="row"><span class="label">今日值日</span><span class="value" id="summary">-</span></div>
+      <div class="row"><span class="label">待補值(欠班)</span><span class="value" id="pending">無</span></div>
+      <div class="row"><span class="label">今日外掃</span><span class="value" id="gs">-</span></div>
+    </div>
+
+    <div class="card settings">
+      <div class="head">
+        <h2>⚙️ 排班設定</h2>
+      </div>
+      <div class="settingsgrid">
+        <div><label>起始日期</label><input id="start" type="date" value="2026-08-19"></div>
+        <div><label>起始值日生</label><input id="startDuty" type="number" min="1" max="23" value="3"></div>
+        <div><label>起始外掃組</label><select id="startGroup">
+            <option value="A">A組(1~12)</option>
+            <option value="B">B組(13~23)</option>
+          </select></div>
+      </div>
+    </div>
+    <div class="sync" style="text-align:center; padding:15px; color:#64748b; font-size:14px;">✓ 已載入你提供的 23 人名單</div>
+  </div>
+
+  <script>
+    const STUDENTS = [[1, "邱宇溏"], [2, "陳旭如"], [3, "古然"], [4, "王俊皓"], [5, "林佩佩"], [6, "張婷媛"], [7, "張雅婷"], [8, "藍子捷"], [9, "王建豐"], [10, "曾錦女"], [11, "單柏文"], [12, "劉盈意"], [13, "張嘉玲"], [14, "林群偉"], [15, "許禎麟"], [16, "潘承忠"], [17, "李佳麗"], [18, "王廷渝"], [19, "魏如鵬"], [20, "何堉蓁"], [21, "蔡芮吟"], [22, "許苡甄"], [23, "孫珮珊"]];
+    const N = 23, names = Object.fromEntries(STUDENTS);
+    let leaves = {}, stopDays = {};
+
+    const key = () => document.getElementById("date").value;
+    const circ = n => ((n - 1) % N + N) % N + 1;
+    const diff = (a, b) => Math.round((new Date(a + "T00:00:00") - new Date(b + "T00:00:00")) / 86400000);
+    const fmt = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const addDays = (d, k) => { let x = new Date(d + "T00:00:00"); x.setDate(x.getDate() + k); return fmt(x) };
+    const abs = () => [...(leaves[key()] || [])].sort((a, b) => a - b);
+
+    /* 
+     * 逐日模擬排班 (跳過六日與停班日)
+     */
+    function schedule(target, startDate, startDuty, leaveMap) {
+      const span = diff(target, startDate);
+      if (span < 0) return { picks: [], planned: [], pending: [], isSkip: true, groupToggle: 0, beforeStart: true };
+
+      let p = circ(startDuty), deferred = [], out = null, groupToggle = 0;
+      const days = Math.min(span, 3650);
+
+      for (let i = 0; i <= days; i++) {
+        const date = addDays(startDate, i);
+        let d = new Date(date + "T00:00:00");
+        let isDuty = true;
+
+        // 如果是六日，或是被設定為停班日，則跳過排班
+        if (d.getDay() === 0 || d.getDay() === 6 || stopDays[date]) {
+          isDuty = false;
+        }
+
+        if (!isDuty) {
+          if (i === days) out = { picks: [], planned: [], pending: deferred.slice(), isSkip: true, groupToggle: groupToggle };
+          continue; // 跳過當天，且不推進順序
+        }
+
+        const away = new Set(leaveMap[date] || []);
+        const picks = [], planned = [p, circ(p + 1)];
+
+        // 1. 先從待補值名單抓人
+        for (let k = 0; k < deferred.length && picks.length < 2;) {
+          if (!away.has(deferred[k])) {
+            picks.push({ n: deferred[k], t: "補值" });
+            deferred.splice(k, 1);
+          } else k++;
+        }
+
+        // 2. 再依輪值表往後取
+        let guard = 0;
+        while (picks.length < 2 && guard < N) {
+          const n = p;
+          p = circ(p + 1);
+          guard++;
+          if (away.has(n)) {
+            if (!deferred.includes(n)) deferred.push(n);
+            continue;
+          }
+          picks.push({ n: n, t: planned.includes(n) ? "值日" : "代班" });
+        }
+
+        if (i === days) {
+          out = { picks: picks, planned: planned, pending: deferred.slice(), isSkip: false, groupToggle: groupToggle };
+        }
+        // 有效排班日推進外掃組別切換
+        groupToggle = 1 - groupToggle;
+      }
+      return out;
     }
 
-    if(i === days){
-      out = {picks:picks, planned:planned, pending:deferred.slice(), isSkip:false, groupToggle:groupToggle};
+    function duty(date) {
+      return schedule(date, document.getElementById("start").value, +document.getElementById("startDuty").value, leaves);
     }
-    // 有效排班日推進外掃組別切換
-    groupToggle = 1 - groupToggle;
-  }
-  return out;
-}
 
-function duty(date){
-  return schedule(date, document.getElementById("start").value, +document.getElementById("startDuty").value, leaves);
-}
+    function render() {
+      let date = key();
+      if (!date) return;
 
-function render(){
-  let date=key();
-  if(!date) return;
+      let d = new Date(date + "T00:00:00"), w = ["週日", "週一", "週二", "週三", "週四", "週五", "週六"];
+      document.getElementById("dateText").textContent = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+      document.getElementById("weekday").textContent = w[d.getDay()];
 
-  let d=new Date(date+"T00:00:00"), w=["週日","週一","週二","週三","週四","週五","週六"];
-  document.getElementById("dateText").textContent=`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
-  document.getElementById("weekday").textContent=w[d.getDay()];
+      let a = abs(), z = duty(date), pk = z.picks;
 
-  let a=abs(), z=duty(date), pk=z.picks;
+      if (z.isSkip) {
+        // 假日/停班日顯示邏輯
+        document.getElementById("raw").textContent = "—";
+        [0, 1].forEach(i => {
+          document.getElementById("d" + (i + 1)).textContent = "-";
+          document.getElementById("n" + (i + 1)).textContent = "休假";
+          let b = document.getElementById("b" + (i + 1));
+          b.textContent = "—"; b.className = "badge";
+        });
+        document.getElementById("summary").textContent = "今日放假";
+        document.getElementById("pending").textContent = z.pending.length ? z.pending.map(n => `${n}號 ${names[n]}`).join("、") : "無";
+        document.getElementById("dutyNote").textContent = z.beforeStart ? "尚未開始排班" : "☕ 今日為例假日或設定之停班日，排班自動順延。";
 
-  if(z.isSkip) {
-    // 假日/停班日顯示邏輯
-    document.getElementById("raw").textContent="—";
-    [0,1].forEach(i=>{
-      document.getElementById("d"+(i+1)).textContent="-";
-      document.getElementById("n"+(i+1)).textContent="休假";
-      let b=document.getElementById("b"+(i+1));
-      b.textContent="—"; b.className="badge";
-    });
-    document.getElementById("summary").textContent="今日放假";
-    document.getElementById("pending").textContent=z.pending.length ? z.pending.map(n=>`${n}號 ${names[n]}`).join("、") : "無";
-    document.getElementById("dutyNote").textContent = z.beforeStart ? "尚未開始排班" : "☕ 今日為例假日或設定之停班日，排班自動順延。";
-    
-    document.getElementById("gt").textContent="—";
-    document.getElementById("glabel").textContent="—";
-    document.getElementById("gs").textContent="休假";
-    document.getElementById("members").innerHTML="<div class='empty'>今日無外掃</div>";
-  } else {
-    // 正常排班日顯示邏輯
-    document.getElementById("raw").textContent=z.planned.map(n=>`${n}號 ${names[n]}`).join("、");
-    [0,1].forEach(i=>{
-      let it=pk[i];
-      document.getElementById("d"+(i+1)).textContent=it ? it.n : "-";
-      document.getElementById("n"+(i+1)).textContent=it ? names[it.n] : "無可排班";
-      let b=document.getElementById("b"+(i+1));
-      b.textContent=it ? it.t : "—";
-      b.className="badge" + (it&&it.t==="代班"?" sub":it&&it.t==="補值"?" makeup":"");
-    });
-    document.getElementById("summary").textContent=pk.map(x=>`${x.n}號 ${names[x.n]}${x.t==="值日"?"":"("+x.t+")"}`).join("、")||"無可排班";
-    document.getElementById("pending").textContent=z.pending.length ? z.pending.map(n=>`${n}號 ${names[n]}`).join("、") : "無";
-    
-    let dn=[];
-    if(pk.some(x=>x.t==="代班")) dn.push("有人請假，由下一位代班；請假者的班次保留。");
-    if(pk.some(x=>x.t==="補值")) dn.push("含銷假補值的同學。");
-    document.getElementById("dutyNote").textContent = dn.join(" ");
+        document.getElementById("gt").textContent = "—";
+        document.getElementById("glabel").textContent = "—";
+        document.getElementById("gs").textContent = "休假";
+        document.getElementById("members").innerHTML = "<div class='empty'>今日無外掃</div>";
+      } else {
+        // 正常排班日顯示邏輯
+        document.getElementById("raw").textContent = z.planned.map(n => `${n}號 ${names[n]}`).join("、");
+        [0, 1].forEach(i => {
+          let it = pk[i];
+          document.getElementById("d" + (i + 1)).textContent = it ? it.n : "-";
+          document.getElementById("n" + (i + 1)).textContent = it ? names[it.n] : "無可排班";
+          let b = document.getElementById("b" + (i + 1));
+          b.textContent = it ? it.t : "—";
+          b.className = "badge" + (it && it.t === "代班" ? " sub" : it && it.t === "補值" ? " makeup" : "");
+        });
+        document.getElementById("summary").textContent = pk.map(x => `${x.n}號 ${names[x.n]}${x.t === "值日" ? "" : "(" + x.t + ")"}`).join("、") || "無可排班";
+        document.getElementById("pending").textContent = z.pending.length ? z.pending.map(n => `${n}號 ${names[n]}`).join("、") : "無";
 
-    // 外掃組別根據有效的交替次數判定
-    let sg = document.getElementById("startGroup").value;
-    let g = (sg === "A") ? (z.groupToggle === 0 ? "A" : "B") : (z.groupToggle === 0 ? "B" : "A");
-    let nums = g==="A" ? Array.from({length:12},(_,i)=>i+1) : Array.from({length:11},(_,i)=>i+13);
-    
-    document.getElementById("gt").textContent = g==="A" ? "A組|1~12號" : "B組|13~23號";
-    document.getElementById("glabel").textContent = g==="A" ? "1~12號" : "13~23號";
-    document.getElementById("gs").textContent = g==="A" ? "A組(1~12號)" : "B組(13~23號)";
-    
-    let box=document.getElementById("members");
-    box.innerHTML="";
-    nums.forEach(n=>{
-      let x=document.createElement("div");
-      x.className="member"+(a.includes(n)?" absent":"");
-      x.textContent=a.includes(n)?`${n}號 ${names[n]}(請假)`:`${n}號 ${names[n]}`;
-      box.appendChild(x);
-    });
-  }
+        let dn = [];
+        if (pk.some(x => x.t === "代班")) dn.push("有人請假，由下一位代班；請假者的班次保留。");
+        if (pk.some(x => x.t === "補值")) dn.push("含銷假補值的同學。");
+        document.getElementById("dutyNote").textContent = dn.join(" ");
 
-  // 請假紀錄區塊 (無論是否放假都顯示)
-  let ab=document.getElementById("absence");
-  ab.innerHTML=a.length?"":"<div class='empty'>✓ 今日無請假</div>";
-  a.forEach(n=>{
-    let x=document.createElement("div");
-    x.className="abs"; x.textContent=`${n}號 ${names[n]}`;
-    ab.appendChild(x);
-  });
-}
+        // 外掃組別根據有效的交替次數判定
+        let sg = document.getElementById("startGroup").value;
+        let g = (sg === "A") ? (z.groupToggle === 0 ? "A" : "B") : (z.groupToggle === 0 ? "B" : "A");
+        let nums = g === "A" ? Array.from({ length: 12 }, (_, i) => i + 1) : Array.from({ length: 11 }, (_, i) => i + 13);
 
-function toast(msg){
-  let t=document.getElementById("toast");
-  t.textContent=msg; t.style.display="block";
-  setTimeout(()=>t.style.display="none", 3000); // 自動隱藏提示
-}
+        document.getElementById("gt").textContent = g === "A" ? "A組|1~12號" : "B組|13~23號";
+        document.getElementById("glabel").textContent = g === "A" ? "1~12號" : "13~23號";
+        document.getElementById("gs").textContent = g === "A" ? "A組(1~12號)" : "B組(13~23號)";
 
-function addLeave(){
-  let n=+document.getElementById("student").value;
-  if(!leaves[key()]) leaves[key()]=[];
-  if(!leaves[key()].includes(n)) leaves[key()].push(n);
-  render(); toast(`已登記 ${n}號 ${names[n]} 於 ${key()} 請假`);
-}
+        let box = document.getElementById("members");
+        box.innerHTML = "";
+        nums.forEach(n => {
+          let x = document.createElement("div");
+          x.className = "member" + (a.includes(n) ? " absent" : "");
+          x.textContent = a.includes(n) ? `${n}號 ${names[n]}(請假)` : `${n}號 ${names[n]}`;
+          box.appendChild(x);
+        });
+      }
 
-function removeLeave(){
-  let n=+document.getElementById("student").value;
-  if(leaves[key()]) leaves[key()] = leaves[key()].filter(x=>x!==n);
-  render(); toast(`已取消 ${n}號 ${names[n]} 於 ${key()} 的請假`);
-}
+      // 請假紀錄區塊 (無論是否放假都顯示)
+      let ab = document.getElementById("absence");
+      ab.innerHTML = a.length ? "" : "<div class='empty'>✓ 今日無請假</div>";
+      a.forEach(n => {
+        let x = document.createElement("div");
+        x.className = "abs"; x.textContent = `${n}號 ${names[n]}`;
+        ab.appendChild(x);
+      });
+    }
 
-function toggleStop(isStop){
-  if(isStop) stopDays[key()] = true;
-  else delete stopDays[key()];
-  render(); toast(`已${isStop?'設定':'取消'} ${key()} 為停班日`);
-}
+    function toast(msg) {
+      let t = document.getElementById("toast");
+      t.textContent = msg; t.style.display = "block";
+      setTimeout(() => t.style.display = "none", 3000); // 自動隱藏提示
+    }
 
-function move(v){
-  let i=document.getElementById("date");
-  i.value=addDays(i.value,v); render();
-}
+    function addLeave() {
+      let n = +document.getElementById("student").value;
+      if (!leaves[key()]) leaves[key()] = [];
+      if (!leaves[key()].includes(n)) leaves[key()].push(n);
+      render(); toast(`已登記 ${n}號 ${names[n]} 於 ${key()} 請假`);
+    }
 
-function today(){
-  document.getElementById("date").value=fmt(new Date()); render();
-}
+    function removeLeave() {
+      let n = +document.getElementById("student").value;
+      if (leaves[key()]) leaves[key()] = leaves[key()].filter(x => x !== n);
+      render(); toast(`已取消 ${n}號 ${names[n]} 於 ${key()} 的請假`);
+    }
 
-const $=id=>document.getElementById(id);
-$("date").value="2026-08-19";
-$("student").innerHTML=STUDENTS.map(([n,s])=>`<option value="${n}">${n}號 ${s}</option>`).join("");
+    function toggleStop(isStop) {
+      if (isStop) stopDays[key()] = true;
+      else delete stopDays[key()];
+      render(); toast(`已${isStop ? '設定' : '取消'} ${key()} 為停班日`);
+    }
 
-$("prev").addEventListener("click",()=>move(-1));
-$("next").addEventListener("click",()=>move(1));
-$("todayBtn").addEventListener("click",today);
+    function move(v) {
+      let i = document.getElementById("date");
+      i.value = addDays(i.value, v); render();
+    }
 
-$("addLeave").addEventListener("click",addLeave);
-$("delLeave").addEventListener("click",removeLeave);
-$("addStop").addEventListener("click",()=>toggleStop(true));
-$("delStop").addEventListener("click",()=>toggleStop(false));
+    function today() {
+      document.getElementById("date").value = fmt(new Date()); render();
+    }
 
-["date","start","startDuty","startGroup"].forEach(id=>$(id).addEventListener("change",render));
-render();
-</script>
+    const $ = id => document.getElementById(id);
+    $("date").value = "2026-08-19";
+    $("student").innerHTML = STUDENTS.map(([n, s]) => `<option value="${n}">${n}號 ${s}</option>`).join("");
+
+    $("prev").addEventListener("click", () => move(-1));
+    $("next").addEventListener("click", () => move(1));
+    $("todayBtn").addEventListener("click", today);
+
+    $("addLeave").addEventListener("click", addLeave);
+    $("delLeave").addEventListener("click", removeLeave);
+    $("addStop").addEventListener("click", () => toggleStop(true));
+    $("delStop").addEventListener("click", () => toggleStop(false));
+
+    ["date", "start", "startDuty", "startGroup"].forEach(id => $(id).addEventListener("change", render));
+    render();
+  </script>
 </body>
+
 </html>

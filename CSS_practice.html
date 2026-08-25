@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            color:brown
+        }
+
+        h2 {
+            color: aqua;
+        }
+
+        .second {
+            color: blue;
+        }
+
+        #first {
+            color: blueviolet;
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color:antiquewhite;
+            border: 4px solid #968a8a; 
+            padding: 20px;
+            margin: 30px;
+            /*如果有寫到外框或內距，要加box-sizing這行*/
+            box-sizing: border-box; 
+        }
+    </style>
+    </head>
+<body>
+    <h1 id="first" class="second">TEST</h1>
+    <h2 class="second">test</h2>
+    <h2>test</h2>
+    <h2>test</h2>
+
+    <div class="box"></div>
+</body>
+</html>

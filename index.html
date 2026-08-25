@@ -1,653 +1,639 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO Meta 資訊 -->
   <title>AI 協作開發課｜VIBE 一點小想法，創造活用程式</title>
-  <meta
-    name="description"
-    content="專屬程式小白的 AI 協作開發課，教你如何利用 AI 工具從 0 到 1 打造並上線屬於自己的作品。不要害怕 Terminal，跟著 VIBE 建立想得到、問得好、做得出的開發直覺，立即加入體驗！"
-  >
+  <meta name="description"
+    content="專屬程式小白的 AI 協作開發課，教你如何利用 AI 工具從 0 到 1 打造並上線屬於自己的作品。不要害怕 Terminal，跟著 VIBE 建立想得到、問得好、做得出的開發直覺，立即加入體驗！">
   <link rel="canonical" href="https://your-domain.dev/">
 
   <!-- Open Graph 標籤 -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="AI 協作開發課｜VIBE 一點小想法，創造活用程式">
-  <meta property="og:description" content="專屬程式小白的 AI 協作開發課，教你如何利用 AI 工具從 0 到 1 打造並上線屬於自己的作品。不要害怕 Terminal，跟著 VIBE 建立想得到、問得好、做得出的開發直覺，立即加入體驗！">
+  <meta property="og:description"
+    content="專屬程式小白的 AI 協作開發課，教你如何利用 AI 工具從 0 到 1 打造並上線屬於自己的作品。不要害怕 Terminal，跟著 VIBE 建立想得到、問得好、做得出的開發直覺，立即加入體驗！">
   <meta property="og:image" content="https://your-domain.dev/og-image.jpg">
   <meta property="og:url" content="https://your-domain.dev/">
 
   <style>
-   /* =========================================================
+    /* =========================================================
    CSS:HERO-START
    Hero｜Independent Magazine × Creative Coding
    ========================================================= */
 
-.hero-section {
-  position: relative;
-  min-height: calc(100vh - 76px);
-  overflow: hidden;
-  background: #f5f3ee;
-  isolation: isolate;
-}
+    .hero-section {
+      position: relative;
+      min-height: calc(100vh - 76px);
+      overflow: hidden;
+      background: #f5f3ee;
+      isolation: isolate;
+    }
 
-.hero-grid {
-  position: relative;
-  width: min(1440px, 100%);
-  min-height: calc(100vh - 76px);
-  margin: 0 auto;
-  padding: 2rem clamp(1.5rem, 5vw, 5rem) 3rem;
+    .hero-grid {
+      position: relative;
+      width: min(1440px, 100%);
+      min-height: calc(100vh - 76px);
+      margin: 0 auto;
+      padding: 2rem clamp(1.5rem, 5vw, 5rem) 3rem;
 
-  display: grid;
-  grid-template-columns:
-    minmax(5rem, 0.7fr)
-    minmax(0, 3fr)
-    minmax(15rem, 1.3fr);
+      display: grid;
+      grid-template-columns:
+        minmax(5rem, 0.7fr) minmax(0, 3fr) minmax(15rem, 1.3fr);
 
-  grid-template-rows:
-    auto
-    1fr
-    auto;
+      grid-template-rows:
+        auto 1fr auto;
 
-  column-gap: clamp(1.5rem, 4vw, 4rem);
-}
+      column-gap: clamp(1.5rem, 4vw, 4rem);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Meta
    --------------------------------------------------------- */
 
-.hero-meta {
-  grid-column: 1;
-  grid-row: 1;
+    .hero-meta {
+      grid-column: 1;
+      grid-row: 1;
 
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
 
-  padding-top: 0.5rem;
+      padding-top: 0.5rem;
 
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
 
-.hero-meta-label {
-  color: #171717;
-}
+    .hero-meta-label {
+      color: #171717;
+    }
 
-.hero-meta-number {
-  color: #76736c;
-}
+    .hero-meta-number {
+      color: #76736c;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Hero Main
    --------------------------------------------------------- */
 
-.hero-main {
-  grid-column: 1 / 3;
-  grid-row: 2;
+    .hero-main {
+      grid-column: 1 / 3;
+      grid-row: 2;
 
-  align-self: center;
+      align-self: center;
 
-  padding-top: clamp(3rem, 8vh, 7rem);
-  padding-bottom: 3rem;
-}
+      padding-top: clamp(3rem, 8vh, 7rem);
+      padding-bottom: 3rem;
+    }
 
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
 
-  margin: 0 0 1.5rem;
+      margin: 0 0 1.5rem;
 
-  font-size: clamp(0.65rem, 1vw, 0.8rem);
-  font-weight: 800;
-  letter-spacing: 0.18em;
-}
+      font-size: clamp(0.65rem, 1vw, 0.8rem);
+      font-weight: 800;
+      letter-spacing: 0.18em;
+    }
 
-.hero-eyebrow::before {
-  content: "";
-  width: 2.5rem;
-  height: 1px;
-  background: #171717;
-}
+    .hero-eyebrow::before {
+      content: "";
+      width: 2.5rem;
+      height: 1px;
+      background: #171717;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Main Typography
    --------------------------------------------------------- */
 
-.hero-title {
-  max-width: 1000px;
-  margin: 0;
+    .hero-title {
+      max-width: 1000px;
+      margin: 0;
 
-  font-size: clamp(4rem, 9vw, 9.5rem);
-  line-height: 0.86;
-  letter-spacing: -0.075em;
-  font-weight: 800;
-}
+      font-size: clamp(4rem, 9vw, 9.5rem);
+      line-height: 0.86;
+      letter-spacing: -0.075em;
+      font-weight: 800;
+    }
 
-.hero-title-line {
-  display: block;
-}
+    .hero-title-line {
+      display: block;
+    }
 
-.hero-title-line-light {
-  font-weight: 400;
-}
+    .hero-title-line-light {
+      font-weight: 400;
+    }
 
-.hero-title-line-heavy {
-  margin-top: 0.08em;
-}
+    .hero-title-line-heavy {
+      margin-top: 0.08em;
+    }
 
-.hero-title-accent {
-  position: relative;
-  display: inline-block;
+    .hero-title-accent {
+      position: relative;
+      display: inline-block;
 
-  padding: 0.02em 0.08em 0.08em;
+      padding: 0.02em 0.08em 0.08em;
 
-  font-weight: 900;
-  z-index: 1;
-}
+      font-weight: 900;
+      z-index: 1;
+    }
 
-.hero-title-accent::before {
-  content: "";
-  position: absolute;
-  left: -0.03em;
-  right: -0.03em;
-  bottom: 0.04em;
+    .hero-title-accent::before {
+      content: "";
+      position: absolute;
+      left: -0.03em;
+      right: -0.03em;
+      bottom: 0.04em;
 
-  height: 0.42em;
+      height: 0.42em;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  transform: rotate(-1.5deg);
-  z-index: -1;
-}
+      transform: rotate(-1.5deg);
+      z-index: -1;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Description + CTA
    --------------------------------------------------------- */
 
-.hero-description-wrap {
-  display: flex;
-  align-items: flex-end;
-  gap: clamp(2rem, 5vw, 5rem);
+    .hero-description-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: clamp(2rem, 5vw, 5rem);
 
-  margin-top: clamp(2rem, 5vh, 4rem);
-  margin-left: clamp(1rem, 8vw, 9rem);
-}
+      margin-top: clamp(2rem, 5vh, 4rem);
+      margin-left: clamp(1rem, 8vw, 9rem);
+    }
 
-.hero-description {
-  max-width: 28rem;
-  margin: 0;
+    .hero-description {
+      max-width: 28rem;
+      margin: 0;
 
-  font-size: clamp(1rem, 1.4vw, 1.25rem);
-  line-height: 1.75;
-  letter-spacing: 0.02em;
-}
+      font-size: clamp(1rem, 1.4vw, 1.25rem);
+      line-height: 1.75;
+      letter-spacing: 0.02em;
+    }
 
-.hero-cta {
-  position: relative;
+    .hero-cta {
+      position: relative;
 
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
 
-  flex-shrink: 0;
+      flex-shrink: 0;
 
-  padding: 0.9rem 1rem 0.9rem 1.25rem;
+      padding: 0.9rem 1rem 0.9rem 1.25rem;
 
-  border: 1.5px solid #171717;
-  border-radius: 999px;
+      border: 1.5px solid #171717;
+      border-radius: 999px;
 
-  background: #171717;
-  color: #f5f3ee;
+      background: #171717;
+      color: #f5f3ee;
 
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
 
-  transition:
-    transform 180ms ease,
-    background-color 180ms ease,
-    color 180ms ease;
-}
+      transition:
+        transform 180ms ease,
+        background-color 180ms ease,
+        color 180ms ease;
+    }
 
-.hero-cta:hover,
-.hero-cta:focus-visible {
-  background: #d8ff3e;
-  color: #171717;
-  transform: rotate(-2deg) translateY(-3px);
-}
+    .hero-cta:hover,
+    .hero-cta:focus-visible {
+      background: #d8ff3e;
+      color: #171717;
+      transform: rotate(-2deg) translateY(-3px);
+    }
 
-.hero-cta-arrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    .hero-cta-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
 
-  width: 1.8rem;
-  height: 1.8rem;
+      width: 1.8rem;
+      height: 1.8rem;
 
-  border-radius: 50%;
-  background: #f5f3ee;
-  color: #171717;
+      border-radius: 50%;
+      background: #f5f3ee;
+      color: #171717;
 
-  transition: transform 180ms ease;
-}
+      transition: transform 180ms ease;
+    }
 
-.hero-cta:hover .hero-cta-arrow,
-.hero-cta:focus-visible .hero-cta-arrow {
-  transform: rotate(12deg);
-}
+    .hero-cta:hover .hero-cta-arrow,
+    .hero-cta:focus-visible .hero-cta-arrow {
+      transform: rotate(12deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Handwritten Note
    --------------------------------------------------------- */
 
-.hero-note {
-  position: absolute;
+    .hero-note {
+      position: absolute;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: clamp(0.8rem, 1.2vw, 1rem);
-  line-height: 1.25;
+      font-size: clamp(0.8rem, 1.2vw, 1rem);
+      line-height: 1.25;
 
-  color: #59564f;
+      color: #59564f;
 
-  transform: rotate(4deg);
-}
+      transform: rotate(4deg);
+    }
 
-.hero-note-top {
-  top: 6rem;
-  right: 7%;
-}
+    .hero-note-top {
+      top: 6rem;
+      right: 7%;
+    }
 
-.hero-note-arrow {
-  display: block;
-  margin-bottom: 0.4rem;
+    .hero-note-arrow {
+      display: block;
+      margin-bottom: 0.4rem;
 
-  font-size: 1.5rem;
-}
+      font-size: 1.5rem;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Code Card
    --------------------------------------------------------- */
 
-.hero-code-card {
-  position: relative;
+    .hero-code-card {
+      position: relative;
 
-  grid-column: 3;
-  grid-row: 2;
+      grid-column: 3;
+      grid-row: 2;
 
-  align-self: center;
+      align-self: center;
 
-  width: min(100%, 330px);
+      width: min(100%, 330px);
 
-  margin-top: 4rem;
-  margin-left: auto;
+      margin-top: 4rem;
+      margin-left: auto;
 
-  padding: 1rem;
+      padding: 1rem;
 
-  border: 1px solid #292929;
-  border-radius: 1rem;
+      border: 1px solid #292929;
+      border-radius: 1rem;
 
-  background: #20201e;
-  color: #e9e8e2;
+      background: #20201e;
+      color: #e9e8e2;
 
-  box-shadow:
-    12px 14px 0 #d8ff3e;
+      box-shadow:
+        12px 14px 0 #d8ff3e;
 
-  transform: rotate(2.5deg);
+      transform: rotate(2.5deg);
 
-  transition:
-    transform 250ms ease,
-    box-shadow 250ms ease;
-}
+      transition:
+        transform 250ms ease,
+        box-shadow 250ms ease;
+    }
 
-.hero-code-card:hover {
-  transform: rotate(0deg) translateY(-5px);
-  box-shadow:
-    7px 9px 0 #d8ff3e;
-}
+    .hero-code-card:hover {
+      transform: rotate(0deg) translateY(-5px);
+      box-shadow:
+        7px 9px 0 #d8ff3e;
+    }
 
-.hero-code-header {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
+    .hero-code-header {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
 
-  padding-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
 
-  border-bottom: 1px solid #454541;
-}
+      border-bottom: 1px solid #454541;
+    }
 
-.hero-code-dot {
-  width: 0.45rem;
-  height: 0.45rem;
+    .hero-code-dot {
+      width: 0.45rem;
+      height: 0.45rem;
 
-  border-radius: 50%;
+      border-radius: 50%;
 
-  background: #72726c;
-}
+      background: #72726c;
+    }
 
-.hero-code-label {
-  margin-left: auto;
+    .hero-code-label {
+      margin-left: auto;
 
-  font-family: monospace;
-  font-size: 0.65rem;
-  color: #999891;
-}
+      font-family: monospace;
+      font-size: 0.65rem;
+      color: #999891;
+    }
 
-.hero-code-body {
-  padding: 1rem 0 0.5rem;
+    .hero-code-body {
+      padding: 1rem 0 0.5rem;
 
-  font-family: monospace;
-  font-size: 0.78rem;
-  line-height: 1.8;
-}
+      font-family: monospace;
+      font-size: 0.78rem;
+      line-height: 1.8;
+    }
 
-.hero-code-body p {
-  margin: 0;
-}
+    .hero-code-body p {
+      margin: 0;
+    }
 
-.hero-code-symbol {
-  display: inline-block;
-  width: 2rem;
+    .hero-code-symbol {
+      display: inline-block;
+      width: 2rem;
 
-  color: #77766f;
-}
+      color: #77766f;
+    }
 
-.hero-code-error {
-  color: #ff8e8e;
-}
+    .hero-code-error {
+      color: #ff8e8e;
+    }
 
-.hero-code-success {
-  color: #d8ff3e;
-}
+    .hero-code-success {
+      color: #d8ff3e;
+    }
 
-.hero-code-cursor {
-  display: block;
+    .hero-code-cursor {
+      display: block;
 
-  margin-top: 0.4rem;
+      margin-top: 0.4rem;
 
-  color: #d8ff3e;
+      color: #d8ff3e;
 
-  animation: hero-cursor-blink 1s steps(1) infinite;
-}
+      animation: hero-cursor-blink 1s steps(1) infinite;
+    }
 
-@keyframes hero-cursor-blink {
-  50% {
-    opacity: 0;
-  }
-}
+    @keyframes hero-cursor-blink {
+      50% {
+        opacity: 0;
+      }
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Scribbles
    --------------------------------------------------------- */
 
-.hero-scribble {
-  position: absolute;
-  pointer-events: none;
-}
+    .hero-scribble {
+      position: absolute;
+      pointer-events: none;
+    }
 
-.hero-scribble-circle {
-  width: clamp(13rem, 25vw, 24rem);
-  height: clamp(7rem, 12vw, 11rem);
+    .hero-scribble-circle {
+      width: clamp(13rem, 25vw, 24rem);
+      height: clamp(7rem, 12vw, 11rem);
 
-  left: 26%;
-  top: 39%;
+      left: 26%;
+      top: 39%;
 
-  border: 2px solid #8d8a82;
-  border-radius: 50%;
+      border: 2px solid #8d8a82;
+      border-radius: 50%;
 
-  transform:
-    rotate(-6deg)
-    scaleY(0.75);
-}
+      transform:
+        rotate(-6deg) scaleY(0.75);
+    }
 
-.hero-scribble-arrow {
-  left: 17%;
-  bottom: 20%;
+    .hero-scribble-arrow {
+      left: 17%;
+      bottom: 20%;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 3rem;
+      font-size: 3rem;
 
-  color: #8d8a82;
+      color: #8d8a82;
 
-  transform: rotate(-12deg);
-}
+      transform: rotate(-12deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Bottom Note
    --------------------------------------------------------- */
 
-.hero-bottom-note {
-  grid-column: 1;
-  grid-row: 3;
+    .hero-bottom-note {
+      grid-column: 1;
+      grid-row: 3;
 
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 0.85rem;
-  line-height: 1.3;
+      font-size: 0.85rem;
+      line-height: 1.3;
 
-  color: #59564f;
+      color: #59564f;
 
-  transform: rotate(-3deg);
-}
+      transform: rotate(-3deg);
+    }
 
-.hero-bottom-mark {
-  font-size: 1.4rem;
-  line-height: 1;
-  color: #171717;
-}
+    .hero-bottom-mark {
+      font-size: 1.4rem;
+      line-height: 1;
+      color: #171717;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Scroll
    --------------------------------------------------------- */
 
-.hero-scroll {
-  grid-column: 3;
-  grid-row: 3;
+    .hero-scroll {
+      grid-column: 3;
+      grid-row: 3;
 
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.8rem;
 
-  color: #59564f;
+      color: #59564f;
 
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
 
-  transition:
-    color 180ms ease,
-    transform 180ms ease;
-}
+      transition:
+        color 180ms ease,
+        transform 180ms ease;
+    }
 
-.hero-scroll:hover,
-.hero-scroll:focus-visible {
-  color: #171717;
-  transform: translateY(3px);
-}
+    .hero-scroll:hover,
+    .hero-scroll:focus-visible {
+      color: #171717;
+      transform: translateY(3px);
+    }
 
-.hero-scroll-line {
-  width: 3rem;
-  height: 1px;
+    .hero-scroll-line {
+      width: 3rem;
+      height: 1px;
 
-  background: currentColor;
-}
+      background: currentColor;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Responsive
    --------------------------------------------------------- */
 
-@media (max-width: 1000px) {
+    @media (max-width: 1000px) {
 
-  .hero-grid {
-    grid-template-columns:
-      minmax(4rem, 0.5fr)
-      minmax(0, 3fr);
+      .hero-grid {
+        grid-template-columns:
+          minmax(4rem, 0.5fr) minmax(0, 3fr);
 
-    grid-template-rows:
-      auto
-      auto
-      auto
-      auto;
-  }
+        grid-template-rows:
+          auto auto auto auto;
+      }
 
-  .hero-main {
-    grid-column: 1 / 3;
-    grid-row: 2;
-  }
+      .hero-main {
+        grid-column: 1 / 3;
+        grid-row: 2;
+      }
 
-  .hero-code-card {
-    grid-column: 2;
-    grid-row: 3;
+      .hero-code-card {
+        grid-column: 2;
+        grid-row: 3;
 
-    margin-top: 1rem;
-    margin-bottom: 3rem;
-  }
+        margin-top: 1rem;
+        margin-bottom: 3rem;
+      }
 
-  .hero-bottom-note {
-    grid-column: 1;
-    grid-row: 3;
+      .hero-bottom-note {
+        grid-column: 1;
+        grid-row: 3;
 
-    align-self: end;
-  }
+        align-self: end;
+      }
 
-  .hero-scroll {
-    grid-column: 1 / 3;
-    grid-row: 4;
+      .hero-scroll {
+        grid-column: 1 / 3;
+        grid-row: 4;
 
-    justify-content: flex-start;
-  }
+        justify-content: flex-start;
+      }
 
-  .hero-scribble-circle {
-    left: 30%;
-    top: 32%;
-  }
-}
+      .hero-scribble-circle {
+        left: 30%;
+        top: 32%;
+      }
+    }
 
 
-@media (max-width: 700px) {
+    @media (max-width: 700px) {
 
-  .hero-section {
-    min-height: auto;
-  }
+      .hero-section {
+        min-height: auto;
+      }
 
-  .hero-grid {
-    min-height: auto;
+      .hero-grid {
+        min-height: auto;
 
-    display: block;
+        display: block;
 
-    padding:
-      1.5rem
-      1.25rem
-      3rem;
-  }
+        padding:
+          1.5rem 1.25rem 3rem;
+      }
 
-  .hero-meta {
-    margin-bottom: 4rem;
-  }
+      .hero-meta {
+        margin-bottom: 4rem;
+      }
 
-  .hero-main {
-    padding: 0;
-  }
+      .hero-main {
+        padding: 0;
+      }
 
-  .hero-eyebrow {
-    margin-bottom: 1.2rem;
-  }
+      .hero-eyebrow {
+        margin-bottom: 1.2rem;
+      }
 
-  .hero-title {
-    font-size: clamp(3.5rem, 16vw, 6rem);
-    line-height: 0.88;
-  }
+      .hero-title {
+        font-size: clamp(3.5rem, 16vw, 6rem);
+        line-height: 0.88;
+      }
 
-  .hero-description-wrap {
-    display: block;
+      .hero-description-wrap {
+        display: block;
 
-    margin-top: 2.5rem;
-    margin-left: 0;
-  }
+        margin-top: 2.5rem;
+        margin-left: 0;
+      }
 
-  .hero-description {
-    max-width: 24rem;
+      .hero-description {
+        max-width: 24rem;
 
-    font-size: 1rem;
-  }
+        font-size: 1rem;
+      }
 
-  .hero-cta {
-    margin-top: 1.5rem;
-  }
+      .hero-cta {
+        margin-top: 1.5rem;
+      }
 
-  .hero-code-card {
-    width: min(88%, 320px);
+      .hero-code-card {
+        width: min(88%, 320px);
 
-    margin:
-      4rem
-      0
-      3rem
-      auto;
-  }
+        margin:
+          4rem 0 3rem auto;
+      }
 
-  .hero-note-top {
-    top: 5rem;
-    right: 1.5rem;
-  }
+      .hero-note-top {
+        top: 5rem;
+        right: 1.5rem;
+      }
 
-  .hero-scribble-circle {
-    left: 8%;
-    top: 30%;
+      .hero-scribble-circle {
+        left: 8%;
+        top: 30%;
 
-    width: 78%;
-    height: 7rem;
-  }
+        width: 78%;
+        height: 7rem;
+      }
 
-  .hero-scribble-arrow {
-    left: auto;
-    right: 15%;
-    bottom: 21rem;
-  }
+      .hero-scribble-arrow {
+        left: auto;
+        right: 15%;
+        bottom: 21rem;
+      }
 
-  .hero-bottom-note {
-    margin-bottom: 2rem;
-  }
+      .hero-bottom-note {
+        margin-bottom: 2rem;
+      }
 
-  .hero-scroll {
-    justify-content: flex-start;
-  }
-}
+      .hero-scroll {
+        justify-content: flex-start;
+      }
+    }
 
 
-/* CSS:HERO-END */
-   
-   /* =========================================================
+    /* CSS:HERO-END */
+
+    /* =========================================================
        CSS:GLOBAL-START
        全站基礎樣式
        ========================================================= */
@@ -761,632 +747,620 @@
    About｜From Terminal Fear to Creative Confidence
    ========================================================= */
 
-.about-section {
-  position: relative;
+    .about-section {
+      position: relative;
 
-  padding:
-    clamp(6rem, 12vw, 11rem)
-    clamp(1.25rem, 5vw, 5rem);
+      padding:
+        clamp(6rem, 12vw, 11rem) clamp(1.25rem, 5vw, 5rem);
 
-  overflow: hidden;
+      overflow: hidden;
 
-  background: #e8e6df;
-  color: #171717;
-}
+      background: #e8e6df;
+      color: #171717;
+    }
 
-.about-layout {
-  width: min(1320px, 100%);
-  margin: 0 auto;
-}
+    .about-layout {
+      width: min(1320px, 100%);
+      margin: 0 auto;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Header
    --------------------------------------------------------- */
 
-.about-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+    .about-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
 
-  margin-bottom: clamp(3rem, 7vw, 7rem);
-}
+      margin-bottom: clamp(3rem, 7vw, 7rem);
+    }
 
-.about-kicker {
-  margin: 0;
+    .about-kicker {
+      margin: 0;
 
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
 
-  transform: rotate(2deg);
-}
+      transform: rotate(2deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Intro
    --------------------------------------------------------- */
 
-.about-intro {
-  max-width: 1000px;
-}
+    .about-intro {
+      max-width: 1000px;
+    }
 
-.about-title {
-  margin: 0;
+    .about-title {
+      margin: 0;
 
-  font-size: clamp(3.2rem, 7.5vw, 8rem);
-  line-height: 0.92;
-  letter-spacing: -0.065em;
-  font-weight: 700;
-}
+      font-size: clamp(3.2rem, 7.5vw, 8rem);
+      line-height: 0.92;
+      letter-spacing: -0.065em;
+      font-weight: 700;
+    }
 
-.about-title-mark {
-  position: relative;
-  display: inline-block;
+    .about-title-mark {
+      position: relative;
+      display: inline-block;
 
-  font-weight: 900;
-  z-index: 1;
-}
+      font-weight: 900;
+      z-index: 1;
+    }
 
-.about-title-mark::after {
-  content: "";
+    .about-title-mark::after {
+      content: "";
 
-  position: absolute;
+      position: absolute;
 
-  left: -0.04em;
-  right: -0.03em;
-  bottom: 0.02em;
+      left: -0.04em;
+      right: -0.03em;
+      bottom: 0.02em;
 
-  height: 0.16em;
+      height: 0.16em;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  transform:
-    rotate(-1.5deg)
-    skewX(-12deg);
+      transform:
+        rotate(-1.5deg) skewX(-12deg);
 
-  z-index: -1;
-}
+      z-index: -1;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Transformation
    --------------------------------------------------------- */
 
-.about-transformation {
-  display: grid;
+    .about-transformation {
+      display: grid;
 
-  grid-template-columns:
-    minmax(0, 1fr)
-    auto
-    minmax(0, 1fr);
+      grid-template-columns:
+        minmax(0, 1fr) auto minmax(0, 1fr);
 
-  align-items: center;
+      align-items: center;
 
-  gap: clamp(1.5rem, 4vw, 4rem);
+      gap: clamp(1.5rem, 4vw, 4rem);
 
-  margin:
-    clamp(5rem, 10vw, 9rem)
-    0;
-}
+      margin:
+        clamp(5rem, 10vw, 9rem) 0;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Terminal Cards
    --------------------------------------------------------- */
 
-.about-terminal {
-  position: relative;
+    .about-terminal {
+      position: relative;
 
-  overflow: visible;
+      overflow: visible;
 
-  border: 1px solid #242422;
-  border-radius: 0.8rem;
+      border: 1px solid #242422;
+      border-radius: 0.8rem;
 
-  background: #20201e;
-  color: #e8e6df;
+      background: #20201e;
+      color: #e8e6df;
 
-  box-shadow:
-    10px 12px 0 rgba(23, 23, 23, 0.12);
-}
+      box-shadow:
+        10px 12px 0 rgba(23, 23, 23, 0.12);
+    }
 
-.about-terminal-before {
-  transform: rotate(-2deg);
-}
+    .about-terminal-before {
+      transform: rotate(-2deg);
+    }
 
-.about-terminal-after {
-  transform: rotate(2deg);
+    .about-terminal-after {
+      transform: rotate(2deg);
 
-  box-shadow:
-    10px 12px 0 #d8ff3e;
-}
+      box-shadow:
+        10px 12px 0 #d8ff3e;
+    }
 
-.about-terminal-bar {
-  display: flex;
-  align-items: center;
+    .about-terminal-bar {
+      display: flex;
+      align-items: center;
 
-  gap: 0.35rem;
+      gap: 0.35rem;
 
-  padding: 0.8rem 1rem;
+      padding: 0.8rem 1rem;
 
-  border-bottom: 1px solid #3e3e3a;
-}
+      border-bottom: 1px solid #3e3e3a;
+    }
 
-.about-terminal-dot {
-  width: 0.5rem;
-  height: 0.5rem;
+    .about-terminal-dot {
+      width: 0.5rem;
+      height: 0.5rem;
 
-  border-radius: 50%;
+      border-radius: 50%;
 
-  background: #74736d;
-}
+      background: #74736d;
+    }
 
-.about-terminal-name {
-  margin-left: auto;
+    .about-terminal-name {
+      margin-left: auto;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
 
-  color: #8f8e87;
-}
+      color: #8f8e87;
+    }
 
-.about-terminal-screen {
-  min-height: 300px;
+    .about-terminal-screen {
+      min-height: 300px;
 
-  padding: 1.5rem;
+      padding: 1.5rem;
 
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    "Liberation Mono",
-    monospace;
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
 
-  font-size: clamp(0.75rem, 1vw, 0.9rem);
-  line-height: 1.9;
-}
+      font-size: clamp(0.75rem, 1vw, 0.9rem);
+      line-height: 1.9;
+    }
 
-.terminal-line {
-  margin: 0;
-}
+    .terminal-line {
+      margin: 0;
+    }
 
-.terminal-muted {
-  color: #73726c;
-}
+    .terminal-muted {
+      color: #73726c;
+    }
 
-.terminal-prompt {
-  color: #bcbab2;
-}
+    .terminal-prompt {
+      color: #bcbab2;
+    }
 
-.terminal-error {
-  color: #ff9696;
-}
+    .terminal-error {
+      color: #ff9696;
+    }
 
-.terminal-ai {
-  color: #d8ff3e;
-}
+    .terminal-ai {
+      color: #d8ff3e;
+    }
 
-.terminal-success {
-  margin-top: 1rem;
+    .terminal-success {
+      margin-top: 1rem;
 
-  color: #d8ff3e;
-}
+      color: #d8ff3e;
+    }
 
-.terminal-cursor {
-  color: #d8ff3e;
+    .terminal-cursor {
+      color: #d8ff3e;
 
-  animation: about-cursor-blink 1s steps(1) infinite;
-}
+      animation: about-cursor-blink 1s steps(1) infinite;
+    }
 
-@keyframes about-cursor-blink {
+    @keyframes about-cursor-blink {
 
-  50% {
-    opacity: 0;
-  }
+      50% {
+        opacity: 0;
+      }
 
-}
+    }
 
-.terminal-reaction {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+    .terminal-reaction {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
 
-  margin-top: 2rem;
+      margin-top: 2rem;
 
-  color: #bcbab2;
+      color: #bcbab2;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 0.9rem;
-}
+      font-size: 0.9rem;
+    }
 
-.terminal-reaction-face {
-  color: #e8e6df;
-}
+    .terminal-reaction-face {
+      color: #e8e6df;
+    }
 
-.terminal-progress {
-  width: 100%;
-  height: 0.45rem;
+    .terminal-progress {
+      width: 100%;
+      height: 0.45rem;
 
-  margin-top: 0.8rem;
+      margin-top: 0.8rem;
 
-  overflow: hidden;
+      overflow: hidden;
 
-  border-radius: 999px;
+      border-radius: 999px;
 
-  background: #3a3a36;
-}
+      background: #3a3a36;
+    }
 
-.terminal-progress-fill {
-  display: block;
+    .terminal-progress-fill {
+      display: block;
 
-  width: 100%;
-  height: 100%;
+      width: 100%;
+      height: 100%;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  transform-origin: left;
+      transform-origin: left;
 
-  animation: about-progress 1.8s ease-out both;
-}
+      animation: about-progress 1.8s ease-out both;
+    }
 
-@keyframes about-progress {
+    @keyframes about-progress {
 
-  from {
-    transform: scaleX(0);
-  }
+      from {
+        transform: scaleX(0);
+      }
 
-  to {
-    transform: scaleX(1);
-  }
+      to {
+        transform: scaleX(1);
+      }
 
-}
+    }
 
-.about-card-label {
-  position: absolute;
+    .about-card-label {
+      position: absolute;
 
-  top: -1.2rem;
-  left: 1rem;
+      top: -1.2rem;
+      left: 1rem;
 
-  padding: 0.35rem 0.65rem;
+      padding: 0.35rem 0.65rem;
 
-  background: #f5f3ee;
+      background: #f5f3ee;
 
-  border: 1px solid #171717;
+      border: 1px solid #171717;
 
-  font-size: 0.65rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
 
-  transform: rotate(-4deg);
-}
+      transform: rotate(-4deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Transition
    --------------------------------------------------------- */
 
-.about-transition {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    .about-transition {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-  gap: 0.6rem;
+      gap: 0.6rem;
 
-  min-width: 5rem;
-}
+      min-width: 5rem;
+    }
 
-.about-transition-line {
-  width: 1px;
-  height: 4rem;
+    .about-transition-line {
+      width: 1px;
+      height: 4rem;
 
-  background: #96938a;
-}
+      background: #96938a;
+    }
 
-.about-transition-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    .about-transition-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  width: 2.4rem;
-  height: 2.4rem;
+      width: 2.4rem;
+      height: 2.4rem;
 
-  border-radius: 50%;
+      border-radius: 50%;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  font-size: 1.2rem;
+      font-size: 1.2rem;
 
-  transform: rotate(12deg);
-}
+      transform: rotate(12deg);
+    }
 
-.about-transition-text {
-  white-space: nowrap;
+    .about-transition-text {
+      white-space: nowrap;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 0.75rem;
+      font-size: 0.75rem;
 
-  color: #59564f;
+      color: #59564f;
 
-  transform: rotate(-5deg);
-}
+      transform: rotate(-5deg);
+    }
 
-.about-transition-arrow {
-  font-size: 1.8rem;
-}
+    .about-transition-arrow {
+      font-size: 1.8rem;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Story
    --------------------------------------------------------- */
 
-.about-story {
-  display: grid;
+    .about-story {
+      display: grid;
 
-  grid-template-columns: 7rem minmax(0, 700px);
+      grid-template-columns: 7rem minmax(0, 700px);
 
-  gap: 2rem;
+      gap: 2rem;
 
-  margin-left: 10%;
+      margin-left: 10%;
 
-  padding-top: 2rem;
-}
+      padding-top: 2rem;
+    }
 
-.about-story-number {
-  font-family: monospace;
+    .about-story-number {
+      font-family: monospace;
 
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
 
-  color: #77746c;
-}
+      color: #77746c;
+    }
 
-.about-story-content {
-  font-size: clamp(1rem, 1.4vw, 1.25rem);
-  line-height: 1.9;
-}
+    .about-story-content {
+      font-size: clamp(1rem, 1.4vw, 1.25rem);
+      line-height: 1.9;
+    }
 
-.about-story-content p {
-  margin: 0 0 1.5rem;
-}
+    .about-story-content p {
+      margin: 0 0 1.5rem;
+    }
 
-.about-story-lead {
-  font-size: clamp(1.35rem, 2.3vw, 2rem);
-  line-height: 1.5;
-  font-weight: 600;
-}
+    .about-story-lead {
+      font-size: clamp(1.35rem, 2.3vw, 2rem);
+      line-height: 1.5;
+      font-weight: 600;
+    }
 
-.about-story-content strong {
-  position: relative;
+    .about-story-content strong {
+      position: relative;
 
-  font-weight: 900;
-  z-index: 1;
-}
+      font-weight: 900;
+      z-index: 1;
+    }
 
-.about-story-content strong::after {
-  content: "";
+    .about-story-content strong::after {
+      content: "";
 
-  position: absolute;
+      position: absolute;
 
-  left: -0.05em;
-  right: -0.05em;
-  bottom: 0.05em;
+      left: -0.05em;
+      right: -0.05em;
+      bottom: 0.05em;
 
-  height: 0.25em;
+      height: 0.25em;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  z-index: -1;
-}
+      z-index: -1;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Philosophy
    --------------------------------------------------------- */
 
-.about-philosophy-block {
-  position: relative;
+    .about-philosophy-block {
+      position: relative;
 
-  max-width: 1050px;
+      max-width: 1050px;
 
-  margin:
-    clamp(7rem, 14vw, 13rem)
-    auto
-    0;
+      margin:
+        clamp(7rem, 14vw, 13rem) auto 0;
 
-  padding:
-    clamp(2rem, 5vw, 4.5rem);
+      padding:
+        clamp(2rem, 5vw, 4.5rem);
 
-  border-top: 2px solid #171717;
-  border-bottom: 2px solid #171717;
-}
+      border-top: 2px solid #171717;
+      border-bottom: 2px solid #171717;
+    }
 
-.about-philosophy-label {
-  display: block;
+    .about-philosophy-label {
+      display: block;
 
-  margin-bottom: 2rem;
+      margin-bottom: 2rem;
 
-  font-size: 0.65rem;
-  font-weight: 900;
-  letter-spacing: 0.16em;
-}
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+    }
 
-.about-philosophy {
-  position: relative;
+    .about-philosophy {
+      position: relative;
 
-  display: grid;
-  grid-template-columns: auto 1fr;
+      display: grid;
+      grid-template-columns: auto 1fr;
 
-  gap: 1rem;
+      gap: 1rem;
 
-  margin: 0;
+      margin: 0;
 
-  font-size: clamp(1.8rem, 4vw, 4.5rem);
-  line-height: 1.12;
-  letter-spacing: -0.04em;
-  font-weight: 500;
-}
+      font-size: clamp(1.8rem, 4vw, 4.5rem);
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+      font-weight: 500;
+    }
 
-.about-philosophy-mark {
-  font-family: Georgia, serif;
+    .about-philosophy-mark {
+      font-family: Georgia, serif;
 
-  font-size: 1.5em;
-  line-height: 0.8;
-}
+      font-size: 1.5em;
+      line-height: 0.8;
+    }
 
-.about-philosophy strong {
-  font-weight: 900;
+    .about-philosophy strong {
+      font-weight: 900;
 
-  background:
-    linear-gradient(
-      transparent 68%,
-      #d8ff3e 68%
-    );
-}
+      background:
+        linear-gradient(transparent 68%,
+          #d8ff3e 68%);
+    }
 
-.about-philosophy-doodle {
-  position: absolute;
+    .about-philosophy-doodle {
+      position: absolute;
 
-  right: 2rem;
-  bottom: -3.2rem;
+      right: 2rem;
+      bottom: -3.2rem;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 0.85rem;
-  line-height: 1.2;
+      font-size: 0.85rem;
+      line-height: 1.2;
 
-  color: #59564f;
+      color: #59564f;
 
-  transform: rotate(-4deg);
-}
+      transform: rotate(-4deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Responsive
    --------------------------------------------------------- */
 
-@media (max-width: 900px) {
+    @media (max-width: 900px) {
 
-  .about-transformation {
-    grid-template-columns: 1fr;
+      .about-transformation {
+        grid-template-columns: 1fr;
 
-    max-width: 600px;
+        max-width: 600px;
 
-    margin-left: auto;
-    margin-right: auto;
-  }
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-  .about-transition {
-    flex-direction: row;
+      .about-transition {
+        flex-direction: row;
 
-    justify-content: center;
+        justify-content: center;
 
-    min-width: 0;
-  }
+        min-width: 0;
+      }
 
-  .about-transition-line {
-    width: 3rem;
-    height: 1px;
-  }
+      .about-transition-line {
+        width: 3rem;
+        height: 1px;
+      }
 
-  .about-transition-arrow {
-    transform: rotate(90deg);
-  }
+      .about-transition-arrow {
+        transform: rotate(90deg);
+      }
 
-  .about-story {
-    margin-left: 0;
-  }
+      .about-story {
+        margin-left: 0;
+      }
 
-}
-
-
-@media (max-width: 600px) {
-
-  .about-section {
-    padding:
-      5rem
-      1.25rem
-      7rem;
-  }
-
-  .about-header {
-    display: block;
-
-    margin-bottom: 3rem;
-  }
-
-  .about-kicker {
-    margin-top: 1rem;
-  }
-
-  .about-title {
-    font-size: clamp(3rem, 14vw, 5rem);
-  }
-
-  .about-transformation {
-    margin-top: 4rem;
-    margin-bottom: 5rem;
-  }
-
-  .about-terminal-screen {
-    min-height: 260px;
-
-    padding: 1.2rem;
-
-    font-size: 0.72rem;
-  }
-
-  .about-story {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-
-  .about-story-number {
-    margin-bottom: 0.5rem;
-  }
-
-  .about-philosophy-block {
-    margin-top: 7rem;
-
-    padding:
-      2rem
-      0;
-  }
-
-  .about-philosophy {
-    grid-template-columns: 1fr;
-
-    font-size: clamp(1.8rem, 9vw, 3rem);
-  }
-
-  .about-philosophy-mark {
-    display: none;
-  }
-
-  .about-philosophy-doodle {
-    position: static;
-
-    display: block;
-
-    margin-top: 2rem;
-  }
-
-}
+    }
 
 
-/* CSS:ABOUT-END */
+    @media (max-width: 600px) {
+
+      .about-section {
+        padding:
+          5rem 1.25rem 7rem;
+      }
+
+      .about-header {
+        display: block;
+
+        margin-bottom: 3rem;
+      }
+
+      .about-kicker {
+        margin-top: 1rem;
+      }
+
+      .about-title {
+        font-size: clamp(3rem, 14vw, 5rem);
+      }
+
+      .about-transformation {
+        margin-top: 4rem;
+        margin-bottom: 5rem;
+      }
+
+      .about-terminal-screen {
+        min-height: 260px;
+
+        padding: 1.2rem;
+
+        font-size: 0.72rem;
+      }
+
+      .about-story {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .about-story-number {
+        margin-bottom: 0.5rem;
+      }
+
+      .about-philosophy-block {
+        margin-top: 7rem;
+
+        padding:
+          2rem 0;
+      }
+
+      .about-philosophy {
+        grid-template-columns: 1fr;
+
+        font-size: clamp(1.8rem, 9vw, 3rem);
+      }
+
+      .about-philosophy-mark {
+        display: none;
+      }
+
+      .about-philosophy-doodle {
+        position: static;
+
+        display: block;
+
+        margin-top: 2rem;
+      }
+
+    }
+
+
+    /* CSS:ABOUT-END */
 
 
     /* =========================================================
@@ -1394,534 +1368,515 @@
    Skills｜VIBE METHOD
    ========================================================= */
 
-.skills-section {
-  position: relative;
+    .skills-section {
+      position: relative;
 
-  padding:
-    clamp(6rem, 12vw, 11rem)
-    clamp(1.25rem, 5vw, 5rem);
+      padding:
+        clamp(6rem, 12vw, 11rem) clamp(1.25rem, 5vw, 5rem);
 
-  overflow: hidden;
+      overflow: hidden;
 
-  background: #f5f3ee;
-  color: #171717;
-}
+      background: #f5f3ee;
+      color: #171717;
+    }
 
-.skills-layout {
-  width: min(1320px, 100%);
-  margin: 0 auto;
-}
+    .skills-layout {
+      width: min(1320px, 100%);
+      margin: 0 auto;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Header
    --------------------------------------------------------- */
 
-.skills-header {
-  position: relative;
+    .skills-header {
+      position: relative;
 
-  max-width: 900px;
+      max-width: 900px;
 
-  margin-bottom: clamp(4rem, 9vw, 8rem);
-}
+      margin-bottom: clamp(4rem, 9vw, 8rem);
+    }
 
-.skills-header-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    .skills-header-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  margin-bottom: 2rem;
-}
+      margin-bottom: 2rem;
+    }
 
-.skills-header-note {
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+    .skills-header-note {
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 0.75rem;
+      font-size: 0.75rem;
 
-  color: #68655e;
+      color: #68655e;
 
-  transform: rotate(3deg);
-}
+      transform: rotate(3deg);
+    }
 
-.skills-title {
-  margin: 0;
+    .skills-title {
+      margin: 0;
 
-  font-size: clamp(3.5rem, 8vw, 8rem);
-  line-height: 0.88;
-  letter-spacing: -0.07em;
-  font-weight: 700;
-}
+      font-size: clamp(3.5rem, 8vw, 8rem);
+      line-height: 0.88;
+      letter-spacing: -0.07em;
+      font-weight: 700;
+    }
 
-.skills-title-accent {
-  position: relative;
+    .skills-title-accent {
+      position: relative;
 
-  font-weight: 900;
-  z-index: 1;
-}
+      font-weight: 900;
+      z-index: 1;
+    }
 
-.skills-title-accent::before {
-  content: "";
+    .skills-title-accent::before {
+      content: "";
 
-  position: absolute;
+      position: absolute;
 
-  left: -0.03em;
-  right: -0.04em;
-  bottom: 0.03em;
+      left: -0.03em;
+      right: -0.04em;
+      bottom: 0.03em;
 
-  height: 0.18em;
+      height: 0.18em;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  transform: rotate(-1deg);
+      transform: rotate(-1deg);
 
-  z-index: -1;
-}
+      z-index: -1;
+    }
 
-.skills-intro {
-  max-width: 550px;
+    .skills-intro {
+      max-width: 550px;
 
-  margin:
-    2.5rem
-    0
-    0
-    clamp(1rem, 10vw, 10rem);
+      margin:
+        2.5rem 0 0 clamp(1rem, 10vw, 10rem);
 
-  font-size: clamp(1rem, 1.4vw, 1.2rem);
-  line-height: 1.8;
-}
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+      line-height: 1.8;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Board
    --------------------------------------------------------- */
 
-.skills-board {
-  position: relative;
+    .skills-board {
+      position: relative;
 
-  display: grid;
+      display: grid;
 
-  grid-template-columns:
-    repeat(12, minmax(0, 1fr));
+      grid-template-columns:
+        repeat(12, minmax(0, 1fr));
 
-  gap: 1.2rem;
+      gap: 1.2rem;
 
-  padding:
-    clamp(1rem, 3vw, 2rem);
+      padding:
+        clamp(1rem, 3vw, 2rem);
 
-  border: 1px solid #aaa79f;
+      border: 1px solid #aaa79f;
 
-  background:
-    linear-gradient(
-      90deg,
-      rgba(23, 23, 23, 0.035) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      rgba(23, 23, 23, 0.035) 1px,
-      transparent 1px
-    );
+      background:
+        linear-gradient(90deg,
+          rgba(23, 23, 23, 0.035) 1px,
+          transparent 1px),
+        linear-gradient(rgba(23, 23, 23, 0.035) 1px,
+          transparent 1px);
 
-  background-size: 2rem 2rem;
+      background-size: 2rem 2rem;
 
-  transform: rotate(-0.35deg);
-}
+      transform: rotate(-0.35deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Cards
    --------------------------------------------------------- */
 
-.skill-card {
-  position: relative;
+    .skill-card {
+      position: relative;
 
-  min-height: 390px;
+      min-height: 390px;
 
-  display: flex;
-  flex-direction: column;
+      display: flex;
+      flex-direction: column;
 
-  padding: 1.4rem;
+      padding: 1.4rem;
 
-  border: 1px solid #242422;
-  border-radius: 0.7rem;
+      border: 1px solid #242422;
+      border-radius: 0.7rem;
 
-  background: #e8e6df;
+      background: #e8e6df;
 
-  overflow: hidden;
+      overflow: hidden;
 
-  cursor: pointer;
+      cursor: pointer;
 
-  transition:
-    transform 220ms ease,
-    box-shadow 220ms ease,
-    background-color 220ms ease;
-}
+      transition:
+        transform 220ms ease,
+        box-shadow 220ms ease,
+        background-color 220ms ease;
+    }
 
-.skill-card:hover,
-.skill-card:focus-visible {
-  transform:
-    translateY(-10px)
-    rotate(0deg);
+    .skill-card:hover,
+    .skill-card:focus-visible {
+      transform:
+        translateY(-10px) rotate(0deg);
 
-  background: #ffffff;
+      background: #ffffff;
 
-  box-shadow:
-    8px 9px 0 #d8ff3e;
+      box-shadow:
+        8px 9px 0 #d8ff3e;
 
-  outline: none;
-}
-
-
-/* Individual positioning */
-
-.skill-card-one {
-  grid-column: span 5;
-
-  transform: rotate(-1deg);
-}
-
-.skill-card-two {
-  grid-column: span 7;
-
-  transform: rotate(1deg);
-}
-
-.skill-card-three {
-  grid-column: span 4;
-
-  transform: rotate(1.2deg);
-}
-
-.skill-card-four {
-  grid-column: span 4;
-
-  transform: rotate(-0.8deg);
-}
-
-.skill-card-five {
-  grid-column: span 4;
-
-  transform: rotate(1.5deg);
-}
+      outline: none;
+    }
 
 
-/* ---------------------------------------------------------
+    /* Individual positioning */
+
+    .skill-card-one {
+      grid-column: span 5;
+
+      transform: rotate(-1deg);
+    }
+
+    .skill-card-two {
+      grid-column: span 7;
+
+      transform: rotate(1deg);
+    }
+
+    .skill-card-three {
+      grid-column: span 4;
+
+      transform: rotate(1.2deg);
+    }
+
+    .skill-card-four {
+      grid-column: span 4;
+
+      transform: rotate(-0.8deg);
+    }
+
+    .skill-card-five {
+      grid-column: span 4;
+
+      transform: rotate(1.5deg);
+    }
+
+
+    /* ---------------------------------------------------------
    Card Header
    --------------------------------------------------------- */
 
-.skill-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    .skill-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  padding-bottom: 1rem;
+      padding-bottom: 1rem;
 
-  border-bottom: 1px solid #b5b2aa;
-}
+      border-bottom: 1px solid #b5b2aa;
+    }
 
-.skill-number {
-  font-family: monospace;
+    .skill-number {
+      font-family: monospace;
 
-  font-size: 0.75rem;
-  font-weight: 800;
+      font-size: 0.75rem;
+      font-weight: 800;
 
-  letter-spacing: 0.08em;
-}
+      letter-spacing: 0.08em;
+    }
 
-.skill-tag {
-  padding: 0.35rem 0.55rem;
+    .skill-tag {
+      padding: 0.35rem 0.55rem;
 
-  border: 1px solid #292927;
-  border-radius: 999px;
+      border: 1px solid #292927;
+      border-radius: 999px;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.6rem;
-  font-weight: 700;
+      font-size: 0.6rem;
+      font-weight: 700;
 
-  letter-spacing: 0.08em;
-}
+      letter-spacing: 0.08em;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Card Body
    --------------------------------------------------------- */
 
-.skill-card-body {
-  flex: 1;
+    .skill-card-body {
+      flex: 1;
 
-  display: flex;
-  flex-direction: column;
+      display: flex;
+      flex-direction: column;
 
-  padding-top: 2rem;
-}
+      padding-top: 2rem;
+    }
 
-.skill-mini-label {
-  margin: 0 0 0.75rem;
+    .skill-mini-label {
+      margin: 0 0 0.75rem;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.62rem;
-  font-weight: 700;
+      font-size: 0.62rem;
+      font-weight: 700;
 
-  letter-spacing: 0.1em;
+      letter-spacing: 0.1em;
 
-  color: #77746d;
-}
+      color: #77746d;
+    }
 
-.skill-title {
-  margin: 0;
+    .skill-title {
+      margin: 0;
 
-  font-size: clamp(2rem, 3.5vw, 3.7rem);
-  line-height: 0.92;
-  letter-spacing: -0.055em;
-  font-weight: 800;
-}
+      font-size: clamp(2rem, 3.5vw, 3.7rem);
+      line-height: 0.92;
+      letter-spacing: -0.055em;
+      font-weight: 800;
+    }
 
-.skill-mantra {
-  max-width: 23rem;
+    .skill-mantra {
+      max-width: 23rem;
 
-  margin:
-    1.5rem
-    0
-    0;
+      margin:
+        1.5rem 0 0;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: clamp(1rem, 1.4vw, 1.25rem);
-  line-height: 1.35;
+      font-size: clamp(1rem, 1.4vw, 1.25rem);
+      line-height: 1.35;
 
-  color: #4f4d47;
+      color: #4f4d47;
 
-  transform: rotate(-1deg);
-}
+      transform: rotate(-1deg);
+    }
 
-.skill-description {
-  max-width: 30rem;
+    .skill-description {
+      max-width: 30rem;
 
-  margin:
-    auto
-    0
-    0;
+      margin:
+        auto 0 0;
 
-  padding-top: 1.5rem;
+      padding-top: 1.5rem;
 
-  font-size: 0.9rem;
-  line-height: 1.7;
+      font-size: 0.9rem;
+      line-height: 1.7;
 
-  color: #66635c;
-}
+      color: #66635c;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Card Mark
    --------------------------------------------------------- */
 
-.skill-card-mark {
-  position: absolute;
+    .skill-card-mark {
+      position: absolute;
 
-  right: 1.2rem;
-  bottom: 0.6rem;
+      right: 1.2rem;
+      bottom: 0.6rem;
 
-  font-family:
-    Georgia,
-    serif;
+      font-family:
+        Georgia,
+        serif;
 
-  font-size: clamp(4rem, 8vw, 8rem);
-  line-height: 1;
+      font-size: clamp(4rem, 8vw, 8rem);
+      line-height: 1;
 
-  color: #d8ff3e;
+      color: #d8ff3e;
 
-  opacity: 0.8;
+      opacity: 0.8;
 
-  transform: rotate(-8deg);
+      transform: rotate(-8deg);
 
-  pointer-events: none;
-}
+      pointer-events: none;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Manifesto
    --------------------------------------------------------- */
 
-.skills-manifesto {
-  position: relative;
+    .skills-manifesto {
+      position: relative;
 
-  max-width: 900px;
+      max-width: 900px;
 
-  margin:
-    clamp(6rem, 12vw, 11rem)
-    auto
-    0;
+      margin:
+        clamp(6rem, 12vw, 11rem) auto 0;
 
-  text-align: center;
-}
+      text-align: center;
+    }
 
-.skills-manifesto-line {
-  display: block;
+    .skills-manifesto-line {
+      display: block;
 
-  width: 4rem;
-  height: 2px;
+      width: 4rem;
+      height: 2px;
 
-  margin:
-    0
-    auto
-    2rem;
+      margin:
+        0 auto 2rem;
 
-  background: #171717;
-}
+      background: #171717;
+    }
 
-.skills-manifesto p {
-  margin: 0;
+    .skills-manifesto p {
+      margin: 0;
 
-  font-size: clamp(1.5rem, 3vw, 3rem);
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-}
+      font-size: clamp(1.5rem, 3vw, 3rem);
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
 
-.skills-manifesto strong {
-  position: relative;
+    .skills-manifesto strong {
+      position: relative;
 
-  font-weight: 900;
+      font-weight: 900;
 
-  z-index: 1;
-}
+      z-index: 1;
+    }
 
-.skills-manifesto strong::after {
-  content: "";
+    .skills-manifesto strong::after {
+      content: "";
 
-  position: absolute;
+      position: absolute;
 
-  left: -0.04em;
-  right: -0.04em;
-  bottom: 0.03em;
+      left: -0.04em;
+      right: -0.04em;
+      bottom: 0.03em;
 
-  height: 0.18em;
+      height: 0.18em;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  transform: rotate(-1deg);
+      transform: rotate(-1deg);
 
-  z-index: -1;
-}
+      z-index: -1;
+    }
 
-.skills-manifesto-doodle {
-  display: block;
+    .skills-manifesto-doodle {
+      display: block;
 
-  margin-top: 1.5rem;
+      margin-top: 1.5rem;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 0.85rem;
+      font-size: 0.85rem;
 
-  color: #68655e;
+      color: #68655e;
 
-  transform: rotate(-3deg);
-}
+      transform: rotate(-3deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Responsive
    --------------------------------------------------------- */
 
-@media (max-width: 900px) {
+    @media (max-width: 900px) {
 
-  .skills-board {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-  }
+      .skills-board {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
 
-  .skill-card-one,
-  .skill-card-two,
-  .skill-card-three,
-  .skill-card-four,
-  .skill-card-five {
-    grid-column: span 1;
-  }
+      .skill-card-one,
+      .skill-card-two,
+      .skill-card-three,
+      .skill-card-four,
+      .skill-card-five {
+        grid-column: span 1;
+      }
 
-  .skill-card-one {
-    grid-row: span 1;
-  }
+      .skill-card-one {
+        grid-row: span 1;
+      }
 
-  .skill-card-two {
-    grid-row: span 1;
-  }
+      .skill-card-two {
+        grid-row: span 1;
+      }
 
-}
-
-
-@media (max-width: 600px) {
-
-  .skills-section {
-    padding:
-      5rem
-      1.25rem
-      7rem;
-  }
-
-  .skills-header-meta {
-    display: block;
-  }
-
-  .skills-header-note {
-    display: block;
-
-    margin-top: 1rem;
-  }
-
-  .skills-title {
-    font-size: clamp(3.2rem, 15vw, 5.5rem);
-  }
-
-  .skills-intro {
-    margin-left: 0;
-  }
-
-  .skills-board {
-    display: block;
-
-    padding: 0.8rem;
-
-    background-size: 1.5rem 1.5rem;
-  }
-
-  .skill-card {
-    min-height: 340px;
-
-    margin-bottom: 1rem;
-
-    transform: none;
-  }
-
-  .skill-card:last-child {
-    margin-bottom: 0;
-  }
-
-  .skill-card:hover,
-  .skill-card:focus-visible {
-    transform: translateY(-5px);
-  }
-
-  .skill-title {
-    font-size: clamp(2.5rem, 12vw, 4rem);
-  }
-
-  .skills-manifesto {
-    margin-top: 6rem;
-  }
-
-}
+    }
 
 
-/* CSS:SKILLS-END */
+    @media (max-width: 600px) {
+
+      .skills-section {
+        padding:
+          5rem 1.25rem 7rem;
+      }
+
+      .skills-header-meta {
+        display: block;
+      }
+
+      .skills-header-note {
+        display: block;
+
+        margin-top: 1rem;
+      }
+
+      .skills-title {
+        font-size: clamp(3.2rem, 15vw, 5.5rem);
+      }
+
+      .skills-intro {
+        margin-left: 0;
+      }
+
+      .skills-board {
+        display: block;
+
+        padding: 0.8rem;
+
+        background-size: 1.5rem 1.5rem;
+      }
+
+      .skill-card {
+        min-height: 340px;
+
+        margin-bottom: 1rem;
+
+        transform: none;
+      }
+
+      .skill-card:last-child {
+        margin-bottom: 0;
+      }
+
+      .skill-card:hover,
+      .skill-card:focus-visible {
+        transform: translateY(-5px);
+      }
+
+      .skill-title {
+        font-size: clamp(2.5rem, 12vw, 4rem);
+      }
+
+      .skills-manifesto {
+        margin-top: 6rem;
+      }
+
+    }
+
+
+    /* CSS:SKILLS-END */
 
 
     /* =========================================================
@@ -1929,1056 +1884,1033 @@
    Projects｜Things I Actually Built
    ========================================================= */
 
-.projects-section {
-  position: relative;
+    .projects-section {
+      position: relative;
 
-  padding:
-    clamp(6rem, 12vw, 11rem)
-    clamp(1.25rem, 5vw, 5rem);
+      padding:
+        clamp(6rem, 12vw, 11rem) clamp(1.25rem, 5vw, 5rem);
 
-  overflow: hidden;
+      overflow: hidden;
 
-  background: #20201e;
-  color: #f5f3ee;
-}
+      background: #20201e;
+      color: #f5f3ee;
+    }
 
-.projects-layout {
-  width: min(1320px, 100%);
-  margin: 0 auto;
-}
+    .projects-layout {
+      width: min(1320px, 100%);
+      margin: 0 auto;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Header
    --------------------------------------------------------- */
 
-.projects-header {
-  margin-bottom: clamp(4rem, 9vw, 8rem);
-}
+    .projects-header {
+      margin-bottom: clamp(4rem, 9vw, 8rem);
+    }
 
-.projects-header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    .projects-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  margin-bottom: 3rem;
-}
+      margin-bottom: 3rem;
+    }
 
-.projects-header-top .section-label {
-  color: #f5f3ee;
-}
+    .projects-header-top .section-label {
+      color: #f5f3ee;
+    }
 
-.projects-header-stamp {
-  padding: 0.4rem 0.7rem;
+    .projects-header-stamp {
+      padding: 0.4rem 0.7rem;
 
-  border: 1px solid #7f7e77;
+      border: 1px solid #7f7e77;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
 
-  color: #aaa89f;
+      color: #aaa89f;
 
-  transform: rotate(-2deg);
-}
+      transform: rotate(-2deg);
+    }
 
-.projects-heading {
-  display: grid;
+    .projects-heading {
+      display: grid;
 
-  grid-template-columns:
-    minmax(0, 1.5fr)
-    minmax(280px, 0.7fr);
+      grid-template-columns:
+        minmax(0, 1.5fr) minmax(280px, 0.7fr);
 
-  gap: clamp(2rem, 7vw, 8rem);
+      gap: clamp(2rem, 7vw, 8rem);
 
-  align-items: end;
-}
+      align-items: end;
+    }
 
-.projects-title {
-  margin: 0;
+    .projects-title {
+      margin: 0;
 
-  font-size: clamp(3.5rem, 8vw, 8rem);
-  line-height: 0.88;
-  letter-spacing: -0.07em;
-  font-weight: 700;
-}
+      font-size: clamp(3.5rem, 8vw, 8rem);
+      line-height: 0.88;
+      letter-spacing: -0.07em;
+      font-weight: 700;
+    }
 
-.projects-title-accent {
-  position: relative;
+    .projects-title-accent {
+      position: relative;
 
-  font-weight: 900;
+      font-weight: 900;
 
-  z-index: 1;
-}
+      z-index: 1;
+    }
 
-.projects-title-accent::after {
-  content: "";
+    .projects-title-accent::after {
+      content: "";
 
-  position: absolute;
+      position: absolute;
 
-  left: -0.02em;
-  right: -0.04em;
-  bottom: 0.02em;
+      left: -0.02em;
+      right: -0.04em;
+      bottom: 0.02em;
 
-  height: 0.16em;
+      height: 0.16em;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  transform: rotate(1deg);
+      transform: rotate(1deg);
 
-  z-index: -1;
-}
+      z-index: -1;
+    }
 
-.projects-intro {
-  margin: 0;
+    .projects-intro {
+      margin: 0;
 
-  font-size: clamp(1rem, 1.35vw, 1.2rem);
-  line-height: 1.8;
+      font-size: clamp(1rem, 1.35vw, 1.2rem);
+      line-height: 1.8;
 
-  color: #b5b3aa;
-}
+      color: #b5b3aa;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Project Wall
    --------------------------------------------------------- */
 
-.projects-wall {
-  display: grid;
+    .projects-wall {
+      display: grid;
 
-  grid-template-columns:
-    repeat(12, minmax(0, 1fr));
+      grid-template-columns:
+        repeat(12, minmax(0, 1fr));
 
-  gap: 1.5rem;
-}
+      gap: 1.5rem;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    General Card
    --------------------------------------------------------- */
 
-.project-card {
-  position: relative;
+    .project-card {
+      position: relative;
 
-  overflow: hidden;
+      overflow: hidden;
 
-  border: 1px solid #57564f;
-  border-radius: 0.8rem;
+      border: 1px solid #57564f;
+      border-radius: 0.8rem;
 
-  background: #292927;
+      background: #292927;
 
-  transition:
-    transform 240ms ease,
-    border-color 240ms ease,
-    box-shadow 240ms ease;
-}
+      transition:
+        transform 240ms ease,
+        border-color 240ms ease,
+        box-shadow 240ms ease;
+    }
 
-.project-card:hover,
-.project-card:focus-visible {
-  border-color: #d8ff3e;
+    .project-card:hover,
+    .project-card:focus-visible {
+      border-color: #d8ff3e;
 
-  transform:
-    translateY(-8px)
-    rotate(0deg);
+      transform:
+        translateY(-8px) rotate(0deg);
 
-  box-shadow:
-    8px 10px 0 #d8ff3e;
+      box-shadow:
+        8px 10px 0 #d8ff3e;
 
-  outline: none;
-}
+      outline: none;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Project 01
    --------------------------------------------------------- */
 
-.project-card-ceh {
-  grid-column: span 5;
+    .project-card-ceh {
+      grid-column: span 5;
 
-  transform: rotate(-1.2deg);
-}
+      transform: rotate(-1.2deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Project 02
    --------------------------------------------------------- */
 
-.project-card-trading {
-  grid-column: span 7;
+    .project-card-trading {
+      grid-column: span 7;
 
-  transform: rotate(1deg);
-}
+      transform: rotate(1deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Project 03
    --------------------------------------------------------- */
 
-.project-card-infra {
-  grid-column: 2 / 12;
+    .project-card-infra {
+      grid-column: 2 / 12;
 
-  transform: rotate(-0.35deg);
+      transform: rotate(-0.35deg);
 
-  background: #f5f3ee;
-  color: #171717;
+      background: #f5f3ee;
+      color: #171717;
 
-  border-color: #d1cec5;
-}
+      border-color: #d1cec5;
+    }
 
-.project-card-infra:hover,
-.project-card-infra:focus-visible {
-  border-color: #171717;
+    .project-card-infra:hover,
+    .project-card-infra:focus-visible {
+      border-color: #171717;
 
-  box-shadow:
-    10px 12px 0 #d8ff3e;
-}
+      box-shadow:
+        10px 12px 0 #d8ff3e;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Card Header
    --------------------------------------------------------- */
 
-.project-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    .project-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  padding: 1rem 1.2rem;
+      padding: 1rem 1.2rem;
 
-  border-bottom: 1px solid #57564f;
+      border-bottom: 1px solid #57564f;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-}
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+    }
 
-.project-card-infra .project-card-header {
-  border-bottom-color: #c5c2b9;
-}
+    .project-card-infra .project-card-header {
+      border-bottom-color: #c5c2b9;
+    }
 
-.project-number {
-  color: #aaa89f;
-}
+    .project-number {
+      color: #aaa89f;
+    }
 
-.project-status {
-  color: #8e8d86;
-}
+    .project-status {
+      color: #8e8d86;
+    }
 
-.project-status-featured {
-  color: #171717;
-}
+    .project-status-featured {
+      color: #171717;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Visual Area
    --------------------------------------------------------- */
 
-.project-visual {
-  position: relative;
+    .project-visual {
+      position: relative;
 
-  min-height: 330px;
+      min-height: 330px;
 
-  overflow: hidden;
-}
+      overflow: hidden;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Telegram Visual
    --------------------------------------------------------- */
 
-.project-visual-telegram {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    .project-visual-telegram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  padding: 3rem;
+      padding: 3rem;
 
-  background:
-    radial-gradient(
-      circle at 25% 20%,
-      rgba(216, 255, 62, 0.12),
-      transparent 30%
-    ),
-    #252523;
-}
+      background:
+        radial-gradient(circle at 25% 20%,
+          rgba(216, 255, 62, 0.12),
+          transparent 30%),
+        #252523;
+    }
 
-.project-phone {
-  width: min(230px, 70%);
+    .project-phone {
+      width: min(230px, 70%);
 
-  overflow: hidden;
+      overflow: hidden;
 
-  border: 1px solid #57564f;
-  border-radius: 1.2rem;
+      border: 1px solid #57564f;
+      border-radius: 1.2rem;
 
-  background: #181817;
+      background: #181817;
 
-  box-shadow:
-    12px 12px 0 #d8ff3e;
+      box-shadow:
+        12px 12px 0 #d8ff3e;
 
-  transform: rotate(-4deg);
-}
+      transform: rotate(-4deg);
+    }
 
-.project-phone-header {
-  display: flex;
-  justify-content: space-between;
+    .project-phone-header {
+      display: flex;
+      justify-content: space-between;
 
-  padding: 0.8rem 1rem;
+      padding: 0.8rem 1rem;
 
-  border-bottom: 1px solid #41413d;
+      border-bottom: 1px solid #41413d;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.6rem;
-}
+      font-size: 0.6rem;
+    }
 
-.project-chat {
-  padding: 1rem;
-}
+    .project-chat {
+      padding: 1rem;
+    }
 
-.project-chat-bot {
-  width: 2.5rem;
-  height: 2.5rem;
+    .project-chat-bot {
+      width: 2.5rem;
+      height: 2.5rem;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  margin-bottom: 0.8rem;
+      margin-bottom: 0.8rem;
 
-  border-radius: 50%;
+      border-radius: 50%;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  font-size: 1.2rem;
-}
+      font-size: 1.2rem;
+    }
 
-.project-chat-message {
-  display: flex;
-  flex-direction: column;
+    .project-chat-message {
+      display: flex;
+      flex-direction: column;
 
-  gap: 0.25rem;
+      gap: 0.25rem;
 
-  width: 90%;
+      width: 90%;
 
-  padding: 0.8rem;
+      padding: 0.8rem;
 
-  border-radius: 0.8rem;
+      border-radius: 0.8rem;
 
-  background: #30302d;
+      background: #30302d;
 
-  font-size: 0.7rem;
-  line-height: 1.5;
-}
+      font-size: 0.7rem;
+      line-height: 1.5;
+    }
 
-.project-chat-message span {
-  color: #aaa89f;
-}
+    .project-chat-message span {
+      color: #aaa89f;
+    }
 
-.project-chat-message small {
-  color: #77766f;
-}
+    .project-chat-message small {
+      color: #77766f;
+    }
 
-.project-chat-user {
-  width: auto;
+    .project-chat-user {
+      width: auto;
 
-  margin:
-    0.8rem
-    0
-    0
-    auto;
+      margin:
+        0.8rem 0 0 auto;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  color: #171717;
-}
+      color: #171717;
+    }
 
-.project-visual-note {
-  position: absolute;
+    .project-visual-note {
+      position: absolute;
 
-  right: 1.5rem;
-  bottom: 1.5rem;
+      right: 1.5rem;
+      bottom: 1.5rem;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 0.85rem;
-  line-height: 1.25;
+      font-size: 0.85rem;
+      line-height: 1.25;
 
-  color: #aaa89f;
+      color: #aaa89f;
 
-  transform: rotate(-4deg);
-}
+      transform: rotate(-4deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Trading Visual
    --------------------------------------------------------- */
 
-.project-visual-trading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    .project-visual-trading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  padding: 2rem;
+      padding: 2rem;
 
-  background:
-    linear-gradient(
-      135deg,
-      #282826,
-      #181817
-    );
-}
+      background:
+        linear-gradient(135deg,
+          #282826,
+          #181817);
+    }
 
-.trading-screen {
-  width: min(470px, 88%);
+    .trading-screen {
+      width: min(470px, 88%);
 
-  padding: 1.2rem;
+      padding: 1.2rem;
 
-  border: 1px solid #56554f;
+      border: 1px solid #56554f;
 
-  background: #111110;
+      background: #111110;
 
-  transform: rotate(2deg);
+      transform: rotate(2deg);
 
-  box-shadow:
-    -10px 10px 0 rgba(216, 255, 62, 0.8);
-}
+      box-shadow:
+        -10px 10px 0 rgba(216, 255, 62, 0.8);
+    }
 
-.trading-screen-top {
-  display: flex;
-  justify-content: space-between;
+    .trading-screen-top {
+      display: flex;
+      justify-content: space-between;
 
-  padding-bottom: 0.8rem;
+      padding-bottom: 0.8rem;
 
-  border-bottom: 1px solid #3f3e3a;
+      border-bottom: 1px solid #3f3e3a;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.6rem;
+      font-size: 0.6rem;
 
-  color: #8b8a83;
-}
+      color: #8b8a83;
+    }
 
-.trading-chart {
-  position: relative;
+    .trading-chart {
+      position: relative;
 
-  height: 150px;
+      height: 150px;
 
-  margin: 1rem 0;
+      margin: 1rem 0;
 
-  border-bottom: 1px solid #474640;
-}
+      border-bottom: 1px solid #474640;
+    }
 
-.chart-line {
-  position: absolute;
+    .chart-line {
+      position: absolute;
 
-  left: 5%;
-  right: 5%;
+      left: 5%;
+      right: 5%;
 
-  height: 2px;
+      height: 2px;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  transform-origin: left;
-}
+      transform-origin: left;
+    }
 
-.chart-line-one {
-  top: 72%;
+    .chart-line-one {
+      top: 72%;
 
-  transform:
-    rotate(-11deg)
-    scaleX(0.95);
-}
+      transform:
+        rotate(-11deg) scaleX(0.95);
+    }
 
-.chart-line-two {
-  top: 52%;
+    .chart-line-two {
+      top: 52%;
 
-  transform:
-    rotate(9deg)
-    scaleX(0.8);
-}
+      transform:
+        rotate(9deg) scaleX(0.8);
+    }
 
-.chart-line-three {
-  top: 35%;
+    .chart-line-three {
+      top: 35%;
 
-  transform:
-    rotate(-6deg)
-    scaleX(0.65);
-}
+      transform:
+        rotate(-6deg) scaleX(0.65);
+    }
 
-.chart-line-four {
-  top: 22%;
+    .chart-line-four {
+      top: 22%;
 
-  transform:
-    rotate(4deg)
-    scaleX(0.5);
-}
+      transform:
+        rotate(4deg) scaleX(0.5);
+    }
 
-.trading-stats {
-  display: grid;
+    .trading-stats {
+      display: grid;
 
-  grid-template-columns:
-    repeat(3, 1fr);
+      grid-template-columns:
+        repeat(3, 1fr);
 
-  gap: 0.5rem;
-}
+      gap: 0.5rem;
+    }
 
-.trading-stats div {
-  padding: 0.7rem;
+    .trading-stats div {
+      padding: 0.7rem;
 
-  border: 1px solid #363531;
-}
+      border: 1px solid #363531;
+    }
 
-.trading-stats small {
-  display: block;
+    .trading-stats small {
+      display: block;
 
-  margin-bottom: 0.3rem;
+      margin-bottom: 0.3rem;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.5rem;
+      font-size: 0.5rem;
 
-  color: #77766f;
-}
+      color: #77766f;
+    }
 
-.trading-stats strong {
-  font-size: 1.3rem;
+    .trading-stats strong {
+      font-size: 1.3rem;
 
-  color: #d8ff3e;
-}
+      color: #d8ff3e;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Project Content
    --------------------------------------------------------- */
 
-.project-card-content {
-  padding: 2rem;
-}
+    .project-card-content {
+      padding: 2rem;
+    }
 
-.project-category {
-  margin: 0 0 1rem;
+    .project-category {
+      margin: 0 0 1rem;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.6rem;
-  font-weight: 700;
+      font-size: 0.6rem;
+      font-weight: 700;
 
-  letter-spacing: 0.1em;
+      letter-spacing: 0.1em;
 
-  color: #88867f;
-}
+      color: #88867f;
+    }
 
-.project-name {
-  margin: 0;
+    .project-name {
+      margin: 0;
 
-  font-size: clamp(2.3rem, 4vw, 4.5rem);
-  line-height: 0.9;
-  letter-spacing: -0.055em;
-}
+      font-size: clamp(2.3rem, 4vw, 4.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.055em;
+    }
 
-.project-description {
-  max-width: 34rem;
+    .project-description {
+      max-width: 34rem;
 
-  margin: 1.5rem 0 0;
+      margin: 1.5rem 0 0;
 
-  font-size: 0.9rem;
-  line-height: 1.8;
+      font-size: 0.9rem;
+      line-height: 1.8;
 
-  color: #aaa89f;
-}
+      color: #aaa89f;
+    }
 
-.project-tools {
-  display: flex;
-  flex-wrap: wrap;
+    .project-tools {
+      display: flex;
+      flex-wrap: wrap;
 
-  gap: 0.5rem;
+      gap: 0.5rem;
 
-  margin-top: 2rem;
-}
+      margin-top: 2rem;
+    }
 
-.project-tools span {
-  padding: 0.4rem 0.6rem;
+    .project-tools span {
+      padding: 0.4rem 0.6rem;
 
-  border: 1px solid #595851;
-  border-radius: 999px;
+      border: 1px solid #595851;
+      border-radius: 999px;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.55rem;
+      font-size: 0.55rem;
 
-  color: #aaa89f;
-}
+      color: #aaa89f;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Feature Project
    --------------------------------------------------------- */
 
-.project-feature-layout {
-  display: grid;
+    .project-feature-layout {
+      display: grid;
 
-  grid-template-columns:
-    minmax(0, 1.1fr)
-    minmax(0, 0.9fr);
+      grid-template-columns:
+        minmax(0, 1.1fr) minmax(0, 0.9fr);
 
-  min-height: 560px;
-}
+      min-height: 560px;
+    }
 
-.project-visual-infra {
-  position: relative;
+    .project-visual-infra {
+      position: relative;
 
-  min-height: 560px;
+      min-height: 560px;
 
-  background:
-    linear-gradient(
-      rgba(23, 23, 23, 0.05) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(23, 23, 23, 0.05) 1px,
-      transparent 1px
-    );
+      background:
+        linear-gradient(rgba(23, 23, 23, 0.05) 1px,
+          transparent 1px),
+        linear-gradient(90deg,
+          rgba(23, 23, 23, 0.05) 1px,
+          transparent 1px);
 
-  background-size: 2rem 2rem;
-}
+      background-size: 2rem 2rem;
+    }
 
-.infra-center {
-  position: absolute;
+    .infra-center {
+      position: absolute;
 
-  left: 50%;
-  top: 50%;
+      left: 50%;
+      top: 50%;
 
-  width: 150px;
-  height: 150px;
+      width: 150px;
+      height: 150px;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-  border: 2px solid #171717;
-  border-radius: 50%;
+      border: 2px solid #171717;
+      border-radius: 50%;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  text-align: center;
+      text-align: center;
 
-  transform:
-    translate(-50%, -50%)
-    rotate(-4deg);
+      transform:
+        translate(-50%, -50%) rotate(-4deg);
 
-  z-index: 2;
-}
+      z-index: 2;
+    }
 
-.infra-center-label {
-  font-family: monospace;
+    .infra-center-label {
+      font-family: monospace;
 
-  font-size: 0.55rem;
+      font-size: 0.55rem;
 
-  letter-spacing: 0.15em;
-}
+      letter-spacing: 0.15em;
+    }
 
-.infra-center strong {
-  margin-top: 0.25rem;
+    .infra-center strong {
+      margin-top: 0.25rem;
 
-  font-size: 1.5rem;
-  line-height: 0.9;
-  letter-spacing: -0.05em;
-}
+      font-size: 1.5rem;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
 
-.infra-center-url {
-  margin-top: 0.5rem;
+    .infra-center-url {
+      margin-top: 0.5rem;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.45rem;
-}
+      font-size: 0.45rem;
+    }
 
-.infra-node {
-  position: absolute;
+    .infra-node {
+      position: absolute;
 
-  z-index: 3;
+      z-index: 3;
 
-  min-width: 110px;
+      min-width: 110px;
 
-  padding: 0.8rem;
+      padding: 0.8rem;
 
-  border: 1px solid #171717;
+      border: 1px solid #171717;
 
-  background: #f5f3ee;
+      background: #f5f3ee;
 
-  text-align: center;
+      text-align: center;
 
-  box-shadow:
-    4px 5px 0 rgba(23, 23, 23, 0.15);
+      box-shadow:
+        4px 5px 0 rgba(23, 23, 23, 0.15);
 
-  transition:
-    transform 200ms ease,
-    background-color 200ms ease;
-}
+      transition:
+        transform 200ms ease,
+        background-color 200ms ease;
+    }
 
-.project-card-infra:hover .infra-node {
-  background: #ffffff;
-}
+    .project-card-infra:hover .infra-node {
+      background: #ffffff;
+    }
 
-.infra-node:hover {
-  transform: translateY(-5px) rotate(-2deg);
-}
+    .infra-node:hover {
+      transform: translateY(-5px) rotate(-2deg);
+    }
 
-.infra-node-icon {
-  display: block;
+    .infra-node-icon {
+      display: block;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 1.1rem;
-  font-weight: 900;
-}
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
 
-.infra-node small {
-  display: block;
+    .infra-node small {
+      display: block;
 
-  margin-top: 0.25rem;
+      margin-top: 0.25rem;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.45rem;
+      font-size: 0.45rem;
 
-  color: #77746d;
-}
+      color: #77746d;
+    }
 
-.infra-node-nas {
-  left: 10%;
-  top: 15%;
+    .infra-node-nas {
+      left: 10%;
+      top: 15%;
 
-  transform: rotate(-4deg);
-}
+      transform: rotate(-4deg);
+    }
 
-.infra-node-openclaw {
-  right: 10%;
-  top: 16%;
+    .infra-node-openclaw {
+      right: 10%;
+      top: 16%;
 
-  transform: rotate(5deg);
-}
+      transform: rotate(5deg);
+    }
 
-.infra-node-hermes {
-  left: 12%;
-  bottom: 15%;
+    .infra-node-hermes {
+      left: 12%;
+      bottom: 15%;
 
-  transform: rotate(3deg);
-}
+      transform: rotate(3deg);
+    }
 
-.infra-node-cloud {
-  right: 9%;
-  bottom: 14%;
+    .infra-node-cloud {
+      right: 9%;
+      bottom: 14%;
 
-  transform: rotate(-5deg);
-}
+      transform: rotate(-5deg);
+    }
 
 
-/* Connection lines */
+    /* Connection lines */
 
-.infra-line {
-  position: absolute;
+    .infra-line {
+      position: absolute;
 
-  display: block;
+      display: block;
 
-  height: 1px;
+      height: 1px;
 
-  background: #77746d;
+      background: #77746d;
 
-  transform-origin: left center;
+      transform-origin: left center;
 
-  z-index: 1;
-}
+      z-index: 1;
+    }
 
-.infra-line-one {
-  width: 28%;
+    .infra-line-one {
+      width: 28%;
 
-  left: 26%;
-  top: 31%;
+      left: 26%;
+      top: 31%;
 
-  transform: rotate(22deg);
-}
+      transform: rotate(22deg);
+    }
 
-.infra-line-two {
-  width: 28%;
+    .infra-line-two {
+      width: 28%;
 
-  left: 51%;
-  top: 32%;
+      left: 51%;
+      top: 32%;
 
-  transform: rotate(155deg);
-}
+      transform: rotate(155deg);
+    }
 
-.infra-line-three {
-  width: 30%;
+    .infra-line-three {
+      width: 30%;
 
-  left: 25%;
-  bottom: 31%;
+      left: 25%;
+      bottom: 31%;
 
-  transform: rotate(-21deg);
-}
+      transform: rotate(-21deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Feature Copy
    --------------------------------------------------------- */
 
-.project-feature-copy {
-  display: flex;
-  flex-direction: column;
+    .project-feature-copy {
+      display: flex;
+      flex-direction: column;
 
-  padding:
-    clamp(2rem, 5vw, 5rem);
-}
+      padding:
+        clamp(2rem, 5vw, 5rem);
+    }
 
-.project-feature-copy .project-name {
-  font-size: clamp(2.5rem, 5vw, 5rem);
-}
+    .project-feature-copy .project-name {
+      font-size: clamp(2.5rem, 5vw, 5rem);
+    }
 
-.project-feature-lead {
-  margin:
-    2rem
-    0
-    0;
+    .project-feature-lead {
+      margin:
+        2rem 0 0;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: clamp(1.2rem, 2vw, 1.6rem);
-  line-height: 1.4;
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
+      line-height: 1.4;
 
-  transform: rotate(-1deg);
-}
+      transform: rotate(-1deg);
+    }
 
-.project-feature-copy .project-description {
-  color: #66635c;
-}
+    .project-feature-copy .project-description {
+      color: #66635c;
+    }
 
-.project-tools-large span {
-  border-color: #a7a49c;
+    .project-tools-large span {
+      border-color: #a7a49c;
 
-  color: #4f4d47;
-}
+      color: #4f4d47;
+    }
 
-.project-feature-footer {
-  display: flex;
-  justify-content: space-between;
+    .project-feature-footer {
+      display: flex;
+      justify-content: space-between;
 
-  margin-top: auto;
-  padding-top: 3rem;
+      margin-top: auto;
+      padding-top: 3rem;
 
-  border-top: 1px solid #c4c1b8;
+      border-top: 1px solid #c4c1b8;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
 
-  color: #77746d;
-}
+      color: #77746d;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Bottom
    --------------------------------------------------------- */
 
-.projects-bottom {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+    .projects-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
 
-  gap: 2rem;
+      gap: 2rem;
 
-  margin-top: clamp(5rem, 10vw, 9rem);
-}
+      margin-top: clamp(5rem, 10vw, 9rem);
+    }
 
-.projects-bottom p {
-  margin: 0;
+    .projects-bottom p {
+      margin: 0;
 
-  font-size: clamp(1.8rem, 4vw, 4rem);
-  line-height: 1;
-  letter-spacing: -0.05em;
-}
+      font-size: clamp(1.8rem, 4vw, 4rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
 
-.projects-bottom p span {
-  position: relative;
+    .projects-bottom p span {
+      position: relative;
 
-  z-index: 1;
+      z-index: 1;
 
-  font-weight: 900;
-}
+      font-weight: 900;
+    }
 
-.projects-bottom p span::after {
-  content: "";
+    .projects-bottom p span::after {
+      content: "";
 
-  position: absolute;
+      position: absolute;
 
-  left: -0.03em;
-  right: -0.03em;
-  bottom: 0;
+      left: -0.03em;
+      right: -0.03em;
+      bottom: 0;
 
-  height: 0.14em;
+      height: 0.14em;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  z-index: -1;
-}
+      z-index: -1;
+    }
 
-.projects-bottom-link {
-  display: inline-flex;
-  align-items: center;
+    .projects-bottom-link {
+      display: inline-flex;
+      align-items: center;
 
-  gap: 1rem;
+      gap: 1rem;
 
-  padding: 0.8rem 1rem;
+      padding: 0.8rem 1rem;
 
-  border: 1px solid #d8ff3e;
-  border-radius: 999px;
+      border: 1px solid #d8ff3e;
+      border-radius: 999px;
 
-  color: #d8ff3e;
+      color: #d8ff3e;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
 
-  transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
-}
+      transition:
+        background-color 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+    }
 
-.projects-bottom-link:hover,
-.projects-bottom-link:focus-visible {
-  background: #d8ff3e;
-  color: #171717;
+    .projects-bottom-link:hover,
+    .projects-bottom-link:focus-visible {
+      background: #d8ff3e;
+      color: #171717;
 
-  transform: rotate(-2deg);
-}
+      transform: rotate(-2deg);
+    }
 
-.projects-bottom-link span {
-  font-size: 1.1rem;
-}
+    .projects-bottom-link span {
+      font-size: 1.1rem;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Responsive
    --------------------------------------------------------- */
 
-@media (max-width: 950px) {
+    @media (max-width: 950px) {
 
-  .projects-heading {
-    grid-template-columns: 1fr;
-  }
+      .projects-heading {
+        grid-template-columns: 1fr;
+      }
 
-  .projects-intro {
-    max-width: 600px;
-  }
+      .projects-intro {
+        max-width: 600px;
+      }
 
-  .project-card-ceh {
-    grid-column: span 6;
-  }
+      .project-card-ceh {
+        grid-column: span 6;
+      }
 
-  .project-card-trading {
-    grid-column: span 6;
-  }
+      .project-card-trading {
+        grid-column: span 6;
+      }
 
-  .project-card-infra {
-    grid-column: 1 / 13;
-  }
+      .project-card-infra {
+        grid-column: 1 / 13;
+      }
 
-  .project-feature-layout {
-    grid-template-columns: 1fr;
-  }
+      .project-feature-layout {
+        grid-template-columns: 1fr;
+      }
 
-  .project-visual-infra {
-    min-height: 500px;
-  }
+      .project-visual-infra {
+        min-height: 500px;
+      }
 
-}
+    }
 
 
-@media (max-width: 650px) {
+    @media (max-width: 650px) {
 
-  .projects-section {
-    padding:
-      5rem
-      1.25rem
-      7rem;
-  }
+      .projects-section {
+        padding:
+          5rem 1.25rem 7rem;
+      }
 
-  .projects-header-top {
-    display: block;
-  }
+      .projects-header-top {
+        display: block;
+      }
 
-  .projects-header-stamp {
-    display: inline-block;
+      .projects-header-stamp {
+        display: inline-block;
 
-    margin-top: 1rem;
-  }
+        margin-top: 1rem;
+      }
 
-  .projects-title {
-    font-size: clamp(3.2rem, 15vw, 5.5rem);
-  }
+      .projects-title {
+        font-size: clamp(3.2rem, 15vw, 5.5rem);
+      }
 
-  .projects-wall {
-    display: block;
-  }
+      .projects-wall {
+        display: block;
+      }
 
-  .project-card {
-    margin-bottom: 1.2rem;
+      .project-card {
+        margin-bottom: 1.2rem;
 
-    transform: none;
-  }
+        transform: none;
+      }
 
-  .project-card:hover,
-  .project-card:focus-visible {
-    transform: translateY(-5px);
-  }
+      .project-card:hover,
+      .project-card:focus-visible {
+        transform: translateY(-5px);
+      }
 
-  .project-visual {
-    min-height: 300px;
-  }
+      .project-visual {
+        min-height: 300px;
+      }
 
-  .project-feature-layout {
-    display: block;
-  }
+      .project-feature-layout {
+        display: block;
+      }
 
-  .project-visual-infra {
-    min-height: 420px;
-  }
+      .project-visual-infra {
+        min-height: 420px;
+      }
 
-  .infra-center {
-    width: 125px;
-    height: 125px;
-  }
+      .infra-center {
+        width: 125px;
+        height: 125px;
+      }
 
-  .infra-node {
-    min-width: 90px;
-  }
+      .infra-node {
+        min-width: 90px;
+      }
 
-  .project-feature-copy {
-    padding: 2rem 1.4rem;
-  }
+      .project-feature-copy {
+        padding: 2rem 1.4rem;
+      }
 
-  .projects-bottom {
-    display: block;
-  }
+      .projects-bottom {
+        display: block;
+      }
 
-  .projects-bottom-link {
-    margin-top: 2rem;
-  }
+      .projects-bottom-link {
+        margin-top: 2rem;
+      }
 
-}
-/* CSS:PROJECTS-END */
+    }
+
+    /* CSS:PROJECTS-END */
 
 
     /* =========================================================
@@ -2986,720 +2918,703 @@
    Contact｜Tell Me Your Idea
    ========================================================= */
 
-.contact-section {
-  position: relative;
+    .contact-section {
+      position: relative;
 
-  padding:
-    clamp(6rem, 12vw, 11rem)
-    clamp(1.25rem, 5vw, 5rem)
-    4rem;
+      padding:
+        clamp(6rem, 12vw, 11rem) clamp(1.25rem, 5vw, 5rem) 4rem;
 
-  overflow: hidden;
+      overflow: hidden;
 
-  background: #e8e6df;
-  color: #171717;
-}
+      background: #e8e6df;
+      color: #171717;
+    }
 
-.contact-layout {
-  width: min(1320px, 100%);
-  margin: 0 auto;
-}
+    .contact-layout {
+      width: min(1320px, 100%);
+      margin: 0 auto;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Intro
    --------------------------------------------------------- */
 
-.contact-intro {
-  position: relative;
+    .contact-intro {
+      position: relative;
 
-  max-width: 1100px;
+      max-width: 1100px;
 
-  margin-bottom: clamp(5rem, 10vw, 9rem);
-}
+      margin-bottom: clamp(5rem, 10vw, 9rem);
+    }
 
-.contact-intro-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    .contact-intro-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  margin-bottom: 3rem;
-}
+      margin-bottom: 3rem;
+    }
 
-.contact-hand-note {
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+    .contact-hand-note {
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 0.85rem;
+      font-size: 0.85rem;
 
-  color: #66635c;
+      color: #66635c;
 
-  transform: rotate(-4deg);
-}
+      transform: rotate(-4deg);
+    }
 
-.contact-title {
-  margin: 0;
+    .contact-title {
+      margin: 0;
 
-  font-size: clamp(5rem, 14vw, 13rem);
-  line-height: 0.78;
-  letter-spacing: -0.09em;
-  font-weight: 800;
-}
+      font-size: clamp(5rem, 14vw, 13rem);
+      line-height: 0.78;
+      letter-spacing: -0.09em;
+      font-weight: 800;
+    }
 
-.contact-title-accent {
-  position: relative;
+    .contact-title-accent {
+      position: relative;
 
-  z-index: 1;
-}
+      z-index: 1;
+    }
 
-.contact-title-accent::before {
-  content: "";
+    .contact-title-accent::before {
+      content: "";
 
-  position: absolute;
+      position: absolute;
 
-  left: -0.03em;
-  right: -0.02em;
-  bottom: 0.04em;
+      left: -0.03em;
+      right: -0.02em;
+      bottom: 0.04em;
 
-  height: 0.15em;
+      height: 0.15em;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  transform: rotate(-1deg);
+      transform: rotate(-1deg);
 
-  z-index: -1;
-}
+      z-index: -1;
+    }
 
-.contact-lead {
-  margin:
-    4rem
-    0
-    0
-    clamp(1rem, 14vw, 13rem);
+    .contact-lead {
+      margin:
+        4rem 0 0 clamp(1rem, 14vw, 13rem);
 
-  font-size: clamp(1.3rem, 2.5vw, 2.4rem);
-  line-height: 1.35;
+      font-size: clamp(1.3rem, 2.5vw, 2.4rem);
+      line-height: 1.35;
 
-  letter-spacing: -0.03em;
-}
+      letter-spacing: -0.03em;
+    }
 
-.contact-description {
-  max-width: 600px;
+    .contact-description {
+      max-width: 600px;
 
-  margin:
-    2rem
-    0
-    0
-    clamp(1rem, 20vw, 19rem);
+      margin:
+        2rem 0 0 clamp(1rem, 20vw, 19rem);
 
-  font-size: 1rem;
-  line-height: 1.8;
+      font-size: 1rem;
+      line-height: 1.8;
 
-  color: #65625b;
-}
+      color: #65625b;
+    }
 
-.contact-quote {
-  max-width: 500px;
+    .contact-quote {
+      max-width: 500px;
 
-  margin:
-    4rem
-    0
-    0
-    auto;
+      margin:
+        4rem 0 0 auto;
 
-  padding: 1.5rem;
+      padding: 1.5rem;
 
-  border-left: 2px solid #171717;
+      border-left: 2px solid #171717;
 
-  transform: rotate(1deg);
-}
+      transform: rotate(1deg);
+    }
 
-.contact-quote-mark {
-  display: block;
+    .contact-quote-mark {
+      display: block;
 
-  font-family: Georgia, serif;
+      font-family: Georgia, serif;
 
-  font-size: 4rem;
-  line-height: 0.5;
-}
+      font-size: 4rem;
+      line-height: 0.5;
+    }
 
-.contact-quote p {
-  margin: 1rem 0 0;
+    .contact-quote p {
+      margin: 1rem 0 0;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 1rem;
-  line-height: 1.6;
-}
+      font-size: 1rem;
+      line-height: 1.6;
+    }
 
-.contact-quote strong {
-  position: relative;
+    .contact-quote strong {
+      position: relative;
 
-  z-index: 1;
-}
+      z-index: 1;
+    }
 
-.contact-quote strong::after {
-  content: "";
+    .contact-quote strong::after {
+      content: "";
 
-  position: absolute;
+      position: absolute;
 
-  left: 0;
-  right: 0;
-  bottom: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
 
-  height: 0.18em;
+      height: 0.18em;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  z-index: -1;
-}
+      z-index: -1;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Form Wrapper
    --------------------------------------------------------- */
 
-.contact-form-wrapper {
-  max-width: 980px;
+    .contact-form-wrapper {
+      max-width: 980px;
 
-  margin: 0 auto;
+      margin: 0 auto;
 
-  padding:
-    clamp(1.5rem, 5vw, 4rem);
+      padding:
+        clamp(1.5rem, 5vw, 4rem);
 
-  border: 1px solid #9d9a92;
+      border: 1px solid #9d9a92;
 
-  border-radius: 1rem;
+      border-radius: 1rem;
 
-  background: #f5f3ee;
+      background: #f5f3ee;
 
-  box-shadow:
-    12px 12px 0 #d8ff3e;
+      box-shadow:
+        12px 12px 0 #d8ff3e;
 
-  transform: rotate(-0.4deg);
-}
+      transform: rotate(-0.4deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Form Header
    --------------------------------------------------------- */
 
-.contact-form-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+    .contact-form-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
 
-  gap: 2rem;
+      gap: 2rem;
 
-  padding-bottom: 2rem;
+      padding-bottom: 2rem;
 
-  border-bottom: 1px solid #c6c3ba;
-}
+      border-bottom: 1px solid #c6c3ba;
+    }
 
-.contact-form-label {
-  display: block;
+    .contact-form-label {
+      display: block;
 
-  margin-bottom: 0.6rem;
+      margin-bottom: 0.6rem;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
 
-  color: #77746d;
-}
+      color: #77746d;
+    }
 
-.contact-form-header h3 {
-  margin: 0;
+    .contact-form-header h3 {
+      margin: 0;
 
-  font-size: clamp(2rem, 4vw, 4rem);
-  line-height: 0.9;
-  letter-spacing: -0.06em;
-}
+      font-size: clamp(2rem, 4vw, 4rem);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+    }
 
-.contact-form-number {
-  font-family: monospace;
+    .contact-form-number {
+      font-family: monospace;
 
-  font-size: 0.6rem;
+      font-size: 0.6rem;
 
-  color: #88867f;
-}
+      color: #88867f;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Form
    --------------------------------------------------------- */
 
-.contact-form {
-  padding-top: 2rem;
-}
+    .contact-form {
+      padding-top: 2rem;
+    }
 
-.form-field {
-  margin-bottom: 2.2rem;
-}
+    .form-field {
+      margin-bottom: 2.2rem;
+    }
 
-.form-label {
-  display: block;
+    .form-label {
+      display: block;
 
-  margin-bottom: 0.7rem;
+      margin-bottom: 0.7rem;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.68rem;
-  font-weight: 700;
+      font-size: 0.68rem;
+      font-weight: 700;
 
-  letter-spacing: 0.05em;
-}
+      letter-spacing: 0.05em;
+    }
 
-.form-label span {
-  color: #8e9f20;
-}
+    .form-label span {
+      color: #8e9f20;
+    }
 
-.form-input {
-  width: 100%;
+    .form-input {
+      width: 100%;
 
-  padding:
-    0.9rem
-    0;
+      padding:
+        0.9rem 0;
 
-  border: 0;
-  border-bottom: 1px solid #aaa79f;
+      border: 0;
+      border-bottom: 1px solid #aaa79f;
 
-  border-radius: 0;
+      border-radius: 0;
 
-  background: transparent;
+      background: transparent;
 
-  color: #171717;
+      color: #171717;
 
-  font-family: inherit;
-  font-size: 1rem;
+      font-family: inherit;
+      font-size: 1rem;
 
-  outline: none;
+      outline: none;
 
-  transition:
-    border-color 180ms ease,
-    box-shadow 180ms ease;
-}
+      transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+    }
 
-.form-input::placeholder {
-  color: #a09d95;
-}
+    .form-input::placeholder {
+      color: #a09d95;
+    }
 
-.form-input:focus {
-  border-bottom-color: #171717;
+    .form-input:focus {
+      border-bottom-color: #171717;
 
-  box-shadow:
-    0 2px 0 #d8ff3e;
-}
+      box-shadow:
+        0 2px 0 #d8ff3e;
+    }
 
-.form-select {
-  cursor: pointer;
-}
+    .form-select {
+      cursor: pointer;
+    }
 
-.form-textarea {
-  resize: vertical;
+    .form-textarea {
+      resize: vertical;
 
-  min-height: 120px;
+      min-height: 120px;
 
-  line-height: 1.6;
-}
+      line-height: 1.6;
+    }
 
-.form-project-input {
-  min-height: 150px;
-}
+    .form-project-input {
+      min-height: 150px;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Options
    --------------------------------------------------------- */
 
-.form-options {
-  display: flex;
-  flex-wrap: wrap;
+    .form-options {
+      display: flex;
+      flex-wrap: wrap;
 
-  gap: 0.7rem;
-}
+      gap: 0.7rem;
+    }
 
-.form-option {
-  position: relative;
+    .form-option {
+      position: relative;
 
-  cursor: pointer;
-}
+      cursor: pointer;
+    }
 
-.form-option input {
-  position: absolute;
+    .form-option input {
+      position: absolute;
 
-  opacity: 0;
+      opacity: 0;
 
-  pointer-events: none;
-}
+      pointer-events: none;
+    }
 
-.form-option span {
-  display: block;
+    .form-option span {
+      display: block;
 
-  padding:
-    0.7rem
-    0.9rem;
+      padding:
+        0.7rem 0.9rem;
 
-  border: 1px solid #aaa79f;
-  border-radius: 999px;
+      border: 1px solid #aaa79f;
+      border-radius: 999px;
 
-  font-size: 0.8rem;
+      font-size: 0.8rem;
 
-  transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
-    transform 180ms ease;
-}
+      transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        transform 180ms ease;
+    }
 
-.form-option:hover span {
-  transform: translateY(-2px);
-}
+    .form-option:hover span {
+      transform: translateY(-2px);
+    }
 
-.form-option input:checked + span {
-  border-color: #171717;
+    .form-option input:checked+span {
+      border-color: #171717;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  color: #171717;
+      color: #171717;
 
-  transform: rotate(-1deg);
-}
+      transform: rotate(-1deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Validation
    --------------------------------------------------------- */
 
-.form-error {
-  display: none;
+    .form-error {
+      display: none;
 
-  margin-top: 0.5rem;
+      margin-top: 0.5rem;
 
-  font-size: 0.7rem;
+      font-size: 0.7rem;
 
-  color: #8b4d3c;
-}
+      color: #8b4d3c;
+    }
 
-.form-field.is-invalid .form-error {
-  display: block;
-}
+    .form-field.is-invalid .form-error {
+      display: block;
+    }
 
-.form-field.is-invalid .form-input {
-  border-bottom-color: #8b4d3c;
+    .form-field.is-invalid .form-input {
+      border-bottom-color: #8b4d3c;
 
-  box-shadow:
-    0 2px 0 #8b4d3c;
-}
+      box-shadow:
+        0 2px 0 #8b4d3c;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Submit
    --------------------------------------------------------- */
 
-.contact-submit-area {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    .contact-submit-area {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  gap: 2rem;
+      gap: 2rem;
 
-  margin-top: 3rem;
-  padding-top: 2rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
 
-  border-top: 1px solid #c6c3ba;
-}
+      border-top: 1px solid #c6c3ba;
+    }
 
-.contact-submit {
-  display: inline-flex;
-  align-items: center;
+    .contact-submit {
+      display: inline-flex;
+      align-items: center;
 
-  gap: 1.5rem;
+      gap: 1.5rem;
 
-  padding:
-    1rem
-    1.3rem;
+      padding:
+        1rem 1.3rem;
 
-  border: 1px solid #171717;
-  border-radius: 999px;
+      border: 1px solid #171717;
+      border-radius: 999px;
 
-  background: #171717;
+      background: #171717;
 
-  color: #f5f3ee;
+      color: #f5f3ee;
 
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 700;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
 
-  cursor: pointer;
+      cursor: pointer;
 
-  transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
-}
+      transition:
+        background-color 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+    }
 
-.contact-submit:hover,
-.contact-submit:focus-visible {
-  background: #d8ff3e;
+    .contact-submit:hover,
+    .contact-submit:focus-visible {
+      background: #d8ff3e;
 
-  color: #171717;
+      color: #171717;
 
-  transform:
-    rotate(-2deg)
-    translateY(-3px);
+      transform:
+        rotate(-2deg) translateY(-3px);
 
-  outline: none;
-}
+      outline: none;
+    }
 
-.contact-submit-arrow {
-  font-size: 1.2rem;
-}
+    .contact-submit-arrow {
+      font-size: 1.2rem;
+    }
 
-.contact-submit-note {
-  margin: 0;
+    .contact-submit-note {
+      margin: 0;
 
-  font-family:
-    "Comic Sans MS",
-    "Bradley Hand",
-    cursive;
+      font-family:
+        "Comic Sans MS",
+        "Bradley Hand",
+        cursive;
 
-  font-size: 0.75rem;
-  line-height: 1.4;
+      font-size: 0.75rem;
+      line-height: 1.4;
 
-  color: #77746d;
+      color: #77746d;
 
-  transform: rotate(2deg);
-}
+      transform: rotate(2deg);
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Success
    --------------------------------------------------------- */
 
-.form-success {
-  display: none;
+    .form-success {
+      display: none;
 
-  align-items: center;
+      align-items: center;
 
-  gap: 1rem;
+      gap: 1rem;
 
-  margin-top: 2rem;
+      margin-top: 2rem;
 
-  padding: 1.2rem;
+      padding: 1.2rem;
 
-  border: 1px solid #9eaa62;
+      border: 1px solid #9eaa62;
 
-  background: #edf4c7;
+      background: #edf4c7;
 
-  transform: rotate(-0.5deg);
-}
+      transform: rotate(-0.5deg);
+    }
 
-.form-success.is-visible {
-  display: flex;
-}
+    .form-success.is-visible {
+      display: flex;
+    }
 
-.form-success-icon {
-  width: 2.2rem;
-  height: 2.2rem;
+    .form-success-icon {
+      width: 2.2rem;
+      height: 2.2rem;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  border-radius: 50%;
+      border-radius: 50%;
 
-  background: #d8ff3e;
+      background: #d8ff3e;
 
-  font-weight: 900;
-}
+      font-weight: 900;
+    }
 
-.form-success strong {
-  display: block;
+    .form-success strong {
+      display: block;
 
-  font-size: 1rem;
-}
+      font-size: 1rem;
+    }
 
-.form-success p {
-  margin: 0.25rem 0 0;
+    .form-success p {
+      margin: 0.25rem 0 0;
 
-  font-size: 0.8rem;
+      font-size: 0.8rem;
 
-  color: #66635c;
-}
+      color: #66635c;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Contact Channels
    --------------------------------------------------------- */
 
-.contact-footer {
-  margin-top: clamp(7rem, 13vw, 12rem);
+    .contact-footer {
+      margin-top: clamp(7rem, 13vw, 12rem);
 
-  padding-top: 2rem;
+      padding-top: 2rem;
 
-  border-top: 1px solid #aaa79f;
-}
+      border-top: 1px solid #aaa79f;
+    }
 
-.contact-footer-title {
-  display: flex;
-  justify-content: space-between;
+    .contact-footer-title {
+      display: flex;
+      justify-content: space-between;
 
-  margin-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-}
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+    }
 
-.contact-channels {
-  display: grid;
+    .contact-channels {
+      display: grid;
 
-  grid-template-columns:
-    repeat(6, 1fr);
+      grid-template-columns:
+        repeat(6, 1fr);
 
-  border-top: 1px solid #aaa79f;
-  border-left: 1px solid #aaa79f;
-}
+      border-top: 1px solid #aaa79f;
+      border-left: 1px solid #aaa79f;
+    }
 
-.contact-channel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    .contact-channel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  min-height: 90px;
+      min-height: 90px;
 
-  border-right: 1px solid #aaa79f;
-  border-bottom: 1px solid #aaa79f;
+      border-right: 1px solid #aaa79f;
+      border-bottom: 1px solid #aaa79f;
 
-  color: #171717;
+      color: #171717;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
 
-  transition:
-    background-color 180ms ease,
-    transform 180ms ease;
-}
+      transition:
+        background-color 180ms ease,
+        transform 180ms ease;
+    }
 
-.contact-channel:hover,
-.contact-channel:focus-visible {
-  background: #d8ff3e;
+    .contact-channel:hover,
+    .contact-channel:focus-visible {
+      background: #d8ff3e;
 
-  transform: translateY(-4px);
+      transform: translateY(-4px);
 
-  outline: none;
-}
+      outline: none;
+    }
 
-.contact-footer-bottom {
-  display: flex;
-  justify-content: space-between;
+    .contact-footer-bottom {
+      display: flex;
+      justify-content: space-between;
 
-  margin-top: 1.5rem;
+      margin-top: 1.5rem;
 
-  font-family: monospace;
+      font-family: monospace;
 
-  font-size: 0.55rem;
+      font-size: 0.55rem;
 
-  color: #77746d;
-}
+      color: #77746d;
+    }
 
 
-/* ---------------------------------------------------------
+    /* ---------------------------------------------------------
    Responsive
    --------------------------------------------------------- */
 
-@media (max-width: 700px) {
+    @media (max-width: 700px) {
 
-  .contact-section {
-    padding:
-      5rem
-      1.25rem
-      3rem;
-  }
+      .contact-section {
+        padding:
+          5rem 1.25rem 3rem;
+      }
 
-  .contact-intro-meta {
-    display: block;
-  }
+      .contact-intro-meta {
+        display: block;
+      }
 
-  .contact-hand-note {
-    display: block;
+      .contact-hand-note {
+        display: block;
 
-    margin-top: 1rem;
-  }
+        margin-top: 1rem;
+      }
 
-  .contact-title {
-    font-size: clamp(5rem, 24vw, 9rem);
-  }
+      .contact-title {
+        font-size: clamp(5rem, 24vw, 9rem);
+      }
 
-  .contact-lead {
-    margin-left: 0;
-  }
+      .contact-lead {
+        margin-left: 0;
+      }
 
-  .contact-description {
-    margin-left: 0;
-  }
+      .contact-description {
+        margin-left: 0;
+      }
 
-  .contact-quote {
-    margin-top: 3rem;
-  }
+      .contact-quote {
+        margin-top: 3rem;
+      }
 
-  .contact-form-wrapper {
-    box-shadow:
-      7px 7px 0 #d8ff3e;
-  }
+      .contact-form-wrapper {
+        box-shadow:
+          7px 7px 0 #d8ff3e;
+      }
 
-  .contact-form-header {
-    align-items: flex-start;
-  }
+      .contact-form-header {
+        align-items: flex-start;
+      }
 
-  .contact-form-number {
-    display: none;
-  }
+      .contact-form-number {
+        display: none;
+      }
 
-  .contact-submit-area {
-    display: block;
-  }
+      .contact-submit-area {
+        display: block;
+      }
 
-  .contact-submit {
-    width: 100%;
+      .contact-submit {
+        width: 100%;
 
-    justify-content: center;
-  }
+        justify-content: center;
+      }
 
-  .contact-submit-note {
-    margin-top: 1.5rem;
+      .contact-submit-note {
+        margin-top: 1.5rem;
 
-    text-align: center;
-  }
+        text-align: center;
+      }
 
-  .contact-channels {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
+      .contact-channels {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
 
-  .contact-footer-bottom {
-    display: block;
-  }
+      .contact-footer-bottom {
+        display: block;
+      }
 
-  .contact-footer-bottom span {
-    display: block;
+      .contact-footer-bottom span {
+        display: block;
 
-    margin-top: 0.5rem;
-  }
+        margin-top: 0.5rem;
+      }
 
-}
+    }
 
 
-/* CSS:CONTACT-END */
+    /* CSS:CONTACT-END */
 
 
     /* =========================================================
@@ -3740,20 +3655,11 @@
   <header class="site-header">
     <nav class="site-navigation" aria-label="主要導覽">
 
-      <a
-        class="site-logo"
-        href="#hero"
-        aria-label="VIBE 回到首頁"
-      >
+      <a class="site-logo" href="#hero" aria-label="VIBE 回到首頁">
         VIBE / 001
       </a>
 
-      <button
-        class="navigation-toggle"
-        type="button"
-        aria-label="開啟導覽選單"
-        aria-expanded="false"
-      >
+      <button class="navigation-toggle" type="button" aria-label="開啟導覽選單" aria-expanded="false">
         <span class="navigation-toggle-line"></span>
         <span class="navigation-toggle-line"></span>
       </button>
@@ -3798,163 +3704,141 @@
      Hero｜Independent Magazine × Creative Coding
      ======================================================= -->
 
-<section
-  class="hero-section"
-  aria-labelledby="hero-title"
->
-  <div class="hero-grid">
+    <section class="hero-section" aria-labelledby="hero-title">
+      <div class="hero-grid">
 
-    <!-- 左上：雜誌編號 -->
-    <div class="hero-meta">
-      <span class="hero-meta-label">VIBE CODING</span>
-      <span class="hero-meta-number">/ 001</span>
-    </div>
+        <!-- 左上：雜誌編號 -->
+        <div class="hero-meta">
+          <span class="hero-meta-label">VIBE CODING</span>
+          <span class="hero-meta-number">/ 001</span>
+        </div>
 
-    <!-- 右上：手寫式註記 -->
-    <div class="hero-note hero-note-top">
-      <span class="hero-note-arrow">↘</span>
-      <span>for people<br>who think they<br>can't code.</span>
-    </div>
+        <!-- 右上：手寫式註記 -->
+        <div class="hero-note hero-note-top">
+          <span class="hero-note-arrow">↘</span>
+          <span>for people<br>who think they<br>can't code.</span>
+        </div>
 
-    <!-- 主視覺 -->
-    <div class="hero-main">
+        <!-- 主視覺 -->
+        <div class="hero-main">
 
-      <p class="hero-eyebrow">
-        AI × CODE × YOU
-      </p>
+          <p class="hero-eyebrow">
+            AI × CODE × YOU
+          </p>
 
-      <h1
-        class="hero-title"
-        id="hero-title"
-      >
-        <span class="hero-title-line hero-title-line-light">
-          一點小想法，
-        </span>
+          <h1 class="hero-title" id="hero-title">
+            <span class="hero-title-line hero-title-line-light">
+              一點小想法，
+            </span>
 
-        <span class="hero-title-line hero-title-line-heavy">
-          創造
-          <span class="hero-title-accent">
-            活用程式
+            <span class="hero-title-line hero-title-line-heavy">
+              創造
+              <span class="hero-title-accent">
+                活用程式
+              </span>
+            </span>
+          </h1>
+
+          <div class="hero-description-wrap">
+
+            <p class="hero-description">
+              專屬程式小白的 AI 協作開發課，
+              從 0 到上線一個屬於你的作品。
+            </p>
+
+            <a class="hero-cta" href="#contact">
+              <span class="hero-cta-text">
+                立即感受 Vibe 的搖滾浪漫
+              </span>
+
+              <span class="hero-cta-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+
+          </div>
+
+        </div>
+
+        <!-- 右側：Creative Coding 小實驗 -->
+        <div class="hero-code-card">
+
+          <div class="hero-code-header">
+            <span class="hero-code-dot"></span>
+            <span class="hero-code-dot"></span>
+            <span class="hero-code-dot"></span>
+            <span class="hero-code-label">
+              idea.txt
+            </span>
+          </div>
+
+          <div class="hero-code-body">
+            <p>
+              <span class="hero-code-symbol">01</span>
+              I have an idea.
+            </p>
+
+            <p>
+              <span class="hero-code-symbol">02</span>
+              ask AI.
+            </p>
+
+            <p>
+              <span class="hero-code-symbol">03</span>
+              try.
+            </p>
+
+            <p class="hero-code-error">
+              <span class="hero-code-symbol">04</span>
+              error?!
+            </p>
+
+            <p>
+              <span class="hero-code-symbol">05</span>
+              try again.
+            </p>
+
+            <p class="hero-code-success">
+              <span class="hero-code-symbol">06</span>
+              <strong>✓ works!</strong>
+            </p>
+          </div>
+
+          <span class="hero-code-cursor">
+            _
           </span>
-        </span>
-      </h1>
 
-      <div class="hero-description-wrap">
+        </div>
 
-        <p class="hero-description">
-          專屬程式小白的 AI 協作開發課，
-          從 0 到上線一個屬於你的作品。
-        </p>
+        <!-- 手寫圈選 -->
+        <div class="hero-scribble hero-scribble-circle" aria-hidden="true"></div>
 
-        <a
-          class="hero-cta"
-          href="#contact"
-        >
-          <span class="hero-cta-text">
-            立即感受 Vibe 的搖滾浪漫
+        <!-- 手寫箭頭 -->
+        <div class="hero-scribble hero-scribble-arrow" aria-hidden="true">
+          ↙
+        </div>
+
+        <!-- 左下小標 -->
+        <div class="hero-bottom-note">
+          <span class="hero-bottom-mark">✳</span>
+          <span>
+            不需要先成為<br>
+            工程師。
           </span>
+        </div>
 
-          <span
-            class="hero-cta-arrow"
-            aria-hidden="true"
-          >
-            ↗
+        <!-- Scroll -->
+        <a class="hero-scroll" href="#about" aria-label="前往 About">
+          <span class="hero-scroll-line"></span>
+          <span class="hero-scroll-text">
+            SCROLL TO VIBE
           </span>
         </a>
 
       </div>
+    </section>
 
-    </div>
-
-    <!-- 右側：Creative Coding 小實驗 -->
-    <div class="hero-code-card">
-
-      <div class="hero-code-header">
-        <span class="hero-code-dot"></span>
-        <span class="hero-code-dot"></span>
-        <span class="hero-code-dot"></span>
-        <span class="hero-code-label">
-          idea.txt
-        </span>
-      </div>
-
-      <div class="hero-code-body">
-        <p>
-          <span class="hero-code-symbol">01</span>
-          I have an idea.
-        </p>
-
-        <p>
-          <span class="hero-code-symbol">02</span>
-          ask AI.
-        </p>
-
-        <p>
-          <span class="hero-code-symbol">03</span>
-          try.
-        </p>
-
-        <p class="hero-code-error">
-          <span class="hero-code-symbol">04</span>
-          error?!
-        </p>
-
-        <p>
-          <span class="hero-code-symbol">05</span>
-          try again.
-        </p>
-
-        <p class="hero-code-success">
-          <span class="hero-code-symbol">06</span>
-          <strong>✓ works!</strong>
-        </p>
-      </div>
-
-      <span class="hero-code-cursor">
-        _
-      </span>
-
-    </div>
-
-    <!-- 手寫圈選 -->
-    <div
-      class="hero-scribble hero-scribble-circle"
-      aria-hidden="true"
-    ></div>
-
-    <!-- 手寫箭頭 -->
-    <div
-      class="hero-scribble hero-scribble-arrow"
-      aria-hidden="true"
-    >
-      ↙
-    </div>
-
-    <!-- 左下小標 -->
-    <div class="hero-bottom-note">
-      <span class="hero-bottom-mark">✳</span>
-      <span>
-        不需要先成為<br>
-        工程師。
-      </span>
-    </div>
-
-    <!-- Scroll -->
-    <a
-      class="hero-scroll"
-      href="#about"
-      aria-label="前往 About"
-    >
-      <span class="hero-scroll-line"></span>
-      <span class="hero-scroll-text">
-        SCROLL TO VIBE
-      </span>
-    </a>
-
-  </div>
-</section>
-
-<!-- SECTION:HERO-END -->
+    <!-- SECTION:HERO-END -->
 
     <!-- SECTION:HERO-END -->
 
@@ -3964,227 +3848,221 @@
      About｜From Terminal Fear to Creative Confidence
      ======================================================= -->
 
-<section
-  class="about-section"
-  aria-labelledby="about-title"
->
-  <div class="about-layout">
+    <section class="about-section" aria-labelledby="about-title">
+      <div class="about-layout">
 
-    <!-- Section Header -->
-    <div class="about-header">
+        <!-- Section Header -->
+        <div class="about-header">
 
-      <p class="section-label">
-        01 / THE STORY
-      </p>
+          <p class="section-label">
+            01 / THE STORY
+          </p>
 
-      <p class="about-kicker">
-        BEFORE I STARTED VIBING
-      </p>
+          <p class="about-kicker">
+            BEFORE I STARTED VIBING
+          </p>
 
-    </div>
+        </div>
 
 
-    <!-- 主標題 -->
-    <div class="about-intro">
+        <!-- 主標題 -->
+        <div class="about-intro">
 
-      <h2
-        class="about-title"
-        id="about-title"
-      >
-        我曾經也是<br>
-        <span class="about-title-mark">
-          看到 Terminal 就手抖
-        </span>
-        的人。
-      </h2>
+          <h2 class="about-title" id="about-title">
+            我曾經也是<br>
+            <span class="about-title-mark">
+              看到 Terminal 就手抖
+            </span>
+            的人。
+          </h2>
 
-    </div>
+        </div>
 
 
-    <!-- Before / After 視覺 -->
-    <div class="about-transformation">
+        <!-- Before / After 視覺 -->
+        <div class="about-transformation">
 
-      <!-- BEFORE -->
-      <article class="about-terminal about-terminal-before">
+          <!-- BEFORE -->
+          <article class="about-terminal about-terminal-before">
 
-        <div class="about-terminal-bar">
-          <span class="about-terminal-dot"></span>
-          <span class="about-terminal-dot"></span>
-          <span class="about-terminal-dot"></span>
+            <div class="about-terminal-bar">
+              <span class="about-terminal-dot"></span>
+              <span class="about-terminal-dot"></span>
+              <span class="about-terminal-dot"></span>
 
-          <span class="about-terminal-name">
-            terminal
+              <span class="about-terminal-name">
+                terminal
+              </span>
+            </div>
+
+            <div class="about-terminal-screen">
+
+              <p class="terminal-line terminal-muted">
+                $ ./start-coding.sh
+              </p>
+
+              <p class="terminal-line">
+                <span class="terminal-prompt">&gt;</span>
+                command not found
+              </p>
+
+              <p class="terminal-line terminal-error">
+                ERROR: too many unknowns
+              </p>
+
+              <p class="terminal-line terminal-muted">
+                $
+                <span class="terminal-cursor">_</span>
+              </p>
+
+              <div class="terminal-reaction">
+                <span class="terminal-reaction-face">⊙﹏⊙</span>
+                <span>手抖中...</span>
+              </div>
+
+            </div>
+
+            <div class="about-card-label">
+              BEFORE
+            </div>
+
+          </article>
+
+
+          <!-- 中間轉變 -->
+          <div class="about-transition">
+
+            <span class="about-transition-line"></span>
+
+            <span class="about-transition-icon">
+              ✦
+            </span>
+
+            <span class="about-transition-text">
+              then I met AI
+            </span>
+
+            <span class="about-transition-arrow">
+              →
+            </span>
+
+          </div>
+
+
+          <!-- AFTER -->
+          <article class="about-terminal about-terminal-after">
+
+            <div class="about-terminal-bar">
+              <span class="about-terminal-dot"></span>
+              <span class="about-terminal-dot"></span>
+              <span class="about-terminal-dot"></span>
+
+              <span class="about-terminal-name">
+                vibe-mode
+              </span>
+            </div>
+
+            <div class="about-terminal-screen">
+
+              <p class="terminal-line terminal-muted">
+                $ describe-my-idea
+              </p>
+
+              <p class="terminal-line terminal-ai">
+                AI: got it. let's build.
+              </p>
+
+              <p class="terminal-line">
+                <span class="terminal-prompt">&gt;</span>
+                building...
+              </p>
+
+              <div class="terminal-progress">
+                <span class="terminal-progress-fill"></span>
+              </div>
+
+              <p class="terminal-line terminal-success">
+                ✓ works!
+              </p>
+
+              <div class="terminal-reaction">
+                <span class="terminal-reaction-face">ヽ(°▽°)ノ</span>
+                <span>欸？真的可以！</span>
+              </div>
+
+            </div>
+
+            <div class="about-card-label">
+              AFTER
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- 故事文字 -->
+        <div class="about-story">
+
+          <div class="about-story-number">
+            001
+          </div>
+
+          <div class="about-story-content">
+
+            <p class="about-story-lead">
+              直到遇見 AI 協作開發，
+              我才發現寫程式原來可以像即興創作一樣自由。
+            </p>
+
+            <p>
+              不需要先把所有語法背起來，
+              也不需要等到「準備好了」才開始。
+              從一個模糊的小想法開始，
+              和 AI 對話、嘗試、犯錯，再一起修正。
+            </p>
+
+            <p>
+              一年之後，我累積做出了
+              <strong>100+ 個真正有用的程式。</strong>
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- 核心理念 -->
+        <div class="about-philosophy-block">
+
+          <span class="about-philosophy-label">
+            THE VIBE PHILOSOPHY
           </span>
-        </div>
 
-        <div class="about-terminal-screen">
+          <blockquote class="about-philosophy">
 
-          <p class="terminal-line terminal-muted">
-            $ ./start-coding.sh
-          </p>
+            <span class="about-philosophy-mark">“</span>
 
-          <p class="terminal-line">
-            <span class="terminal-prompt">&gt;</span>
-            command not found
-          </p>
+            <span>
+              我相信寫程式不是背語法，
+              而是培養一種
+              <strong>「和 AI 對話、把想法落地實踐」</strong>
+              的具體過程。
+            </span>
 
-          <p class="terminal-line terminal-error">
-            ERROR: too many unknowns
-          </p>
+          </blockquote>
 
-          <p class="terminal-line terminal-muted">
-            $
-            <span class="terminal-cursor">_</span>
-          </p>
-
-          <div class="terminal-reaction">
-            <span class="terminal-reaction-face">⊙﹏⊙</span>
-            <span>手抖中...</span>
-          </div>
-
-        </div>
-
-        <div class="about-card-label">
-          BEFORE
-        </div>
-
-      </article>
-
-
-      <!-- 中間轉變 -->
-      <div class="about-transition">
-
-        <span class="about-transition-line"></span>
-
-        <span class="about-transition-icon">
-          ✦
-        </span>
-
-        <span class="about-transition-text">
-          then I met AI
-        </span>
-
-        <span class="about-transition-arrow">
-          →
-        </span>
-
-      </div>
-
-
-      <!-- AFTER -->
-      <article class="about-terminal about-terminal-after">
-
-        <div class="about-terminal-bar">
-          <span class="about-terminal-dot"></span>
-          <span class="about-terminal-dot"></span>
-          <span class="about-terminal-dot"></span>
-
-          <span class="about-terminal-name">
-            vibe-mode
+          <span class="about-philosophy-doodle">
+            make something<br>
+            you actually need.
           </span>
-        </div>
-
-        <div class="about-terminal-screen">
-
-          <p class="terminal-line terminal-muted">
-            $ describe-my-idea
-          </p>
-
-          <p class="terminal-line terminal-ai">
-            AI: got it. let's build.
-          </p>
-
-          <p class="terminal-line">
-            <span class="terminal-prompt">&gt;</span>
-            building...
-          </p>
-
-          <div class="terminal-progress">
-            <span class="terminal-progress-fill"></span>
-          </div>
-
-          <p class="terminal-line terminal-success">
-            ✓ works!
-          </p>
-
-          <div class="terminal-reaction">
-            <span class="terminal-reaction-face">ヽ(°▽°)ノ</span>
-            <span>欸？真的可以！</span>
-          </div>
 
         </div>
-
-        <div class="about-card-label">
-          AFTER
-        </div>
-
-      </article>
-
-    </div>
-
-
-    <!-- 故事文字 -->
-    <div class="about-story">
-
-      <div class="about-story-number">
-        001
-      </div>
-
-      <div class="about-story-content">
-
-        <p class="about-story-lead">
-          直到遇見 AI 協作開發，
-          我才發現寫程式原來可以像即興創作一樣自由。
-        </p>
-
-        <p>
-          不需要先把所有語法背起來，
-          也不需要等到「準備好了」才開始。
-          從一個模糊的小想法開始，
-          和 AI 對話、嘗試、犯錯，再一起修正。
-        </p>
-
-        <p>
-          一年之後，我累積做出了
-          <strong>100+ 個真正有用的程式。</strong>
-        </p>
 
       </div>
+    </section>
 
-    </div>
-
-
-    <!-- 核心理念 -->
-    <div class="about-philosophy-block">
-
-      <span class="about-philosophy-label">
-        THE VIBE PHILOSOPHY
-      </span>
-
-      <blockquote class="about-philosophy">
-
-        <span class="about-philosophy-mark">“</span>
-
-        <span>
-          我相信寫程式不是背語法，
-          而是培養一種
-          <strong>「和 AI 對話、把想法落地實踐」</strong>
-          的具體過程。
-        </span>
-
-      </blockquote>
-
-      <span class="about-philosophy-doodle">
-        make something<br>
-        you actually need.
-      </span>
-
-    </div>
-
-  </div>
-</section>
-
-<!-- SECTION:ABOUT-END -->
+    <!-- SECTION:ABOUT-END -->
 
     <!-- SECTION:ABOUT-END -->
 
@@ -4194,302 +4072,281 @@
      Skills｜VIBE METHOD
      ======================================================= -->
 
-<section
-  class="skills-section"
-  aria-labelledby="skills-title"
->
-  <div class="skills-layout">
+    <section class="skills-section" aria-labelledby="skills-title">
+      <div class="skills-layout">
 
-    <!-- Section Header -->
-    <header class="skills-header">
+        <!-- Section Header -->
+        <header class="skills-header">
 
-      <div class="skills-header-meta">
+          <div class="skills-header-meta">
 
-        <p class="section-label">
-          02 / VIBE METHOD
-        </p>
+            <p class="section-label">
+              02 / VIBE METHOD
+            </p>
 
-        <span class="skills-header-note">
-          NOT ANOTHER CODING COURSE
-        </span>
+            <span class="skills-header-note">
+              NOT ANOTHER CODING COURSE
+            </span>
+
+          </div>
+
+          <h2 class="skills-title" id="skills-title">
+            你真正要學的，<br>
+            <span class="skills-title-accent">
+              不是語法。
+            </span>
+          </h2>
+
+          <p class="skills-intro">
+            而是建立一套「想得到、問得好、做得出來、
+            出錯也不會慌」的 AI 協作直覺。
+          </p>
+
+        </header>
+
+
+        <!-- Method Board -->
+        <div class="skills-board">
+
+          <!-- Skill 01 -->
+          <article class="skill-card skill-card-one" tabindex="0">
+
+            <div class="skill-card-top">
+              <span class="skill-number">
+                01
+              </span>
+
+              <span class="skill-tag">
+                THINK
+              </span>
+            </div>
+
+            <div class="skill-card-body">
+
+              <p class="skill-mini-label">
+                KNOW HOW
+              </p>
+
+              <h3 class="skill-title">
+                Know How<br>
+                構建
+              </h3>
+
+              <p class="skill-mantra">
+                先想清楚要去哪裡，
+                再決定怎麼走。
+              </p>
+
+              <p class="skill-description">
+                以終為始，培養發現問題、定義需求，
+                並將模糊想法轉化成可開發作品的能力。
+              </p>
+
+            </div>
+
+            <span class="skill-card-mark">
+              ?
+            </span>
+
+          </article>
+
+
+          <!-- Skill 02 -->
+          <article class="skill-card skill-card-two" tabindex="0">
+
+            <div class="skill-card-top">
+              <span class="skill-number">
+                02
+              </span>
+
+              <span class="skill-tag">
+                ASK
+              </span>
+            </div>
+
+            <div class="skill-card-body">
+
+              <p class="skill-mini-label">
+                PROMPT INSTINCT
+              </p>
+
+              <h3 class="skill-title">
+                Prompt<br>
+                直覺力
+              </h3>
+
+              <p class="skill-mantra">
+                少一點廢話，
+                多一點精準。
+              </p>
+
+              <p class="skill-description">
+                學會用最少的文字描述需求，
+                讓 AI 更精準地理解你真正想做的事。
+              </p>
+
+            </div>
+
+            <span class="skill-card-mark">
+              →
+            </span>
+
+          </article>
+
+
+          <!-- Skill 03 -->
+          <article class="skill-card skill-card-three" tabindex="0">
+
+            <div class="skill-card-top">
+              <span class="skill-number">
+                03
+              </span>
+
+              <span class="skill-tag">
+                TALK
+              </span>
+            </div>
+
+            <div class="skill-card-body">
+
+              <p class="skill-mini-label">
+                AI AS A TEAMMATE
+              </p>
+
+              <h3 class="skill-title">
+                AI 協作<br>
+                心法
+              </h3>
+
+              <p class="skill-mantra">
+                不要命令 AI。
+                跟它一起工作。
+              </p>
+
+              <p class="skill-description">
+                把 AI 當成隊友，建立有效的來回對話，
+                讓每一次提問都成為下一步的線索。
+              </p>
+
+            </div>
+
+            <span class="skill-card-mark">
+              ≋
+            </span>
+
+          </article>
+
+
+          <!-- Skill 04 -->
+          <article class="skill-card skill-card-four" tabindex="0">
+
+            <div class="skill-card-top">
+              <span class="skill-number">
+                04
+              </span>
+
+              <span class="skill-tag">
+                BUILD
+              </span>
+            </div>
+
+            <div class="skill-card-body">
+
+              <p class="skill-mini-label">
+                FROM 0 TO LIVE
+              </p>
+
+              <h3 class="skill-title">
+                從 0<br>
+                到上線
+              </h3>
+
+              <p class="skill-mantra">
+                Idea → Code → Deploy
+              </p>
+
+              <p class="skill-description">
+                拆解一個作品從發想到開發、測試、
+                部署，直到真正可以被別人使用的完整流程。
+              </p>
+
+            </div>
+
+            <span class="skill-card-mark">
+              ↗
+            </span>
+
+          </article>
+
+
+          <!-- Skill 05 -->
+          <article class="skill-card skill-card-five" tabindex="0">
+
+            <div class="skill-card-top">
+              <span class="skill-number">
+                05
+              </span>
+
+              <span class="skill-tag">
+                DEBUG
+              </span>
+            </div>
+
+            <div class="skill-card-body">
+
+              <p class="skill-mini-label">
+                DON'T PANIC
+              </p>
+
+              <h3 class="skill-title">
+                除錯<br>
+                不慌張
+              </h3>
+
+              <p class="skill-mantra">
+                Error？
+                先深呼吸。
+              </p>
+
+              <p class="skill-description">
+                培養閱讀錯誤訊息、描述問題，
+                並與 AI 一起逐步排查問題的膽識。
+              </p>
+
+            </div>
+
+            <span class="skill-card-mark">
+              !
+            </span>
+
+          </article>
+
+        </div>
+
+
+        <!-- Bottom Manifesto -->
+        <div class="skills-manifesto">
+
+          <span class="skills-manifesto-line"></span>
+
+          <p>
+            YOU DON'T NEED TO
+            <strong>KNOW EVERYTHING.</strong>
+            <br>
+            YOU JUST NEED TO KNOW
+            <strong>WHAT TO ASK NEXT.</strong>
+          </p>
+
+          <span class="skills-manifesto-doodle">
+            ← that's the vibe.
+          </span>
+
+        </div>
 
       </div>
+    </section>
 
-      <h2
-        class="skills-title"
-        id="skills-title"
-      >
-        你真正要學的，<br>
-        <span class="skills-title-accent">
-          不是語法。
-        </span>
-      </h2>
-
-      <p class="skills-intro">
-        而是建立一套「想得到、問得好、做得出來、
-        出錯也不會慌」的 AI 協作直覺。
-      </p>
-
-    </header>
-
-
-    <!-- Method Board -->
-    <div class="skills-board">
-
-      <!-- Skill 01 -->
-      <article
-        class="skill-card skill-card-one"
-        tabindex="0"
-      >
-
-        <div class="skill-card-top">
-          <span class="skill-number">
-            01
-          </span>
-
-          <span class="skill-tag">
-            THINK
-          </span>
-        </div>
-
-        <div class="skill-card-body">
-
-          <p class="skill-mini-label">
-            KNOW HOW
-          </p>
-
-          <h3 class="skill-title">
-            Know How<br>
-            構建
-          </h3>
-
-          <p class="skill-mantra">
-            先想清楚要去哪裡，
-            再決定怎麼走。
-          </p>
-
-          <p class="skill-description">
-            以終為始，培養發現問題、定義需求，
-            並將模糊想法轉化成可開發作品的能力。
-          </p>
-
-        </div>
-
-        <span class="skill-card-mark">
-          ?
-        </span>
-
-      </article>
-
-
-      <!-- Skill 02 -->
-      <article
-        class="skill-card skill-card-two"
-        tabindex="0"
-      >
-
-        <div class="skill-card-top">
-          <span class="skill-number">
-            02
-          </span>
-
-          <span class="skill-tag">
-            ASK
-          </span>
-        </div>
-
-        <div class="skill-card-body">
-
-          <p class="skill-mini-label">
-            PROMPT INSTINCT
-          </p>
-
-          <h3 class="skill-title">
-            Prompt<br>
-            直覺力
-          </h3>
-
-          <p class="skill-mantra">
-            少一點廢話，
-            多一點精準。
-          </p>
-
-          <p class="skill-description">
-            學會用最少的文字描述需求，
-            讓 AI 更精準地理解你真正想做的事。
-          </p>
-
-        </div>
-
-        <span class="skill-card-mark">
-          →
-        </span>
-
-      </article>
-
-
-      <!-- Skill 03 -->
-      <article
-        class="skill-card skill-card-three"
-        tabindex="0"
-      >
-
-        <div class="skill-card-top">
-          <span class="skill-number">
-            03
-          </span>
-
-          <span class="skill-tag">
-            TALK
-          </span>
-        </div>
-
-        <div class="skill-card-body">
-
-          <p class="skill-mini-label">
-            AI AS A TEAMMATE
-          </p>
-
-          <h3 class="skill-title">
-            AI 協作<br>
-            心法
-          </h3>
-
-          <p class="skill-mantra">
-            不要命令 AI。
-            跟它一起工作。
-          </p>
-
-          <p class="skill-description">
-            把 AI 當成隊友，建立有效的來回對話，
-            讓每一次提問都成為下一步的線索。
-          </p>
-
-        </div>
-
-        <span class="skill-card-mark">
-          ≋
-        </span>
-
-      </article>
-
-
-      <!-- Skill 04 -->
-      <article
-        class="skill-card skill-card-four"
-        tabindex="0"
-      >
-
-        <div class="skill-card-top">
-          <span class="skill-number">
-            04
-          </span>
-
-          <span class="skill-tag">
-            BUILD
-          </span>
-        </div>
-
-        <div class="skill-card-body">
-
-          <p class="skill-mini-label">
-            FROM 0 TO LIVE
-          </p>
-
-          <h3 class="skill-title">
-            從 0<br>
-            到上線
-          </h3>
-
-          <p class="skill-mantra">
-            Idea → Code → Deploy
-          </p>
-
-          <p class="skill-description">
-            拆解一個作品從發想到開發、測試、
-            部署，直到真正可以被別人使用的完整流程。
-          </p>
-
-        </div>
-
-        <span class="skill-card-mark">
-          ↗
-        </span>
-
-      </article>
-
-
-      <!-- Skill 05 -->
-      <article
-        class="skill-card skill-card-five"
-        tabindex="0"
-      >
-
-        <div class="skill-card-top">
-          <span class="skill-number">
-            05
-          </span>
-
-          <span class="skill-tag">
-            DEBUG
-          </span>
-        </div>
-
-        <div class="skill-card-body">
-
-          <p class="skill-mini-label">
-            DON'T PANIC
-          </p>
-
-          <h3 class="skill-title">
-            除錯<br>
-            不慌張
-          </h3>
-
-          <p class="skill-mantra">
-            Error？
-            先深呼吸。
-          </p>
-
-          <p class="skill-description">
-            培養閱讀錯誤訊息、描述問題，
-            並與 AI 一起逐步排查問題的膽識。
-          </p>
-
-        </div>
-
-        <span class="skill-card-mark">
-          !
-        </span>
-
-      </article>
-
-    </div>
-
-
-    <!-- Bottom Manifesto -->
-    <div class="skills-manifesto">
-
-      <span class="skills-manifesto-line"></span>
-
-      <p>
-        YOU DON'T NEED TO
-        <strong>KNOW EVERYTHING.</strong>
-        <br>
-        YOU JUST NEED TO KNOW
-        <strong>WHAT TO ASK NEXT.</strong>
-      </p>
-
-      <span class="skills-manifesto-doodle">
-        ← that's the vibe.
-      </span>
-
-    </div>
-
-  </div>
-</section>
-
-<!-- SECTION:SKILLS-END -->
+    <!-- SECTION:SKILLS-END -->
 
 
     <!-- =======================================================
@@ -4497,442 +4354,424 @@
      Projects｜Things I Actually Built
      ======================================================= -->
 
-<section
-  class="projects-section"
-  aria-labelledby="projects-title"
->
-  <div class="projects-layout">
+    <section class="projects-section" aria-labelledby="projects-title">
+      <div class="projects-layout">
 
-    <!-- Header -->
-    <header class="projects-header">
+        <!-- Header -->
+        <header class="projects-header">
 
-      <div class="projects-header-top">
+          <div class="projects-header-top">
 
-        <p class="section-label">
-          03 / THINGS I BUILT
-        </p>
+            <p class="section-label">
+              03 / THINGS I BUILT
+            </p>
 
-        <span class="projects-header-stamp">
-          REAL PROJECTS / REAL USE
-        </span>
+            <span class="projects-header-stamp">
+              REAL PROJECTS / REAL USE
+            </span>
 
-      </div>
+          </div>
 
-      <div class="projects-heading">
+          <div class="projects-heading">
 
-        <h2
-          class="projects-title"
-          id="projects-title"
-        >
-          想法不一定要很偉大，<br>
-          <span class="projects-title-accent">
-            但可以真的做出來。
-          </span>
-        </h2>
+            <h2 class="projects-title" id="projects-title">
+              想法不一定要很偉大，<br>
+              <span class="projects-title-accent">
+                但可以真的做出來。
+              </span>
+            </h2>
 
-        <p class="projects-intro">
-          這些不是為了展示而展示的 Demo，
-          而是從「我想要一個東西」開始，
-          一路和 AI 協作，最後真的跑起來的作品。
-        </p>
+            <p class="projects-intro">
+              這些不是為了展示而展示的 Demo，
+              而是從「我想要一個東西」開始，
+              一路和 AI 協作，最後真的跑起來的作品。
+            </p>
 
-      </div>
+          </div>
 
-    </header>
+        </header>
 
 
-    <!-- Project Wall -->
-    <div class="projects-wall">
+        <!-- Project Wall -->
+        <div class="projects-wall">
 
 
-      <!-- =================================================
+          <!-- =================================================
            PROJECT 01
            ================================================= -->
 
-      <article
-        class="project-card project-card-ceh"
-        tabindex="0"
-      >
+          <article class="project-card project-card-ceh" tabindex="0">
 
-        <div class="project-card-header">
+            <div class="project-card-header">
 
-          <span class="project-number">
-            PROJECT / 01
-          </span>
+              <span class="project-number">
+                PROJECT / 01
+              </span>
 
-          <span class="project-status">
-            ● ACTIVE
-          </span>
-
-        </div>
-
-
-        <div class="project-visual project-visual-telegram">
-
-          <div class="project-phone">
-
-            <div class="project-phone-header">
-              <span>Telegram</span>
-              <span>09:00</span>
-            </div>
-
-            <div class="project-chat">
-
-              <div class="project-chat-bot">
-                🤖
-              </div>
-
-              <div class="project-chat-message">
-                <strong>
-                  今日 CEH 複習任務
-                </strong>
-
-                <span>
-                  Network Security
-                </span>
-
-                <small>
-                  10 questions · 15 min
-                </small>
-              </div>
-
-              <div class="project-chat-message project-chat-user">
-                Let's go!
-              </div>
+              <span class="project-status">
+                ● ACTIVE
+              </span>
 
             </div>
 
-          </div>
 
-          <span class="project-visual-note">
-            every day.<br>
-            just a little.
-          </span>
+            <div class="project-visual project-visual-telegram">
 
-        </div>
+              <div class="project-phone">
+
+                <div class="project-phone-header">
+                  <span>Telegram</span>
+                  <span>09:00</span>
+                </div>
+
+                <div class="project-chat">
+
+                  <div class="project-chat-bot">
+                    🤖
+                  </div>
+
+                  <div class="project-chat-message">
+                    <strong>
+                      今日 CEH 複習任務
+                    </strong>
+
+                    <span>
+                      Network Security
+                    </span>
+
+                    <small>
+                      10 questions · 15 min
+                    </small>
+                  </div>
+
+                  <div class="project-chat-message project-chat-user">
+                    Let's go!
+                  </div>
+
+                </div>
+
+              </div>
+
+              <span class="project-visual-note">
+                every day.<br>
+                just a little.
+              </span>
+
+            </div>
 
 
-        <div class="project-card-content">
+            <div class="project-card-content">
 
-          <p class="project-category">
-            AI × TELEGRAM × STUDY
-          </p>
+              <p class="project-category">
+                AI × TELEGRAM × STUDY
+              </p>
 
-          <h3 class="project-name">
-            CEH 考試<br>
-            複習機器人
-          </h3>
+              <h3 class="project-name">
+                CEH 考試<br>
+                複習機器人
+              </h3>
 
-          <p class="project-description">
-            結合 Telegram，每天自動規劃複習內容，
-            把原本「不知道今天要讀什麼」的焦慮，
-            變成每天一點點的學習節奏。
-          </p>
+              <p class="project-description">
+                結合 Telegram，每天自動規劃複習內容，
+                把原本「不知道今天要讀什麼」的焦慮，
+                變成每天一點點的學習節奏。
+              </p>
 
-          <div class="project-tools">
-            <span>AI</span>
-            <span>Telegram</span>
-            <span>Automation</span>
-          </div>
+              <div class="project-tools">
+                <span>AI</span>
+                <span>Telegram</span>
+                <span>Automation</span>
+              </div>
 
-        </div>
+            </div>
 
-      </article>
+          </article>
 
 
 
-      <!-- =================================================
+          <!-- =================================================
            PROJECT 02
            ================================================= -->
 
-      <article
-        class="project-card project-card-trading"
-        tabindex="0"
-      >
+          <article class="project-card project-card-trading" tabindex="0">
 
-        <div class="project-card-header">
+            <div class="project-card-header">
 
-          <span class="project-number">
-            PROJECT / 02
-          </span>
-
-          <span class="project-status">
-            ● DAILY USE
-          </span>
-
-        </div>
-
-
-        <div class="project-visual project-visual-trading">
-
-          <div class="trading-screen">
-
-            <div class="trading-screen-top">
-              <span>
-                DAILY REVIEW
+              <span class="project-number">
+                PROJECT / 02
               </span>
 
-              <span>
-                2026.08
+              <span class="project-status">
+                ● DAILY USE
               </span>
-            </div>
-
-            <div class="trading-chart">
-
-              <span class="chart-line chart-line-one"></span>
-              <span class="chart-line chart-line-two"></span>
-              <span class="chart-line chart-line-three"></span>
-              <span class="chart-line chart-line-four"></span>
 
             </div>
 
-            <div class="trading-stats">
 
-              <div>
-                <small>
-                  WIN RATE
-                </small>
+            <div class="project-visual project-visual-trading">
 
-                <strong>
-                  72%
-                </strong>
+              <div class="trading-screen">
+
+                <div class="trading-screen-top">
+                  <span>
+                    DAILY REVIEW
+                  </span>
+
+                  <span>
+                    2026.08
+                  </span>
+                </div>
+
+                <div class="trading-chart">
+
+                  <span class="chart-line chart-line-one"></span>
+                  <span class="chart-line chart-line-two"></span>
+                  <span class="chart-line chart-line-three"></span>
+                  <span class="chart-line chart-line-four"></span>
+
+                </div>
+
+                <div class="trading-stats">
+
+                  <div>
+                    <small>
+                      WIN RATE
+                    </small>
+
+                    <strong>
+                      72%
+                    </strong>
+                  </div>
+
+                  <div>
+                    <small>
+                      TRADES
+                    </small>
+
+                    <strong>
+                      48
+                    </strong>
+                  </div>
+
+                  <div>
+                    <small>
+                      REVIEW
+                    </small>
+
+                    <strong>
+                      ✓
+                    </strong>
+                  </div>
+
+                </div>
+
               </div>
 
-              <div>
-                <small>
-                  TRADES
-                </small>
+              <span class="project-visual-note">
+                don't guess.<br>
+                review.
+              </span>
 
-                <strong>
-                  48
-                </strong>
-              </div>
+            </div>
 
-              <div>
-                <small>
-                  REVIEW
-                </small>
 
-                <strong>
-                  ✓
-                </strong>
+            <div class="project-card-content">
+
+              <p class="project-category">
+                AI × DATA × SELF REVIEW
+              </p>
+
+              <h3 class="project-name">
+                Trading<br>
+                復盤機器人
+              </h3>
+
+              <p class="project-description">
+                記錄每天交易過程，
+                自動整理交易結果並統計正確率，
+                讓每一次交易都留下可以回頭分析的資料。
+              </p>
+
+              <div class="project-tools">
+                <span>AI</span>
+                <span>Data</span>
+                <span>Analysis</span>
               </div>
 
             </div>
 
-          </div>
-
-          <span class="project-visual-note">
-            don't guess.<br>
-            review.
-          </span>
-
-        </div>
-
-
-        <div class="project-card-content">
-
-          <p class="project-category">
-            AI × DATA × SELF REVIEW
-          </p>
-
-          <h3 class="project-name">
-            Trading<br>
-            復盤機器人
-          </h3>
-
-          <p class="project-description">
-            記錄每天交易過程，
-            自動整理交易結果並統計正確率，
-            讓每一次交易都留下可以回頭分析的資料。
-          </p>
-
-          <div class="project-tools">
-            <span>AI</span>
-            <span>Data</span>
-            <span>Analysis</span>
-          </div>
-
-        </div>
-
-      </article>
+          </article>
 
 
 
-      <!-- =================================================
+          <!-- =================================================
            PROJECT 03 / FEATURE
            ================================================= -->
 
-      <article
-        class="project-card project-card-infra"
-        tabindex="0"
-      >
+          <article class="project-card project-card-infra" tabindex="0">
 
-        <div class="project-card-header">
+            <div class="project-card-header">
 
-          <span class="project-number">
-            PROJECT / 03
-          </span>
+              <span class="project-number">
+                PROJECT / 03
+              </span>
 
-          <span class="project-status project-status-featured">
-            ★ FEATURED
-          </span>
+              <span class="project-status project-status-featured">
+                ★ FEATURED
+              </span>
+
+            </div>
+
+
+            <div class="project-feature-layout">
+
+              <!-- Infrastructure Visual -->
+
+              <div class="project-visual project-visual-infra">
+
+                <div class="infra-node infra-node-nas">
+                  <span class="infra-node-icon">
+                    NAS
+                  </span>
+
+                  <small>
+                    HOME SERVER
+                  </small>
+                </div>
+
+                <div class="infra-node infra-node-openclaw">
+                  <span class="infra-node-icon">
+                    🦞
+                  </span>
+
+                  <small>
+                    OPENCLAW
+                  </small>
+                </div>
+
+                <div class="infra-node infra-node-hermes">
+                  <span class="infra-node-icon">
+                    H
+                  </span>
+
+                  <small>
+                    HERMES
+                  </small>
+                </div>
+
+                <div class="infra-node infra-node-cloud">
+                  <span class="infra-node-icon">
+                    ☁
+                  </span>
+
+                  <small>
+                    CLOUDFLARED
+                  </small>
+                </div>
+
+
+                <!-- Connection Lines -->
+
+                <span class="infra-line infra-line-one"></span>
+                <span class="infra-line infra-line-two"></span>
+                <span class="infra-line infra-line-three"></span>
+
+                <div class="infra-center">
+
+                  <span class="infra-center-label">
+                    MY
+                  </span>
+
+                  <strong>
+                    OWN<br>
+                    WEB
+                  </strong>
+
+                  <span class="infra-center-url">
+                    your-domain.dev
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <!-- Feature Copy -->
+
+              <div class="project-feature-copy">
+
+                <p class="project-category">
+                  AI × NAS × SELF HOSTING
+                </p>
+
+                <h3 class="project-name">
+                  NAS、OpenClaw<br>
+                  & Hermes 部署
+                </h3>
+
+                <p class="project-feature-lead">
+                  「為什麼我的網站，
+                  一定要住在別人的伺服器？」
+                </p>
+
+                <p class="project-description">
+                  使用 AI 解決網站於 NAS 上的部署，
+                  串接 OpenClaw、Hermes 與 Cloudflared，
+                  從服務部署、網路設定到網址連線，
+                  建立真正屬於自己的網站環境。
+                </p>
+
+                <div class="project-tools project-tools-large">
+
+                  <span>NAS</span>
+                  <span>Docker</span>
+                  <span>OpenClaw</span>
+                  <span>Hermes</span>
+                  <span>Cloudflared</span>
+
+                </div>
+
+                <div class="project-feature-footer">
+
+                  <span>
+                    BUILT AT HOME
+                  </span>
+
+                  <span>
+                    ↓
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
 
         </div>
 
 
-        <div class="project-feature-layout">
+        <!-- Bottom statement -->
 
-          <!-- Infrastructure Visual -->
+        <div class="projects-bottom">
 
-          <div class="project-visual project-visual-infra">
+          <p>
+            下一個作品，
+            <span>也許就是你的。</span>
+          </p>
 
-            <div class="infra-node infra-node-nas">
-              <span class="infra-node-icon">
-                NAS
-              </span>
-
-              <small>
-                HOME SERVER
-              </small>
-            </div>
-
-            <div class="infra-node infra-node-openclaw">
-              <span class="infra-node-icon">
-                🦞
-              </span>
-
-              <small>
-                OPENCLAW
-              </small>
-            </div>
-
-            <div class="infra-node infra-node-hermes">
-              <span class="infra-node-icon">
-                H
-              </span>
-
-              <small>
-                HERMES
-              </small>
-            </div>
-
-            <div class="infra-node infra-node-cloud">
-              <span class="infra-node-icon">
-                ☁
-              </span>
-
-              <small>
-                CLOUDFLARED
-              </small>
-            </div>
-
-
-            <!-- Connection Lines -->
-
-            <span class="infra-line infra-line-one"></span>
-            <span class="infra-line infra-line-two"></span>
-            <span class="infra-line infra-line-three"></span>
-
-            <div class="infra-center">
-
-              <span class="infra-center-label">
-                MY
-              </span>
-
-              <strong>
-                OWN<br>
-                WEB
-              </strong>
-
-              <span class="infra-center-url">
-                your-domain.dev
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <!-- Feature Copy -->
-
-          <div class="project-feature-copy">
-
-            <p class="project-category">
-              AI × NAS × SELF HOSTING
-            </p>
-
-            <h3 class="project-name">
-              NAS、OpenClaw<br>
-              & Hermes 部署
-            </h3>
-
-            <p class="project-feature-lead">
-              「為什麼我的網站，
-              一定要住在別人的伺服器？」
-            </p>
-
-            <p class="project-description">
-              使用 AI 解決網站於 NAS 上的部署，
-              串接 OpenClaw、Hermes 與 Cloudflared，
-              從服務部署、網路設定到網址連線，
-              建立真正屬於自己的網站環境。
-            </p>
-
-            <div class="project-tools project-tools-large">
-
-              <span>NAS</span>
-              <span>Docker</span>
-              <span>OpenClaw</span>
-              <span>Hermes</span>
-              <span>Cloudflared</span>
-
-            </div>
-
-            <div class="project-feature-footer">
-
-              <span>
-                BUILT AT HOME
-              </span>
-
-              <span>
-                ↓
-              </span>
-
-            </div>
-
-          </div>
+          <a class="projects-bottom-link" href="#contact">
+            LET'S BUILD SOMETHING
+            <span>↗</span>
+          </a>
 
         </div>
 
-      </article>
+      </div>
+    </section>
 
-    </div>
-
-
-    <!-- Bottom statement -->
-
-    <div class="projects-bottom">
-
-      <p>
-        下一個作品，
-        <span>也許就是你的。</span>
-      </p>
-
-      <a
-        class="projects-bottom-link"
-        href="#contact"
-      >
-        LET'S BUILD SOMETHING
-        <span>↗</span>
-      </a>
-
-    </div>
-
-  </div>
-</section>
-
-<!-- SECTION:PROJECTS-END -->
+    <!-- SECTION:PROJECTS-END -->
 
 
     <!-- =======================================================
@@ -4940,511 +4779,395 @@
      Contact｜Tell Me Your Idea
      ======================================================= -->
 
-<section
-  class="contact-section"
-  id="contact"
-  aria-labelledby="contact-title"
->
-  <div class="contact-layout">
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="contact-layout">
 
-    <!-- Intro -->
+        <!-- Intro -->
 
-    <div class="contact-intro">
+        <div class="contact-intro">
 
-      <div class="contact-intro-meta">
+          <div class="contact-intro-meta">
 
-        <p class="section-label">
-          04 / YOUR TURN
-        </p>
+            <p class="section-label">
+              04 / YOUR TURN
+            </p>
 
-        <span class="contact-hand-note">
-          no perfect idea required :)
-        </span>
-
-      </div>
-
-
-      <h2
-        class="contact-title"
-        id="contact-title"
-      >
-        好，<br>
-        <span class="contact-title-accent">
-          換你了。
-        </span>
-      </h2>
-
-
-      <p class="contact-lead">
-        不需要會寫程式，<br>
-        甚至不需要先知道自己要做什麼。
-      </p>
-
-
-      <p class="contact-description">
-        告訴我你腦中那個「如果可以就好了」的小想法，
-        我們一起看看，它能不能真的被做出來。
-      </p>
-
-
-      <div class="contact-quote">
-
-        <span class="contact-quote-mark">
-          “
-        </span>
-
-        <p>
-          最好的作品，
-          通常都只是某個人突然想：
-          <strong>「如果有這個東西就好了。」</strong>
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <!-- Form -->
-
-    <div class="contact-form-wrapper">
-
-      <div class="contact-form-header">
-
-        <div>
-          <span class="contact-form-label">
-            START HERE
-          </span>
-
-          <h3>
-            Tell me your idea.
-          </h3>
-        </div>
-
-        <span class="contact-form-number">
-          01 → 08
-        </span>
-
-      </div>
-
-
-      <form
-        class="contact-form"
-        novalidate
-      >
-
-
-        <!-- Name -->
-
-        <div class="form-field">
-
-          <label
-            class="form-label"
-            for="contact-name"
-          >
-            01 / 姓名
-            <span>*</span>
-          </label>
-
-          <input
-            class="form-input"
-            type="text"
-            id="contact-name"
-            name="name"
-            placeholder="怎麼稱呼你？"
-            autocomplete="name"
-            required
-          />
-
-          <small class="form-error">
-            請輸入你的姓名
-          </small>
-
-        </div>
-
-
-        <!-- Email -->
-
-        <div class="form-field">
-
-          <label
-            class="form-label"
-            for="contact-email"
-          >
-            02 / Email
-            <span>*</span>
-          </label>
-
-          <input
-            class="form-input"
-            type="email"
-            id="contact-email"
-            name="email"
-            placeholder="hello@example.com"
-            autocomplete="email"
-            required
-          />
-
-          <small class="form-error">
-            請輸入有效的 Email
-          </small>
-
-        </div>
-
-
-        <!-- LINE -->
-
-        <div class="form-field">
-
-          <label
-            class="form-label"
-            for="contact-line"
-          >
-            03 / LINE ID
-          </label>
-
-          <input
-            class="form-input"
-            type="text"
-            id="contact-line"
-            name="line"
-            placeholder="你的 LINE ID"
-          />
-
-        </div>
-
-
-        <!-- Phone -->
-
-        <div class="form-field">
-
-          <label
-            class="form-label"
-            for="contact-phone"
-          >
-            04 / 電話
-          </label>
-
-          <input
-            class="form-input"
-            type="tel"
-            id="contact-phone"
-            name="phone"
-            placeholder="方便聯絡你的電話"
-            autocomplete="tel"
-          />
-
-        </div>
-
-
-        <!-- Identity -->
-
-        <div class="form-field">
-
-          <label
-            class="form-label"
-            for="contact-role"
-          >
-            05 / 職業／身份
-          </label>
-
-          <select
-            class="form-input form-select"
-            id="contact-role"
-            name="role"
-          >
-
-            <option value="">
-              選擇你的身份
-            </option>
-
-            <option value="employee">
-              上班族
-            </option>
-
-            <option value="manager">
-              管理職
-            </option>
-
-            <option value="freelancer">
-              自由工作者
-            </option>
-
-            <option value="student">
-              學生
-            </option>
-
-            <option value="business">
-              創業／企業主
-            </option>
-
-            <option value="other">
-              其他
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- Coding Level -->
-
-        <div class="form-field">
-
-          <label class="form-label">
-            06 / 目前的程式程度
-          </label>
-
-          <div class="form-options">
-
-            <label class="form-option">
-
-              <input
-                type="radio"
-                name="coding-level"
-                value="zero"
-              />
-
-              <span>
-                0 基礎
-              </span>
-
-            </label>
-
-
-            <label class="form-option">
-
-              <input
-                type="radio"
-                name="coding-level"
-                value="beginner"
-              />
-
-              <span>
-                有摸過一點
-              </span>
-
-            </label>
-
-
-            <label class="form-option">
-
-              <input
-                type="radio"
-                name="coding-level"
-                value="intermediate"
-              />
-
-              <span>
-                可以自己寫
-              </span>
-
-            </label>
-
-
-            <label class="form-option">
-
-              <input
-                type="radio"
-                name="coding-level"
-                value="advanced"
-              />
-
-              <span>
-                已經在開發
-              </span>
-
-            </label>
+            <span class="contact-hand-note">
+              no perfect idea required :)
+            </span>
 
           </div>
 
-        </div>
 
-
-        <!-- Reason -->
-
-        <div class="form-field">
-
-          <label
-            class="form-label"
-            for="contact-reason"
-          >
-            07 / 想學 Vibe Coding 的原因
-          </label>
-
-          <textarea
-            class="form-input form-textarea"
-            id="contact-reason"
-            name="reason"
-            rows="4"
-            placeholder="最近是不是有一個東西，你很想做？"
-          ></textarea>
-
-        </div>
-
-
-        <!-- Dream Project -->
-
-        <div class="form-field">
-
-          <label
-            class="form-label"
-            for="contact-project"
-          >
-            08 / 最想做的作品
-            <span>*</span>
-          </label>
-
-          <textarea
-            class="form-input form-textarea form-project-input"
-            id="contact-project"
-            name="project"
-            rows="5"
-            placeholder="不用想得太完整，告訴我你的直覺就好..."
-            required
-          ></textarea>
-
-          <small class="form-error">
-            告訴我你最想做什麼
-          </small>
-
-        </div>
-
-
-        <!-- Submit -->
-
-        <div class="contact-submit-area">
-
-          <button
-            class="contact-submit"
-            type="submit"
-          >
-            <span>
-              我要開始 Vibe
+          <h2 class="contact-title" id="contact-title">
+            好，<br>
+            <span class="contact-title-accent">
+              換你了。
             </span>
-
-            <span class="contact-submit-arrow">
-              ↗
-            </span>
-          </button>
+          </h2>
 
 
-          <p class="contact-submit-note">
-            沒有標準答案。<br>
-            你的想法就是起點。
+          <p class="contact-lead">
+            不需要會寫程式，<br>
+            甚至不需要先知道自己要做什麼。
           </p>
 
-        </div>
+
+          <p class="contact-description">
+            告訴我你腦中那個「如果可以就好了」的小想法，
+            我們一起看看，它能不能真的被做出來。
+          </p>
 
 
-        <!-- Success Message -->
+          <div class="contact-quote">
 
-        <div
-          class="form-success"
-          role="status"
-          aria-live="polite"
-        >
-
-          <span class="form-success-icon">
-            ✓
-          </span>
-
-          <div>
-            <strong>
-              收到你的想法了。
-            </strong>
+            <span class="contact-quote-mark">
+              “
+            </span>
 
             <p>
-              接下來，就讓我們看看它能變成什麼。
+              最好的作品，
+              通常都只是某個人突然想：
+              <strong>「如果有這個東西就好了。」</strong>
             </p>
+
           </div>
 
         </div>
 
-      </form>
 
-    </div>
+        <!-- Form -->
+
+        <div class="contact-form-wrapper">
+
+          <div class="contact-form-header">
+
+            <div>
+              <span class="contact-form-label">
+                START HERE
+              </span>
+
+              <h3>
+                Tell me your idea.
+              </h3>
+            </div>
+
+            <span class="contact-form-number">
+              01 → 08
+            </span>
+
+          </div>
 
 
-    <!-- Contact Channels -->
+          <form class="contact-form" novalidate>
 
-    <footer class="contact-footer">
 
-      <div class="contact-footer-title">
-        <span>
-          SAY HI
-        </span>
+            <!-- Name -->
 
-        <span>
-          ↓
-        </span>
+            <div class="form-field">
+
+              <label class="form-label" for="contact-name">
+                01 / 姓名
+                <span>*</span>
+              </label>
+
+              <input class="form-input" type="text" id="contact-name" name="name" placeholder="怎麼稱呼你？"
+                autocomplete="name" required />
+
+              <small class="form-error">
+                請輸入你的姓名
+              </small>
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="form-field">
+
+              <label class="form-label" for="contact-email">
+                02 / Email
+                <span>*</span>
+              </label>
+
+              <input class="form-input" type="email" id="contact-email" name="email" placeholder="hello@example.com"
+                autocomplete="email" required />
+
+              <small class="form-error">
+                請輸入有效的 Email
+              </small>
+
+            </div>
+
+
+            <!-- LINE -->
+
+            <div class="form-field">
+
+              <label class="form-label" for="contact-line">
+                03 / LINE ID
+              </label>
+
+              <input class="form-input" type="text" id="contact-line" name="line" placeholder="你的 LINE ID" />
+
+            </div>
+
+
+            <!-- Phone -->
+
+            <div class="form-field">
+
+              <label class="form-label" for="contact-phone">
+                04 / 電話
+              </label>
+
+              <input class="form-input" type="tel" id="contact-phone" name="phone" placeholder="方便聯絡你的電話"
+                autocomplete="tel" />
+
+            </div>
+
+
+            <!-- Identity -->
+
+            <div class="form-field">
+
+              <label class="form-label" for="contact-role">
+                05 / 職業／身份
+              </label>
+
+              <select class="form-input form-select" id="contact-role" name="role">
+
+                <option value="">
+                  選擇你的身份
+                </option>
+
+                <option value="employee">
+                  上班族
+                </option>
+
+                <option value="manager">
+                  管理職
+                </option>
+
+                <option value="freelancer">
+                  自由工作者
+                </option>
+
+                <option value="student">
+                  學生
+                </option>
+
+                <option value="business">
+                  創業／企業主
+                </option>
+
+                <option value="other">
+                  其他
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- Coding Level -->
+
+            <div class="form-field">
+
+              <label class="form-label">
+                06 / 目前的程式程度
+              </label>
+
+              <div class="form-options">
+
+                <label class="form-option">
+
+                  <input type="radio" name="coding-level" value="zero" />
+
+                  <span>
+                    0 基礎
+                  </span>
+
+                </label>
+
+
+                <label class="form-option">
+
+                  <input type="radio" name="coding-level" value="beginner" />
+
+                  <span>
+                    有摸過一點
+                  </span>
+
+                </label>
+
+
+                <label class="form-option">
+
+                  <input type="radio" name="coding-level" value="intermediate" />
+
+                  <span>
+                    可以自己寫
+                  </span>
+
+                </label>
+
+
+                <label class="form-option">
+
+                  <input type="radio" name="coding-level" value="advanced" />
+
+                  <span>
+                    已經在開發
+                  </span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+
+            <!-- Reason -->
+
+            <div class="form-field">
+
+              <label class="form-label" for="contact-reason">
+                07 / 想學 Vibe Coding 的原因
+              </label>
+
+              <textarea class="form-input form-textarea" id="contact-reason" name="reason" rows="4"
+                placeholder="最近是不是有一個東西，你很想做？"></textarea>
+
+            </div>
+
+
+            <!-- Dream Project -->
+
+            <div class="form-field">
+
+              <label class="form-label" for="contact-project">
+                08 / 最想做的作品
+                <span>*</span>
+              </label>
+
+              <textarea class="form-input form-textarea form-project-input" id="contact-project" name="project" rows="5"
+                placeholder="不用想得太完整，告訴我你的直覺就好..." required></textarea>
+
+              <small class="form-error">
+                告訴我你最想做什麼
+              </small>
+
+            </div>
+
+
+            <!-- Submit -->
+
+            <div class="contact-submit-area">
+
+              <button class="contact-submit" type="submit">
+                <span>
+                  我要開始 Vibe
+                </span>
+
+                <span class="contact-submit-arrow">
+                  ↗
+                </span>
+              </button>
+
+
+              <p class="contact-submit-note">
+                沒有標準答案。<br>
+                你的想法就是起點。
+              </p>
+
+            </div>
+
+
+            <!-- Success Message -->
+
+            <div class="form-success" role="status" aria-live="polite">
+
+              <span class="form-success-icon">
+                ✓
+              </span>
+
+              <div>
+                <strong>
+                  收到你的想法了。
+                </strong>
+
+                <p>
+                  接下來，就讓我們看看它能變成什麼。
+                </p>
+              </div>
+
+            </div>
+
+          </form>
+
+        </div>
+
+        <!-- Contact Channels -->
+
+        <footer class="contact-footer">
+
+          <div class="contact-footer-title">
+            <span>
+              SAY HI
+            </span>
+
+            <span>
+              ↓
+            </span>
+          </div>
+
+          <div class="contact-channels">
+
+            <a class="contact-channel" href="mailto:hello@example.com">
+              Email
+            </a>
+
+            <a class="contact-channel" href="#">
+              LINE
+            </a>
+
+            <a class="contact-channel" href="#">
+              Telegram
+            </a>
+
+            <a class="contact-channel" href="#">
+              Facebook
+            </a>
+
+            <a class="contact-channel" href="#">
+              Instagram
+            </a>
+
+            <a class="contact-channel" href="#">
+              Discord
+            </a>
+
+          </div>
+
+          <div class="contact-footer-bottom">
+
+            <span>
+              VIBE CODING / 2026
+            </span>
+
+            <span>
+              MADE WITH CURIOSITY + AI
+            </span>
+
+          </div>
+
+        </footer>
+
       </div>
+    </section>
 
-
-      <div class="contact-channels">
-
-        <a
-          class="contact-channel"
-          href="mailto:hello@example.com"
-        >
-          Email
-        </a>
-
-        <a
-          class="contact-channel"
-          href="#"
-        >
-          LINE
-        </a>
-
-        <a
-          class="contact-channel"
-          href="#"
-        >
-          Telegram
-        </a>
-
-        <a
-          class="contact-channel"
-          href="#"
-        >
-          Facebook
-        </a>
-
-        <a
-          class="contact-channel"
-          href="#"
-        >
-          Instagram
-        </a>
-
-        <a
-          class="contact-channel"
-          href="#"
-        >
-          Discord
-        </a>
-
-      </div>
-
-
-      <div class="contact-footer-bottom">
-
-        <span>
-          VIBE CODING / 2026
-        </span>
-
-        <span>
-          MADE WITH CURIOSITY + AI
-        </span>
-
-      </div>
-
-    </footer>
-
-  </div>
-</section>
-
-<!-- SECTION:CONTACT-END -->
+    <!-- SECTION:CONTACT-END -->
 
   </main>
 
@@ -5454,11 +5177,7 @@
        回到頂部
        ========================================================= -->
 
-  <button
-    class="back-to-top"
-    type="button"
-    aria-label="回到頂部"
-  >
+  <button class="back-to-top" type="button" aria-label="回到頂部">
     ↑ REWIND
   </button>
 
@@ -5540,4 +5259,5 @@
   </script>
 
 </body>
+
 </html>
