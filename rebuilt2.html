@@ -3020,10 +3020,10 @@
             <a class="contact-channel"
               href="https://line.me/ti/g2/13qbovUd_QVPLjgxoj4p8sC-1yShyJyFLchj4Q?utm_source=invitation&utm_medium=link_copy&utm_campaign=default"
               style="--brand-primary: #06C755;" target="_blank" rel="noopener noreferrer">LINE</a>
-            <a class="contact-channel" href="https://instagram.com/twtesla521" style="--brand-primary: #E1306C;"
-              target="_blank" rel="noopener noreferrer">Instagram</a>
             <a class="contact-channel" href="https://facebook.com/justin4512" style="--brand-primary: #1877F2;"
               target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a class="contact-channel" href="https://instagram.com/twtesla521" style="--brand-primary: #E1306C;"
+              target="_blank" rel="noopener noreferrer">Instagram</a>
             <a class="contact-channel" href="https://t.me/justin4512" style="--brand-primary: #2AABEE;" target="_blank"
               rel="noopener noreferrer">Telegram</a>
             <a class="contact-channel" href="https://discord.com/justin4512" style="--brand-primary: #5865F2;"
@@ -3077,19 +3077,36 @@
 
       const reason = form.querySelector('#contact-reason').value.trim() || '未填寫';
 
-      // 3. 組合要發送給 Telegram 機器人的訊息內容
-      const message =
-        `📢 【新 Vibe 報名／想法通知】\n\n` +
-        `01 / 姓名：${name}\n` +
-        `02 / Email：${email}\n` +
-        `03 / LINE ID：${lineId}\n` +
-        `04 / 電話：${phone}\n` +
-        `05 / 身份：${role}\n` +
-        `06 / 程式程度：${codingLevel}\n` +
-        `07 / 想學原因：${reason}\n` +
-        `08 / 想做作品：\n${project}`;
+      // 3. 逸出 HTML 特殊字元，防止 WAF (網頁應用程式防火牆) 阻擋以及 Telegram HTML 解析錯誤
+      function escapeHTML(str) {
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+      }
 
-      // 4. 設定你的 Telegram Bot 資訊 (請替換為你的 Token 與 Chat ID)
+      const escapedName = escapeHTML(name);
+      const escapedEmail = escapeHTML(email);
+      const escapedLineId = escapeHTML(lineId);
+      const escapedPhone = escapeHTML(phone);
+      const escapedRole = escapeHTML(role);
+      const escapedCodingLevel = escapeHTML(codingLevel);
+      const escapedReason = escapeHTML(reason);
+      const escapedProject = escapeHTML(project);
+
+      // 4. 組合要發送給 Telegram 機器人的訊息內容 (使用 HTML 格式)
+      const message =
+        `📢 <b>【新 Vibe 報名／想法通知】</b>\n\n` +
+        `01 / 姓名：${escapedName}\n` +
+        `02 / Email：${escapedEmail}\n` +
+        `03 / LINE ID：${escapedLineId}\n` +
+        `04 / 電話：${escapedPhone}\n` +
+        `05 / 身份：${escapedRole}\n` +
+        `06 / 程式程度：${escapedCodingLevel}\n` +
+        `07 / 想學原因：\n<pre>${escapedReason}</pre>\n` +
+        `08 / 想做作品：\n<pre>${escapedProject}</pre>`;
+
+      // 5. 設定你的 Telegram Bot 資訊 (請替換為你的 Token 與 Chat ID)
       const BOT_TOKEN = '8680163255:AAGTXAIx9vmczA_zdM63uazYLGwimpUhHrI';   // 例如：123456789:ABCdefGhIJK...
       const CHAT_ID = '935312703';       // 例如：987654321
       const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
@@ -3100,13 +3117,14 @@
       submitBtn.disabled = true;
 
       try {
-        // 5. 使用 Fetch API 將資料打給 Telegram 伺服器
+        // 6. 使用 Fetch API 將資料打給 Telegram 伺服器
         const response = await fetch(telegramUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             chat_id: CHAT_ID,
-            text: message
+            text: message,
+            parse_mode: 'HTML'
           })
         });
 
@@ -3117,7 +3135,8 @@
           successBox.classList.add('is-visible');
           form.reset();
         } else {
-          alert('發送失敗，請稍後再試。');
+          console.error('Telegram API Error:', result);
+          alert('發送失敗：' + (result.description || '請稍後再試。'));
         }
       } catch (error) {
         console.error('Error:', error);
