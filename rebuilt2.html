@@ -3131,10 +3131,11 @@
         const result = await response.json();
 
         if (result.ok) {
-          // 成功送出：顯示成功區塊並清空表單
+          // 成功送出：顯示成功區塊並清空表單,20260826
           successBox.classList.add('is-visible');
           form.reset();
-        } else {
+        }
+        else {
           console.error('Telegram API Error:', result);
           alert('發送失敗：' + (result.description || '請稍後再試。'));
         }
@@ -3142,7 +3143,7 @@
         console.error('Error:', error);
         alert('網路連線發生錯誤，請檢查網路。');
       } finally {
-        // 恢復按鈕狀態
+        // 恢復按鈕狀態...
         submitBtn.innerHTML = originalBtnText;
         submitBtn.disabled = false;
       }
