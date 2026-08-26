@@ -1,0 +1,119 @@
+<!-- GPT生成 -->
+ <!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexbox Header 導覽列</title>
+
+  <style>
+    /* ==============================
+       基本設定
+    ============================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, "Noto Sans TC", sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    /* ==============================
+       Header：Flexbox 外層
+    ============================== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 20px 40px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    /* ==============================
+       Logo
+    ============================== */
+    .logo {
+      color: #333;
+      font-size: 24px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* ==============================
+       Navigation：Flexbox 內層
+    ============================== */
+    nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    nav a {
+      color: #333;
+      font-size: 16px;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #777;
+    }
+
+    /* ==============================
+       示範內容
+    ============================== */
+    main {
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    main h1 {
+      margin-bottom: 16px;
+      font-size: 36px;
+    }
+
+    main p {
+      font-size: 18px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==============================
+       HEADER-START
+  ============================== -->
+  <header>
+
+    <!-- Logo -->
+    <a href="#" class="logo">MyWebsite</a>
+
+    <!-- Navigation -->
+    <nav>
+      <a href="#home">首頁</a>
+      <a href="#about">關於我</a>
+      <a href="#services">服務</a>
+      <a href="#projects">作品</a>
+      <a href="#contact">聯絡我</a>
+    </nav>
+
+  </header>
+  <!-- HEADER-END -->
+
+
+  <!-- ==============================
+       MAIN
+  ============================== -->
+  <main>
+    <h1>Flexbox Header 範例</h1>
+    <p>使用語義化 HTML 與 Flexbox 建立響應式導覽列。</p>
+  </main>
+
+</body>
+</html>

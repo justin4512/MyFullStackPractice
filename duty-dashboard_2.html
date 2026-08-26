@@ -3,622 +3,4516 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>班級值日與外掃儀表板</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1">
+
+  <title>值日與外掃儀表板</title>
+
   <style>
-    * {
-      box-sizing: border-box
+
+    /* =========================================================
+       CSS VARIABLES
+       ========================================================= */
+
+    :root {
+
+      --brand-primary: #0071e3;
+      --text-dark: #1d1d1f;
+      --bg-soft: #f5f5f7;
+
     }
+
+
+    /* =========================================================
+       RESET
+       ========================================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html {
+      scroll-behavior: smooth;
+    }
+
 
     body {
+
       margin: 0;
-      background: #f3f6fb;
-      color: #1f2937;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif
+
+      min-height: 100vh;
+
+      background:
+        var(--bg-soft);
+
+      color:
+        var(--text-dark);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        sans-serif;
+
+      -webkit-font-smoothing: antialiased;
+
     }
 
-    .wrap {
-      max-width: 1050px;
-      margin: auto;
-      padding: 14px
+
+    button,
+    input,
+    select {
+
+      font: inherit;
+
     }
+
+
+    button {
+
+      cursor: pointer;
+
+    }
+
+
+    /* =========================================================
+       PAGE
+       ========================================================= */
+
+    .page {
+
+      width: 100%;
+
+      max-width: 1240px;
+
+      margin: 0 auto;
+
+      padding:
+        24px;
+
+    }
+
+
+    /* =========================================================
+       HERO
+       ========================================================= */
 
     .hero {
-      background: linear-gradient(135deg, #1e3a8a, #2563eb);
-      color: white;
-      border-radius: 20px;
-      padding: 22px;
-      margin-bottom: 14px
-    }
 
-    .top {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px
-    }
+      position: relative;
 
-    .title {
-      font-size: 26px;
-      font-weight: 800
-    }
+      overflow: hidden;
 
-    .date {
-      text-align: right;
-      font-size: 22px;
-      font-weight: 700
-    }
-
-    .sub {
-      opacity: .85
-    }
-
-    .nav {
-      display: flex;
-      gap: 7px;
-      margin-bottom: 14px
-    }
-
-    .nav button,
-    .nav input,
-    .action select,
-    .action button {
-      border: 0;
-      background: white;
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 15px
-    }
-
-    .nav input {
-      flex: 1
-    }
-
-    .nav button,
-    .action button {
-      cursor: pointer;
-      font-weight: 700
-    }
-
-    .grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+
+      align-items: center;
+
+      gap: 24px;
+
+      min-height: 190px;
+
+      padding: 32px;
+
+      margin-bottom: 20px;
+
+      border:
+        1px solid
+        color-mix(
+          in srgb,
+          var(--text-dark) 8%,
+          transparent
+        );
+
+      border-radius: 28px;
+
+      background:
+        linear-gradient(
+          135deg,
+          color-mix(
+            in srgb,
+            var(--brand-primary) 96%,
+            white
+          ),
+          color-mix(
+            in srgb,
+            var(--brand-primary) 72%,
+            white
+          )
+        );
+
+      color:
+        white;
+
+      box-shadow:
+        0 20px 50px
+        color-mix(
+          in srgb,
+          var(--brand-primary) 20%,
+          transparent
+        );
+
     }
 
-    .card,
-    .status {
-      background: white;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 5px 20px #0f172a12
+
+    .hero::before {
+
+      content: "";
+
+      position: absolute;
+
+      width: 300px;
+
+      height: 300px;
+
+      right: -100px;
+
+      top: -160px;
+
+      border-radius: 50%;
+
+      background:
+        color-mix(
+          in srgb,
+          white 18%,
+          transparent
+        );
+
+      pointer-events: none;
+
     }
 
-    .head {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 15px
+
+    .hero::after {
+
+      content: "";
+
+      position: absolute;
+
+      width: 180px;
+
+      height: 180px;
+
+      right: 180px;
+
+      bottom: -120px;
+
+      border-radius: 50%;
+
+      background:
+        color-mix(
+          in srgb,
+          white 12%,
+          transparent
+        );
+
+      pointer-events: none;
+
     }
 
-    .head h2 {
+
+    .hero-content {
+
+      position: relative;
+
+      z-index: 1;
+
+      min-width: 0;
+
+    }
+
+
+    .hero-kicker {
+
+      margin-bottom: 8px;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: .16em;
+
+      opacity: .82;
+
+    }
+
+
+    .hero-title {
+
       margin: 0;
-      font-size: 19px
+
+      font-size:
+        clamp(26px, 4vw, 40px);
+
+      line-height: 1.15;
+
+      font-weight: 800;
+
+      letter-spacing: -.04em;
+
     }
 
-    .people {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px
+
+    .hero-subtitle {
+
+      margin-top: 12px;
+
+      max-width: 720px;
+
+      font-size: 14px;
+
+      line-height: 1.7;
+
+      opacity: .88;
+
     }
+
+
+    .hero-date {
+
+      position: relative;
+
+      z-index: 1;
+
+      min-width: 190px;
+
+      padding: 18px;
+
+      border:
+        1px solid
+        color-mix(
+          in srgb,
+          white 25%,
+          transparent
+        );
+
+      border-radius: 20px;
+
+      background:
+        color-mix(
+          in srgb,
+          white 14%,
+          transparent
+        );
+
+      backdrop-filter:
+        blur(18px);
+
+      -webkit-backdrop-filter:
+        blur(18px);
+
+      text-align: right;
+
+    }
+
+
+    .hero-date-main {
+
+      font-size: 27px;
+
+      font-weight: 800;
+
+      letter-spacing: -.03em;
+
+    }
+
+
+    .hero-date-week {
+
+      margin-top: 4px;
+
+      font-size: 13px;
+
+      opacity: .82;
+
+    }
+
+
+    /* =========================================================
+       DATE NAV
+       ========================================================= */
+
+    .date-nav {
+
+      display: grid;
+
+      grid-template-columns:
+        auto
+        minmax(180px, 1fr)
+        auto
+        auto;
+
+      gap: 8px;
+
+      margin-bottom: 20px;
+
+    }
+
+
+    .control {
+
+      min-width: 0;
+
+      border:
+        1px solid
+        color-mix(
+          in srgb,
+          var(--text-dark) 10%,
+          transparent
+        );
+
+      border-radius: 13px;
+
+      background:
+        color-mix(
+          in srgb,
+          white 88%,
+          var(--bg-soft)
+        );
+
+      color:
+        var(--text-dark);
+
+      padding:
+        11px 14px;
+
+      outline: none;
+
+      box-shadow:
+        0 4px 14px
+        color-mix(
+          in srgb,
+          var(--text-dark) 5%,
+          transparent
+        );
+
+    }
+
+
+    .control:focus {
+
+      border-color:
+        var(--brand-primary);
+
+      box-shadow:
+        0 0 0 3px
+        color-mix(
+          in srgb,
+          var(--brand-primary) 15%,
+          transparent
+        );
+
+    }
+
+
+    .nav-button {
+
+      white-space: nowrap;
+
+      font-weight: 650;
+
+      transition:
+        transform .18s ease,
+        background .18s ease;
+
+    }
+
+
+    .nav-button:hover {
+
+      transform:
+        translateY(-1px);
+
+      background:
+        white;
+
+    }
+
+
+    .today-button {
+
+      color:
+        white;
+
+      background:
+        var(--brand-primary);
+
+      border-color:
+        var(--brand-primary);
+
+    }
+
+
+    .today-button:hover {
+
+      background:
+        color-mix(
+          in srgb,
+          var(--brand-primary) 88%,
+          black
+        );
+
+    }
+
+
+    /* =========================================================
+       MAIN GRID
+       ========================================================= */
+
+    .main-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 24px;
+
+    }
+
+
+    /* =========================================================
+       CARD
+       ========================================================= */
+
+    .card {
+
+      min-width: 0;
+
+      padding: 22px;
+
+      border:
+        1px solid
+        color-mix(
+          in srgb,
+          var(--text-dark) 8%,
+          transparent
+        );
+
+      border-radius: 22px;
+
+      background:
+        color-mix(
+          in srgb,
+          white 92%,
+          var(--bg-soft)
+        );
+
+      box-shadow:
+        0 8px 30px
+        color-mix(
+          in srgb,
+          var(--text-dark) 7%,
+          transparent
+        );
+
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+
+    }
+
+
+    .card:hover {
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 14px 38px
+        color-mix(
+          in srgb,
+          var(--text-dark) 10%,
+          transparent
+        );
+
+    }
+
+
+    .card-header {
+
+      display: flex;
+
+      align-items: flex-start;
+
+      justify-content: space-between;
+
+      gap: 14px;
+
+      margin-bottom: 18px;
+
+    }
+
+
+    .eyebrow {
+
+      display: block;
+
+      margin-bottom: 5px;
+
+      font-size: 10px;
+
+      font-weight: 750;
+
+      letter-spacing: .14em;
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 48%,
+          transparent
+        );
+
+    }
+
+
+    .card-title {
+
+      margin: 0;
+
+      font-size: 18px;
+
+      font-weight: 750;
+
+      letter-spacing: -.025em;
+
+    }
+
+
+    .icon-bubble {
+
+      display: grid;
+
+      place-items: center;
+
+      width: 38px;
+
+      height: 38px;
+
+      flex: 0 0 38px;
+
+      border-radius: 12px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--brand-primary) 10%,
+          white
+        );
+
+      color:
+        var(--brand-primary);
+
+      font-size: 17px;
+
+    }
+
+
+    /* =========================================================
+       DUTY PEOPLE
+       ========================================================= */
+
+    .people-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 12px;
+
+    }
+
 
     .person {
+
+      min-width: 0;
+
+      padding: 17px 12px;
+
+      border-radius: 17px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--bg-soft) 75%,
+          white
+        );
+
       text-align: center;
-      background: #f8fafc;
-      border-radius: 14px;
-      padding: 17px
+
     }
 
-    .num {
-      font-size: 38px;
-      font-weight: 850;
-      color: #2563eb
+
+    .person-number {
+
+      font-size: 34px;
+
+      line-height: 1;
+
+      font-weight: 800;
+
+      color:
+        var(--brand-primary);
+
     }
 
-    .name {
-      font-weight: 700
+
+    .person-name {
+
+      margin-top: 8px;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      overflow-wrap: anywhere;
+
     }
+
 
     .badge {
+
       display: inline-block;
+
       margin-top: 8px;
-      font-size: 12px;
+
+      padding:
+        4px 9px;
+
+      border-radius: 999px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--brand-primary) 10%,
+          white
+        );
+
+      color:
+        var(--brand-primary);
+
+      font-size: 11px;
+
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: #e0e7ff;
-      color: #3730a3
+
     }
 
-    .badge.sub {
-      background: #dcfce7;
-      color: #166534
+
+    .badge-sub {
+
+      background:
+        color-mix(
+          in srgb,
+          var(--brand-primary) 8%,
+          white
+        );
+
+      color:
+        var(--brand-primary);
+
     }
 
-    .badge.makeup {
-      background: #fef3c7;
-      color: #92400e
+
+    .badge-makeup {
+
+      background:
+        color-mix(
+          in srgb,
+          var(--text-dark) 9%,
+          white
+        );
+
+      color:
+        var(--text-dark);
+
     }
 
-    .tag {
-      background: #dbeafe;
-      color: #1d4ed8;
-      border-radius: 20px;
-      padding: 5px 9px;
-      font-size: 13px
+
+    .card-note {
+
+      margin-top: 13px;
+
+      font-size: 12px;
+
+      line-height: 1.6;
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 52%,
+          transparent
+        );
+
     }
 
-    .group {
-      border: 2px solid #2563eb;
-      background: #eff6ff;
-      border-radius: 14px;
-      padding: 13px
+
+    .card-note.is-alert {
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 75%,
+          var(--brand-primary)
+        );
+
+      font-weight: 650;
+
     }
+
+
+    /* =========================================================
+       CLEANING
+       ========================================================= */
+
+    .cleaning-group {
+
+      min-width: 0;
+
+      padding: 16px;
+
+      border-radius: 17px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--brand-primary) 6%,
+          white
+        );
+
+      border:
+        1px solid
+        color-mix(
+          in srgb,
+          var(--brand-primary) 16%,
+          transparent
+        );
+
+    }
+
+
+    .cleaning-header {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin-bottom: 13px;
+
+    }
+
+
+    .cleaning-title {
+
+      font-size: 14px;
+
+      font-weight: 750;
+
+    }
+
+
+    .count-tag {
+
+      padding:
+        5px 9px;
+
+      border-radius: 999px;
+
+      background:
+        var(--brand-primary);
+
+      color:
+        white;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      white-space: nowrap;
+
+    }
+
 
     .members {
+
       display: flex;
+
       flex-wrap: wrap;
-      gap: 7px
+
+      gap: 7px;
+
     }
+
 
     .member {
-      background: white;
+
+      max-width: 100%;
+
+      padding:
+        7px 9px;
+
       border-radius: 9px;
-      padding: 7px 9px;
-      font-size: 13px
+
+      background:
+        white;
+
+      font-size: 12px;
+
+      overflow-wrap: anywhere;
+
     }
 
-    .absent {
-      background: #fee2e2;
-      color: #b91c1c;
-      text-decoration: line-through
+
+    .member.absent {
+
+      text-decoration:
+        line-through;
+
+      opacity: .5;
+
     }
+
+
+    /* =========================================================
+       ABSENCE
+       ========================================================= */
 
     .absence {
+
       display: flex;
+
       flex-wrap: wrap;
-      gap: 8px
+
+      gap: 8px;
+
     }
 
-    .abs {
-      background: #fef2f2;
-      color: #b91c1c;
-      border: 1px solid #fecaca;
-      padding: 8px 11px;
-      border-radius: 10px
+
+    .absence-item {
+
+      padding:
+        8px 10px;
+
+      border-radius: 10px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--text-dark) 7%,
+          white
+        );
+
+      color:
+        var(--text-dark);
+
+      font-size: 12px;
+
+      font-weight: 650;
+
     }
+
 
     .empty {
-      background: #f0fdf4;
-      color: #15803d;
-      padding: 10px;
-      border-radius: 10px
+
+      width: 100%;
+
+      padding: 11px;
+
+      border-radius: 11px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--brand-primary) 5%,
+          white
+        );
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 58%,
+          transparent
+        );
+
+      font-size: 12px;
+
     }
+
+
+    /* =========================================================
+       ACTIONS
+       ========================================================= */
 
     .action {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap
-    }
 
-    .action select {
-      flex: 1;
-      min-width: 190px;
-      border: 1px solid #dbe3ef
-    }
-
-    .leave {
-      background: #fee2e2 !important;
-      color: #b91c1c
-    }
-
-    .cancel {
-      background: #dcfce7 !important;
-      color: #166534
-    }
-
-    .stop-btn {
-      background: #fef08a !important;
-      color: #854d0e
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 9px 0;
-      border-bottom: 1px solid #e5e7eb
-    }
-
-    .row:last-child {
-      border: 0
-    }
-
-    .label {
-      color: #64748b;
-      white-space: nowrap
-    }
-
-    .value {
-      font-weight: 700;
-      text-align: right
-    }
-
-    .status {
-      margin-top: 14px
-    }
-
-    .note {
-      font-size: 12px;
-      color: #64748b;
-      line-height: 1.6;
-      margin-top: 9px
-    }
-
-    .settings {
-      margin-top: 14px
-    }
-
-    .settingsgrid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        auto
+        auto;
+
+      gap: 8px;
+
     }
 
-    .settings input,
-    .settings select {
+
+    .action .control {
+
       width: 100%;
-      padding: 9px;
-      border: 1px solid #dbe3ef;
-      border-radius: 9px
+
     }
 
-    .settings label {
+
+    .action-button {
+
+      border: 0;
+
+      border-radius: 11px;
+
+      padding:
+        10px 13px;
+
+      white-space: nowrap;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      transition:
+        transform .18s ease,
+        opacity .18s ease;
+
+    }
+
+
+    .action-button:hover {
+
+      transform:
+        translateY(-1px);
+
+      opacity: .88;
+
+    }
+
+
+    .button-primary {
+
+      background:
+        var(--brand-primary);
+
+      color:
+        white;
+
+    }
+
+
+    .button-secondary {
+
+      background:
+        color-mix(
+          in srgb,
+          var(--text-dark) 8%,
+          white
+        );
+
+      color:
+        var(--text-dark);
+
+    }
+
+
+    /* =========================================================
+       STOP DAYS
+       ========================================================= */
+
+    .stop-form {
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1.3fr);
+
+      gap: 8px;
+
+    }
+
+
+    .stop-form .full {
+
+      grid-column:
+        1 / -1;
+
+    }
+
+
+    .stop-list {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 7px;
+
+      max-height: 160px;
+
+      overflow-y: auto;
+
+      margin-top: 13px;
+
+    }
+
+
+    .stop-item {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding:
+        9px 11px;
+
+      border-radius: 10px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--text-dark) 6%,
+          white
+        );
+
+    }
+
+
+    .stop-info {
+
+      min-width: 0;
+
+    }
+
+
+    .stop-date {
+
       font-size: 12px;
-      color: #64748b
+
+      font-weight: 750;
+
     }
 
-    @media(max-width:700px) {
-      .top {
-        flex-direction: column
-      }
 
-      .date {
-        text-align: left
-      }
+    .stop-reason {
 
-      .grid {
-        grid-template-columns: 1fr
-      }
+      margin-top: 2px;
 
-      .settingsgrid {
-        grid-template-columns: 1fr
-      }
+      font-size: 11px;
 
-      .nav {
-        flex-wrap: wrap
-      }
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 52%,
+          transparent
+        );
+
     }
+
+
+    .delete-stop {
+
+      flex: 0 0 auto;
+
+      border: 0;
+
+      border-radius: 8px;
+
+      padding:
+        6px 9px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--text-dark) 8%,
+          white
+        );
+
+      color:
+        var(--text-dark);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+    }
+
+
+    /* =========================================================
+       SYSTEM / PEOPLE / SETTINGS GRID
+       ========================================================= */
+
+    .system-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 24px;
+
+      margin-top: 24px;
+
+    }
+
+
+    /* =========================================================
+       SYSTEM STATUS
+       ========================================================= */
+
+    .system-info {
+
+      display: flex;
+
+      flex-direction: column;
+
+    }
+
+
+    .system-row {
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(115px, auto)
+        minmax(0, 1fr);
+
+      gap: 12px;
+
+      align-items: center;
+
+      padding:
+        13px 0;
+
+      border-bottom:
+        1px solid
+        color-mix(
+          in srgb,
+          var(--text-dark) 8%,
+          transparent
+        );
+
+    }
+
+
+    .system-row:last-child {
+
+      border-bottom: 0;
+
+    }
+
+
+    .system-label {
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 52%,
+          transparent
+        );
+
+      font-size: 12px;
+
+    }
+
+
+    .system-value {
+
+      min-width: 0;
+
+      color:
+        var(--text-dark);
+
+      text-align: right;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+
+      overflow-wrap: anywhere;
+
+    }
+
+
+    .system-online {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      margin-top: 13px;
+
+      color:
+        var(--brand-primary);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+    }
+
+
+    .online-dot {
+
+      width: 7px;
+
+      height: 7px;
+
+      border-radius: 50%;
+
+      background:
+        var(--brand-primary);
+
+      box-shadow:
+        0 0 0 4px
+        color-mix(
+          in srgb,
+          var(--brand-primary) 12%,
+          transparent
+        );
+
+    }
+
+
+    /* =========================================================
+       PEOPLE STATUS
+       ========================================================= */
+
+    .student-status {
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 7px;
+
+      max-height: 145px;
+
+      margin-top: 14px;
+
+      overflow-y: auto;
+
+    }
+
+
+    .status-person {
+
+      max-width: 100%;
+
+      padding:
+        7px 9px;
+
+      border-radius: 9px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--text-dark) 6%,
+          white
+        );
+
+      color:
+        var(--text-dark);
+
+      font-size: 11px;
+
+      overflow-wrap: anywhere;
+
+    }
+
+
+    .status-person.withdraw {
+
+      background:
+        color-mix(
+          in srgb,
+          var(--text-dark) 13%,
+          white
+        );
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 75%,
+          transparent
+        );
+
+      text-decoration:
+        line-through;
+
+    }
+
+
+    /* =========================================================
+       SETTINGS
+       ========================================================= */
+
+    .settings-form {
+
+      display: grid;
+
+      gap: 13px;
+
+    }
+
+
+    .setting-item {
+
+      display: grid;
+
+      gap: 6px;
+
+    }
+
+
+    .setting-item label {
+
+      font-size: 11px;
+
+      font-weight: 650;
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 50%,
+          transparent
+        );
+
+    }
+
+
+    .setting-item .control {
+
+      width: 100%;
+
+    }
+
+
+    /* =========================================================
+       TOAST
+       ========================================================= */
+
+    .toast {
+
+      display: none;
+
+      margin-top: 10px;
+
+      padding:
+        8px 10px;
+
+      border-radius: 9px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--brand-primary) 7%,
+          white
+        );
+
+      color:
+        var(--brand-primary);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+    }
+
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    .footer {
+
+      padding:
+        22px 0 8px;
+
+      text-align: center;
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 45%,
+          transparent
+        );
+
+      font-size: 11px;
+
+    }
+
+
+    /* =========================================================
+       RWD
+       ========================================================= */
+
+    @media (max-width: 980px) {
+
+      .main-grid {
+
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+
+      }
+
+
+      .system-grid {
+
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+
+      }
+
+    }
+
+
+    @media (max-width: 768px) {
+
+      .page {
+
+        padding:
+          14px;
+
+      }
+
+
+      .hero {
+
+        grid-template-columns:
+          1fr;
+
+        padding:
+          24px;
+
+        border-radius:
+          22px;
+
+      }
+
+
+      .hero-date {
+
+        min-width: 0;
+
+        text-align: left;
+
+      }
+
+
+      .date-nav {
+
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+
+      }
+
+
+      .date-nav .control[type="date"] {
+
+        grid-column:
+          1 / -1;
+
+        grid-row:
+          1;
+
+      }
+
+
+      .main-grid {
+
+        grid-template-columns:
+          1fr !important;
+
+        gap:
+          16px;
+
+      }
+
+
+      .system-grid {
+
+        grid-template-columns:
+          1fr !important;
+
+        gap:
+          16px;
+
+      }
+
+
+      .people-grid {
+
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+
+      }
+
+
+      .action {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .stop-form {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .stop-form .full {
+
+        grid-column:
+          auto;
+
+      }
+
+    }
+
+
+    @media (max-width: 480px) {
+
+      .page {
+
+        padding:
+          10px;
+
+      }
+
+
+      .hero {
+
+        padding:
+          20px;
+
+      }
+
+
+      .hero-title {
+
+        font-size:
+          27px;
+
+      }
+
+
+      .card {
+
+        padding:
+          17px;
+
+        border-radius:
+          18px;
+
+      }
+
+
+      .people-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .date-nav {
+
+        grid-template-columns:
+          1fr 1fr;
+
+      }
+
+
+      .date-nav .today-button {
+
+        grid-column:
+          1 / -1;
+
+      }
+
+
+      .system-row {
+
+        grid-template-columns:
+          1fr;
+
+        gap:
+          4px;
+
+      }
+
+
+      .system-value {
+
+        text-align:
+          left;
+
+      }
+
+    }
+
   </style>
+
 </head>
 
+
 <body>
-  <div class="wrap">
-    <div class="hero">
-      <div class="top">
-        <div>
-          <div class="title">📋 班級值日與外掃儀表板</div>
-          <div class="sub">23人・自動跳過假日・外掃兩組輪替・請假保留班次</div>
+
+
+  <main class="page">
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <div class="hero-kicker">
+          CLASS MANAGEMENT SYSTEM
         </div>
-        <div>
-          <div class="date" id="dateText">-</div>
-          <div id="weekday">-</div>
+
+        <h1 class="hero-title">
+          115-2智慧升成全端程式與跨平台APP整合實務班值日與外掃儀表板
+        </h1>
+
+        <div class="hero-subtitle">
+          自動跳過例假日與停班日，依在訓人數動態重新分配外掃人員，
+          並同步處理請假、補值與退訓狀態。
         </div>
+
       </div>
-    </div>
 
-    <div class="nav">
-      <button id="prev">← 前一天</button>
-      <input id="date" type="date">
-      <button id="next">後一天 →</button>
-      <button id="todayBtn">今天</button>
-    </div>
 
-    <div class="grid">
-      <section class="card">
-        <div class="head">
-          <h2>🧹 今日值日生</h2>🧹
+      <div class="hero-date">
+
+        <div
+          class="hero-date-main"
+          id="dateText">
+          -
         </div>
-        <div class="people">
-          <div class="person">
-            <div class="num" id="d1">-</div>
-            <div class="name" id="n1">-</div>
-            <div class="badge" id="b1">值日</div>
+
+        <div
+          class="hero-date-week"
+          id="weekday">
+          -
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DATE NAV
+         ===================================================== -->
+
+    <section class="date-nav">
+
+      <button
+        class="control nav-button"
+        id="prev">
+        ← 前一天
+      </button>
+
+
+      <input
+        class="control"
+        id="date"
+        type="date">
+
+
+      <button
+        class="control nav-button"
+        id="next">
+        後一天 →
+      </button>
+
+
+      <button
+        class="control nav-button today-button"
+        id="todayBtn">
+        今天
+      </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         MAIN INFORMATION GRID
+         3 COLUMNS
+         ===================================================== -->
+
+    <section class="main-grid">
+
+
+      <!-- ===================================================
+           今日值日生
+           =================================================== -->
+
+      <article class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <span class="eyebrow">
+              TODAY / DUTY
+            </span>
+
+            <h2 class="card-title">
+              今日值日生
+            </h2>
+
           </div>
-          <div class="person">
-            <div class="num" id="d2">-</div>
-            <div class="name" id="n2">-</div>
-            <div class="badge" id="b2">值日</div>
+
+          <div class="icon-bubble">
+            ✓
           </div>
-        </div>
-        <div class="note" id="dutyNote" style="color:#b91c1c; font-weight:bold;"></div>
-      </section>
 
-      <section class="card">
-        <div class="head">
-          <h2>🏫 今日外掃</h2>🏫
         </div>
-        <div class="group">
-          <div class="head"><b id="gt">-</b><span class="tag" id="glabel">-</span></div>
-          <div class="members" id="members"></div>
-        </div>
-      </section>
 
-      <section class="card">
-        <div class="head">
-          <h2>💤 今日請假</h2>💤
-        </div>
-        <div class="absence" id="absence">
-          <div class="empty">✓ 今日無請假</div>
-        </div>
-        <div class="note">請假者會從當日工作中排除，班次保留到銷假當天補值。</div>
-      </section>
 
-      <section class="card">
-        <div class="head">
-          <h2>➕ 登記/取消請假</h2>📝
+        <div class="people-grid">
+
+
+          <div class="person">
+
+            <div
+              class="person-number"
+              id="d1">
+              -
+            </div>
+
+            <div
+              class="person-name"
+              id="n1">
+              -
+            </div>
+
+            <span
+              class="badge"
+              id="b1">
+              值日
+            </span>
+
+          </div>
+
+
+          <div class="person">
+
+            <div
+              class="person-number"
+              id="d2">
+              -
+            </div>
+
+            <div
+              class="person-name"
+              id="n2">
+              -
+            </div>
+
+            <span
+              class="badge"
+              id="b2">
+              值日
+            </span>
+
+          </div>
+
         </div>
+
+
+        <div
+          class="card-note is-alert"
+          id="dutyNote">
+        </div>
+
+      </article>
+
+
+      <!-- ===================================================
+           明日值日生
+           =================================================== -->
+
+      <article class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <span class="eyebrow">
+              TOMORROW / DUTY
+            </span>
+
+            <h2 class="card-title">
+              明日值日生
+            </h2>
+
+          </div>
+
+          <div class="icon-bubble">
+            →
+          </div>
+
+        </div>
+
+
+        <div class="people-grid">
+
+
+          <div class="person">
+
+            <div
+              class="person-number"
+              id="td1">
+              -
+            </div>
+
+            <div
+              class="person-name"
+              id="tn1">
+              -
+            </div>
+
+            <span
+              class="badge"
+              id="tb1">
+              值日
+            </span>
+
+          </div>
+
+
+          <div class="person">
+
+            <div
+              class="person-number"
+              id="td2">
+              -
+            </div>
+
+            <div
+              class="person-name"
+              id="tn2">
+              -
+            </div>
+
+            <span
+              class="badge"
+              id="tb2">
+              值日
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="card-note"
+          id="tomorrowNote">
+        </div>
+
+      </article>
+
+
+      <!-- ===================================================
+           今日外掃
+           =================================================== -->
+
+      <article class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <span class="eyebrow">
+              TODAY / CLEANING
+            </span>
+
+            <h2 class="card-title">
+              今日外掃
+            </h2>
+
+          </div>
+
+          <div class="icon-bubble">
+            ↗
+          </div>
+
+        </div>
+
+
+        <div class="cleaning-group">
+
+          <div class="cleaning-header">
+
+            <div
+              class="cleaning-title"
+              id="gt">
+              -
+            </div>
+
+            <span
+              class="count-tag"
+              id="glabel">
+              -
+            </span>
+
+          </div>
+
+
+          <div
+            class="members"
+            id="members">
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- ===================================================
+           今日請假
+           =================================================== -->
+
+      <article class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <span class="eyebrow">
+              TODAY / ABSENCE
+            </span>
+
+            <h2 class="card-title">
+              今日請假
+            </h2>
+
+          </div>
+
+          <div class="icon-bubble">
+            —
+          </div>
+
+        </div>
+
+
+        <div
+          class="absence"
+          id="absence">
+        </div>
+
+
+        <div class="card-note">
+          請假人員不會被安排為當日實際值日，
+          系統會保留欠班並於銷假後補值。
+        </div>
+
+      </article>
+
+
+      <!-- ===================================================
+           登記請假
+           =================================================== -->
+
+      <article class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <span class="eyebrow">
+              ABSENCE / CONTROL
+            </span>
+
+            <h2 class="card-title">
+              登記／取消請假
+            </h2>
+
+          </div>
+
+          <div class="icon-bubble">
+            +
+          </div>
+
+        </div>
+
+
         <div class="action">
-          <select id="student"></select>
-          <button class="leave" id="addLeave">登記請假</button>
-          <button class="cancel" id="delLeave">取消請假</button>
-        </div>
-        <div class="note" id="toast" style="display:none;color:#166534;font-weight:700"></div>
-      </section>
 
-      <section class="card" style="grid-column: 1 / -1; max-width: 500px; margin: auto; width: 100%;">
-        <div class="head">
-          <h2>🛑 停班日設定 (校慶、段考等)</h2>🛑
-        </div>
-        <div class="action" style="display:flex;">
-          <button class="stop-btn" id="addStop" style="flex:1">設為停班日</button>
-          <button class="cancel" id="delStop" style="flex:1">取消停班</button>
-        </div>
-        <div class="note">設定目前日期為停班日，當日將暫停排班並自動順延。<br><b>註：週六與週日系統已自動跳過，不需手動設定停班。</b></div>
-      </section>
-    </div>
+          <select
+            class="control"
+            id="student">
+          </select>
 
-    <div class="status">
-      <div class="row"><span class="label">全班人數</span><span class="value">23 人</span></div>
-      <div class="row"><span class="label">輪值表位置</span><span class="value" id="raw">-</span></div>
-      <div class="row"><span class="label">今日值日</span><span class="value" id="summary">-</span></div>
-      <div class="row"><span class="label">待補值(欠班)</span><span class="value" id="pending">無</span></div>
-      <div class="row"><span class="label">今日外掃</span><span class="value" id="gs">-</span></div>
-    </div>
 
-    <div class="card settings">
-      <div class="head">
-        <h2>⚙️ 排班設定</h2>
-      </div>
-      <div class="settingsgrid">
-        <div><label>起始日期</label><input id="start" type="date" value="2026-08-19"></div>
-        <div><label>起始值日生</label><input id="startDuty" type="number" min="1" max="23" value="3"></div>
-        <div><label>起始外掃組</label><select id="startGroup">
-            <option value="A">A組(1~12)</option>
-            <option value="B">B組(13~23)</option>
-          </select></div>
-      </div>
-    </div>
-    <div class="sync" style="text-align:center; padding:15px; color:#64748b; font-size:14px;">✓ 已載入你提供的 23 人名單</div>
-  </div>
+          <button
+            class="action-button button-primary"
+            id="addLeave">
+            登記請假
+          </button>
+
+
+          <button
+            class="action-button button-secondary"
+            id="delLeave">
+            取消請假
+          </button>
+
+        </div>
+
+
+        <div
+          class="toast"
+          id="leaveToast">
+        </div>
+
+      </article>
+
+
+      <!-- ===================================================
+           停班日
+           =================================================== -->
+
+      <article class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <span class="eyebrow">
+              CALENDAR / CONTROL
+            </span>
+
+            <h2 class="card-title">
+              停班日設定
+            </h2>
+
+          </div>
+
+          <div class="icon-bubble">
+            !
+          </div>
+
+        </div>
+
+
+        <div class="stop-form">
+
+          <input
+            class="control"
+            id="stopDate"
+            type="date">
+
+
+          <input
+            class="control"
+            id="stopReason"
+            type="text"
+            placeholder="例如：校慶、段考">
+
+
+          <button
+            class="action-button button-primary full"
+            id="addStop">
+            新增停班日
+          </button>
+
+        </div>
+
+
+        <div class="card-note">
+          六、日自動視為例假日。
+          其他停班日期可自行設定。
+        </div>
+
+
+        <div
+          class="stop-list"
+          id="stopList">
+        </div>
+
+
+        <div
+          class="toast"
+          id="stopToast">
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <!-- =====================================================
+         SYSTEM / PEOPLE / SETTINGS
+         SAME LEVEL
+         ===================================================== -->
+
+    <section class="system-grid">
+
+
+      <!-- ===================================================
+           SYSTEM STATUS
+           =================================================== -->
+
+      <article class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <span class="eyebrow">
+              SYSTEM
+            </span>
+
+            <h2 class="card-title">
+              SYSTEM STATUS
+            </h2>
+
+          </div>
+
+          <div class="icon-bubble">
+            ●
+          </div>
+
+        </div>
+
+
+        <div class="system-info">
+
+
+          <div class="system-row">
+
+            <span class="system-label">
+              在訓人數
+            </span>
+
+            <strong
+              class="system-value"
+              id="studentCount">
+              23 人
+            </strong>
+
+          </div>
+
+
+          <div class="system-row">
+
+            <span class="system-label">
+              待補值／欠班的人員
+            </span>
+
+            <strong
+              class="system-value"
+              id="pending">
+              無
+            </strong>
+
+          </div>
+
+
+          <div class="system-row">
+
+            <span class="system-label">
+              今日外掃
+            </span>
+
+            <strong
+              class="system-value"
+              id="gs">
+              -
+            </strong>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="system-online">
+
+          <span class="online-dot"></span>
+
+          SYSTEM ONLINE
+
+        </div>
+
+      </article>
+
+
+      <!-- ===================================================
+           人員狀態
+           =================================================== -->
+
+      <article class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <span class="eyebrow">
+              PEOPLE
+            </span>
+
+            <h2 class="card-title">
+              人員狀態
+            </h2>
+
+          </div>
+
+          <div class="icon-bubble">
+            ◉
+          </div>
+
+        </div>
+
+
+        <div class="action">
+
+          <select
+            class="control"
+            id="statusStudent">
+          </select>
+
+
+          <button
+            class="action-button button-primary"
+            id="withdrawBtn">
+            設為退訓
+          </button>
+
+
+          <button
+            class="action-button button-secondary"
+            id="restoreBtn">
+            恢復在訓
+          </button>
+
+        </div>
+
+
+        <div
+          class="student-status"
+          id="studentStatus">
+        </div>
+
+
+        <div class="card-note">
+          退訓後自動排除值日與外掃，
+          外掃 A／B 兩組會依剩餘在訓人數重新平均分配。
+        </div>
+
+
+        <div
+          class="toast"
+          id="statusToast">
+        </div>
+
+      </article>
+
+
+      <!-- ===================================================
+           排班設定
+           =================================================== -->
+
+      <article class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <span class="eyebrow">
+              CONFIG
+            </span>
+
+            <h2 class="card-title">
+              排班設定
+            </h2>
+
+          </div>
+
+          <div class="icon-bubble">
+            ⚙
+          </div>
+
+        </div>
+
+
+        <div class="settings-form">
+
+
+          <div class="setting-item">
+
+            <label for="start">
+              起始日期
+            </label>
+
+            <input
+              class="control"
+              id="start"
+              type="date"
+              value="2026-08-19">
+
+          </div>
+
+
+          <div class="setting-item">
+
+            <label for="startDuty">
+              起始值日生
+            </label>
+
+            <input
+              class="control"
+              id="startDuty"
+              type="number"
+              min="1"
+              max="23"
+              value="3">
+
+          </div>
+
+
+          <div class="setting-item">
+
+            <label for="startGroup">
+              起始外掃組
+            </label>
+
+            <select
+              class="control"
+              id="startGroup">
+
+              <option value="A">
+                A 組
+              </option>
+
+              <option value="B">
+                B 組
+              </option>
+
+            </select>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+
+    </section>
+
+
+    <footer class="footer">
+
+      班級值日與外掃管理系統
+      · Local Storage Enabled
+
+    </footer>
+
+
+  </main>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
 
   <script>
-    const STUDENTS = [[1, "邱宇溏"], [2, "陳旭如"], [3, "古然"], [4, "王俊皓"], [5, "林佩佩"], [6, "張婷媛"], [7, "張雅婷"], [8, "藍子捷"], [9, "王建豐"], [10, "曾錦女"], [11, "單柏文"], [12, "劉盈意"], [13, "張嘉玲"], [14, "林群偉"], [15, "許禎麟"], [16, "潘承忠"], [17, "李佳麗"], [18, "王廷渝"], [19, "魏如鵬"], [20, "何堉蓁"], [21, "蔡芮吟"], [22, "許苡甄"], [23, "孫珮珊"]];
-    const N = 23, names = Object.fromEntries(STUDENTS);
-    let leaves = {}, stopDays = {};
 
-    const key = () => document.getElementById("date").value;
-    const circ = n => ((n - 1) % N + N) % N + 1;
-    const diff = (a, b) => Math.round((new Date(a + "T00:00:00") - new Date(b + "T00:00:00")) / 86400000);
-    const fmt = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    const addDays = (d, k) => { let x = new Date(d + "T00:00:00"); x.setDate(x.getDate() + k); return fmt(x) };
-    const abs = () => [...(leaves[key()] || [])].sort((a, b) => a - b);
+    /* =========================================================
+       STUDENTS
+       ========================================================= */
 
-    /* 
-     * 逐日模擬排班 (跳過六日與停班日)
-     */
-    function schedule(target, startDate, startDuty, leaveMap) {
-      const span = diff(target, startDate);
-      if (span < 0) return { picks: [], planned: [], pending: [], isSkip: true, groupToggle: 0, beforeStart: true };
+    const STUDENTS = [
 
-      let p = circ(startDuty), deferred = [], out = null, groupToggle = 0;
-      const days = Math.min(span, 3650);
+      [1, "邱宇溏"],
+      [2, "陳旭如"],
+      [3, "古然"],
+      [4, "王俊皓"],
+      [5, "林佩佩"],
+      [6, "張婷媛"],
+      [7, "張雅婷"],
+      [8, "藍子捷"],
+      [9, "王建豐"],
+      [10, "曾錦女"],
+      [11, "單柏文"],
+      [12, "劉盈意"],
+      [13, "張嘉玲"],
+      [14, "林群偉"],
+      [15, "許禎麟"],
+      [16, "潘承忠"],
+      [17, "李佳麗"],
+      [18, "王廷渝"],
+      [19, "魏如鵬"],
+      [20, "何堉蓁"],
+      [21, "蔡芮吟"],
+      [22, "許苡甄"],
+      [23, "孫珮珊"]
 
-      for (let i = 0; i <= days; i++) {
-        const date = addDays(startDate, i);
-        let d = new Date(date + "T00:00:00");
-        let isDuty = true;
+    ];
 
-        // 如果是六日，或是被設定為停班日，則跳過排班
-        if (d.getDay() === 0 || d.getDay() === 6 || stopDays[date]) {
-          isDuty = false;
-        }
 
-        if (!isDuty) {
-          if (i === days) out = { picks: [], planned: [], pending: deferred.slice(), isSkip: true, groupToggle: groupToggle };
-          continue; // 跳過當天，且不推進順序
-        }
+    const TOTAL_STUDENTS =
+      STUDENTS.length;
 
-        const away = new Set(leaveMap[date] || []);
-        const picks = [], planned = [p, circ(p + 1)];
 
-        // 1. 先從待補值名單抓人
-        for (let k = 0; k < deferred.length && picks.length < 2;) {
-          if (!away.has(deferred[k])) {
-            picks.push({ n: deferred[k], t: "補值" });
-            deferred.splice(k, 1);
-          } else k++;
-        }
+    const names =
+      Object.fromEntries(STUDENTS);
 
-        // 2. 再依輪值表往後取
-        let guard = 0;
-        while (picks.length < 2 && guard < N) {
-          const n = p;
-          p = circ(p + 1);
-          guard++;
-          if (away.has(n)) {
-            if (!deferred.includes(n)) deferred.push(n);
-            continue;
-          }
-          picks.push({ n: n, t: planned.includes(n) ? "值日" : "代班" });
-        }
 
-        if (i === days) {
-          out = { picks: picks, planned: planned, pending: deferred.slice(), isSkip: false, groupToggle: groupToggle };
-        }
-        // 有效排班日推進外掃組別切換
-        groupToggle = 1 - groupToggle;
-      }
-      return out;
+    /* =========================================================
+       DOM HELPER
+       ========================================================= */
+
+    const $ =
+      id =>
+        document.getElementById(id);
+
+
+    /* =========================================================
+       LOCAL STORAGE
+       ========================================================= */
+
+    let leaves =
+      JSON.parse(
+        localStorage.getItem(
+          "classLeaves"
+        ) || "{}"
+      );
+
+
+    let stopDays =
+      JSON.parse(
+        localStorage.getItem(
+          "classStopDays"
+        ) || "{}"
+      );
+
+
+    let withdrawn =
+      JSON.parse(
+        localStorage.getItem(
+          "classWithdrawn"
+        ) || "[]"
+      );
+
+
+    /* =========================================================
+       DEFAULT STOP DAYS
+       ========================================================= */
+
+    const DEFAULT_STOP_DAYS = {
+
+      "2026-08-28": "停班日",
+      "2026-09-25": "停班日",
+      "2026-09-28": "停班日",
+      "2026-10-09": "停班日",
+      "2026-10-26": "停班日",
+      "2026-11-27": "停班日",
+      "2026-12-25": "停班日",
+      "2027-01-29": "停班日"
+
+    };
+
+
+    if (
+      !localStorage.getItem(
+        "classStopDays"
+      )
+    ) {
+
+      stopDays = {
+        ...DEFAULT_STOP_DAYS
+      };
+
+      localStorage.setItem(
+        "classStopDays",
+        JSON.stringify(stopDays)
+      );
+
     }
+
+
+    /* =========================================================
+       DATE UTILITIES
+       ========================================================= */
+
+    function fmt(date) {
+
+      return `${date.getFullYear()}-${
+        String(
+          date.getMonth() + 1
+        ).padStart(2, "0")
+      }-${
+        String(
+          date.getDate()
+        ).padStart(2, "0")
+      }`;
+
+    }
+
+
+    function addDays(
+      date,
+      amount
+    ) {
+
+      const d =
+        new Date(
+          date + "T00:00:00"
+        );
+
+      d.setDate(
+        d.getDate() + amount
+      );
+
+      return fmt(d);
+
+    }
+
+
+    function diff(
+      a,
+      b
+    ) {
+
+      return Math.round(
+
+        (
+          new Date(
+            a + "T00:00:00"
+          ) -
+
+          new Date(
+            b + "T00:00:00"
+          )
+
+        ) / 86400000
+
+      );
+
+    }
+
+
+    function key() {
+
+      return $("date").value;
+
+    }
+
+
+    function getAbsence(
+      date = key()
+    ) {
+
+      return [
+        ...(leaves[date] || [])
+      ].sort(
+        (a, b) => a - b
+      );
+
+    }
+
+
+    /* =========================================================
+       ACTIVE STUDENTS
+       ========================================================= */
+
+    function activeStudents() {
+
+      return STUDENTS
+        .map(
+          ([n]) => n
+        )
+        .filter(
+          n =>
+            !withdrawn.includes(n)
+        );
+
+    }
+
+
+    /* =========================================================
+       NEXT ACTIVE
+       ========================================================= */
+
+    function nextActive(
+      current,
+      exclude = []
+    ) {
+
+      const active =
+        activeStudents()
+          .filter(
+            n =>
+              !exclude.includes(n)
+          );
+
+
+      if (!active.length) {
+
+        return null;
+
+      }
+
+
+      for (
+        let i = 1;
+        i <= TOTAL_STUDENTS;
+        i++
+      ) {
+
+        const candidate =
+          (
+            (
+              current - 1 + i
+            ) %
+            TOTAL_STUDENTS
+          ) + 1;
+
+
+        if (
+          active.includes(candidate)
+        ) {
+
+          return candidate;
+
+        }
+
+      }
+
+
+      return null;
+
+    }
+
+
+    /* =========================================================
+       SCHEDULE ENGINE
+       ========================================================= */
+
+    function schedule(
+      target,
+      startDate,
+      startDuty,
+      leaveMap
+    ) {
+
+      const span =
+        diff(
+          target,
+          startDate
+        );
+
+
+      if (span < 0) {
+
+        return {
+
+          picks: [],
+          planned: [],
+          pending: [],
+          isSkip: true,
+          groupToggle: 0,
+          beforeStart: true
+
+        };
+
+      }
+
+
+      const active =
+        activeStudents();
+
+
+      if (!active.length) {
+
+        return {
+
+          picks: [],
+          planned: [],
+          pending: [],
+          isSkip: false,
+          groupToggle: 0,
+          allWithdrawn: true
+
+        };
+
+      }
+
+
+      let p =
+        active.includes(startDuty)
+          ? startDuty
+          : active[0];
+
+
+      let deferred = [];
+
+      let groupToggle = 0;
+
+      let result = null;
+
+
+      const days =
+        Math.min(
+          span,
+          3650
+        );
+
+
+      for (
+        let i = 0;
+        i <= days;
+        i++
+      ) {
+
+        const date =
+          addDays(
+            startDate,
+            i
+          );
+
+
+        const d =
+          new Date(
+            date + "T00:00:00"
+          );
+
+
+        const weekend =
+          d.getDay() === 0 ||
+          d.getDay() === 6;
+
+
+        const stopped =
+          !!stopDays[date];
+
+
+        if (
+          weekend ||
+          stopped
+        ) {
+
+          if (
+            i === days
+          ) {
+
+            result = {
+
+              picks: [],
+              planned: [],
+              pending:
+                deferred.slice(),
+
+              isSkip: true,
+
+              groupToggle,
+
+              beforeStart: false
+
+            };
+
+          }
+
+          continue;
+
+        }
+
+
+        const away =
+          new Set(
+            leaveMap[date] || []
+          );
+
+
+        const picks = [];
+
+        const planned = [];
+
+
+        /* ---------------------------------------------
+           找理論值日人
+           --------------------------------------------- */
+
+        let cursor = p;
+
+
+        while (
+          planned.length < 2 &&
+          cursor !== null
+        ) {
+
+          if (
+            !withdrawn.includes(cursor) &&
+            !planned.includes(cursor)
+          ) {
+
+            planned.push(cursor);
+
+          }
+
+
+          cursor =
+            nextActive(
+              cursor,
+              planned
+            );
+
+
+          if (
+            cursor === null
+          ) {
+
+            break;
+
+          }
+
+        }
+
+
+        /* ---------------------------------------------
+           補欠班
+           --------------------------------------------- */
+
+        for (
+          let k = 0;
+          k < deferred.length &&
+          picks.length < 2;
+        ) {
+
+          const n =
+            deferred[k];
+
+
+          if (
+            !away.has(n) &&
+            !withdrawn.includes(n)
+          ) {
+
+            picks.push({
+
+              n,
+              t: "補值"
+
+            });
+
+
+            deferred.splice(
+              k,
+              1
+            );
+
+          } else {
+
+            k++;
+
+          }
+
+        }
+
+
+        /* ---------------------------------------------
+           正常值日 / 代班
+           --------------------------------------------- */
+
+        let current =
+          p;
+
+
+        let guard = 0;
+
+
+        while (
+          picks.length < 2 &&
+          guard <
+          TOTAL_STUDENTS * 2
+        ) {
+
+          if (
+            current !== null &&
+            !withdrawn.includes(current)
+          ) {
+
+            if (
+              away.has(current)
+            ) {
+
+              if (
+                !deferred.includes(current)
+              ) {
+
+                deferred.push(
+                  current
+                );
+
+              }
+
+            } else {
+
+              picks.push({
+
+                n: current,
+
+                t:
+                  planned.includes(current)
+                    ? "值日"
+                    : "代班"
+
+              });
+
+            }
+
+          }
+
+
+          current =
+            nextActive(current);
+
+
+          guard++;
+
+
+          if (
+            current === null
+          ) {
+
+            break;
+
+          }
+
+        }
+
+
+        if (
+          current !== null
+        ) {
+
+          p = current;
+
+        }
+
+
+        if (
+          i === days
+        ) {
+
+          result = {
+
+            picks,
+
+            planned,
+
+            pending:
+              deferred.slice(),
+
+            isSkip: false,
+
+            groupToggle
+
+          };
+
+        }
+
+
+        groupToggle =
+          1 - groupToggle;
+
+      }
+
+
+      return result;
+
+    }
+
 
     function duty(date) {
-      return schedule(date, document.getElementById("start").value, +document.getElementById("startDuty").value, leaves);
+
+      return schedule(
+
+        date,
+
+        $("start").value,
+
+        Number(
+          $("startDuty").value
+        ),
+
+        leaves
+
+      );
+
     }
 
-    function render() {
-      let date = key();
-      if (!date) return;
 
-      let d = new Date(date + "T00:00:00"), w = ["週日", "週一", "週二", "週三", "週四", "週五", "週六"];
-      document.getElementById("dateText").textContent = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
-      document.getElementById("weekday").textContent = w[d.getDay()];
+    /* =========================================================
+       NEXT WORKING DAY
+       ========================================================= */
 
-      let a = abs(), z = duty(date), pk = z.picks;
+    function nextWorkingDay(
+      date
+    ) {
 
-      if (z.isSkip) {
-        // 假日/停班日顯示邏輯
-        document.getElementById("raw").textContent = "—";
-        [0, 1].forEach(i => {
-          document.getElementById("d" + (i + 1)).textContent = "-";
-          document.getElementById("n" + (i + 1)).textContent = "休假";
-          let b = document.getElementById("b" + (i + 1));
-          b.textContent = "—"; b.className = "badge";
-        });
-        document.getElementById("summary").textContent = "今日放假";
-        document.getElementById("pending").textContent = z.pending.length ? z.pending.map(n => `${n}號 ${names[n]}`).join("、") : "無";
-        document.getElementById("dutyNote").textContent = z.beforeStart ? "尚未開始排班" : "☕ 今日為例假日或設定之停班日，排班自動順延。";
+      let next =
+        addDays(
+          date,
+          1
+        );
 
-        document.getElementById("gt").textContent = "—";
-        document.getElementById("glabel").textContent = "—";
-        document.getElementById("gs").textContent = "休假";
-        document.getElementById("members").innerHTML = "<div class='empty'>今日無外掃</div>";
-      } else {
-        // 正常排班日顯示邏輯
-        document.getElementById("raw").textContent = z.planned.map(n => `${n}號 ${names[n]}`).join("、");
-        [0, 1].forEach(i => {
-          let it = pk[i];
-          document.getElementById("d" + (i + 1)).textContent = it ? it.n : "-";
-          document.getElementById("n" + (i + 1)).textContent = it ? names[it.n] : "無可排班";
-          let b = document.getElementById("b" + (i + 1));
-          b.textContent = it ? it.t : "—";
-          b.className = "badge" + (it && it.t === "代班" ? " sub" : it && it.t === "補值" ? " makeup" : "");
-        });
-        document.getElementById("summary").textContent = pk.map(x => `${x.n}號 ${names[x.n]}${x.t === "值日" ? "" : "(" + x.t + ")"}`).join("、") || "無可排班";
-        document.getElementById("pending").textContent = z.pending.length ? z.pending.map(n => `${n}號 ${names[n]}`).join("、") : "無";
 
-        let dn = [];
-        if (pk.some(x => x.t === "代班")) dn.push("有人請假，由下一位代班；請假者的班次保留。");
-        if (pk.some(x => x.t === "補值")) dn.push("含銷假補值的同學。");
-        document.getElementById("dutyNote").textContent = dn.join(" ");
+      let guard = 0;
 
-        // 外掃組別根據有效的交替次數判定
-        let sg = document.getElementById("startGroup").value;
-        let g = (sg === "A") ? (z.groupToggle === 0 ? "A" : "B") : (z.groupToggle === 0 ? "B" : "A");
-        let nums = g === "A" ? Array.from({ length: 12 }, (_, i) => i + 1) : Array.from({ length: 11 }, (_, i) => i + 13);
 
-        document.getElementById("gt").textContent = g === "A" ? "A組|1~12號" : "B組|13~23號";
-        document.getElementById("glabel").textContent = g === "A" ? "1~12號" : "13~23號";
-        document.getElementById("gs").textContent = g === "A" ? "A組(1~12號)" : "B組(13~23號)";
+      while (
+        guard < 3700
+      ) {
 
-        let box = document.getElementById("members");
-        box.innerHTML = "";
-        nums.forEach(n => {
-          let x = document.createElement("div");
-          x.className = "member" + (a.includes(n) ? " absent" : "");
-          x.textContent = a.includes(n) ? `${n}號 ${names[n]}(請假)` : `${n}號 ${names[n]}`;
-          box.appendChild(x);
-        });
+        const d =
+          new Date(
+            next + "T00:00:00"
+          );
+
+
+        const weekend =
+          d.getDay() === 0 ||
+          d.getDay() === 6;
+
+
+        const stopped =
+          !!stopDays[next];
+
+
+        if (
+          !weekend &&
+          !stopped
+        ) {
+
+          return next;
+
+        }
+
+
+        next =
+          addDays(
+            next,
+            1
+          );
+
+
+        guard++;
+
       }
 
-      // 請假紀錄區塊 (無論是否放假都顯示)
-      let ab = document.getElementById("absence");
-      ab.innerHTML = a.length ? "" : "<div class='empty'>✓ 今日無請假</div>";
-      a.forEach(n => {
-        let x = document.createElement("div");
-        x.className = "abs"; x.textContent = `${n}號 ${names[n]}`;
-        ab.appendChild(x);
-      });
+
+      return next;
+
     }
 
-    function toast(msg) {
-      let t = document.getElementById("toast");
-      t.textContent = msg; t.style.display = "block";
-      setTimeout(() => t.style.display = "none", 3000); // 自動隱藏提示
+
+    /* =========================================================
+       CLEANING GROUPS
+       ========================================================= */
+
+    function getCleaningGroups() {
+
+      const active =
+        activeStudents();
+
+
+      const total =
+        active.length;
+
+
+      if (
+        total === 0
+      ) {
+
+        return {
+          A: [],
+          B: []
+        };
+
+      }
+
+
+      const split =
+        Math.ceil(
+          total / 2
+        );
+
+
+      return {
+
+        A:
+          active.slice(
+            0,
+            split
+          ),
+
+        B:
+          active.slice(
+            split
+          )
+
+      };
+
     }
+
+
+    /* =========================================================
+       DUTY CARD RENDER
+       ========================================================= */
+
+    function renderDutyCards(
+      z,
+      prefix = ""
+    ) {
+
+      const firstId =
+        prefix
+          ? "td1"
+          : "d1";
+
+
+      const secondId =
+        prefix
+          ? "td2"
+          : "d2";
+
+
+      const firstNameId =
+        prefix
+          ? "tn1"
+          : "n1";
+
+
+      const secondNameId =
+        prefix
+          ? "tn2"
+          : "n2";
+
+
+      const firstBadgeId =
+        prefix
+          ? "tb1"
+          : "b1";
+
+
+      const secondBadgeId =
+        prefix
+          ? "tb2"
+          : "b2";
+
+
+      const items =
+        z && z.picks
+          ? z.picks
+          : [];
+
+
+      [0, 1].forEach(
+        i => {
+
+          const item =
+            items[i];
+
+
+          $(i === 0
+            ? firstId
+            : secondId
+          ).textContent =
+            item
+              ? item.n
+              : "-";
+
+
+          $(i === 0
+            ? firstNameId
+            : secondNameId
+          ).textContent =
+            item
+              ? names[item.n]
+              : (
+                z?.isSkip
+                  ? "休假"
+                  : "無可排班"
+              );
+
+
+          const badge =
+            $(i === 0
+              ? firstBadgeId
+              : secondBadgeId
+            );
+
+
+          badge.textContent =
+            item
+              ? item.t
+              : "—";
+
+
+          badge.className =
+            "badge";
+
+
+          if (
+            item &&
+            item.t === "代班"
+          ) {
+
+            badge.classList.add(
+              "badge-sub"
+            );
+
+          }
+
+
+          if (
+            item &&
+            item.t === "補值"
+          ) {
+
+            badge.classList.add(
+              "badge-makeup"
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       MAIN RENDER
+       ========================================================= */
+
+    function render() {
+
+      const date =
+        key();
+
+
+      if (!date) {
+
+        return;
+
+      }
+
+
+      const d =
+        new Date(
+          date + "T00:00:00"
+        );
+
+
+      const weekdays = [
+
+        "週日",
+        "週一",
+        "週二",
+        "週三",
+        "週四",
+        "週五",
+        "週六"
+
+      ];
+
+
+      $("dateText").textContent =
+        `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+
+
+      $("weekday").textContent =
+        weekdays[d.getDay()];
+
+
+      const absent =
+        getAbsence(date);
+
+
+      const z =
+        duty(date);
+
+
+      /* =======================================================
+         ALL WITHDRAWN
+         ======================================================= */
+
+      if (
+        z.allWithdrawn
+      ) {
+
+        renderDutyCards(
+          {
+            picks: []
+          }
+        );
+
+
+        renderDutyCards(
+          {
+            picks: []
+          },
+          "tomorrow"
+        );
+
+
+        $("n1").textContent =
+          "無在訓人員";
+
+
+        $("n2").textContent =
+          "無在訓人員";
+
+
+        $("tn1").textContent =
+          "無在訓人員";
+
+
+        $("tn2").textContent =
+          "無在訓人員";
+
+
+        $("dutyNote").textContent =
+          "目前全班人員皆為退訓狀態。";
+
+
+        $("tomorrowNote").textContent =
+          "目前沒有可排班人員。";
+
+
+        $("pending").textContent =
+          "無";
+
+
+        $("gs").textContent =
+          "無";
+
+
+        $("gt").textContent =
+          "—";
+
+
+        $("glabel").textContent =
+          "—";
+
+
+        $("members").innerHTML =
+          "<div class='empty'>目前沒有在訓人員</div>";
+
+
+        renderAbsence(
+          absent
+        );
+
+
+        renderStudentCount();
+
+        return;
+
+      }
+
+
+      /* =======================================================
+         SKIP DAY
+         ======================================================= */
+
+      if (
+        z.isSkip
+      ) {
+
+        renderDutyCards(
+          {
+            picks: [],
+            isSkip: true
+          }
+        );
+
+
+        const tomorrow =
+          nextWorkingDay(date);
+
+
+        const tz =
+          duty(tomorrow);
+
+
+        renderDutyCards(
+          tz
+        ,
+          "tomorrow"
+        );
+
+
+        $("summarySafe");
+
+
+        $("dutyNote").textContent =
+          stopDays[date]
+            ? `🛑 ${stopDays[date]}，排班自動順延。`
+            : "☕ 今日為例假日，排班自動順延。";
+
+
+        $("tomorrowNote").textContent =
+          tz.picks.length
+            ? `下一個工作日：${tomorrow}`
+            : "下一個工作日無可排班人員。";
+
+
+        $("pending").textContent =
+          z.pending.length
+            ? z.pending
+              .map(
+                n =>
+                  `${n}號 ${names[n]}`
+              )
+              .join("、")
+            : "無";
+
+
+        $("gs").textContent =
+          "休假";
+
+
+        $("gt").textContent =
+          "—";
+
+
+        $("glabel").textContent =
+          "—";
+
+
+        $("members").innerHTML =
+          "<div class='empty'>今日無外掃</div>";
+
+
+        renderAbsence(
+          absent
+        );
+
+
+        renderStudentCount();
+
+        return;
+
+      }
+
+
+      /* =======================================================
+         TODAY DUTY
+         ======================================================= */
+
+      renderDutyCards(
+        z
+      );
+
+
+      $("dutyNote").textContent =
+        "";
+
+
+      const notes = [];
+
+
+      if (
+        z.picks.some(
+          x =>
+            x.t === "代班"
+        )
+      ) {
+
+        notes.push(
+          "有人請假，由下一位代班。"
+        );
+
+      }
+
+
+      if (
+        z.picks.some(
+          x =>
+            x.t === "補值"
+        )
+      ) {
+
+        notes.push(
+          "今日包含銷假補值。"
+        );
+
+      }
+
+
+      if (
+        withdrawn.length
+      ) {
+
+        notes.push(
+          `目前 ${withdrawn.length} 人退訓，外掃已重新平均分配。`
+        );
+
+      }
+
+
+      $("dutyNote").textContent =
+        notes.join(" ");
+
+
+      /* =======================================================
+         TOMORROW DUTY
+         ======================================================= */
+
+      const tomorrow =
+        nextWorkingDay(date);
+
+
+      const tomorrowDuty =
+        duty(tomorrow);
+
+
+      renderDutyCards(
+        tomorrowDuty,
+        "tomorrow"
+      );
+
+
+      $("tomorrowNote").textContent =
+        tomorrowDuty.picks.length
+          ? `下一個工作日：${tomorrow}`
+          : "下一個工作日無可排班人員。";
+
+
+      /* =======================================================
+         SYSTEM PENDING
+         ======================================================= */
+
+      $("pending").textContent =
+        z.pending.length
+          ? z.pending
+            .map(
+              n =>
+                `${n}號 ${names[n]}`
+            )
+            .join("、")
+          : "無";
+
+
+      /* =======================================================
+         CLEANING GROUP
+         ======================================================= */
+
+      const groups =
+        getCleaningGroups();
+
+
+      const startGroup =
+        $("startGroup").value;
+
+
+      let group;
+
+
+      if (
+        startGroup === "A"
+      ) {
+
+        group =
+          z.groupToggle === 0
+            ? "A"
+            : "B";
+
+      } else {
+
+        group =
+          z.groupToggle === 0
+            ? "B"
+            : "A";
+
+      }
+
+
+      const nums =
+        group === "A"
+          ? groups.A
+          : groups.B;
+
+
+      $("gt").textContent =
+        `${group} 組｜${nums.length} 人`;
+
+
+      $("glabel").textContent =
+        `${nums.length} 人`;
+
+
+      $("gs").textContent =
+        `${group} 組（${nums.length} 人）`;
+
+
+      const box =
+        $("members");
+
+
+      box.innerHTML =
+        "";
+
+
+      nums.forEach(
+        n => {
+
+          const element =
+            document.createElement(
+              "div"
+            );
+
+
+          element.className =
+            "member";
+
+
+          if (
+            absent.includes(n)
+          ) {
+
+            element.classList.add(
+              "absent"
+            );
+
+
+            element.textContent =
+              `${n}號 ${names[n]}（請假）`;
+
+          } else {
+
+            element.textContent =
+              `${n}號 ${names[n]}`;
+
+          }
+
+
+          box.appendChild(
+            element
+          );
+
+        }
+      );
+
+
+      if (
+        !nums.length
+      ) {
+
+        box.innerHTML =
+          "<div class='empty'>本組目前沒有在訓人員</div>";
+
+      }
+
+
+      renderAbsence(
+        absent
+      );
+
+
+      renderStudentCount();
+
+    }
+
+
+    /* =========================================================
+       ABSENCE RENDER
+       ========================================================= */
+
+    function renderAbsence(
+      absent
+    ) {
+
+      const box =
+        $("absence");
+
+
+      box.innerHTML =
+        "";
+
+
+      if (
+        !absent.length
+      ) {
+
+        box.innerHTML =
+          "<div class='empty'>✓ 今日無請假</div>";
+
+        return;
+
+      }
+
+
+      absent.forEach(
+        n => {
+
+          const element =
+            document.createElement(
+              "div"
+            );
+
+
+          element.className =
+            "absence-item";
+
+
+          element.textContent =
+            `${n}號 ${names[n]}`;
+
+
+          box.appendChild(
+            element
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       STUDENT COUNT
+       ========================================================= */
+
+    function renderStudentCount() {
+
+      const active =
+        activeStudents().length;
+
+
+      $("studentCount").textContent =
+        `在訓 ${active} 人 / 原始總人數 ${TOTAL_STUDENTS} 人`;
+
+    }
+
+
+    /* =========================================================
+       SAVE
+       ========================================================= */
+
+    function saveData() {
+
+      localStorage.setItem(
+        "classLeaves",
+        JSON.stringify(
+          leaves
+        )
+      );
+
+
+      localStorage.setItem(
+        "classStopDays",
+        JSON.stringify(
+          stopDays
+        )
+      );
+
+
+      localStorage.setItem(
+        "classWithdrawn",
+        JSON.stringify(
+          withdrawn
+        )
+      );
+
+    }
+
+
+    /* =========================================================
+       TOAST
+       ========================================================= */
+
+    function toast(
+      id,
+      message
+    ) {
+
+      const element =
+        $(id);
+
+
+      element.textContent =
+        message;
+
+
+      element.style.display =
+        "block";
+
+
+      setTimeout(
+        () => {
+
+          element.style.display =
+            "none";
+
+        },
+        3000
+      );
+
+    }
+
+
+    /* =========================================================
+       LEAVE
+       ========================================================= */
 
     function addLeave() {
-      let n = +document.getElementById("student").value;
-      if (!leaves[key()]) leaves[key()] = [];
-      if (!leaves[key()].includes(n)) leaves[key()].push(n);
-      render(); toast(`已登記 ${n}號 ${names[n]} 於 ${key()} 請假`);
+
+      const n =
+        Number(
+          $("student").value
+        );
+
+
+      if (
+        withdrawn.includes(n)
+      ) {
+
+        toast(
+          "leaveToast",
+          `${n}號 ${names[n]} 已退訓，無法登記請假。`
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !leaves[key()]
+      ) {
+
+        leaves[key()] =
+          [];
+
+      }
+
+
+      if (
+        !leaves[key()].includes(n)
+      ) {
+
+        leaves[key()].push(
+          n
+        );
+
+      }
+
+
+      saveData();
+
+      render();
+
+
+      toast(
+        "leaveToast",
+        `已登記 ${n}號 ${names[n]} 於 ${key()} 請假。`
+      );
+
     }
+
 
     function removeLeave() {
-      let n = +document.getElementById("student").value;
-      if (leaves[key()]) leaves[key()] = leaves[key()].filter(x => x !== n);
-      render(); toast(`已取消 ${n}號 ${names[n]} 於 ${key()} 的請假`);
+
+      const n =
+        Number(
+          $("student").value
+        );
+
+
+      if (
+        leaves[key()]
+      ) {
+
+        leaves[key()] =
+          leaves[key()].filter(
+            x =>
+              x !== n
+          );
+
+      }
+
+
+      saveData();
+
+      render();
+
+
+      toast(
+        "leaveToast",
+        `已取消 ${n}號 ${names[n]} 的請假。`
+      );
+
     }
 
-    function toggleStop(isStop) {
-      if (isStop) stopDays[key()] = true;
-      else delete stopDays[key()];
-      render(); toast(`已${isStop ? '設定' : '取消'} ${key()} 為停班日`);
+
+    /* =========================================================
+       STOP DAY
+       ========================================================= */
+
+    function addStop() {
+
+      const date =
+        $("stopDate").value;
+
+
+      const reason =
+        $("stopReason").value.trim()
+        ||
+        "停班日";
+
+
+      if (!date) {
+
+        toast(
+          "stopToast",
+          "請先選擇日期。"
+        );
+
+        return;
+
+      }
+
+
+      stopDays[date] =
+        reason;
+
+
+      saveData();
+
+      renderStopList();
+
+      render();
+
+
+      $("stopReason").value =
+        "";
+
+
+      toast(
+        "stopToast",
+        `已設定 ${date} 為「${reason}」。`
+      );
+
     }
 
-    function move(v) {
-      let i = document.getElementById("date");
-      i.value = addDays(i.value, v); render();
+
+    function removeStop(
+      date
+    ) {
+
+      delete stopDays[date];
+
+
+      saveData();
+
+      renderStopList();
+
+      render();
+
+
+      toast(
+        "stopToast",
+        `已取消 ${date} 停班設定。`
+      );
+
     }
+
+
+    function renderStopList() {
+
+      const box =
+        $("stopList");
+
+
+      const dates =
+        Object.keys(
+          stopDays
+        ).sort();
+
+
+      if (
+        !dates.length
+      ) {
+
+        box.innerHTML =
+          "<div class='empty'>目前沒有停班日</div>";
+
+        return;
+
+      }
+
+
+      box.innerHTML =
+        "";
+
+
+      dates.forEach(
+        date => {
+
+          const item =
+            document.createElement(
+              "div"
+            );
+
+
+          item.className =
+            "stop-item";
+
+
+          const info =
+            document.createElement(
+              "div"
+            );
+
+
+          info.className =
+            "stop-info";
+
+
+          const dateElement =
+            document.createElement(
+              "div"
+            );
+
+
+          dateElement.className =
+            "stop-date";
+
+
+          dateElement.textContent =
+            date;
+
+
+          const reasonElement =
+            document.createElement(
+              "div"
+            );
+
+
+          reasonElement.className =
+            "stop-reason";
+
+
+          reasonElement.textContent =
+            stopDays[date];
+
+
+          info.appendChild(
+            dateElement
+          );
+
+
+          info.appendChild(
+            reasonElement
+          );
+
+
+          const button =
+            document.createElement(
+              "button"
+            );
+
+
+          button.className =
+            "delete-stop";
+
+
+          button.textContent =
+            "取消";
+
+
+          button.addEventListener(
+            "click",
+            () =>
+              removeStop(date)
+          );
+
+
+          item.appendChild(
+            info
+          );
+
+
+          item.appendChild(
+            button
+          );
+
+
+          box.appendChild(
+            item
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       WITHDRAW
+       ========================================================= */
+
+    function withdrawStudent() {
+
+      const n =
+        Number(
+          $("statusStudent").value
+        );
+
+
+      if (
+        !withdrawn.includes(n)
+      ) {
+
+        withdrawn.push(
+          n
+        );
+
+      }
+
+
+      saveData();
+
+      renderStudentOptions();
+
+      renderStudentStatus();
+
+      render();
+
+
+      toast(
+        "statusToast",
+        `已將 ${n}號 ${names[n]} 設為退訓，外掃人數已重新分配。`
+      );
+
+    }
+
+
+    /* =========================================================
+       RESTORE
+       ========================================================= */
+
+    function restoreStudent() {
+
+      const n =
+        Number(
+          $("statusStudent").value
+        );
+
+
+      withdrawn =
+        withdrawn.filter(
+          x =>
+            x !== n
+        );
+
+
+      saveData();
+
+      renderStudentOptions();
+
+      renderStudentStatus();
+
+      render();
+
+
+      toast(
+        "statusToast",
+        `已恢復 ${n}號 ${names[n]} 為在訓，外掃人數已重新分配。`
+      );
+
+    }
+
+
+    /* =========================================================
+       STUDENT OPTIONS
+       ========================================================= */
+
+    function renderStudentOptions() {
+
+      const options =
+        STUDENTS
+          .map(
+            ([n, name]) => {
+
+              const status =
+                withdrawn.includes(n)
+                  ? "【退訓】"
+                  : "【在訓】";
+
+
+              return `
+                <option value="${n}">
+                  ${n}號 ${name} ${status}
+                </option>
+              `;
+
+            }
+          )
+          .join("");
+
+
+      $("student").innerHTML =
+        options;
+
+
+      $("statusStudent").innerHTML =
+        options;
+
+    }
+
+
+    /* =========================================================
+       STUDENT STATUS
+       ========================================================= */
+
+    function renderStudentStatus() {
+
+      const box =
+        $("studentStatus");
+
+
+      box.innerHTML =
+        "";
+
+
+      STUDENTS.forEach(
+        ([n, name]) => {
+
+          const element =
+            document.createElement(
+              "div"
+            );
+
+
+          const isWithdrawn =
+            withdrawn.includes(n);
+
+
+          element.className =
+            isWithdrawn
+              ? "status-person withdraw"
+              : "status-person";
+
+
+          element.textContent =
+            isWithdrawn
+              ? `${n}號 ${name}｜退訓`
+              : `${n}號 ${name}｜在訓`;
+
+
+          box.appendChild(
+            element
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       DATE MOVE
+       ========================================================= */
+
+    function move(
+      amount
+    ) {
+
+      const input =
+        $("date");
+
+
+      if (
+        !input.value
+      ) {
+
+        input.value =
+          fmt(new Date());
+
+      }
+
+
+      input.value =
+        addDays(
+          input.value,
+          amount
+        );
+
+
+      render();
+
+    }
+
+
+    /* =========================================================
+       TODAY
+       ========================================================= */
 
     function today() {
-      document.getElementById("date").value = fmt(new Date()); render();
+
+      $("date").value =
+        fmt(
+          new Date()
+        );
+
+
+      render();
+
     }
 
-    const $ = id => document.getElementById(id);
-    $("date").value = "2026-08-19";
-    $("student").innerHTML = STUDENTS.map(([n, s]) => `<option value="${n}">${n}號 ${s}</option>`).join("");
 
-    $("prev").addEventListener("click", () => move(-1));
-    $("next").addEventListener("click", () => move(1));
-    $("todayBtn").addEventListener("click", today);
+    /* =========================================================
+       EVENTS
+       ========================================================= */
 
-    $("addLeave").addEventListener("click", addLeave);
-    $("delLeave").addEventListener("click", removeLeave);
-    $("addStop").addEventListener("click", () => toggleStop(true));
-    $("delStop").addEventListener("click", () => toggleStop(false));
+    $("prev")
+      .addEventListener(
+        "click",
+        () =>
+          move(-1)
+      );
 
-    ["date", "start", "startDuty", "startGroup"].forEach(id => $(id).addEventListener("change", render));
+
+    $("next")
+      .addEventListener(
+        "click",
+        () =>
+          move(1)
+      );
+
+
+    $("todayBtn")
+      .addEventListener(
+        "click",
+        today
+      );
+
+
+    $("addLeave")
+      .addEventListener(
+        "click",
+        addLeave
+      );
+
+
+    $("delLeave")
+      .addEventListener(
+        "click",
+        removeLeave
+      );
+
+
+    $("addStop")
+      .addEventListener(
+        "click",
+        addStop
+      );
+
+
+    $("withdrawBtn")
+      .addEventListener(
+        "click",
+        withdrawStudent
+      );
+
+
+    $("restoreBtn")
+      .addEventListener(
+        "click",
+        restoreStudent
+      );
+
+
+    [
+      "date",
+      "start",
+      "startDuty",
+      "startGroup"
+    ].forEach(
+      id => {
+
+        $(id)
+          .addEventListener(
+            "change",
+            render
+          );
+
+      }
+    );
+
+
+    /* =========================================================
+       INITIALIZATION
+       ========================================================= */
+
+    $("date").value =
+      fmt(
+        new Date()
+      );
+
+
+    $("stopDate").value =
+      fmt(
+        new Date()
+      );
+
+
+    renderStudentOptions();
+
+    renderStudentStatus();
+
+    renderStopList();
+
     render();
+
   </script>
+
 </body>
 
 </html>

@@ -1,0 +1,288 @@
+<!-- Gemini生成 -->
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibe Coding 學院</title>
+  <style>
+    /* ==========================================================================
+       1. 基礎樣式重設與全域設定 (Reset & Base Styles)
+       ========================================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #0b0f19; /* 充滿科技感的深色背景 */
+      color: #f3f4f6;
+      line-height: 1.6;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ==========================================================================
+       2. 網頁頂部導覽列樣式 (Header Styles)
+       ========================================================================== */
+    .main-header {
+      display: flex;                  /* 啟用 Flexbox 彈性排版 */
+      justify-content: space-between; /* 左右兩端分散對齊 */
+      align-items: center;            /* 上下垂直方向絕對置中對齊 */
+      padding: 20px 40px;             /* 內距 */
+      background-color: #111827;      
+      border-bottom: 1px solid #1f2937;
+    }
+
+    .logo a {
+      font-size: 24px;
+      font-weight: 800;
+      text-decoration: none;
+      color: #38bdf8; /* 科技藍品牌字 */
+      letter-spacing: 1px;
+    }
+
+    .nav-menu {
+      display: flex;                  /* 內部同樣啟用 Flexbox 排列 */
+      gap: 24px;                      /* 連結之間的固定安全距離 */
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #9ca3af;
+      font-size: 16px;
+      font-weight: 500;
+      transition: color 0.3s ease;    
+    }
+
+    .nav-link:hover {
+      color: #38bdf8;                 /* 懸停時改變為主題色 */
+    }
+
+    /* ==========================================================================
+       3. Vibe Coding 教學商品列表區塊樣式 (Product Grid Styles)
+       ========================================================================== */
+    /* 商品區塊大外殼 */
+    .product-section {
+      max-width: 1200px;
+      margin: 60px auto;              /* 上下留白，左右置中 */
+      padding: 0 20px;
+    }
+
+    /* 區塊標題 */
+    .section-title {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 16px;
+      color: #9ca3af;
+      margin-bottom: 48px;
+    }
+
+    /* CSS Grid 3欄網格佈局 */
+    .product-grid {
+      display: grid;                                      /* 啟用 CSS Grid 排版 */
+      grid-template-columns: repeat(4, 1fr);             /* 建立等寬且高度自適應的3欄佈局 */
+      gap: 24px;                                          /* 格子之間的固定間距，不寫死百分比寬度 */
+    }
+
+    /* 獨立商品卡片 */
+    .product-card {
+      background-color: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;                             /* 讓卡片內部元件垂直排列 */
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* 卡片懸停視覺效果 */
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: #38bdf8;
+      box-shadow: 0 12px 30px rgba(56, 189, 248, 0.15);
+    }
+
+    /* 商品視覺容器 */
+    .product-image-wrap {
+      background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%);
+      aspect-ratio: 16 / 10;                              /* 固定黃金比例 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #38bdf8;
+      font-weight: bold;
+      font-size: 18px;
+      letter-spacing: 1px;
+      border-bottom: 1px solid #1f2937;
+    }
+
+    /* 商品內容文字區 */
+    .product-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;                                       /* 自動填滿剩餘高度，確保按鈕對齊 */
+    }
+
+    .product-tag {
+      font-size: 12px;
+      color: #38bdf8;
+      background-color: rgba(56, 189, 248, 0.1);
+      padding: 4px 8px;
+      border-radius: 4px;
+      align-self: flex-start;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .product-name {
+      font-size: 20px;
+      color: #ffffff;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .product-desc {
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 24px;
+      flex-grow: 1;                                       /* 敘述文字自動撐開，讓價格與按鈕靠底 */
+    }
+
+    /* 價格與購買列 */
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid #1f2937;
+    }
+
+    .product-price {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .btn-add {
+      background-color: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-add:hover {
+      background-color: #7dd3fc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. 網頁頂部導覽列 -->
+  <header class="main-header">
+    <div class="logo">
+      <a href="#">VibeAcademy</a>
+    </div>
+    <nav class="nav-menu">
+      <a href="#" class="nav-link">精選課程</a>
+      <a href="#" class="nav-link">學習地圖</a>
+      <a href="#" class="nav-link">社群討論</a>
+      <a href="#" class="nav-link">關於我們</a>
+    </nav>
+  </header>
+
+  <!-- 2. Vibe Coding 教學商品列表區塊 -->
+  <section class="product-section">
+    <h2 class="section-title">熱門 Vibe Coding 實戰教學</h2>
+    <p class="section-subtitle">動口不動手，學會用大語言模型與 AI 代理人直接用「大腦與直覺」編寫出正式產品</p>
+    
+    <!-- Grid 網格核心 -->
+    <div class="product-grid">
+      
+      <!-- 商品卡片 1 -->
+      <article class="product-card">
+        <div class="product-image-wrap">
+          <span>Level 1: Prompt Engineering</span>
+        </div>
+        <div class="product-content">
+          <span class="product-tag">新手入門</span>
+          <h3 class="product-name">AI 溝通術：從零打造完美 Prompt</h3>
+          <p class="product-desc">掌握與 Claude、ChatGPT 精準溝通的框架。學習如何下達明確指令，讓 AI 零錯誤產出你所需的基礎網頁與應用架構。</p>
+          <div class="product-footer">
+            <span class="product-price">NT$ 2,400</span>
+            <button class="btn-add">立即解鎖</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 商品卡片 1 -->
+      <article class="product-card">
+        <div class="product-image-wrap">
+          <span>Level 1: Prompt Engineering</span>
+        </div>
+        <div class="product-content">
+          <span class="product-tag">新手入門</span>
+          <h3 class="product-name">AI 溝通術：從零打造完美 Prompt</h3>
+          <p class="product-desc">掌握與 Claude、ChatGPT 精準溝通的框架。學習如何下達明確指令，讓 AI 零錯誤產出你所需的基礎網頁與應用架構。</p>
+          <div class="product-footer">
+            <span class="product-price">NT$ 2,400</span>
+            <button class="btn-add">立即解鎖</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 商品卡片 2 -->
+      <article class="product-card">
+        <div class="product-image-wrap">
+          <span>Level 2: AI Agents & Tools</span>
+        </div>
+        <div class="product-content">
+          <span class="product-tag">進階實戰</span>
+          <h3 class="product-name">Cursor & Lovable 高效開發全攻略</h3>
+          <p class="product-desc">全面解放生產力！深入全自動化開發工具，學會透過對話進行疊代、修復 Bug、重構程式碼，體驗一日產出完整 SaaS 的樂趣。</p>
+          <div class="product-footer">
+            <span class="product-price">NT$ 3,600</span>
+            <button class="btn-add">立即解鎖</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 商品卡片 3 -->
+      <article class="product-card">
+        <div class="product-image-wrap">
+          <span>Level 3: Full-Stack Vibe</span>
+        </div>
+        <div class="product-content">
+          <span class="product-tag">大師班</span>
+          <h3 class="product-name">現代 Vibe Coder 全棧架構師養成</h3>
+          <p class="product-desc">專為不想碰程式碼的專案經理與創業者設計。利用 AI 指揮前端、後端與資料庫部署，教你如何只靠「動口下指令」獨立將產品上線。</p>
+          <div class="product-footer">
+            <span class="product-price">NT$ 4,800</span>
+            <button class="btn-add">立即解鎖</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+</body>
+</html>
+

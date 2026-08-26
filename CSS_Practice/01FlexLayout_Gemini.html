@@ -1,0 +1,76 @@
+<!-- Gemini生成 -->
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>導覽列範例</title>
+  <style>
+    /* 基礎樣式重設 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    /* 頂部導覽列主外殼 */
+    .main-header {
+      display: flex;                  /* 啟用 Flexbox 彈性排版 */
+      justify-content: space-between; /* 左右兩端分散對齊 */
+      align-items: center;            /* 上下垂直方向絕對置中對齊 */
+      padding: 15px 40px;             /* 內距，確保左右有安全留白 */
+      background-color: #ffffff;      /* 背景顏色 */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 輕微陰影提升質感 */
+    }
+
+    /* Logo 樣式 */
+    .logo a {
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #333333;
+    }
+
+    /* 右側導覽選單外殼 */
+    .nav-menu {
+      display: flex;                  /* 內部同樣啟用 Flexbox 排列 */
+      gap: 24px;                      /* 嚴格設定連結之間的固定安全距離 */
+    }
+
+    /* 導覽連結基本樣式 */
+    .nav-link {
+      text-decoration: none;
+      color: #555555;
+      font-size: 16px;
+      transition: color 0.3s ease;    /* 滑鼠懸停時的平滑過渡效果 */
+    }
+
+    /* 導覽連結滑鼠懸停效果 */
+    .nav-link:hover {
+      color: #007bff;                 /* 懸停時改變顏色 */
+    }
+  </style>
+</head>
+<body>
+
+  <header class="main-header">
+    <!-- 左側 Logo 區域 -->
+    <div class="logo">
+      <a href="#">BrandLogo</a>
+    </div>
+
+    <!-- 右側導覽選單 -->
+    <nav class="nav-menu">
+      <a href="#" class="nav-link">首頁</a>
+      <a href="#" class="nav-link">關於我們</a>
+      <a href="#" class="nav-link">服務項目</a>
+      <a href="#" class="nav-link">聯絡我們</a>
+    </nav>
+  </header>
+
+</body>
+</html>
