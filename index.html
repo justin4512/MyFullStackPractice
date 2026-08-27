@@ -1446,6 +1446,248 @@
     }
 
 
+
+    /* =========================================================
+       班代權限碼 / 同步狀態 / 變更紀錄
+       ========================================================= */
+
+    .modal-backdrop {
+
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--text-dark) 45%,
+          transparent
+        );
+
+      backdrop-filter: blur(6px);
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+    }
+
+
+    .modal-backdrop.is-open {
+      display: flex;
+    }
+
+
+    .modal {
+
+      width: 100%;
+      max-width: 360px;
+
+      border-radius: 20px;
+
+      background: white;
+
+      padding: 24px;
+
+      box-shadow:
+        0 24px 60px
+        color-mix(
+          in srgb,
+          var(--text-dark) 25%,
+          transparent
+        );
+
+    }
+
+
+    .modal-title {
+
+      margin: 0 0 6px;
+
+      font-size: 17px;
+      font-weight: 800;
+
+      color: var(--text-dark);
+
+    }
+
+
+    .modal-note {
+
+      margin: 0 0 16px;
+
+      font-size: 12px;
+      line-height: 1.6;
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 55%,
+          white
+        );
+
+    }
+
+
+    .modal-input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+
+    .modal-error {
+
+      display: none;
+
+      margin-bottom: 12px;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      color: #c0392b;
+
+    }
+
+
+    .modal-error.is-visible {
+      display: block;
+    }
+
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+
+    .modal-actions .action-button {
+      flex: 1;
+    }
+
+
+    .sync-badge {
+
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      margin-bottom: 12px;
+      padding: 6px 11px;
+
+      border-radius: 999px;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--brand-primary) 8%,
+          white
+        );
+
+      color: var(--brand-primary);
+
+    }
+
+
+    .sync-badge.is-offline {
+      background: #fdf3e3;
+      color: #a5680a;
+    }
+
+
+    .sync-badge.is-error {
+      background: #fdeceb;
+      color: #c0392b;
+    }
+
+
+    .sync-dot {
+
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: currentColor;
+
+    }
+
+
+    .log-list {
+
+      max-height: 260px;
+
+      overflow-y: auto;
+
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+    }
+
+
+    .log-item {
+
+      border-left: 3px solid var(--brand-primary);
+
+      border-radius: 8px;
+
+      padding: 7px 10px;
+
+      background: var(--bg-soft);
+
+      font-size: 12px;
+
+      color: var(--text-dark);
+
+    }
+
+
+    .log-item.is-remove {
+      border-left-color: #c0392b;
+    }
+
+
+    .log-time {
+
+      display: block;
+
+      margin-top: 2px;
+
+      font-size: 10px;
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 50%,
+          white
+        );
+
+    }
+
+
+    .log-empty {
+
+      padding: 12px;
+
+      text-align: center;
+
+      font-size: 12px;
+
+      color:
+        color-mix(
+          in srgb,
+          var(--text-dark) 45%,
+          white
+        );
+
+    }
+
+
     /* =========================================================
        FOOTER
        ========================================================= */
@@ -2349,6 +2591,61 @@
 
 
       <!-- ===================================================
+           變更紀錄
+           =================================================== -->
+
+      <article class="card">
+
+        <div class="card-header">
+
+          <div>
+
+            <span class="eyebrow">
+              AUDIT / HISTORY
+            </span>
+
+            <h2 class="card-title">
+              變更紀錄
+            </h2>
+
+          </div>
+
+          <div class="icon-bubble">
+            ☰
+          </div>
+
+        </div>
+
+
+        <div
+          class="sync-badge"
+          id="syncBadge">
+
+          <span class="sync-dot"></span>
+
+          <span id="syncText">
+            連線中…
+          </span>
+
+        </div>
+
+
+        <div
+          class="log-list"
+          id="changeLog">
+        </div>
+
+
+        <div class="card-note">
+          所有請假、停班日與退訓異動都會寫入伺服器，
+          任何人開啟本頁都讀到同一份最新資料。
+        </div>
+
+      </article>
+
+
+
+      <!-- ===================================================
            排班設定
            =================================================== -->
 
@@ -2444,7 +2741,7 @@
     <footer class="footer">
 
       班級值日與外掃管理系統
-      · Local Storage Enabled
+      · 資料存於伺服器 · 全班同步
 
     </footer>
 
@@ -2455,6 +2752,58 @@
   <!-- =========================================================
        JAVASCRIPT
        ========================================================= -->
+
+  <!-- =====================================================
+       班代權限碼
+       ===================================================== -->
+
+  <div
+    class="modal-backdrop"
+    id="authModal">
+
+    <div class="modal">
+
+      <h3 class="modal-title">
+        輸入班代權限碼
+      </h3>
+
+      <p class="modal-note">
+        登記／取消請假、新增停班日與變更退訓狀態
+        需要班代權限。權限碼在本次瀏覽器分頁中只需輸入一次。
+      </p>
+
+      <input
+        class="control modal-input"
+        id="authInput"
+        type="password"
+        autocomplete="off"
+        placeholder="請輸入權限碼">
+
+      <div
+        class="modal-error"
+        id="authError">
+      </div>
+
+      <div class="modal-actions">
+
+        <button
+          class="action-button button-primary"
+          id="authConfirm">
+          確認
+        </button>
+
+        <button
+          class="action-button button-secondary"
+          id="authCancel">
+          取消
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
 
   <script>
 
@@ -2509,31 +2858,52 @@
 
 
     /* =========================================================
-       LOCAL STORAGE
+       共用資料表（伺服器為唯一真實來源）
+
+       localStorage 只當離線快取：伺服器連不上時仍能看到
+       上次讀到的內容，但任何寫入都必須經過伺服器。
        ========================================================= */
 
+    const API_STATE = "/api/state";
+    const API_AUTH = "/api/auth";
+    const API_LOG = "/api/changelog";
+
+    const CODE_KEY = "classAuthCode";
+
+
+    function cached(key, fallback) {
+
+      try {
+
+        return JSON.parse(
+          localStorage.getItem(key)
+          || fallback
+        );
+
+      } catch (err) {
+
+        return JSON.parse(fallback);
+
+      }
+
+    }
+
+
     let leaves =
-      JSON.parse(
-        localStorage.getItem(
-          "classLeaves"
-        ) || "{}"
-      );
+      cached("classLeaves", "{}");
 
 
     let stopDays =
-      JSON.parse(
-        localStorage.getItem(
-          "classStopDays"
-        ) || "{}"
-      );
+      cached("classStopDays", "{}");
 
 
     let withdrawn =
-      JSON.parse(
-        localStorage.getItem(
-          "classWithdrawn"
-        ) || "[]"
-      );
+      cached("classWithdrawn", "[]");
+
+
+    let serverRev = -1;
+
+    let lastConfirmed = null;
 
 
     /* =========================================================
@@ -2554,20 +2924,16 @@
     };
 
 
+    /* 停班日以伺服器內容為準；只有伺服器與快取都沒有資料時，
+       才用預設值先撐起畫面（不會自動寫回伺服器）。 */
+
     if (
-      !localStorage.getItem(
-        "classStopDays"
-      )
+      Object.keys(stopDays).length === 0
     ) {
 
       stopDays = {
         ...DEFAULT_STOP_DAYS
       };
-
-      localStorage.setItem(
-        "classStopDays",
-        JSON.stringify(stopDays)
-      );
 
     }
 
@@ -3831,33 +4197,581 @@
 
 
     /* =========================================================
+       伺服器連線 / 權限碼 / 變更紀錄
+       ========================================================= */
+
+    async function apiCall(path, options) {
+
+      const res =
+        await fetch(
+          path,
+          {
+            cache: "no-store",
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+            ...(options || {})
+          }
+        );
+
+
+      let data;
+
+      try {
+
+        data = await res.json();
+
+      } catch (err) {
+
+        throw new Error(
+          "伺服器回應格式錯誤"
+        );
+
+      }
+
+
+      if (!res.ok || !data.ok) {
+
+        throw new Error(
+          data.error
+          || `連線失敗（${res.status}）`
+        );
+
+      }
+
+
+      return data;
+
+    }
+
+
+    function clock(iso) {
+
+      if (!iso) {
+
+        return "";
+
+      }
+
+
+      return String(iso)
+        .slice(11, 16);
+
+    }
+
+
+    function setSync(mode, text) {
+
+      const badge = $("syncBadge");
+
+      const label = $("syncText");
+
+
+      if (!badge || !label) {
+
+        return;
+
+      }
+
+
+      badge.className =
+        "sync-badge"
+        + (
+          mode === "online"
+            ? ""
+            : ` is-${mode}`
+        );
+
+      label.textContent = text;
+
+    }
+
+
+    function renderAll() {
+
+      renderStudentOptions();
+
+      renderStudentStatus();
+
+      renderStopList();
+
+      render();
+
+    }
+
+
+    /* 從伺服器讀最新資料。任何人開啟本頁都會拿到同一份。 */
+
+    async function loadState() {
+
+      try {
+
+        const data =
+          await apiCall(API_STATE);
+
+
+        if (data.rev === serverRev) {
+
+          setSync(
+            "online",
+            `已同步 · 版本 ${data.rev} · ${clock(data.updatedAt)}`
+          );
+
+          return;
+
+        }
+
+
+        leaves = data.leaves || {};
+
+        stopDays = data.stopDays || {};
+
+        withdrawn = data.withdrawn || [];
+
+        serverRev = data.rev;
+
+        lastConfirmed = snapshot();
+
+        cacheLocally();
+
+        setSync(
+          "online",
+          `已同步 · 版本 ${data.rev} · ${clock(data.updatedAt)}`
+        );
+
+        renderAll();
+
+      } catch (err) {
+
+        setSync(
+          "offline",
+          "離線模式（顯示本機快取，無法儲存）"
+        );
+
+      }
+
+    }
+
+
+    async function loadChangeLog() {
+
+      const box = $("changeLog");
+
+
+      if (!box) {
+
+        return;
+
+      }
+
+
+      try {
+
+        const data =
+          await apiCall(
+            API_LOG + "?limit=40"
+          );
+
+
+        box.innerHTML = "";
+
+
+        if (!data.entries.length) {
+
+          box.innerHTML =
+            "<div class='log-empty'>尚無變更紀錄</div>";
+
+          return;
+
+        }
+
+
+        data.entries.forEach(
+          entry => {
+
+            const item =
+              document.createElement(
+                "div"
+              );
+
+
+            const isRemove =
+              /restore|_del/.test(
+                entry.action || ""
+              );
+
+
+            item.className =
+              "log-item"
+              + (
+                isRemove
+                  ? " is-remove"
+                  : ""
+              );
+
+
+            const detail =
+              document.createElement(
+                "span"
+              );
+
+            detail.textContent =
+              entry.detail || entry.action;
+
+
+            const time =
+              document.createElement(
+                "span"
+              );
+
+            time.className = "log-time";
+
+            time.textContent =
+              `${String(entry.ts).replace("T", " ").slice(0, 16)}`
+              + `　${entry.by || "班代"}`;
+
+
+            item.appendChild(detail);
+
+            item.appendChild(time);
+
+            box.appendChild(item);
+
+          }
+        );
+
+      } catch (err) {
+
+        box.innerHTML =
+          "<div class='log-empty'>無法讀取變更紀錄</div>";
+
+      }
+
+    }
+
+
+    /* ---------- 班代權限碼 ---------- */
+
+    let authResolve = null;
+
+
+    function openAuthModal() {
+
+      return new Promise(
+        resolve => {
+
+          authResolve = resolve;
+
+          $("authError")
+            .classList
+            .remove("is-visible");
+
+          $("authInput").value = "";
+
+          $("authModal")
+            .classList
+            .add("is-open");
+
+          setTimeout(
+            () =>
+              $("authInput").focus(),
+            50
+          );
+
+        }
+      );
+
+    }
+
+
+    function closeAuthModal(value) {
+
+      $("authModal")
+        .classList
+        .remove("is-open");
+
+
+      if (authResolve) {
+
+        const done = authResolve;
+
+        authResolve = null;
+
+        done(value);
+
+      }
+
+    }
+
+
+    function authFail(message) {
+
+      const box = $("authError");
+
+      box.textContent = message;
+
+      box.classList.add("is-visible");
+
+      $("authInput").value = "";
+
+      $("authInput").focus();
+
+    }
+
+
+    /* 確認目前分頁已解鎖；沒有就跳出權限碼視窗。
+       注意：真正的把關在伺服器端，前端只負責體驗。 */
+
+    async function ensureUnlocked() {
+
+      if (
+        sessionStorage.getItem(CODE_KEY)
+      ) {
+
+        return true;
+
+      }
+
+
+      while (true) {
+
+        const code =
+          await openAuthModal();
+
+
+        if (code === null) {
+
+          return false;
+
+        }
+
+
+        if (!code) {
+
+          authFail("請輸入權限碼");
+
+          continue;
+
+        }
+
+
+        try {
+
+          await apiCall(
+            API_AUTH,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                code
+              })
+            }
+          );
+
+
+          sessionStorage.setItem(
+            CODE_KEY,
+            code
+          );
+
+          closeAuthModal(null);
+
+          return true;
+
+        } catch (err) {
+
+          authFail(err.message);
+
+        }
+
+      }
+
+    }
+
+
+    /* 把需要班代權限的動作包起來 */
+
+    function guarded(fn) {
+
+      return async function (...args) {
+
+        const ok =
+          await ensureUnlocked();
+
+
+        if (!ok) {
+
+          return;
+
+        }
+
+
+        return fn.apply(this, args);
+
+      };
+
+    }
+
+
+    /* =========================================================
        SAVE
        ========================================================= */
 
-    function saveData() {
+    function cacheLocally() {
 
       localStorage.setItem(
         "classLeaves",
-        JSON.stringify(
-          leaves
-        )
+        JSON.stringify(leaves)
       );
 
 
       localStorage.setItem(
         "classStopDays",
-        JSON.stringify(
-          stopDays
-        )
+        JSON.stringify(stopDays)
       );
 
 
       localStorage.setItem(
         "classWithdrawn",
-        JSON.stringify(
-          withdrawn
-        )
+        JSON.stringify(withdrawn)
       );
+
+    }
+
+
+    function snapshot() {
+
+      return JSON.parse(
+        JSON.stringify({
+          leaves,
+          stopDays,
+          withdrawn
+        })
+      );
+
+    }
+
+
+    /* 一定要複製一份再套用。直接指派會讓現行狀態與備份共用同一個
+       陣列／物件，之後任何 push 都會連備份一起改掉，下一次回滾就
+       還原不了東西了。 */
+
+    function applySnapshot(snap) {
+
+      const copy =
+        JSON.parse(
+          JSON.stringify(snap)
+        );
+
+
+      leaves = copy.leaves;
+
+      stopDays = copy.stopDays;
+
+      withdrawn = copy.withdrawn;
+
+    }
+
+
+    /* 把畫面還原成上一次伺服器確認過的內容 */
+
+    function rollback() {
+
+      if (!lastConfirmed) {
+
+        return;
+
+      }
+
+
+      applySnapshot(lastConfirmed);
+
+      renderAll();
+
+    }
+
+
+    /* 送出到伺服器；失敗就回滾成上一次伺服器確認過的內容，
+       避免畫面顯示的與實際存下來的不一致。 */
+
+    async function saveData() {
+
+      const code =
+        sessionStorage.getItem(CODE_KEY);
+
+
+      if (!code) {
+
+        rollback();
+
+        setSync(
+          "error",
+          "尚未通過權限碼驗證"
+        );
+
+        return false;
+
+      }
+
+
+      const attempted = snapshot();
+
+
+      try {
+
+        const data =
+          await apiCall(
+            API_STATE,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                code,
+                by: "班代",
+                state: attempted
+              })
+            }
+          );
+
+
+        serverRev = data.rev;
+
+        lastConfirmed = attempted;
+
+        cacheLocally();
+
+        setSync(
+          "online",
+          `已同步 · 版本 ${data.rev} · ${clock(data.updatedAt)}`
+        );
+
+        loadChangeLog();
+
+        return true;
+
+      } catch (err) {
+
+        rollback();
+
+
+        if (
+          /權限碼/.test(err.message)
+        ) {
+
+          sessionStorage.removeItem(
+            CODE_KEY
+          );
+
+        }
+
+
+        setSync(
+          "error",
+          "儲存失敗：" + err.message
+        );
+
+        return false;
+
+      }
 
     }
 
@@ -3900,7 +4814,7 @@
        LEAVE
        ========================================================= */
 
-    function addLeave() {
+    async function addLeave() {
 
       const n =
         Number(
@@ -3943,7 +4857,13 @@
       }
 
 
-      saveData();
+      if (
+        !(await saveData())
+      ) {
+
+        return;
+
+      }
 
       render();
 
@@ -3956,7 +4876,7 @@
     }
 
 
-    function removeLeave() {
+    async function removeLeave() {
 
       const n =
         Number(
@@ -3977,7 +4897,13 @@
       }
 
 
-      saveData();
+      if (
+        !(await saveData())
+      ) {
+
+        return;
+
+      }
 
       render();
 
@@ -3994,7 +4920,7 @@
        STOP DAY
        ========================================================= */
 
-    function addStop() {
+    async function addStop() {
 
       const date =
         $("stopDate").value;
@@ -4022,7 +4948,13 @@
         reason;
 
 
-      saveData();
+      if (
+        !(await saveData())
+      ) {
+
+        return;
+
+      }
 
       renderStopList();
 
@@ -4041,14 +4973,20 @@
     }
 
 
-    function removeStop(
+    async function removeStop(
       date
     ) {
 
       delete stopDays[date];
 
 
-      saveData();
+      if (
+        !(await saveData())
+      ) {
+
+        return;
+
+      }
 
       renderStopList();
 
@@ -4169,7 +5107,7 @@
           button.addEventListener(
             "click",
             () =>
-              removeStop(date)
+              guarded(removeStop)(date)
           );
 
 
@@ -4197,7 +5135,7 @@
        WITHDRAW
        ========================================================= */
 
-    function withdrawStudent() {
+    async function withdrawStudent() {
 
       const n =
         Number(
@@ -4216,7 +5154,13 @@
       }
 
 
-      saveData();
+      if (
+        !(await saveData())
+      ) {
+
+        return;
+
+      }
 
       renderStudentOptions();
 
@@ -4237,7 +5181,7 @@
        RESTORE
        ========================================================= */
 
-    function restoreStudent() {
+    async function restoreStudent() {
 
       const n =
         Number(
@@ -4252,7 +5196,13 @@
         );
 
 
-      saveData();
+      if (
+        !(await saveData())
+      ) {
+
+        return;
+
+      }
 
       renderStudentOptions();
 
@@ -4437,35 +5387,35 @@
     $("addLeave")
       .addEventListener(
         "click",
-        addLeave
+        guarded(addLeave)
       );
 
 
     $("delLeave")
       .addEventListener(
         "click",
-        removeLeave
+        guarded(removeLeave)
       );
 
 
     $("addStop")
       .addEventListener(
         "click",
-        addStop
+        guarded(addStop)
       );
 
 
     $("withdrawBtn")
       .addEventListener(
         "click",
-        withdrawStudent
+        guarded(withdrawStudent)
       );
 
 
     $("restoreBtn")
       .addEventListener(
         "click",
-        restoreStudent
+        guarded(restoreStudent)
       );
 
 
@@ -4503,15 +5453,103 @@
       );
 
 
-    renderStudentOptions();
+    $("authConfirm")
+      .addEventListener(
+        "click",
+        () =>
+          closeAuthModal(
+            $("authInput").value.trim()
+          )
+      );
 
-    renderStudentStatus();
 
-    renderStopList();
+    $("authCancel")
+      .addEventListener(
+        "click",
+        () =>
+          closeAuthModal(null)
+      );
 
-    render();
+
+    $("authInput")
+      .addEventListener(
+        "keydown",
+        event => {
+
+          if (event.key === "Enter") {
+
+            closeAuthModal(
+              $("authInput").value.trim()
+            );
+
+          }
+
+
+          if (event.key === "Escape") {
+
+            closeAuthModal(null);
+
+          }
+
+        }
+      );
+
+
+    $("authModal")
+      .addEventListener(
+        "click",
+        event => {
+
+          if (
+            event.target
+            === $("authModal")
+          ) {
+
+            closeAuthModal(null);
+
+          }
+
+        }
+      );
+
+
+    renderAll();
+
+
+    /* 先畫出快取內容，再向伺服器要最新的蓋上去 */
+
+    loadState();
+
+    loadChangeLog();
+
+
+    /* 每 60 秒回頭確認一次，別人改的內容會自動出現 */
+
+    setInterval(
+      loadState,
+      60000
+    );
+
+
+    /* 切回這個分頁時立即重新整理 */
+
+    document.addEventListener(
+      "visibilitychange",
+      () => {
+
+        if (!document.hidden) {
+
+          loadState();
+
+          loadChangeLog();
+
+        }
+
+      }
+    );
 
   </script>
+
 
 </body>
 

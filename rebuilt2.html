@@ -3077,39 +3077,13 @@
 
       const reason = form.querySelector('#contact-reason').value.trim() || '未填寫';
 
-      // 3. 逸出 HTML 特殊字元，防止 WAF (網頁應用程式防火牆) 阻擋以及 Telegram HTML 解析錯誤
-      function escapeHTML(str) {
-        return str
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;');
-      }
-
-      const escapedName = escapeHTML(name);
-      const escapedEmail = escapeHTML(email);
-      const escapedLineId = escapeHTML(lineId);
-      const escapedPhone = escapeHTML(phone);
-      const escapedRole = escapeHTML(role);
-      const escapedCodingLevel = escapeHTML(codingLevel);
-      const escapedReason = escapeHTML(reason);
-      const escapedProject = escapeHTML(project);
-
-      // 4. 組合要發送給 Telegram 機器人的訊息內容 (使用 HTML 格式)
-      const message =
-        `📢 <b>【新 Vibe 報名／想法通知】</b>\n\n` +
-        `01 / 姓名：${escapedName}\n` +
-        `02 / Email：${escapedEmail}\n` +
-        `03 / LINE ID：${escapedLineId}\n` +
-        `04 / 電話：${escapedPhone}\n` +
-        `05 / 身份：${escapedRole}\n` +
-        `06 / 程式程度：${escapedCodingLevel}\n` +
-        `07 / 想學原因：\n<pre>${escapedReason}</pre>\n` +
-        `08 / 想做作品：\n<pre>${escapedProject}</pre>`;
-
-      // 5. 設定你的 Telegram Bot 資訊 (請替換為你的 Token 與 Chat ID)
-      const BOT_TOKEN = '8680163255:AAGTXAIx9vmczA_zdM63uazYLGwimpUhHrI';   // 例如：123456789:ABCdefGhIJK...
-      const CHAT_ID = '935312703';       // 例如：987654321
-      const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+      // 3. 送到自己的後端 API，由伺服器代為通知 Telegram
+      //
+      //    安全性說明：
+      //    Bot Token 與 Chat ID 只存在 NAS 上的 config.env，
+      //    絕不出現在這份 HTML、也不會傳到瀏覽器。前端只送出
+      //    表單欄位，訊息組裝、字元逸出與頻率限制都由後端負責。
+      const payload = { name, email, lineId, phone, role, codingLevel, reason, project };
 
       // 改變按鈕文字提示「傳送中...」
       const originalBtnText = submitBtn.innerHTML;
@@ -3117,27 +3091,22 @@
       submitBtn.disabled = true;
 
       try {
-        // 6. 使用 Fetch API 將資料打給 Telegram 伺服器
-        const response = await fetch(telegramUrl, {
+        // 4. 呼叫同源後端（/api/contact），不再直接打 Telegram
+        const response = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: message,
-            parse_mode: 'HTML'
-          })
+          body: JSON.stringify(payload)
         });
 
-        const result = await response.json();
+        const result = await response.json().catch(() => ({ ok: false, error: '伺服器回應格式錯誤' }));
 
-        if (result.ok) {
-          // 成功送出：顯示成功區塊並清空表單,20260826
+        if (response.ok && result.ok) {
+          // 成功送出：顯示成功區塊並清空表單
           successBox.classList.add('is-visible');
           form.reset();
         }
         else {
-          console.error('Telegram API Error:', result);
-          alert('發送失敗：' + (result.description || '請稍後再試。'));
+          alert('發送失敗：' + (result.error || '請稍後再試。'));
         }
       } catch (error) {
         console.error('Error:', error);

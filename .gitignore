@@ -1,0 +1,10 @@
+# 機密設定：Telegram Token、班代權限碼等只放在 NAS，不進版控
+config.env
+*.env
+!config.env.example
+
+# 本機
+.DS_Store
+
+# 部署輔助腳本含內網 IP 與 SSH 帳號，不放上公開 repo
+publish.sh
