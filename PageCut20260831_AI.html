@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>切版練習｜勇士風格</title>
+
+<style>
+
+    /* =========================================
+       金州勇士風格｜中央色彩配置
+       修改這裡的色碼即可改變全站配色
+    ========================================== */
+
+    :root {
+        --warriors-blue: #1D428A;       /* 勇士皇家藍 */
+        --warriors-blue-dark: #102A5E;  /* 深藍 */
+        --warriors-gold: #FFC72C;       /* 勇士金 */
+        --warriors-gold-dark: #D9A300;  /* 深金色 */
+        --background-light: #F5F7FA;    /* 淺灰白背景 */
+        --background-white: #FFFFFF;    /* 白色 */
+        --text-dark: #1A1A1A;           /* 深色文字 */
+        --text-light: #FFFFFF;          /* 白色文字 */
+        --shadow-color: rgba(29, 66, 138, 0.35);
+    }
+
+
+    /* =========================================
+       基本設定
+    ========================================== */
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+
+    /* =========================================
+       網頁主要容器
+    ========================================== */
+
+    .wrapper {
+        width: 1024px;
+        margin-top: 30px;
+        margin-bottom: 0;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 2px 2px 2px 2px #1A1A1A;
+    }
+
+
+    /* =========================================
+       Logo 區域
+    ========================================== */
+
+    .logo {
+        background-color: var(--warriors-blue);
+        width: 1024px;
+        height: 120px;
+        font-size: 50px;
+        text-align: center;
+        line-height: 120px;
+        color: var(--warriors-gold);
+        box-shadow: 2px 2px 2px 2px #1A1A1A;
+    }
+
+
+    .logo p {
+        font-size: 40px;
+        color: var(--warriors-gold);
+        text-align: center;
+    }
+
+
+    /* =========================================
+       導覽列
+    ========================================== */
+
+    nav {
+        background-color: var(--warriors-gold);
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        box-shadow: 2px 2px 2px 2px #1A1A1A;
+    }
+
+    nav ul {
+        display: inline-block;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    nav ul li {
+        float: left;
+        list-style-type: none;
+    }
+
+    /* =========================================
+       導覽按鈕
+    ========================================== */
+
+    nav ul li a {
+        text-decoration: none;
+        color: var(--text-light);
+        background-color: var(--warriors-blue);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-right: 5px;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+
+    /* =========================================
+       導覽按鈕 Hover
+    ========================================== */
+
+    nav ul li a:hover {
+        box-shadow: 2px 2px 5px var(--shadow-color);
+        border-radius: 5px;
+        background-color: var(--warriors-blue-dark);
+        color: var(--warriors-gold);
+    }
+
+    /* =========================================
+       主要內容區域
+    ========================================== */
+
+    .content {
+        background-color: var(--background-light);
+        padding-top: 30px;
+        padding-bottom: 30px;
+        padding-left: 50px;
+        padding-right: 50px;
+        margin-bottom: 5px;
+        box-shadow: 2px 2px 2px 2px 1A1A1A;        
+    }
+
+    /* =========================================
+       內容標題
+    ========================================== */
+
+    .content h1 {
+        font-size: 36px;
+        font-weight: bold;
+        padding-bottom: 15px;
+        padding-top: 15px;
+        text-align: center;
+        color: var(--warriors-blue);
+    }
+
+    /* =========================================
+       內容文字
+    ========================================== */
+
+    .content p {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--text-dark);
+        margin-bottom: 15px;        
+    }
+
+    /* =========================================
+       了解更多按鈕
+    ========================================== */
+
+    .content a {
+        display: block;
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--warriors-blue);
+        text-align: center;
+        margin-bottom: 15px;
+        background-color: var(--warriors-gold);
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+        margin-top: 0;
+        margin-left: auto;
+        margin-right: auto;
+        text-decoration: none;
+    }
+
+
+    /* =========================================
+       了解更多 Hover
+    ========================================== */
+
+    .content a:hover {
+        border-radius: 10px;
+        box-shadow:2px 2px 5px var(--shadow-color);
+        background-color: var(--warriors-blue);
+        color: var(--warriors-gold);
+    }
+
+
+    /* =========================================
+       Footer
+    ========================================== */
+
+    .footer {
+        background-color: var(--warriors-blue);
+        height: 50px;
+        line-height: 50px;
+        font-size: 20px;
+        text-align: center;
+        color: var(--warriors-gold);
+        box-shadow: 2px 2px 2px 2px #1A1A1A;
+    }
+
+    /*RWD*  max-width:1024px最高上限是1024，所以小於1024才會套用這設定*/
+    @media screen and (max-width:1024px) {
+        .wrapper {
+            width: 95%;
+        }
+        .logo {
+            width: 100%;
+            background-color: var(--warriors-gold)
+        }         
+    }
+    @media screen and (max-width:768px) {
+        .logo {
+            width: 100%;
+            background-color: (--warriors-gold);
+            color: var(--warriors-blue);
+            font-weight: bold;
+        }
+
+        nav ul{
+            display: block;
+        }
+
+        nav ul li {
+            float: none;
+            margin-bottom: 5px;
+        }
+
+        nav ul li a {
+            display: block;
+            margin: 0;
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            width: 50%;
+            height: 100px;
+            line-height: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            
+        }
+
+        .content {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .content p {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 25px;
+
+        }
+
+        .content a {
+            font-size: 20px;
+            margin-top: 50px;
+        } 
+        
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <div class="banner">
+
+        <div class="logo">
+            Goden State Warriors
+            <!-- <p>I'm logo</p> -->
+        </div>
+
+        <nav>
+
+            <ul>
+
+                <li>
+                    <a href="#">HOME</a>
+                </li>
+
+                <li>
+                    <a href="#">NEWS</a>
+                </li>
+
+                <li>
+                    <a href="#">COOPERATION</a>
+                </li>
+
+                <li>
+                    <a href="#">ABOUT</a>
+                </li>
+
+                <li>
+                    <a href="#">CONTACT ME</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+
+    <!-- 主要內容 -->
+
+    <div class="content">
+
+        <h1>WELCOME</h1>
+
+        <p>
+            Green 從職業生涯開始便一直效力勇士，過去甚至曾傳出他願意降薪，換取球隊有機會引進 LeBron James。但當這筆交易最終沒有成真後，Green 仍拿到了自己應得的合約。          
+        </p>
+
+        <p>
+            因此，這種延後續約、最大化生涯收入的情況，主要集中在少數擁有完整 Bird Rights、且長期擔任球隊第一核心的超級球星身上，例如 Devin Booker、Jayson Tatum 與 Joel Embiid。
+
+        </p>
+
+        <p>
+            但如果外界預期成真，Curry 最終依然會選擇在金州勇士結束職業生涯，那麼現在的等待或許並非離隊訊號，而可能只是他在衡量合約年限、薪資總額，以及職業生涯最後階段的最佳利益。
+        </p>
+
+        <a href="#">MORE</a>
+
+    </div>
+
+
+    <!-- Footer -->
+
+    <div class="footer">
+
+        POWERBY跨平台APP實務班
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

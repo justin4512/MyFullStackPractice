@@ -5,18 +5,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>切版練習</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
         .wrapper {
             width: 1024px;
             margin-top: 30px;
             margin-bottom: 0;
             margin-left: auto;
             margin-right: auto; 
-            background-color: brown;
         }
         .logo {
-            background-color: antiquewhite;
+            background-color: #F0EAD2;
             width: 1024px;
             height: 120px;
+            font-size: 50px;
+            text-align: center;
+            line-height: 120px;
+            color:#6C584C;
+        }
+
+        .logo p {
+            font-size: 40px;
+            color: rgb(85, 84, 84);
+            text-align: center;
+
+        }
+
+        nav {
+            background-color: #A98467;
+            text-align: center;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        nav ul {
+            display: inline-block;
+        }
+
+        nav ul li {
+            float: left; /*靠左對齊*/
+            list-style-type: none;
+        }
+
+        nav ul li a {
+            text-decoration: none; /*底線消失*/
+            color: #A98467;
+            background-color: #F0EAD2;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-right: 5px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 10px;
+            
+        }
+        /* 滑鼠效果 */
+        nav ul li a:hover {
+            box-shadow: 2px 2px 2px 2px #cccbcb;
+            border-radius: 5px;
+            background-color: antiquewhite;
+            color: rgb(39, 6, 10);
+        }
+
+        .content {
+
+            background-color: #F0EAD2;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 50px;
+            padding-right: 50px;
+            margin-bottom: 5px;
+        }
+
+        .content h1 {
+            font-size: 36px;
+            font-weight: bold;
+            padding-bottom: 15px;
+            padding-top: 15px;
+            text-align: center;
+            color: #6C5C4C;
+        }
+
+        .content p {
+            font-size: 20px;
+            font-weight: bold;
+            color: #A98467;
+            margin-bottom: 15px;            
+
+        }
+
+        
+        .content a {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color:#F0EAD2;
+            text-align: center;
+            margin-bottom: 15px;
+            background-color: #6C584C;
+            width: 120px;
+            height: 40px;
+            line-height: 40px; /*配合高度垂直置中*/
+            margin-top:0 ;
+            margin-left: auto;
+            margin-right: auto;
+            text-decoration: none;
+            
+        }
+
+        .content a:hover {
+            border-radius: 10px;
+            box-shadow: 2px 2px 2px 2px #adc178;
+;
+        }
+
+        .footer {
+            background-color: #A98467;
+            height: 50px;
+            line-height: 50px;
+            font-size: 20px;
+            text-align: center;
+            color: #faf9f9;
 
         }
     </style>
@@ -25,12 +141,28 @@
     <div class="wrapper">
         <div class="banner">
             <div class="logo">
-        <div class="content">
-        <div class="footer">
-
-        </div>
-        </div>
+                I'm logo
+                <!-- <p>I'm logo</p> -->
+            </div>                
+                <nav>
+                    <ul>
+                        <li><a href="#">首頁</a></li>
+                        <li><a href="#">最新消息</a></li>
+                        <li><a href="#">合作店家</a></li>
+                        <li><a href="#">關於我們</a></li>
+                        <li><a href="#">聯絡我們</a></li>
+                    </ul>
+                </nav>        
             </div>
+        <div class="content">
+            <h1>歡迎光臨</h1>
+            <p>要有而已水晶放心白色法律種類，某種批發你會為主，離開在我你還地球專欄相同前後適用於思考，沒事趨勢他不無人對比出現英國依然賓館，認真運用，修改決定高度至今淡淡不太傳來美好因為十分那天喜歡慢慢，你怎不來。</p>
+            <p>要有而已水晶放心白色法律種類，某種批發你會為主，離開在我你還地球專欄相同前後適用於思考，沒事趨勢他不無人對比出現英國依然賓館，認真運用，修改決定高度至今淡淡不太傳來美好因為十分那天喜歡慢慢，你怎不來。</p>
+            <p>要有而已水晶放心白色法律種類，某種批發你會為主，離開在我你還地球專欄相同前後適用於思考，沒事趨勢他不無人對比出現英國依然賓館，認真運用，修改決定高度至今淡淡不太傳來美好因為十分那天喜歡慢慢，你怎不來。</p>
+            <a href="#">了解更多</a>
+        </div>
+        <div class="footer">
+            POWERBY跨平台APP實務班        
         </div>
     </div>
 </body>
