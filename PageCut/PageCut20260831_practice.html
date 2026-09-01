@@ -37,10 +37,12 @@
 
             --shadow-color: rgba(85, 122, 149, 0.28);
         }
-        .*{
+
+        .* {
             margin: 0;
             padding: 0;
         }
+
         .wrapper {
             background-color: var(--background-light);
             width: 1024px;
@@ -50,12 +52,17 @@
             margin-right: auto;
         }
 
+        .banner {
+            width: 1024px;
+            box-shadow: 2px 2px 2px 2px var(--elegant-blue-dark);
+        }
+
         .logo {
             background-color: var(--elegant-coral);
             width: 1024px;
             height: 120px;
             line-height: 120px;
-            color:  var(--background-light);
+            color: var(--background-light);
             margin-top: 0;
             margin-bottom: 0;
             margin-left: auto;
@@ -63,7 +70,6 @@
             text-align: center;
             font-size: 48px;
             font-weight: 900;
-
         }
 
         .content {
@@ -75,6 +81,7 @@
             padding-bottom: 30px;
 
         }
+
         .content h1 {
             color: var(--elegant-blue-dark);
             margin-bottom: 15px;
@@ -94,7 +101,7 @@
             display: block;
             background-color: var(--elegant-coral);
             width: 120px;
-            height:40px;
+            height: 40px;
             line-height: 40px;
             font-size: 24px;
             font-weight: bold;
@@ -107,56 +114,113 @@
             margin-right: auto;
             text-align: center;
         }
+
         nav {
             background-color: var(--elegant-coral);
             text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            padding-left: 5px;
-            padding-right: 5px;
-            
+            padding-top: 15px;
+            padding-bottom: 15px;
+            /* box-shadow: 2px 2px 2px 2px var(--elegant-blue); */
         }
 
         nav ul {
             display: inline-block;
             padding-top: 5px;
             padding-bottom: 5px;
-
-            
+            /* margin-top: auto;
+            margin-bottom: auto; */
         }
 
-        nav ul li{
+        nav ul li {
             float: left;
             list-style-type: none;
         }
 
-        nav ul li a{
+        nav ul li a {
             display: block;
+            color: var(--elegant-coral-dark);
             background-color: var(--background-light);
             text-decoration: none;
-            padding-left: 5px;
-            padding-right: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
             padding-top: 5px;
             padding-bottom: 5px;
-            margin-top: 0;
-            margin-bottom: 0;
-
-            margin-right: auto;
-            margin-left: auto;
+            margin-top: 5px;
+            margin-right: 10px;
+            margin-left: 10px;
             font-size: 20px;
             font-weight: bold;
-            color: var(--background-white);
             text-align: center;
-            
+        }
+
+        nav ul li a:hover {
+            background-color: var(--elegant-blue-dark);
+            color: var(--elegant-gold);
+            box-shadow: 2px 2px 2px 2px var(--background-light);
+            border-radius: 10px;
         }
 
         .footer {
             background-color: var(--background-light);
-            margin-top: 5px;
-            margin-bottom: 5px;
             text-align: center;
-            height: 20px;
-            line-height: 20px;
+            height: 50px;
+            line-height: 50px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--elegant-blue-dark);
+        }
+
+        /*RWD*  max-width:1024px最高上限是1024，所以小於1024才會套用這設定*/
+        @media screen and (max-width:1024px) {
+            .wrapper {
+                width: 95%;
+            }
+
+            .banner {
+                width: 100%;
+            }
+
+            .logo {
+                width: 100%;
+                background-color: var(--elegant-blue);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+
+            .banner {
+                width: 100%;
+            }
+
+            .logo {
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            nav ul {
+                display: block;
+            }
+
+            nav ul li {
+                float: none;
+                margin-bottom: 5px;
+            }
+
+            nav ul li a {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 80%;
+                text-align: center;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                border-radius: 15px;
+            }
+
+
         }
     </style>
 </head>
@@ -173,19 +237,17 @@
                 <a href="#">更多資訊</a>
             </div>
             <nav>
-            <ul>
-                <li><a href="#">首頁</a></li>
-                <li><a href="#">旅遊簡介</a></li>
-                <li><a href="#">交通訊息</a></li>
-                <li><a href="#">抖內</a></li>
-            </ul>
-        </nav>
-        </div>
-        
-        <div class="footer">Justin Technologies Co. © 2026 All rights reserved.
-
+                <ul>
+                    <li><a href="#">首頁</a></li>
+                    <li><a href="#">旅遊簡介</a></li>
+                    <li><a href="#">交通訊息</a></li>
+                    <li><a href="#">抖內</a></li>
+                </ul>
+            </nav>
+            <div class="footer">Justin Technologies Co. © 2026 All rights reserved. </div>
 
         </div>
+
 
     </div>
 

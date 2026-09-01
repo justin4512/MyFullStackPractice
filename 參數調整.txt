@@ -1,0 +1,39 @@
+如何手動調整"HOME SERVER"、"OPENCLAW"、"HERMES"、"CLOUDFLARED"及
+
+.infra-node small {
+  display: block;
+  margin-top: 0.25rem;
+  font-family: monospace;
+  font-size: 0.4rem; /* 👈 修改這裡：預設約 6.4px（非常小）。若想放大，可改成 0.6rem 或 10px */
+  color: var(--text-gray-dark);
+}
+
+.infra-node {
+  position: absolute;
+  z-index: 3;
+  min-width: 80px;  /* 👈 如果字變大了，可以把最小寬度調高，例如改為 100px 或 120px */
+  padding: 0.5rem;  /* 👈 這是內距，如果覺得字太貼邊緣，可以改為 0.8rem */
+  /* ...其他屬性保留不變... */
+}
+如何手動調整"WIN RATE"、"TRADES"、"REVIEW"尺寸
+
+如何手動調整"AI"、"Data"、"Analysis"其對應圖示尺寸
+
+
+如何手動調整"01 / 姓名 *"、"02 / Email *"、"03 / LINE ID"、"04 / 電話"、"05 / 職業／身份"、"06 / 目前的程式程度"、"07 / 想學 Vibe Coding 的原因"、"08 / 最想做的作品 *"尺寸
+.form-label {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-family: monospace;
+  font-size: 0.68rem; /* 👈 預設大小（約 10.8px），在這裡修改字體大小 */
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+手動調整"SAY HI"、"E-mail"、"LINE"、"Telegram"、"Facebook"、"Instgram"、"Discord"尺寸，並插入超連結
+
+如何讓留完資料"01 / 姓名 *"、"02 / Email *"、"03 / LINE ID"、"04 / 電話"、"05 / 職業／身份"、"06 / 目前的程式程度"、"07 / 想學 Vibe Coding 的原因"、"08 / 最想做的作品 *"後連結到我的TG機器人讓我得知
+教我手動設定"01 / 姓名 *"、"02 / Email *"、"08 / 最想做的作品 *"必填才能送出
+
+
+
