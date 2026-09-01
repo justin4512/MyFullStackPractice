@@ -1,0 +1,3659 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="SEO × GEO 行銷小白互動實驗室：學習、檢測、產生與改善 SEO 與 GEO 內容。"
+    >
+
+    <title>SEO × GEO｜行銷小白互動實驗室</title>
+
+
+    <style>
+
+        /* =====================================================
+           01. CSS VARIABLES
+        ===================================================== */
+
+        :root {
+
+            --bg:
+                #f4f6f2;
+
+            --surface:
+                #ffffff;
+
+            --surface-soft:
+                #f7f9f7;
+
+            --text:
+                #26332f;
+
+            --muted:
+                #6c7773;
+
+            --border:
+                #dfe6e2;
+
+            --seo:
+                #3f7568;
+
+            --seo-light:
+                #e3efeb;
+
+            --geo:
+                #c6814d;
+
+            --geo-light:
+                #f8e9dc;
+
+            --success:
+                #4d8a6d;
+
+            --warning:
+                #c78943;
+
+            --danger:
+                #b85d4e;
+
+            --dark:
+                #26332f;
+
+            --shadow:
+                0 18px 50px
+                rgba(38, 51, 47, 0.09);
+
+            --radius:
+                22px;
+
+            --max:
+                1120px;
+        }
+
+
+        /* =====================================================
+           02. RESET
+        ===================================================== */
+
+        * {
+            box-sizing:
+                border-box;
+        }
+
+
+        html {
+            scroll-behavior:
+                smooth;
+        }
+
+
+        body {
+
+            margin:
+                0;
+
+            background:
+                var(--bg);
+
+            color:
+                var(--text);
+
+            font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Noto Sans TC",
+                "Microsoft JhengHei",
+                sans-serif;
+
+            line-height:
+                1.7;
+        }
+
+
+        button,
+        input,
+        textarea,
+        select {
+
+            font:
+                inherit;
+        }
+
+
+        button {
+
+            cursor:
+                pointer;
+        }
+
+
+        a {
+
+            color:
+                inherit;
+        }
+
+
+        /* =====================================================
+           03. HERO
+        ===================================================== */
+
+        .hero {
+
+            padding:
+                75px 20px 55px;
+
+            background:
+
+                radial-gradient(
+                    circle at 10% 10%,
+                    #ffffff 0,
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #e5f0eb,
+                    #f8eee4
+                );
+        }
+
+
+        .hero-inner {
+
+            width:
+                min(100%, var(--max));
+
+            margin:
+                auto;
+        }
+
+
+        .eyebrow {
+
+            display:
+                inline-block;
+
+            padding:
+                6px 13px;
+
+            border-radius:
+                999px;
+
+            background:
+                rgba(255,255,255,.75);
+
+            color:
+                var(--seo);
+
+            font-size:
+                .82rem;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                .08em;
+        }
+
+
+        .hero h1 {
+
+            max-width:
+                850px;
+
+            margin:
+                18px 0;
+
+            font-size:
+                clamp(2.6rem, 7vw, 5rem);
+
+            line-height:
+                1.04;
+
+            letter-spacing:
+                -.05em;
+        }
+
+
+        .hero-description {
+
+            max-width:
+                760px;
+
+            margin:
+                0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                1.12rem;
+        }
+
+
+        .hero-actions {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                10px;
+
+            margin-top:
+                28px;
+        }
+
+
+        .hero-button {
+
+            padding:
+                12px 18px;
+
+            border:
+                0;
+
+            border-radius:
+                14px;
+
+            background:
+                var(--dark);
+
+            color:
+                white;
+
+            font-weight:
+                800;
+        }
+
+
+        .hero-button.secondary {
+
+            background:
+                rgba(255,255,255,.8);
+
+            color:
+                var(--dark);
+
+            border:
+                1px solid var(--border);
+        }
+
+
+        .progress-wrapper {
+
+            width:
+                min(100%, var(--max));
+
+            margin:
+                35px auto 0;
+        }
+
+
+        .progress-background {
+
+            height:
+                8px;
+
+            overflow:
+                hidden;
+
+            border-radius:
+                99px;
+
+            background:
+                rgba(255,255,255,.75);
+        }
+
+
+        .progress {
+
+            width:
+                8%;
+
+            height:
+                100%;
+
+            border-radius:
+                99px;
+
+            background:
+                var(--seo);
+
+            transition:
+                width .4s ease;
+        }
+
+
+        /* =====================================================
+           04. MAIN
+        ===================================================== */
+
+        .main {
+
+            width:
+                min(100%, var(--max));
+
+            margin:
+                auto;
+
+            padding:
+                45px 20px 90px;
+        }
+
+
+        .section {
+
+            margin-bottom:
+                45px;
+        }
+
+
+        .section-heading {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                end;
+
+            gap:
+                20px;
+
+            margin-bottom:
+                17px;
+        }
+
+
+        .section-heading h2 {
+
+            margin:
+                0;
+
+            font-size:
+                1.8rem;
+        }
+
+
+        .section-heading span {
+
+            color:
+                var(--muted);
+
+            font-size:
+                .9rem;
+        }
+
+
+        .card {
+
+            padding:
+                30px;
+
+            background:
+                var(--surface);
+
+            border:
+                1px solid var(--border);
+
+            border-radius:
+                var(--radius);
+
+            box-shadow:
+                var(--shadow);
+        }
+
+
+        /* =====================================================
+           05. NAVIGATION
+        ===================================================== */
+
+        .tool-nav {
+
+            position:
+                sticky;
+
+            top:
+                0;
+
+            z-index:
+                10;
+
+            display:
+                flex;
+
+            gap:
+                7px;
+
+            overflow-x:
+                auto;
+
+            padding:
+                10px 20px;
+
+            background:
+                rgba(255,255,255,.92);
+
+            border-bottom:
+                1px solid var(--border);
+
+            backdrop-filter:
+                blur(10px);
+        }
+
+
+        .tool-nav a {
+
+            flex:
+                0 0 auto;
+
+            padding:
+                8px 12px;
+
+            border-radius:
+                999px;
+
+            text-decoration:
+                none;
+
+            color:
+                var(--muted);
+
+            font-size:
+                .88rem;
+
+            font-weight:
+                700;
+        }
+
+
+        .tool-nav a:hover {
+
+            background:
+                var(--seo-light);
+
+            color:
+                var(--seo);
+        }
+
+
+        /* =====================================================
+           06. BASIC CONCEPT
+        ===================================================== */
+
+        .concept-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                20px;
+        }
+
+
+        .concept {
+
+            padding:
+                28px;
+
+            border-radius:
+                20px;
+        }
+
+
+        .concept.seo {
+
+            background:
+                var(--seo-light);
+        }
+
+
+        .concept.geo {
+
+            background:
+                var(--geo-light);
+        }
+
+
+        .label {
+
+            display:
+                inline-block;
+
+            padding:
+                4px 10px;
+
+            margin-bottom:
+                8px;
+
+            border-radius:
+                999px;
+
+            font-size:
+                .78rem;
+
+            font-weight:
+                800;
+        }
+
+
+        .seo .label {
+
+            background:
+                #cde2da;
+
+            color:
+                var(--seo);
+        }
+
+
+        .geo .label {
+
+            background:
+                #f0d3ba;
+
+            color:
+                var(--geo);
+        }
+
+
+        .concept h3 {
+
+            margin:
+                5px 0 10px;
+
+            font-size:
+                1.5rem;
+        }
+
+
+        .concept p {
+
+            color:
+                #52605c;
+        }
+
+
+        /* =====================================================
+           07. INTERACTIVE CHOICE
+        ===================================================== */
+
+        .choice-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                15px;
+
+            margin-top:
+                20px;
+        }
+
+
+        .choice {
+
+            padding:
+                22px;
+
+            text-align:
+                left;
+
+            background:
+                white;
+
+            border:
+                2px solid var(--border);
+
+            border-radius:
+                18px;
+
+            transition:
+                .2s ease;
+        }
+
+
+        .choice:hover {
+
+            transform:
+                translateY(-3px);
+        }
+
+
+        .choice.active {
+
+            border-color:
+                var(--seo);
+
+            background:
+                var(--seo-light);
+        }
+
+
+        .choice strong {
+
+            display:
+                block;
+
+            margin-bottom:
+                5px;
+
+            font-size:
+                1.15rem;
+        }
+
+
+        .choice small {
+
+            color:
+                var(--muted);
+        }
+
+
+        .feedback {
+
+            display:
+                none;
+
+            margin-top:
+                18px;
+
+            padding:
+                15px;
+
+            border-radius:
+                14px;
+
+            background:
+                var(--surface-soft);
+        }
+
+
+        .feedback.show {
+
+            display:
+                block;
+
+            animation:
+                fadeUp .3s ease;
+        }
+
+
+        /* =====================================================
+           08. TOOL CARDS
+        ===================================================== */
+
+        .tool-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                18px;
+        }
+
+
+        .tool-card {
+
+            padding:
+                23px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius:
+                18px;
+
+            background:
+                var(--surface-soft);
+        }
+
+
+        .tool-card h3 {
+
+            margin:
+                0 0 7px;
+        }
+
+
+        .tool-card p {
+
+            margin:
+                0 0 15px;
+
+            color:
+                var(--muted);
+        }
+
+
+        .tool-link {
+
+            display:
+                inline-block;
+
+            padding:
+                9px 13px;
+
+            border-radius:
+                11px;
+
+            background:
+                var(--dark);
+
+            color:
+                white;
+
+            text-decoration:
+                none;
+
+            font-size:
+                .88rem;
+
+            font-weight:
+                800;
+        }
+
+
+        /* =====================================================
+           09. SEO AUDITOR
+        ===================================================== */
+
+        .input-label {
+
+            display:
+                block;
+
+            margin:
+                0 0 8px;
+
+            font-weight:
+                800;
+        }
+
+
+        .code-input {
+
+            width:
+                100%;
+
+            min-height:
+                250px;
+
+            resize:
+                vertical;
+
+            padding:
+                16px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius:
+                15px;
+
+            background:
+                #19221f;
+
+            color:
+                #e9f2ee;
+
+            font-family:
+                Consolas,
+                Monaco,
+                monospace;
+
+            font-size:
+                .88rem;
+
+            line-height:
+                1.6;
+        }
+
+
+        .button-row {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                10px;
+
+            margin-top:
+                14px;
+        }
+
+
+        .primary-button,
+        .secondary-button {
+
+            padding:
+                12px 17px;
+
+            border:
+                0;
+
+            border-radius:
+                13px;
+
+            font-weight:
+                800;
+        }
+
+
+        .primary-button {
+
+            background:
+                var(--seo);
+
+            color:
+                white;
+        }
+
+
+        .secondary-button {
+
+            background:
+                #edf1ef;
+
+            color:
+                var(--text);
+        }
+
+
+        .audit-summary {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                180px 1fr;
+
+            gap:
+                20px;
+
+            margin-top:
+                25px;
+
+            padding:
+                22px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius:
+                18px;
+
+            background:
+                var(--surface-soft);
+        }
+
+
+        .audit-score {
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            text-align:
+                center;
+        }
+
+
+        .audit-score-number {
+
+            font-size:
+                3.5rem;
+
+            font-weight:
+                900;
+
+            color:
+                var(--seo);
+        }
+
+
+        .audit-list {
+
+            display:
+                grid;
+
+            gap:
+                8px;
+        }
+
+
+        .audit-item {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            padding:
+                10px 12px;
+
+            border-radius:
+                11px;
+
+            background:
+                white;
+        }
+
+
+        .status {
+
+            width:
+                24px;
+
+            height:
+                24px;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            border-radius:
+                50%;
+
+            font-size:
+                .75rem;
+
+            font-weight:
+                900;
+        }
+
+
+        .status.ok {
+
+            background:
+                #dceee4;
+
+            color:
+                var(--success);
+        }
+
+
+        .status.warning {
+
+            background:
+                #f8ead7;
+
+            color:
+                var(--warning);
+        }
+
+
+        .status.fail {
+
+            background:
+                #f6dfdb;
+
+            color:
+                var(--danger);
+        }
+
+
+        /* =====================================================
+           10. GEO AUDITOR
+        ===================================================== */
+
+        .form-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                15px;
+        }
+
+
+        .form-group {
+
+            display:
+                grid;
+
+            gap:
+                7px;
+        }
+
+
+        .form-group.full {
+
+            grid-column:
+                1 / -1;
+        }
+
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+
+            width:
+                100%;
+
+            padding:
+                12px 14px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius:
+                13px;
+
+            outline:
+                none;
+
+            background:
+                white;
+        }
+
+
+        .form-group textarea {
+
+            min-height:
+                100px;
+
+            resize:
+                vertical;
+        }
+
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+
+            border-color:
+                var(--seo);
+        }
+
+
+        .geo-result {
+
+            display:
+                none;
+
+            margin-top:
+                25px;
+        }
+
+
+        .geo-result.show {
+
+            display:
+                block;
+        }
+
+
+        .geo-score-bar {
+
+            height:
+                12px;
+
+            overflow:
+                hidden;
+
+            margin:
+                12px 0 20px;
+
+            border-radius:
+                99px;
+
+            background:
+                #e9eeeb;
+        }
+
+
+        .geo-score-fill {
+
+            width:
+                0%;
+
+            height:
+                100%;
+
+            border-radius:
+                99px;
+
+            background:
+                var(--geo);
+
+            transition:
+                .5s ease;
+        }
+
+
+        .geo-checks {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                9px;
+        }
+
+
+        /* =====================================================
+           11. GENERATOR
+        ===================================================== */
+
+        .generator-layout {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                .8fr 1.2fr;
+
+            gap:
+                22px;
+        }
+
+
+        .generated-code {
+
+            min-height:
+                430px;
+
+            padding:
+                18px;
+
+            overflow:
+                auto;
+
+            white-space:
+                pre-wrap;
+
+            border-radius:
+                15px;
+
+            background:
+                #19221f;
+
+            color:
+                #e8f2ed;
+
+            font-family:
+                Consolas,
+                Monaco,
+                monospace;
+
+            font-size:
+                .82rem;
+
+            line-height:
+                1.6;
+        }
+
+
+        /* =====================================================
+           12. CHECKLIST
+        ===================================================== */
+
+        .checklist {
+
+            display:
+                grid;
+
+            gap:
+                10px;
+        }
+
+
+        .check-row {
+
+            display:
+                flex;
+
+            align-items:
+                flex-start;
+
+            gap:
+                10px;
+
+            padding:
+                13px;
+
+            border-radius:
+                13px;
+
+            background:
+                var(--surface-soft);
+        }
+
+
+        /* =====================================================
+           13. QUIZ
+        ===================================================== */
+
+        .quiz-options {
+
+            display:
+                grid;
+
+            gap:
+                10px;
+
+            margin-top:
+                18px;
+        }
+
+
+        .quiz-option {
+
+            padding:
+                14px 16px;
+
+            text-align:
+                left;
+
+            background:
+                white;
+
+            border:
+                1px solid var(--border);
+
+            border-radius:
+                13px;
+        }
+
+
+        .quiz-option.correct {
+
+            background:
+                #e1f1e8;
+
+            border-color:
+                #79a88d;
+        }
+
+
+        .quiz-option.wrong {
+
+            background:
+                #f8e4de;
+
+            border-color:
+                #d28b75;
+        }
+
+
+        /* =====================================================
+           14. FINAL
+        ===================================================== */
+
+        .final-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1.2fr .8fr;
+
+            gap:
+                20px;
+
+            align-items:
+                center;
+        }
+
+
+        .final-score {
+
+            padding:
+                30px;
+
+            text-align:
+                center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #e9f3ee,
+                    #fff0e2
+                );
+
+            border-radius:
+                20px;
+        }
+
+
+        .final-score-number {
+
+            color:
+                var(--seo);
+
+            font-size:
+                3.8rem;
+
+            font-weight:
+                900;
+        }
+
+
+        .footer {
+
+            padding-top:
+                20px;
+
+            color:
+                var(--muted);
+
+            text-align:
+                center;
+        }
+
+
+        /* =====================================================
+           15. ANIMATION
+        ===================================================== */
+
+        @keyframes fadeUp {
+
+            from {
+
+                opacity:
+                    0;
+
+                transform:
+                    translateY(8px);
+            }
+
+            to {
+
+                opacity:
+                    1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* =====================================================
+           16. RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .concept-grid,
+            .tool-grid,
+            .choice-grid,
+            .generator-layout,
+            .final-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .form-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .form-group.full {
+
+                grid-column:
+                    auto;
+            }
+
+
+            .audit-summary {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .geo-checks {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .flow {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .hero {
+
+                padding-top:
+                    50px;
+            }
+
+
+            .card {
+
+                padding:
+                    21px;
+            }
+
+
+            .section-heading {
+
+                display:
+                    block;
+            }
+
+
+            .section-heading span {
+
+                display:
+                    block;
+
+                margin-top:
+                    5px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <header class="hero">
+
+        <div class="hero-inner">
+
+            <span class="eyebrow">
+                SEO × GEO · MARKETING LAB
+            </span>
+
+            <h1>
+                從「被搜尋」到<br>
+                「被 AI 理解」
+            </h1>
+
+            <p class="hero-description">
+                給行銷小白的互動式 SEO × GEO 實驗室。
+                不只學名詞，還可以直接檢查網頁、
+                分析內容，甚至產生自己的 SEO + GEO 網頁。
+            </p>
+
+
+            <div class="hero-actions">
+
+                <a
+                    class="hero-button"
+                    href="#seo-audit"
+                >
+                    開始 SEO 健檢
+                </a>
+
+                <a
+                    class="hero-button secondary"
+                    href="#geo-audit"
+                >
+                    開始 GEO 分析
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-wrapper">
+
+            <div class="progress-background">
+
+                <div class="progress"></div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         NAV
+    ====================================================== -->
+
+    <nav class="tool-nav">
+
+        <a href="#learn">
+            📚 學習
+        </a>
+
+        <a href="#seo-audit">
+            🔎 SEO 健檢
+        </a>
+
+        <a href="#geo-audit">
+            🤖 GEO 健檢
+        </a>
+
+        <a href="#generator">
+            ✍️ 網頁產生器
+        </a>
+
+        <a href="#tools">
+            🧰 工具箱
+        </a>
+
+        <a href="#quiz">
+            🧠 測驗
+        </a>
+
+    </nav>
+
+
+    <main class="main">
+
+
+        <!-- =================================================
+             LEARNING
+        ================================================== -->
+
+        <section
+            class="section"
+            id="learn"
+        >
+
+            <div class="section-heading">
+
+                <h2>
+                    ① 先用人話搞懂 SEO 與 GEO
+                </h2>
+
+                <span>
+                    不需要任何行銷背景
+                </span>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    假設你開了一家
+                    <strong>
+                        「台中北歐風咖啡廳」
+                    </strong>。
+                </p>
+
+                <p>
+                    你希望客人怎麼找到你？
+                </p>
+
+
+                <div class="choice-grid">
+
+                    <button
+                        class="choice"
+                        data-choice="seo"
+                    >
+
+                        <strong>
+                            🔎 客人 Google 搜尋
+                        </strong>
+
+                        <small>
+                            「台中北歐咖啡廳」
+                            → 搜尋結果出現你的網站
+                        </small>
+
+                    </button>
+
+
+                    <button
+                        class="choice"
+                        data-choice="geo"
+                    >
+
+                        <strong>
+                            🤖 客人直接問 AI
+                        </strong>
+
+                        <small>
+                            「推薦台中適合約會的咖啡廳」
+                            → AI 整理答案時提到你
+                        </small>
+
+                    </button>
+
+                </div>
+
+
+                <div class="feedback choice-feedback"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CONCEPT
+        ================================================== -->
+
+        <section class="section">
+
+            <div class="concept-grid">
+
+                <article class="concept seo">
+
+                    <span class="label">
+                        SEO
+                    </span>
+
+                    <h3>
+                        Search Engine Optimization
+                    </h3>
+
+                    <p>
+                        白話：
+                        <strong>
+                            讓搜尋引擎更容易找到、理解你的網站。
+                        </strong>
+                    </p>
+
+                    <p>
+                        例如使用者搜尋：
+                    </p>
+
+                    <p>
+                        「台中北歐咖啡廳」
+                    </p>
+
+                    <p>
+                        你的任務就是讓 Google 更容易判斷：
+                        「這個網站真的可以回答這個問題。」
+                    </p>
+
+                </article>
+
+
+                <article class="concept geo">
+
+                    <span class="label">
+                        GEO
+                    </span>
+
+                    <h3>
+                        Generative Engine Optimization
+                    </h3>
+
+                    <p>
+                        白話：
+                        <strong>
+                            讓生成式 AI 更容易理解你的品牌與內容。
+                        </strong>
+                    </p>
+
+                    <p>
+                        例如使用者問：
+                    </p>
+
+                    <p>
+                        「推薦台中適合約會的咖啡廳」
+                    </p>
+
+                    <p>
+                        你的內容如果資訊清楚、可信、
+                        脈絡完整，就更容易成為 AI 可以理解的資訊來源。
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SEO AUDIT
+        ================================================== -->
+
+        <section
+            class="section"
+            id="seo-audit"
+        >
+
+            <div class="section-heading">
+
+                <h2>
+                    ② SEO 網頁健檢器
+                </h2>
+
+                <span>
+                    貼上你的 HTML
+                </span>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    把你的
+                    <code>index.html</code>
+                    貼到下面，系統會用基礎規則幫你檢查。
+                </p>
+
+
+                <label
+                    class="input-label"
+                    for="html-input"
+                >
+                    HTML 程式碼
+                </label>
+
+
+                <textarea
+                    class="code-input"
+                    id="html-input"
+                    placeholder="請貼上你的 HTML..."
+                ></textarea>
+
+
+                <div class="button-row">
+
+                    <button
+                        class="primary-button"
+                        id="run-seo-audit"
+                    >
+                        🔍 開始 SEO 健檢
+                    </button>
+
+
+                    <button
+                        class="secondary-button"
+                        id="load-demo"
+                    >
+                        載入範例
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="audit-summary"
+                    id="seo-result"
+                >
+
+                    <div class="audit-score">
+
+                        <div>
+                            SEO Score
+                        </div>
+
+                        <div class="audit-score-number">
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="audit-list">
+
+                        <div class="audit-item">
+                            <span class="status warning">?</span>
+                            尚未開始健檢
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             GEO AUDIT
+        ================================================== -->
+
+        <section
+            class="section"
+            id="geo-audit"
+        >
+
+            <div class="section-heading">
+
+                <h2>
+                    ③ GEO Readiness 健檢
+                </h2>
+
+                <span>
+                    AI 能不能搞懂你？
+                </span>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    GEO 不應該被理解成一個神奇的「AI 排名分數」。
+                    這裡檢查的是：
+                    <strong>
+                        你的品牌資訊是否完整、清楚、具備脈絡與可信度。
+                    </strong>
+                </p>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            品牌／公司名稱
+                        </label>
+
+                        <input
+                            class="geo-input"
+                            data-field="brand"
+                            placeholder="例如：北歐咖啡"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            產品／服務
+                        </label>
+
+                        <input
+                            class="geo-input"
+                            data-field="service"
+                            placeholder="例如：北歐風咖啡廳"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            地區
+                        </label>
+
+                        <input
+                            class="geo-input"
+                            data-field="location"
+                            placeholder="例如：台中西屯"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            目標客戶
+                        </label>
+
+                        <input
+                            class="geo-input"
+                            data-field="audience"
+                            placeholder="例如：情侶、學生"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            品牌／服務特色
+                        </label>
+
+                        <textarea
+                            class="geo-input"
+                            data-field="features"
+                            placeholder="請描述你的特色、專業、服務方式..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            FAQ／常見問題
+                        </label>
+
+                        <textarea
+                            class="geo-input"
+                            data-field="faq"
+                            placeholder="例如：營業時間？價格？如何預約？"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="button-row">
+
+                    <button
+                        class="primary-button"
+                        id="run-geo-audit"
+                    >
+                        🤖 分析 GEO Readiness
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="geo-result"
+                    id="geo-result"
+                >
+
+                    <h3>
+                        GEO Readiness
+                    </h3>
+
+                    <strong
+                        class="geo-score-number"
+                    >
+                        0 / 100
+                    </strong>
+
+
+                    <div class="geo-score-bar">
+
+                        <div class="geo-score-fill"></div>
+
+                    </div>
+
+
+                    <div class="geo-checks"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             GENERATOR
+        ================================================== -->
+
+        <section
+            class="section"
+            id="generator"
+        >
+
+            <div class="section-heading">
+
+                <h2>
+                    ④ SEO + GEO 網頁產生器
+                </h2>
+
+                <span>
+                    把概念真正做出來
+                </span>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="generator-layout">
+
+                    <div>
+
+                        <p>
+                            填入基本資料，系統會產生一份
+                            基礎 SEO + GEO HTML。
+                        </p>
+
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+
+                                <label>
+                                    品牌
+                                </label>
+
+                                <input
+                                    class="generator-input"
+                                    data-field="brand"
+                                    value="北歐咖啡"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    服務
+                                </label>
+
+                                <input
+                                    class="generator-input"
+                                    data-field="service"
+                                    value="台中北歐風咖啡廳"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    地區
+                                </label>
+
+                                <input
+                                    class="generator-input"
+                                    data-field="location"
+                                    value="台中西屯"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    目標客群
+                                </label>
+
+                                <input
+                                    class="generator-input"
+                                    data-field="audience"
+                                    value="情侶、學生、自由工作者"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group full">
+
+                                <label>
+                                    品牌介紹
+                                </label>
+
+                                <textarea
+                                    class="generator-input"
+                                    data-field="description"
+                                >提供舒服、安靜的北歐風咖啡空間，適合約會、閱讀與工作。</textarea>
+
+                            </div>
+
+
+                            <div class="form-group full">
+
+                                <label>
+                                    FAQ
+                                </label>
+
+                                <textarea
+                                    class="generator-input"
+                                    data-field="faq"
+                                >營業時間：每日 10:00～20:00
+是否需要預約：建議假日提前預約
+適合族群：情侶、學生、自由工作者</textarea>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="button-row">
+
+                            <button
+                                class="primary-button"
+                                id="generate-page"
+                            >
+                                🚀 產生 SEO + GEO HTML
+                            </button>
+
+                            <button
+                                class="secondary-button"
+                                id="copy-code"
+                            >
+                                📋 複製程式碼
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <pre
+                        class="generated-code"
+                        id="generated-code"
+                    >按下「產生 SEO + GEO HTML」後，
+這裡會出現程式碼。</pre>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             BEST PRACTICES
+        ================================================== -->
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <h2>
+                    ⑤ SEO + GEO 實戰 Checklist
+                </h2>
+
+                <span>
+                    寫內容前先看這張
+                </span>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="checklist">
+
+                    <div class="check-row">
+                        <strong>01</strong>
+                        我知道客戶真正想解決的問題。
+                    </div>
+
+                    <div class="check-row">
+                        <strong>02</strong>
+                        Title 能清楚描述頁面主題。
+                    </div>
+
+                    <div class="check-row">
+                        <strong>03</strong>
+                        Meta Description 能快速說明頁面價值。
+                    </div>
+
+                    <div class="check-row">
+                        <strong>04</strong>
+                        頁面有清楚的 H1 / H2 結構。
+                    </div>
+
+                    <div class="check-row">
+                        <strong>05</strong>
+                        內容不是單純堆關鍵字。
+                    </div>
+
+                    <div class="check-row">
+                        <strong>06</strong>
+                        品牌、產品、地點與服務資訊清楚。
+                    </div>
+
+                    <div class="check-row">
+                        <strong>07</strong>
+                        有 FAQ，直接回答使用者問題。
+                    </div>
+
+                    <div class="check-row">
+                        <strong>08</strong>
+                        有作者、專業背景或可信資料來源。
+                    </div>
+
+                    <div class="check-row">
+                        <strong>09</strong>
+                        網站在手機上也容易閱讀。
+                    </div>
+
+                    <div class="check-row">
+                        <strong>10</strong>
+                        持續觀察 Search Console 與實際使用者需求。
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             TOOLS
+        ================================================== -->
+
+        <section
+            class="section"
+            id="tools"
+        >
+
+            <div class="section-heading">
+
+                <h2>
+                    ⑥ 真正可以使用的工具
+                </h2>
+
+                <span>
+                    從練習走向實戰
+                </span>
+
+            </div>
+
+
+            <div class="tool-grid">
+
+                <article class="tool-card">
+
+                    <h3>
+                        Google Search Console
+                    </h3>
+
+                    <p>
+                        查看搜尋曝光、點擊、搜尋查詢、
+                        索引與網站搜尋表現。
+                    </p>
+
+                    <a
+                        class="tool-link"
+                        href="https://search.google.com/search-console/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        開啟工具
+                    </a>
+
+                </article>
+
+
+                <article class="tool-card">
+
+                    <h3>
+                        Google Rich Results Test
+                    </h3>
+
+                    <p>
+                        測試頁面中的結構化資料，
+                        查看是否符合複合式搜尋結果格式。
+                    </p>
+
+                    <a
+                        class="tool-link"
+                        href="https://search.google.com/test/rich-results"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        開啟工具
+                    </a>
+
+                </article>
+
+
+                <article class="tool-card">
+
+                    <h3>
+                        PageSpeed Insights
+                    </h3>
+
+                    <p>
+                        檢查網站效能與 Core Web Vitals，
+                        了解速度與使用者體驗問題。
+                    </p>
+
+                    <a
+                        class="tool-link"
+                        href="https://pagespeed.web.dev/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        開啟工具
+                    </a>
+
+                </article>
+
+
+                <article class="tool-card">
+
+                    <h3>
+                        Google Trends
+                    </h3>
+
+                    <p>
+                        探索搜尋趨勢與關鍵字需求，
+                        協助你思考使用者真正關心什麼。
+                    </p>
+
+                    <a
+                        class="tool-link"
+                        href="https://trends.google.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        開啟工具
+                    </a>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             QUIZ
+        ================================================== -->
+
+        <section
+            class="section"
+            id="quiz"
+        >
+
+            <div class="section-heading">
+
+                <h2>
+                    ⑦ 最後測驗
+                </h2>
+
+                <span>
+                    看看你真的懂了嗎？
+                </span>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    你寫了一篇：
+                    <strong>
+                        「2026 台中咖啡廳約會指南」
+                    </strong>
+                </p>
+
+                <p>
+                    裡面有店家特色、地址、價格、
+                    適合族群、交通方式與實際體驗。
+                </p>
+
+                <p>
+                    如果希望搜尋引擎與 AI 都更容易理解，
+                    哪一種做法比較合理？
+                </p>
+
+
+                <div class="quiz-options">
+
+                    <button
+                        class="quiz-option"
+                        data-answer="wrong"
+                    >
+                        A．瘋狂重複「台中咖啡廳」關鍵字
+                    </button>
+
+
+                    <button
+                        class="quiz-option"
+                        data-answer="correct"
+                    >
+                        B．清楚回答問題、整理資訊、提供可信資料並持續更新
+                    </button>
+
+
+                    <button
+                        class="quiz-option"
+                        data-answer="wrong"
+                    >
+                        C．文章越長越好
+                    </button>
+
+
+                    <button
+                        class="quiz-option"
+                        data-answer="wrong"
+                    >
+                        D．只做 GEO，不需要 SEO
+                    </button>
+
+                </div>
+
+
+                <div class="feedback quiz-feedback"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FINAL
+        ================================================== -->
+
+        <section class="section">
+
+            <div class="card final-grid">
+
+                <div>
+
+                    <h2>
+                        🎯 恭喜，你已經開始用「搜尋時代」的方式思考行銷。
+                    </h2>
+
+                    <p>
+                        不要把 SEO 想成「討好 Google」，
+                        也不要把 GEO 想成「騙 AI 提到我」。
+                    </p>
+
+                    <p>
+                        真正的核心是：
+                    </p>
+
+                    <p>
+                        <strong>
+                            找到使用者問題 →
+                            提供真正有價值的答案 →
+                            把資訊整理清楚 →
+                            建立可信度 →
+                            持續驗證與改善。
+                        </strong>
+                    </p>
+
+                </div>
+
+
+                <div class="final-score">
+
+                    <div>
+                        我的學習進度
+                    </div>
+
+                    <div class="final-score-number">
+                        0%
+                    </div>
+
+                    <small>
+                        完成互動項目後會自動更新
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <p class="footer">
+
+            SEO = 讓搜尋引擎更容易找到你
+            ｜ GEO = 讓 AI 更容易理解你的內容
+            ｜ 最終目標 = 幫助使用者
+
+        </p>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                /* =================================================
+                   DOM
+                ================================================= */
+
+                const progress =
+                    document.querySelector(".progress");
+
+                const finalScore =
+                    document.querySelector(".final-score-number");
+
+                const choices =
+                    document.querySelectorAll(".choice");
+
+                const choiceFeedback =
+                    document.querySelector(".choice-feedback");
+
+                const htmlInput =
+                    document.querySelector("#html-input");
+
+                const seoButton =
+                    document.querySelector("#run-seo-audit");
+
+                const demoButton =
+                    document.querySelector("#load-demo");
+
+                const seoResult =
+                    document.querySelector("#seo-result");
+
+                const geoButton =
+                    document.querySelector("#run-geo-audit");
+
+                const geoResult =
+                    document.querySelector("#geo-result");
+
+                const generateButton =
+                    document.querySelector("#generate-page");
+
+                const copyButton =
+                    document.querySelector("#copy-code");
+
+                const generatedCode =
+                    document.querySelector("#generated-code");
+
+                const quizOptions =
+                    document.querySelectorAll(".quiz-option");
+
+
+                /* =================================================
+                   STATE
+                ================================================= */
+
+                let learningScore = 0;
+
+                let choiceDone = false;
+
+                let seoDone = false;
+
+                let geoDone = false;
+
+                let generatorDone = false;
+
+                let quizDone = false;
+
+
+                /* =================================================
+                   PROGRESS
+                ================================================= */
+
+                function updateProgress() {
+
+                    let score = 0;
+
+                    if (choiceDone) {
+                        score += 15;
+                    }
+
+                    if (seoDone) {
+                        score += 20;
+                    }
+
+                    if (geoDone) {
+                        score += 20;
+                    }
+
+                    if (generatorDone) {
+                        score += 20;
+                    }
+
+                    if (quizDone) {
+                        score += 25;
+                    }
+
+                    score =
+                        Math.min(
+                            score,
+                            100
+                        );
+
+                    learningScore =
+                        score;
+
+                    progress.style.width =
+                        score + "%";
+
+                    finalScore.textContent =
+                        score + "%";
+                }
+
+
+                /* =================================================
+                   CHOICE
+                ================================================= */
+
+                choices.forEach(
+                    function (choice) {
+
+                        choice.addEventListener(
+                            "click",
+                            function () {
+
+                                choices.forEach(
+                                    function (item) {
+
+                                        item.classList.remove(
+                                            "active"
+                                        );
+
+                                    }
+                                );
+
+
+                                choice.classList.add(
+                                    "active"
+                                );
+
+
+                                choiceDone =
+                                    true;
+
+
+                                if (
+                                    choice.dataset.choice ===
+                                    "seo"
+                                ) {
+
+                                    choiceFeedback.innerHTML =
+                                        "✅ 這是 SEO。使用者主動搜尋，你希望搜尋引擎找到你的網站。";
+
+                                } else {
+
+                                    choiceFeedback.innerHTML =
+                                        "🤖 這是 GEO。使用者直接向 AI 提問，你希望 AI 能理解你的品牌與內容。";
+
+                                }
+
+
+                                choiceFeedback.classList.add(
+                                    "show"
+                                );
+
+
+                                updateProgress();
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                /* =================================================
+                   DEMO HTML
+                ================================================= */
+
+                demoButton.addEventListener(
+                    "click",
+                    function () {
+
+                        htmlInput.value =
+
+`<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>台中北歐咖啡廳｜北歐咖啡</title>
+
+<meta name="description"
+      content="北歐咖啡位於台中西屯，提供北歐風咖啡、閱讀與工作空間。">
+
+<link rel="canonical"
+      href="https://example.com/">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>台中北歐咖啡廳｜北歐咖啡</h1>
+
+<p>
+適合約會、閱讀與工作的北歐風咖啡空間。
+</p>
+
+</header>
+
+<main>
+
+<section>
+
+<h2>我們提供什麼？</h2>
+
+<p>
+提供咖啡、甜點與舒適的北歐風空間。
+</p>
+
+</section>
+
+<section>
+
+<h2>常見問題</h2>
+
+<h3>營業時間？</h3>
+
+<p>每日 10:00～20:00。</p>
+
+</section>
+
+</main>
+
+</body>
+
+</html>`;
+
+                    }
+                );
+
+
+                /* =================================================
+                   SEO AUDIT
+                ================================================= */
+
+                seoButton.addEventListener(
+                    "click",
+                    function () {
+
+                        const html =
+                            htmlInput.value.trim();
+
+
+                        if (!html) {
+
+                            alert(
+                                "請先貼上 HTML。"
+                            );
+
+                            return;
+
+                        }
+
+
+                        const parser =
+                            new DOMParser();
+
+
+                        const doc =
+                            parser.parseFromString(
+                                html,
+                                "text/html"
+                            );
+
+
+                        const checks = [];
+
+
+                        function addCheck(
+                            name,
+                            passed,
+                            warning = false,
+                            detail = ""
+                        ) {
+
+                            checks.push({
+
+                                name,
+                                passed,
+                                warning,
+                                detail
+
+                            });
+
+                        }
+
+
+                        addCheck(
+                            "HTML lang",
+                            !!doc.documentElement.getAttribute(
+                                "lang"
+                            )
+                        );
+
+
+                        addCheck(
+                            "Title",
+                            !!doc.querySelector(
+                                "title"
+                            ) &&
+                            doc.querySelector(
+                                "title"
+                            ).textContent.trim().length > 0
+                        );
+
+
+                        const description =
+                            doc.querySelector(
+                                'meta[name="description"]'
+                            );
+
+
+                        addCheck(
+                            "Meta Description",
+                            !!description &&
+                            description.getAttribute(
+                                "content"
+                            ).trim().length > 0
+                        );
+
+
+                        addCheck(
+                            "H1",
+                            doc.querySelectorAll(
+                                "h1"
+                            ).length === 1
+                        );
+
+
+                        addCheck(
+                            "H2 結構",
+                            doc.querySelectorAll(
+                                "h2"
+                            ).length > 0,
+                            true
+                        );
+
+
+                        addCheck(
+                            "Viewport",
+                            !!doc.querySelector(
+                                'meta[name="viewport"]'
+                            )
+                        );
+
+
+                        const images =
+                            [...doc.querySelectorAll(
+                                "img"
+                            )];
+
+
+                        const imagesWithAlt =
+                            images.filter(
+                                function (img) {
+
+                                    return (
+                                        img.hasAttribute(
+                                            "alt"
+                                        )
+                                    );
+
+                                }
+                            ).length;
+
+
+                        addCheck(
+                            "圖片 ALT",
+                            images.length === 0 ||
+                            imagesWithAlt === images.length,
+                            true
+                        );
+
+
+                        addCheck(
+                            "Canonical",
+                            !!doc.querySelector(
+                                'link[rel="canonical"]'
+                            ),
+                            true
+                        );
+
+
+                        addCheck(
+                            "Structured Data",
+                            !!doc.querySelector(
+                                'script[type="application/ld+json"]'
+                            ),
+                            true
+                        );
+
+
+                        addCheck(
+                            "Open Graph",
+                            !!doc.querySelector(
+                                'meta[property="og:title"]'
+                            ),
+                            true
+                        );
+
+
+                        addCheck(
+                            "語義化 HTML",
+                            !!doc.querySelector(
+                                "main"
+                            ) &&
+                            !!doc.querySelector(
+                                "header"
+                            ),
+                            true
+                        );
+
+
+                        let points = 0;
+
+
+                        checks.forEach(
+                            function (item) {
+
+                                if (
+                                    item.passed
+                                ) {
+
+                                    points +=
+                                        item.warning
+                                        ? 7
+                                        : 10;
+
+                                }
+
+                            }
+                        );
+
+
+                        const maxPoints =
+                            checks.reduce(
+                                function (
+                                    total,
+                                    item
+                                ) {
+
+                                    return total +
+                                        (
+                                            item.warning
+                                            ? 7
+                                            : 10
+                                        );
+
+                                },
+                                0
+                            );
+
+
+                        const score =
+                            Math.round(
+                                points /
+                                maxPoints *
+                                100
+                            );
+
+
+                        const list =
+                            checks.map(
+                                function (item) {
+
+                                    let icon =
+                                        "✓";
+
+                                    let type =
+                                        "ok";
+
+                                    if (
+                                        !item.passed
+                                    ) {
+
+                                        icon =
+                                            "✕";
+
+                                        type =
+                                            "fail";
+
+                                    }
+
+                                    return `
+
+<div class="audit-item">
+
+<span class="status ${type}">
+${icon}
+</span>
+
+<div>
+<strong>
+${item.name}
+</strong>
+
+<small>
+${item.passed
+    ? "已通過基本檢查"
+    : "建議補強"}
+</small>
+
+</div>
+
+</div>`;
+
+                                }
+                            ).join("");
+
+
+                        seoResult.innerHTML = `
+
+<div class="audit-score">
+
+<div>
+SEO Score
+</div>
+
+<div class="audit-score-number">
+${score}
+</div>
+
+<div>
+/ 100
+</div>
+
+</div>
+
+<div class="audit-list">
+
+${list}
+
+</div>`;
+
+                        seoDone =
+                            true;
+
+                        updateProgress();
+
+                    }
+                );
+
+
+                /* =================================================
+                   GEO AUDIT
+                ================================================= */
+
+                geoButton.addEventListener(
+                    "click",
+                    function () {
+
+                        const fields =
+                            document.querySelectorAll(
+                                ".geo-input"
+                            );
+
+
+                        const data = {};
+
+
+                        fields.forEach(
+                            function (field) {
+
+                                data[
+                                    field.dataset.field
+                                ] =
+                                    field.value.trim();
+
+                            }
+                        );
+
+
+                        const checks = [
+
+                            {
+                                name:
+                                    "品牌／公司名稱",
+                                ok:
+                                    data.brand.length > 0
+                            },
+
+                            {
+                                name:
+                                    "產品／服務",
+                                ok:
+                                    data.service.length > 0
+                            },
+
+                            {
+                                name:
+                                    "地理位置",
+                                ok:
+                                    data.location.length > 0
+                            },
+
+                            {
+                                name:
+                                    "目標客戶",
+                                ok:
+                                    data.audience.length > 0
+                            },
+
+                            {
+                                name:
+                                    "品牌／服務特色",
+                                ok:
+                                    data.features.length >= 30
+                            },
+
+                            {
+                                name:
+                                    "FAQ",
+                                ok:
+                                    data.faq.length >= 20
+                            }
+
+                        ];
+
+
+                        let score =
+                            0;
+
+
+                        checks.forEach(
+                            function (item) {
+
+                                if (item.ok) {
+
+                                    score +=
+                                        100 /
+                                        checks.length;
+
+                                }
+
+                            }
+                        );
+
+
+                        score =
+                            Math.round(score);
+
+
+                        geoResult.classList.add(
+                            "show"
+                        );
+
+
+                        geoResult.querySelector(
+                            ".geo-score-number"
+                        ).textContent =
+                            score +
+                            " / 100";
+
+
+                        geoResult.querySelector(
+                            ".geo-score-fill"
+                        ).style.width =
+                            score +
+                            "%";
+
+
+                        geoResult.querySelector(
+                            ".geo-checks"
+                        ).innerHTML =
+                            checks.map(
+                                function (item) {
+
+                                    return `
+
+<div class="audit-item">
+
+<span class="status ${
+    item.ok
+        ? "ok"
+        : "warning"
+}">
+${item.ok ? "✓" : "!"}
+</span>
+
+${item.name}
+
+</div>`;
+
+                                }
+                            ).join("");
+
+
+                        geoDone =
+                            true;
+
+
+                        updateProgress();
+
+                    }
+                );
+
+
+                /* =================================================
+                   GENERATOR
+                ================================================= */
+
+                generateButton.addEventListener(
+                    "click",
+                    function () {
+
+                        const inputs =
+                            document.querySelectorAll(
+                                ".generator-input"
+                            );
+
+
+                        const data = {};
+
+
+                        inputs.forEach(
+                            function (input) {
+
+                                data[
+                                    input.dataset.field
+                                ] =
+                                    input.value.trim();
+
+                            }
+                        );
+
+
+                        const faqLines =
+                            data.faq
+                                .split("\n")
+                                .filter(
+                                    function (line) {
+
+                                        return line.trim();
+
+                                    }
+                                );
+
+
+                        const faqHtml =
+                            faqLines.map(
+                                function (line) {
+
+                                    return `
+<p>
+${escapeHtml(line)}
+</p>`;
+
+                                }
+                            ).join("");
+
+
+                        const jsonLd = {
+
+                            "@context":
+                                "https://schema.org",
+
+                            "@type":
+                                "LocalBusiness",
+
+                            name:
+                                data.brand,
+
+                            description:
+                                data.description,
+
+                            areaServed:
+                                data.location,
+
+                            serviceType:
+                                data.service
+
+                        };
+
+
+                        const output =
+
+`<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+${escapeHtml(data.service)}
+｜${escapeHtml(data.brand)}
+｜${escapeHtml(data.location)}
+</title>
+
+<meta
+    name="description"
+    content="${escapeHtml(data.description)}"
+>
+
+<link
+    rel="canonical"
+    href="https://example.com/"
+>
+
+<meta
+    property="og:title"
+    content="${escapeHtml(data.service)}｜${escapeHtml(data.brand)}"
+>
+
+<meta
+    property="og:description"
+    content="${escapeHtml(data.description)}"
+>
+
+<script type="application/ld+json">
+${JSON.stringify(
+    jsonLd,
+    null,
+    2
+)}
+<\\/script>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>
+${escapeHtml(data.service)}
+｜${escapeHtml(data.brand)}
+</h1>
+
+<p>
+${escapeHtml(data.description)}
+</p>
+
+</header>
+
+
+<main>
+
+<section>
+
+<h2>
+我們提供什麼？
+</h2>
+
+<p>
+${escapeHtml(data.description)}
+</p>
+
+</section>
+
+
+<section>
+
+<h2>
+服務地區
+</h2>
+
+<p>
+${escapeHtml(data.location)}
+</p>
+
+</section>
+
+
+<section>
+
+<h2>
+適合誰？
+</h2>
+
+<p>
+${escapeHtml(data.audience)}
+</p>
+
+</section>
+
+
+<section>
+
+<h2>
+常見問題 FAQ
+</h2>
+
+${faqHtml}
+
+</section>
+
+
+</main>
+
+</body>
+
+</html>`;
+
+
+                        generatedCode.textContent =
+                            output;
+
+
+                        generatorDone =
+                            true;
+
+
+                        updateProgress();
+
+                    }
+                );
+
+
+                /* =================================================
+                   COPY
+                ================================================= */
+
+                copyButton.addEventListener(
+                    "click",
+                    async function () {
+
+                        const code =
+                            generatedCode.textContent;
+
+
+                        if (
+                            !code ||
+                            code.includes(
+                                "按下「產生"
+                            )
+                        ) {
+
+                            alert(
+                                "請先產生 HTML。"
+                            );
+
+                            return;
+
+                        }
+
+
+                        try {
+
+                            await navigator.clipboard.writeText(
+                                code
+                            );
+
+                            copyButton.textContent =
+                                "✅ 已複製";
+
+                            setTimeout(
+                                function () {
+
+                                    copyButton.textContent =
+                                        "📋 複製程式碼";
+
+                                },
+                                1500
+                            );
+
+                        } catch (error) {
+
+                            alert(
+                                "瀏覽器阻止自動複製，請手動選取程式碼。"
+                            );
+
+                        }
+
+                    }
+                );
+
+
+                /* =================================================
+                   QUIZ
+                ================================================= */
+
+                quizOptions.forEach(
+                    function (option) {
+
+                        option.addEventListener(
+                            "click",
+                            function () {
+
+                                quizOptions.forEach(
+                                    function (item) {
+
+                                        item.classList.remove(
+                                            "correct",
+                                            "wrong"
+                                        );
+
+                                    }
+                                );
+
+
+                                option.classList.add(
+                                    option.dataset.answer
+                                );
+
+
+                                quizDone =
+                                    true;
+
+
+                                if (
+                                    option.dataset.answer ===
+                                    "correct"
+                                ) {
+
+                                    document.querySelector(
+                                        ".quiz-feedback"
+                                    ).innerHTML =
+                                        "🎉 答對！真正的 SEO + GEO 不是堆關鍵字，而是提供清楚、可信、真正解決問題的內容。";
+
+                                } else {
+
+                                    document.querySelector(
+                                        ".quiz-feedback"
+                                    ).innerHTML =
+                                        "再想一下。關鍵字數量、文章長度或單純大量生成內容，都不是成功的保證。";
+
+                                }
+
+
+                                document.querySelector(
+                                    ".quiz-feedback"
+                                ).classList.add(
+                                    "show"
+                                );
+
+
+                                updateProgress();
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                /* =================================================
+                   ESCAPE HTML
+                ================================================= */
+
+                function escapeHtml(
+                    value
+                ) {
+
+                    return value
+                        .replace(
+                            /&/g,
+                            "&amp;"
+                        )
+                        .replace(
+                            /</g,
+                            "&lt;"
+                        )
+                        .replace(
+                            />/g,
+                            "&gt;"
+                        )
+                        .replace(
+                            /"/g,
+                            "&quot;"
+                        )
+                        .replace(
+                            /'/g,
+                            "&#039;"
+                        );
+
+                }
+
+
+                /* =================================================
+                   INITIAL
+                ================================================= */
+
+                updateProgress();
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // const exampleType = "let";
+
+        // if (exampleType === "let") {
+        //     let score = 80;
+        //     // let score = 70;
+        // }
+
+        // if (exampleType === "const") {
+        //     const score = 90;
+        //     //score = 90; //雖然沒出現紅底提醒，但執行後會有錯誤
+        // }
+
+        // //"=":代表指派
+        // //"=="or "==="才是數學的等於
+        // //"==":會進行型別轉換
+        // //"===":不會進行型別轉換
+
+        // function sayHello() {
+        //     console.log("Say Hello");
+        // }
+        // //箭頭函式，要先宣告才能return
+        // const sayHelloNew = () => {
+        //     console.log("Say Hello");
+        // }
+
+        // //命名練習
+        // const user = {
+        //     name: "Justin",
+        //     age: 30,
+        // }
+        // console.log("傳統語法輸出參數name = " + user.name);
+        // console.log("傳統語法輸出參數age = " + user.age);
+
+        // const { name, age } = user;
+        // console.log("新式語法輸出參數1const{name} = " + name);
+        // console.log("新式語法輸出參數1const{age} = " + age);
+
+        // console.log(`新式語法輸出參數2= ${name}`);
+        // console.log(`新式語法輸出參數2= ${age}`);
+
+        // //型別Type
+        // let a = 10;
+        // let b = 20;
+        // let c = "30";
+        // console.log(a + b);
+        // console.log(b + c);//當計算式中有字串，全部都自動轉換為字串
+        // console.log(a + Number(c)); //Number()用來轉換string為數字
+
+        // const pi = 3.1415926;
+        // console.log(pi);
+        // console.log(pi.toFixed(2));//取小數兩位
+        // console.log(`${a} > ${b} = ${a > b}`);
+        // console.log(`${a} <= ${b} = ${a <= b}`);
+
+        // let d = null;
+        // let e;
+
+        // console.log(d);
+        // console.log(e);
+
+        // console.log(d + 10);
+        // console.log(e + 10); //NaN = Not a Number
+
+        // function celsiusToFahrenheit(celsius) {
+        //     return celsius * 9 / 5 + 32;
+        // }
+
+        // console.log(celsiusToFahrenheit(25)); // 77
+        
+        // function Cdegree2Fdegree(location = "台中", Cdegree=25) {
+        //     return `${location}的攝氏溫度是${Cdegree}°C，華式溫度是${Cdegree*1.8+32}°F`;
+        // }
+        // console.log(Cdegree2Fdegree("台中",30));
+        // console.log(Cdegree2Fdegree("台中"));
+
+        // let score = prompt("請輸入學生分數(0~100):");
+        // //驗證
+        // if(!/^\d+$/.test(score)) {
+        //     console.log("輸入錯誤:請輸入0~100的阿拉伯數字")
+        // }
+        // else {
+        //     score = Number(score);
+        //     if(score < 0 || score >100 ){
+        //         console.log("輸入錯誤，分數必須介於0~100之間")
+        //     }                
+        //     else if(score >=90){
+        //         console.log("優等")
+        //     }
+        //     else if(score >=80){
+        //         console.log("甲等")
+        //     }
+        //     else if(score >=70){
+        //         console.log("乙等")
+        //     }
+        //     else if(score >=60){
+        //         console.log("丙等")
+        //     }
+        //     else {
+        //         console.log("請好好加油!")
+        //     }
+        // }
+ 
+        const numbers = [10, 55, 63, 44, 52, 32]
+        console.log("原始陣列:", numbers);
+        console.log("原始陣列:", numbers.length);
+        console.log("最後元素", numbers[numbers.length-1]);
+
+        numbers.push(60)
+        console.log("push新陣列:", numbers);
+        numbers.pop();
+        console.log("pop新陣列:", numbers);
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

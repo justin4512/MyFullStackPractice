@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function calculatePrice(price, isVIP, creditCard) {
+            //金額不合法
+            if (price <= 0) {
+                return "消費金額不足0";
+            }
+            //金額合法
+            let finalPrice = price;
+            let discount = 0;
+
+            // =========================
+            // 1. 滿 3000 折 300
+            // =========================
+            if (price >= 3000) {
+                discount += 300;
+            } else {
+                console.log("未得折扣金額");
+            }
+
+            // =========================
+            // 2. VIP 享 95 折
+            // =========================
+            if (isVIP) {
+                finalPrice = (finalPrice - discount) * 0.95; //有符合VIP
+            } else {
+                finalPrice = finalPrice - discount //沒有符合VIP
+            }
+
+            // =========================
+            // 3. 特定信用卡再折 50
+            // =========================
+
+            switch (creditCard) {
+                case "VISA":
+                    finalPrice -= 100;
+                    break;
+
+                case "MASTER":
+                    finalPrice -= 80;
+                    break;
+
+                case "JCB":
+                    finalPrice -= 50;
+                    break;
+                default:
+                    console.log("此信用卡沒有額外折扣");
+            }
+
+            //防止金額小於0
+            if (finalPrice < 0) {
+                finalPrice = 0;            
+            } 
+            return finalPrice;
+        }
+            // =========================
+            // 測試
+            // =========================        
+        const result = calculatePrice(5000, true, "VISA");
+        console.log(`本次折扣後金額${result}`);
+    </script>
+</body>
+
+</html>

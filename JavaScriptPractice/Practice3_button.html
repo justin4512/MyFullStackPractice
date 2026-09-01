@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button class="colorButton">改變顏色</button>
+    <script>
+        const button = document.querySelector(".colorButton");
+        const colors = ["red", "green", "blue"];
+
+        button.addEventListener("click" ,function() {
+            const randomIndex = Math.floor(Math.random() * colors.length); document.body.style.backgroundColor = colors [randomIndex];
+
+            console.log(colors[randomIndex]);
+        });
+    </script>
+</body>
+</html>
