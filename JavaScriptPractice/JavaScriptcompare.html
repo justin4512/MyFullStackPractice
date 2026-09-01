@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>JavaScript let、const、var 小白比較教學</title>
+
+<style>
+    /* =========================
+       CSS：全域設定
+    ========================== */
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family:
+            "Noto Sans TC",
+            "Microsoft JhengHei",
+            Arial,
+            sans-serif;
+        background: #f4f6f8;
+        color: #263238;
+        line-height: 1.7;
+    }
+
+    .container {
+        width: min(1100px, 92%);
+        margin: 0 auto;
+    }
+
+    /* =========================
+       Header
+    ========================== */
+
+    .header {
+        background: #263238;
+        color: white;
+        padding: 45px 0;
+    }
+
+    .header-title {
+        margin: 0 0 10px;
+        font-size: 36px;
+    }
+
+    .header-text {
+        margin: 0;
+        color: #cfd8dc;
+        font-size: 18px;
+    }
+
+    /* =========================
+       Hero
+    ========================== */
+
+    .hero {
+        padding: 45px 0 25px;
+    }
+
+    .hero-card {
+        background: white;
+        border-radius: 18px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    .hero-title {
+        margin-top: 0;
+        font-size: 28px;
+    }
+
+    .hero-highlight {
+        color: #1976d2;
+        font-weight: bold;
+    }
+
+    /* =========================
+       三種變數比較
+    ========================== */
+
+    .comparison {
+        padding: 25px 0;
+    }
+
+    .section-title {
+        margin-bottom: 25px;
+        font-size: 28px;
+    }
+
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 18px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    .card-var {
+        border-top: 6px solid #ef5350;
+    }
+
+    .card-let {
+        border-top: 6px solid #42a5f5;
+    }
+
+    .card-const {
+        border-top: 6px solid #66bb6a;
+    }
+
+    .card-title {
+        margin-top: 0;
+        font-size: 26px;
+    }
+
+    .card-subtitle {
+        color: #78909c;
+        font-size: 14px;
+    }
+
+    .code {
+        background: #263238;
+        color: #eceff1;
+        padding: 15px;
+        border-radius: 10px;
+        font-family: Consolas, monospace;
+        overflow-x: auto;
+    }
+
+    .keyword-var {
+        color: #ef5350;
+        font-weight: bold;
+    }
+
+    .keyword-let {
+        color: #42a5f5;
+        font-weight: bold;
+    }
+
+    .keyword-const {
+        color: #66bb6a;
+        font-weight: bold;
+    }
+
+    /* =========================
+       互動實驗區
+    ========================== */
+
+    .experiment {
+        padding: 40px 0;
+    }
+
+    .experiment-box {
+        background: white;
+        border-radius: 18px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    .button-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 20px 0;
+    }
+
+    .button {
+        border: none;
+        border-radius: 10px;
+        padding: 12px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background: #263238;
+        color: white;
+        transition: 0.2s;
+    }
+
+    .button:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+
+    .result {
+        min-height: 100px;
+        padding: 20px;
+        border-radius: 12px;
+        background: #eceff1;
+        white-space: pre-wrap;
+        font-family: Consolas, monospace;
+    }
+
+    /* =========================
+       比較表
+    ========================== */
+
+    .table-section {
+        padding: 30px 0 50px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        background: white;
+        border-radius: 18px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+    }
+
+    th,
+    td {
+        padding: 16px;
+        border-bottom: 1px solid #eceff1;
+        text-align: left;
+    }
+
+    th {
+        background: #37474f;
+        color: white;
+    }
+
+    /* =========================
+       小白記憶區
+    ========================== */
+
+    .memory {
+        margin-bottom: 50px;
+        background: #fff8e1;
+        border-left: 6px solid #ffb300;
+        padding: 25px;
+        border-radius: 12px;
+    }
+
+    .memory-title {
+        margin-top: 0;
+    }
+
+    /* =========================
+       Footer
+    ========================== */
+
+    .footer {
+        background: #263238;
+        color: #cfd8dc;
+        text-align: center;
+        padding: 25px;
+    }
+
+    /* =========================
+       RWD
+    ========================== */
+
+    @media (max-width: 800px) {
+        .card-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .header-title {
+            font-size: 28px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- =========================
+     HEADER
+========================== -->
+
+<header class="header">
+    <div class="container">
+        <h1 class="header-title">
+            JavaScript 變數大比較
+        </h1>
+
+        <p class="header-text">
+            程式小白也能懂：let、const、var 到底差在哪裡？
+        </p>
+    </div>
+</header>
+
+
+<!-- =========================
+     HERO
+========================== -->
+
+<main>
+
+    <section class="hero">
+        <div class="container">
+
+            <div class="hero-card">
+
+                <h2 class="hero-title">
+                    先記住一句話就好：
+                </h2>
+
+                <p>
+                    在現代 JavaScript 中，
+                    <span class="hero-highlight">
+                        優先使用 const，需要改變值時才使用 let。
+                    </span>
+                </p>
+
+                <p>
+                    <code>var</code> 是 JavaScript 早期的變數宣告方式，
+                    現代程式開發通常不建議再使用。
+                </p>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- =========================
+         三種變數
+    ========================== -->
+
+    <section class="comparison">
+
+        <div class="container">
+
+            <h2 class="section-title">
+                ① 三種寫法先認識
+            </h2>
+
+            <div class="card-grid">
+
+                <!-- VAR -->
+
+                <article class="card card-var">
+
+                    <h3 class="card-title">
+                        var
+                    </h3>
+
+                    <p class="card-subtitle">
+                        傳統寫法
+                    </p>
+
+                    <div class="code">
+```
+
+var name = "Justin"; </div>
+
+```
+                    <p>
+                        可以重新指定值。
+                    </p>
+
+                    <div class="code">
+```
+
+var name = "Justin";
+name = "Tom"; </div>
+
+```
+                    <p>
+                        ⚠️ 作用域與提升行為比較容易造成問題。
+                    </p>
+
+                </article>
+
+
+                <!-- LET -->
+
+                <article class="card card-let">
+
+                    <h3 class="card-title">
+                        let
+                    </h3>
+
+                    <p class="card-subtitle">
+                        可以改變的變數
+                    </p>
+
+                    <div class="code">
+```
+
+let age = 20; </div>
+
+```
+                    <p>
+                        可以重新指定值。
+                    </p>
+
+                    <div class="code">
+```
+
+let age = 20;
+age = 21; </div>
+
+```
+                    <p>
+                        ✅ 現代 JavaScript 中，需要「會改變的值」時使用。
+                    </p>
+
+                </article>
+
+
+                <!-- CONST -->
+
+                <article class="card card-const">
+
+                    <h3 class="card-title">
+                        const
+                    </h3>
+
+                    <p class="card-subtitle">
+                        不可以重新指定
+                    </p>
+
+                    <div class="code">
+```
+
+const country = "Taiwan"; </div>
+
+```
+                    <p>
+                        建立後不能重新指定。
+                    </p>
+
+                    <div class="code">
+```
+
+const country = "Taiwan";
+
+// ❌ 錯誤
+country = "Japan"; </div>
+
+```
+                    <p>
+                        ✅ 如果知道這個變數不需要改變，優先使用。
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         互動實驗
+    ========================== -->
+
+    <section class="experiment">
+
+        <div class="container">
+
+            <div class="experiment-box">
+
+                <h2 class="section-title">
+                    ② 動手玩玩看
+                </h2>
+
+                <p>
+                    點擊下面的按鈕，看看三種宣告方式的差異。
+                </p>
+
+                <div class="button-group">
+
+                    <button
+                        class="button"
+                        type="button"
+                        data-action="let"
+                    >
+                        測試 let
+                    </button>
+
+                    <button
+                        class="button"
+                        type="button"
+                        data-action="const"
+                    >
+                        測試 const
+                    </button>
+
+                    <button
+                        class="button"
+                        type="button"
+                        data-action="var"
+                    >
+                        測試 var
+                    </button>
+
+                    <button
+                        class="button"
+                        type="button"
+                        data-action="scope"
+                    >
+                        看 Scope 差異
+                    </button>
+
+                </div>
+
+                <div class="result" data-result>
+                    👆 請點擊上面的按鈕開始實驗
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         比較表
+    ========================== -->
+
+    <section class="table-section">
+
+        <div class="container">
+
+            <h2 class="section-title">
+                ③ 一張表看懂
+            </h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>比較項目</th>
+                            <th>var</th>
+                            <th>let</th>
+                            <th>const</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>可以重新賦值？</td>
+                            <td>✅ 可以</td>
+                            <td>✅ 可以</td>
+                            <td>❌ 不可以</td>
+                        </tr>
+
+                        <tr>
+                            <td>可以重複宣告？</td>
+                            <td>✅ 可以</td>
+                            <td>❌ 不可以</td>
+                            <td>❌ 不可以</td>
+                        </tr>
+
+                        <tr>
+                            <td>作用域</td>
+                            <td>函式作用域</td>
+                            <td>區塊作用域</td>
+                            <td>區塊作用域</td>
+                        </tr>
+
+                        <tr>
+                            <td>現代 JS 推薦程度</td>
+                            <td>⚠️ 不推薦</td>
+                            <td>✅ 推薦</td>
+                            <td>⭐ 優先推薦</td>
+                        </tr>
+
+                        <tr>
+                            <td>適合什麼情況？</td>
+                            <td>舊程式碼</td>
+                            <td>值會改變</td>
+                            <td>值不需要重新指定</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         小白記憶法
+    ========================== -->
+
+    <section class="container">
+
+        <div class="memory">
+
+            <h2 class="memory-title">
+                🧠 程式小白記憶法
+            </h2>
+
+            <p>
+                可以把變數想成「盒子」：
+            </p>
+
+            <p>
+                📦 <strong>let</strong>
+                → 盒子裡面的東西可以換。
+            </p>
+
+            <p>
+                🔒 <strong>const</strong>
+                → 盒子貼上封條，不能重新指定。
+            </p>
+
+            <p>
+                📦 <strong>var</strong>
+                → 老式盒子，規則比較寬鬆，容易出現意外。
+            </p>
+
+            <hr>
+
+            <p>
+                <strong>最簡單的選擇：</strong>
+            </p>
+
+            <p>
+                不會改 → <strong>const</strong>
+            </p>
+
+            <p>
+                會改 → <strong>let</strong>
+            </p>
+
+            <p>
+                除非是在維護舊程式碼，否則 → <strong>不要用 var</strong>
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================== -->
+
+<footer class="footer">
+
+    <p>
+        JavaScript 小白入門教學｜let・const・var
+    </p>
+
+</footer>
+
+
+<!-- =========================
+     JavaScript
+========================== -->
+
+<script>
+
+    /* =========================
+       DOM 元素
+    ========================== */
+
+    const result = document.querySelector("[data-result]");
+    const buttons = document.querySelectorAll("[data-action]");
+
+
+    /* =========================
+       let 實驗
+    ========================== */
+
+    function testLet() {
+
+        let score = 60;
+
+        score = 80;
+
+        result.textContent =
+            "let 實驗結果\n\n" +
+            "let score = 60;\n" +
+            "score = 80;\n\n" +
+            "結果：score = " + score +
+            "\n\n✅ let 可以重新指定值。";
+
+    }
+
+
+    /* =========================
+       const 實驗
+    ========================== */
+
+    function testConst() {
+
+        const name = "Justin";
+
+        result.textContent =
+            "const 實驗結果\n\n" +
+            'const name = "Justin";\n\n' +
+            "結果：name = " + name +
+            "\n\n" +
+            "如果執行：\n" +
+            'name = "Tom";\n\n' +
+            "❌ JavaScript 會產生錯誤。\n\n" +
+            "因為 const 宣告後不能重新指定。";
+
+    }
+
+
+    /* =========================
+       var 實驗
+    ========================== */
+
+    function testVar() {
+
+        var age = 20;
+
+        age = 30;
+
+        result.textContent =
+            "var 實驗結果\n\n" +
+            "var age = 20;\n" +
+            "age = 30;\n\n" +
+            "結果：age = " + age +
+            "\n\n" +
+            "✅ var 可以重新指定。\n\n" +
+            "⚠️ 但是 var 的作用域規則比較寬鬆，" +
+            "現代 JavaScript 通常使用 let / const。";
+
+    }
+
+
+    /* =========================
+       Scope 實驗
+    ========================== */
+
+    function testScope() {
+
+        result.textContent =
+            "Scope（作用域）是什麼？\n\n" +
+
+            "簡單來說：\n" +
+            "Scope 就是「這個變數在哪裡可以使用」。\n\n" +
+
+            "let / const\n" +
+            "→ 區塊作用域 Block Scope\n\n" +
+
+            "var\n" +
+            "→ 函式作用域 Function Scope\n\n" +
+
+            "例如：\n\n" +
+
+            "if (true) {\n" +
+            "    let a = 10;\n" +
+            "    const b = 20;\n" +
+            "    var c = 30;\n" +
+            "}\n\n" +
+
+            "a ❌ 外面不能使用\n" +
+            "b ❌ 外面不能使用\n" +
+            "c ⚠️ 外面仍然可能可以使用\n\n" +
+
+            "這就是 let / const 與 var 很重要的差異。";
+
+    }
+
+
+    /* =========================
+       綁定按鈕事件
+    ========================== */
+
+    buttons.forEach(function(button) {
+
+        button.addEventListener("click", function() {
+
+            const action = button.dataset.action;
+
+            if (action === "let") {
+                testLet();
+            }
+
+            if (action === "const") {
+                testConst();
+            }
+
+            if (action === "var") {
+                testVar();
+            }
+
+            if (action === "scope") {
+                testScope();
+            }
+
+        });
+
+    });
+
+</script>
+```
+
+</body>
+</html>
