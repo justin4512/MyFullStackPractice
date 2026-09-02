@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SEO × GEO Growth Lab V2.2：以 8 維 GEO Readiness、AI Search Questions、Content Gap Analysis、Priority Actions 與網站內容放置地圖，協助理解網站的搜尋與生成式搜尋準備度。">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SEO × GEO Growth Lab V2">
+  <meta property="og:description" content="從被搜尋，到被 AI 理解、回答、驗證與引用的網站診斷 Demo。">
+  <title>SEO × GEO Growth Lab V2.2｜Search & AI Visibility Intelligence</title>
+  <style>
+    :root {
+      --bg:#f4f6f2;--surface:#fff;--soft:#f7f9f7;--text:#26332f;--muted:#697671;--border:#dfe6e2;
+      --seo:#3f7568;--seo-soft:#e3efeb;--geo:#c6814d;--geo-soft:#f8e9dc;--success:#4d8a6d;
+      --warning:#c78943;--danger:#b85d4e;--info:#5d7891;--dark:#26332f;--shadow:0 18px 50px rgba(38,51,47,.09);
+      --radius:22px;--radius-sm:14px;--max:1200px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;line-height:1.65}
+    button,input,textarea,select{font:inherit} button{cursor:pointer} a{color:inherit;text-decoration:none} code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .hero{padding:68px 20px 48px;background:radial-gradient(circle at 10% 10%,#fff 0,transparent 30%),linear-gradient(135deg,#e5f0eb,#f8eee4)}
+    .hero-inner,.main,.nav-inner{width:min(100%,var(--max));margin:auto}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.78);color:var(--seo);font-size:.82rem;font-weight:850;letter-spacing:.05em}
+    .hero-grid{display:grid;grid-template-columns:1.3fr .8fr;gap:34px;align-items:center}.hero h1{margin:18px 0 16px;max-width:860px;font-size:clamp(2.55rem,6.5vw,5rem);line-height:1.02;letter-spacing:-.055em}.hero p{max-width:790px;color:var(--muted);font-size:1.08rem}
+    .url-box{display:flex;gap:10px;margin-top:28px;padding:9px;background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.95);border-radius:18px;box-shadow:var(--shadow)}.url-box input{flex:1;min-width:0;border:0;background:transparent;padding:13px 14px;outline:none}.btn{border:0;border-radius:13px;padding:12px 18px;font-weight:800;background:var(--dark);color:#fff}.btn:hover{transform:translateY(-1px)}.btn.secondary{background:var(--seo);}.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--border)}.btn.geo{background:var(--geo)}.btn.small{padding:8px 12px;font-size:.88rem}.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+    .hero-side{background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.95);border-radius:24px;padding:24px;box-shadow:var(--shadow)}.value-row{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:13px 0;border-bottom:1px solid var(--border)}.value-row:last-child{border-bottom:0}.value-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--seo-soft);font-weight:900}.value-row:nth-child(2) .value-icon{background:var(--geo-soft)}.value-row small{display:block;color:var(--muted)}
+    .trust-note{margin-top:15px;padding:12px;border-radius:12px;background:#fff7eb;border:1px solid #ead6b8;font-size:.85rem;color:#755b35}
+    .nav{position:sticky;top:0;z-index:40;background:rgba(244,246,242,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(223,230,226,.9)}.nav-inner{display:flex;gap:8px;overflow:auto;padding:10px 18px}.nav a{white-space:nowrap;padding:8px 11px;border-radius:10px;font-size:.9rem;font-weight:750;color:var(--muted)}.nav a:hover{background:#fff;color:var(--text)}
+    .main{padding:34px 20px 80px}.section{scroll-margin-top:74px;margin-bottom:42px}.section-heading{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:16px}.section-heading h2{margin:0;font-size:clamp(1.55rem,3vw,2.1rem);letter-spacing:-.035em}.section-heading span{color:var(--muted);font-size:.92rem;text-align:right}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}.card + .card{margin-top:16px}.soft-card{background:var(--soft);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px}
+    .setup-grid,.two-col,.dashboard-grid,.asset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.form-group{display:flex;flex-direction:column;gap:6px}.form-group.full{grid-column:1/-1}.form-group label{font-size:.87rem;font-weight:800}.form-group small{color:var(--muted)}input,textarea,select{width:100%;border:1px solid var(--border);border-radius:12px;background:#fff;padding:11px 12px;color:var(--text);outline:none}input:focus,textarea:focus,select:focus{border-color:#91aaa1;box-shadow:0 0 0 3px rgba(63,117,104,.09)}textarea{min-height:95px;resize:vertical}.mode-row{display:flex;flex-wrap:wrap;gap:8px}.seg{border:1px solid var(--border);background:#fff;color:var(--text);border-radius:999px;padding:8px 13px;font-weight:800}.seg.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+    .demo-banner{display:flex;gap:12px;align-items:flex-start;padding:13px 15px;border-radius:14px;background:#eef4f8;border:1px solid #d8e4ec;color:#405d70;margin-bottom:16px}.demo-banner strong{display:block}.demo-banner small{display:block;color:#5e7483}
+    .scan-state{display:none;text-align:center;padding:26px}.scan-state.show{display:block}.spinner{width:42px;height:42px;margin:0 auto 12px;border-radius:50%;border:4px solid var(--border);border-top-color:var(--geo);animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.kpi{padding:15px;border:1px solid var(--border);border-radius:16px;background:var(--soft)}.kpi small{display:block;color:var(--muted);font-weight:700}.kpi strong{display:block;font-size:1.65rem;line-height:1.2;margin-top:4px}.kpi .delta{font-size:.78rem;color:var(--success);font-weight:800}.kpi.warn .delta{color:var(--warning)}
+    .score-panel{display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:center}.score-ring{--p:72;width:190px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;margin:auto;background:conic-gradient(var(--geo) calc(var(--p)*1%),#edf0ee 0);position:relative}.score-ring:after{content:"";position:absolute;inset:17px;background:#fff;border-radius:50%}.score-ring .inner{position:relative;z-index:2;text-align:center}.score-ring strong{font-size:2.4rem;line-height:1}.score-ring small{display:block;color:var(--muted);margin-top:4px}.coverage{margin-top:10px}.progress{height:9px;border-radius:999px;background:#edf0ee;overflow:hidden}.progress > span{display:block;height:100%;width:0;background:var(--seo);border-radius:inherit}.top-actions h3{margin-top:0}.action-mini{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;padding:10px 0;border-top:1px solid var(--border)}.badge{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding:4px 8px;border-radius:999px;font-size:.72rem;font-weight:900}.p0{background:#f7ded9;color:#8f4034}.p1{background:#f7ead9;color:#895a24}.p2{background:#e4eef5;color:#49677d}.p3{background:#e9efec;color:#567065}.pass{background:#e1efe8;color:#356c53}.partial{background:#f8ecd9;color:#8a6428}.missing{background:#f5dfdc;color:#904b42}.na{background:#ecefee;color:#6f7774}
+    .charts{display:grid;grid-template-columns:.88fr 1.12fr;gap:16px}.chart-card{min-height:350px}.canvas-wrap{display:flex;justify-content:center;align-items:center;min-height:310px}canvas{max-width:100%;height:auto}.bar-list{display:grid;gap:11px}.bar-item{display:grid;grid-template-columns:145px 1fr 52px;gap:10px;align-items:center}.bar-label{font-size:.86rem;font-weight:780}.bar-track{height:12px;background:#edf0ee;border-radius:999px;overflow:hidden}.bar-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--seo),var(--geo))}.bar-score{text-align:right;font-weight:900}.bar-meta{grid-column:2/4;color:var(--muted);font-size:.75rem;margin-top:-7px}
+    .dimension-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.dimension-card{border:1px solid var(--border);border-radius:16px;padding:16px;background:#fff}.dimension-card header{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.dimension-card h3{margin:0;font-size:1rem}.dimension-card p{margin:7px 0;color:var(--muted);font-size:.88rem}.rule-list{display:none;margin-top:12px;border-top:1px solid var(--border)}.dimension-card.open .rule-list{display:block}.rule{padding:10px 0;border-bottom:1px solid var(--border);font-size:.83rem}.rule:last-child{border-bottom:0}.rule-top{display:flex;justify-content:space-between;gap:10px}.rule small{display:block;color:var(--muted);margin-top:3px}.rule code{font-size:.72rem;background:var(--soft);padding:2px 5px;border-radius:5px}.expert-only{display:none}.expert .expert-only{display:block}
+    .query-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}.query-table,.history-table{width:100%;border-collapse:collapse;font-size:.86rem}.query-table th,.query-table td,.history-table th,.history-table td{border-bottom:1px solid var(--border);padding:10px;text-align:left;vertical-align:top}.query-table th,.history-table th{background:var(--soft);font-size:.78rem}.query-table tr:hover td{background:#fcfdfc}.intent{font-weight:850}.query{font-weight:760}.muted{color:var(--muted)}
+    .gap-grid{display:grid;gap:12px}.gap{display:grid;grid-template-columns:1.05fr 1.1fr 1.15fr 1.2fr 1.2fr;gap:10px;padding:14px;border:1px solid var(--border);border-radius:14px}.gap strong{display:block;font-size:.79rem}.gap span{display:block;font-size:.83rem;color:var(--muted);margin-top:3px}.gap-head{font-size:.75rem;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+    .priority-board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.priority-column h3{margin-top:0}.action-card{padding:13px;border:1px solid var(--border);border-radius:14px;margin-bottom:10px;background:#fff}.action-card header{display:flex;justify-content:space-between;gap:10px}.action-card h4{margin:0;font-size:.93rem}.action-card p{margin:7px 0 0;color:var(--muted);font-size:.82rem}.meta-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.pill{padding:3px 7px;border-radius:999px;background:var(--soft);font-size:.72rem;color:var(--muted)}
+    .tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}.tab{border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 10px;font-size:.8rem;font-weight:800}.tab.active{background:var(--dark);color:#fff}.asset-output{min-height:330px;border-radius:14px;background:#17211e;color:#e8f0ed;padding:16px;white-space:pre-wrap;overflow:auto;font-size:.78rem;line-height:1.55}.asset-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.placement-card{padding:13px;border:1px solid var(--border);border-radius:14px;background:#fff;margin-bottom:10px}.placement-card h4{margin:0 0 5px}.placement-path{font-size:.78rem;color:var(--seo);font-weight:800}.placement-card p{margin:5px 0;color:var(--muted);font-size:.82rem}
+    .learn-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.learn-card{padding:18px;border-radius:18px;border:1px solid var(--border);background:#fff}.learn-card .num{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--seo-soft);font-weight:900}.learn-card:nth-child(2) .num{background:var(--geo-soft)}.learn-card h3{margin:10px 0 5px}.learn-card p{margin:0;color:var(--muted);font-size:.86rem}
+    .history-empty{text-align:center;padding:28px;color:var(--muted)}.footer{text-align:center;color:var(--muted);font-size:.82rem;margin-top:60px}.toast{position:fixed;right:18px;bottom:18px;z-index:100;background:var(--dark);color:#fff;padding:10px 14px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);pointer-events:none;transition:.22s}.toast.show{opacity:1;transform:none}
+    .hidden{display:none!important}
+    @media(max-width:900px){.hero-grid,.charts,.dashboard-grid,.two-col,.asset-grid{grid-template-columns:1fr}.score-panel{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.dimension-grid,.priority-board,.learn-grid{grid-template-columns:1fr}.gap{grid-template-columns:1fr 1fr}.gap > div:last-child{grid-column:1/-1}.hero-side{display:none}}
+    @media(max-width:620px){.url-box{flex-direction:column}.form-grid,.setup-grid{grid-template-columns:1fr}.form-group.full{grid-column:auto}.kpis{grid-template-columns:1fr 1fr}.bar-item{grid-template-columns:110px 1fr 42px}.gap{grid-template-columns:1fr}.gap > div:last-child{grid-column:auto}.query-table{display:block;overflow-x:auto}.section-heading{align-items:start;flex-direction:column}.section-heading span{text-align:left}.card{padding:17px}}
+    @media print{
+      body{background:#fff;font-size:10pt}.hero,.nav,#setup,#learn,.no-print,.asset-actions,.tabs,.query-filters,.btn,.seg{display:none!important}.main{width:100%;padding:0}.section{margin:0 0 16px;break-inside:avoid}.card{box-shadow:none;border-color:#bbb;padding:14px}.expert-only{display:block!important}.rule-list{display:block!important}.charts{grid-template-columns:1fr 1fr}.query-table,.history-table{font-size:8pt}.footer{margin-top:20px}.asset-output{background:#fff;color:#111;border:1px solid #aaa;white-space:pre-wrap}.placement-card,.dimension-card,.action-card{break-inside:avoid}.print-title{display:block!important}}
+
+
+    /* V2.2 Commercial UI/UX Polish — visual layer only, scoring logic preserved */
+    :root{
+      --bg:#f7f8fa;--surface:#ffffff;--soft:#f8fafc;--text:#101828;--muted:#667085;--border:#e4e7ec;
+      --seo:#3448c5;--seo-soft:#eef0ff;--geo:#5b68d9;--geo-soft:#f0f1ff;--success:#067647;
+      --warning:#b54708;--danger:#b42318;--info:#175cd3;--dark:#101828;--shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.05);
+      --radius:14px;--radius-sm:10px;--max:1500px;--sidebar:248px;
+    }
+    body{background:var(--bg);color:var(--text);line-height:1.55;font-size:14px}
+    body:before{content:"";position:fixed;inset:0 auto 0 0;width:var(--sidebar);background:#fff;border-right:1px solid var(--border);z-index:42;pointer-events:none}
+    .app-brand{position:fixed;left:0;top:0;width:var(--sidebar);height:76px;z-index:45;padding:18px 20px;border-bottom:1px solid var(--border);background:#fff;display:flex;align-items:center;gap:11px}
+    .brand-mark{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#172554;color:#fff;font-size:12px;font-weight:900;letter-spacing:-.02em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+    .brand-copy strong{display:block;font-size:13px;line-height:1.15;letter-spacing:-.01em}.brand-copy small{display:block;color:#98a2b3;font-size:10px;margin-top:4px;letter-spacing:.02em}
+    .nav{position:fixed;left:0;top:76px;bottom:0;width:var(--sidebar);z-index:44;background:#fff;border:0;padding:16px 12px;overflow:auto;backdrop-filter:none}
+    .nav-inner{width:auto;display:flex;flex-direction:column;gap:3px;padding:0;margin:0}
+    .nav-group{padding:16px 10px 6px;color:#98a2b3;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .nav a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:8px;color:#475467;font-size:13px;font-weight:650;transition:.15s}
+    .nav a:hover{background:#f2f4f7;color:#101828}.nav a.primary-link{color:#344054}.nav a .nav-icon{width:18px;text-align:center;color:#667085;font-size:13px}
+    .nav-foot{margin-top:18px;padding:14px 10px;border-top:1px solid var(--border);color:#98a2b3;font-size:10px;line-height:1.5}
+    .topbar{position:sticky;top:0;z-index:38;margin-left:var(--sidebar);height:64px;background:rgba(255,255,255,.94);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+    .topbar-title{font-weight:750;font-size:14px}.topbar-title small{color:var(--muted);font-weight:500;margin-left:8px}.topbar-actions{display:flex;align-items:center;gap:8px}.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#12b76a;margin-right:6px}
+    .hero{margin-left:var(--sidebar);padding:42px 28px 22px;background:transparent;border:0}
+    .hero-inner,.main{width:min(100%,var(--max));margin:auto}.hero-grid{grid-template-columns:minmax(0,1.55fr) minmax(300px,.75fr);gap:22px;align-items:stretch}
+    .hero h1{margin:13px 0 12px;max-width:820px;font-size:clamp(2.15rem,4.8vw,4rem);line-height:1.03;letter-spacing:-.05em;color:#101828}
+    .hero p{max-width:780px;color:#667085;font-size:1rem;line-height:1.7}
+    .eyebrow{padding:6px 10px;border-radius:7px;background:#eef0ff;color:#3448c5;font-size:.72rem;font-weight:800;letter-spacing:.04em}
+    .url-box{max-width:760px;margin-top:24px;padding:6px;background:#fff;border:1px solid #d0d5dd;border-radius:10px;box-shadow:0 1px 2px rgba(16,24,40,.05)}
+    .url-box input{padding:11px 12px}.hero-actions{margin-top:12px}.hero-side{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
+    .hero-side:before{content:"Visibility Framework";display:block;color:#98a2b3;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+    .value-row{grid-template-columns:34px 1fr;gap:10px;padding:11px 0}.value-icon{width:30px;height:30px;border-radius:8px;background:#f2f4f7!important;color:#475467;font-size:11px}.value-row strong{font-size:13px}.value-row small{font-size:11px;line-height:1.45;margin-top:2px}
+    .trust-note{background:#fffaeb;border-color:#fedf89;color:#7a2e0e;border-radius:8px;font-size:.76rem}
+    .main{margin-left:var(--sidebar);padding:18px 28px 80px;width:auto;max-width:none}
+    .main>.section,.main>.footer,.main>.print-title{width:min(100%,var(--max));margin-left:auto;margin-right:auto}
+    .section{scroll-margin-top:82px;margin-bottom:30px}.section-heading{align-items:center;margin-bottom:12px}.section-heading h2{font-size:1.35rem;letter-spacing:-.025em}.section-heading span{font-size:.78rem;color:#98a2b3}
+    .card{border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 2px rgba(16,24,40,.03);padding:20px}.soft-card{border-radius:10px}
+    .btn{border-radius:8px;padding:10px 14px;font-size:12px;font-weight:750;transition:.15s}.btn:hover{transform:none;filter:brightness(.98)}.btn.secondary,.btn.geo{background:#3448c5}.btn.ghost{background:#fff;color:#344054;border:1px solid #d0d5dd}.btn.small{padding:7px 10px;font-size:.75rem}
+    input,textarea,select{border-radius:8px;border-color:#d0d5dd;padding:10px 11px;font-size:13px}input:focus,textarea:focus,select:focus{border-color:#6172f3;box-shadow:0 0 0 3px rgba(97,114,243,.12)}
+    .form-group label{font-size:.78rem;font-weight:700;color:#344054}.form-group small{font-size:.72rem}.demo-banner{border-radius:8px;background:#eff8ff;border-color:#b2ddff;color:#175cd3}.demo-banner small{color:#475467}
+    .mode-row{gap:0;border:1px solid #d0d5dd;border-radius:8px;padding:3px;width:max-content;background:#fff}.seg{border:0;border-radius:6px;padding:6px 11px;font-size:11px}.seg.active{background:#f2f4f7;color:#101828}
+    .kpis{gap:10px}.kpi{padding:17px 16px;border-radius:10px;background:#fff}.kpi small{font-size:.72rem;color:#667085}.kpi strong{font-size:1.8rem;letter-spacing:-.04em;margin-top:7px}.kpi .delta{font-size:.7rem;margin-top:3px;display:block}
+    .dashboard-grid{grid-template-columns:1.2fr .8fr}.score-panel{grid-template-columns:190px 1fr}.score-ring{width:158px;background:conic-gradient(#3448c5 calc(var(--p)*1%),#eaecf0 0)}.score-ring:after{inset:14px}.score-ring strong{font-size:2.25rem}.coverage .progress{height:6px}.progress>span{background:#6172f3}
+    .top-actions h3,.card h3{font-size:14px;letter-spacing:-.01em}.action-mini{grid-template-columns:auto 1fr auto;padding:11px 0}.action-mini strong{font-size:12px}
+    .badge{min-width:30px;padding:3px 7px;font-size:.64rem;border-radius:6px}.p0{background:#fee4e2;color:#b42318}.p1{background:#fef0c7;color:#b54708}.p2{background:#eff8ff;color:#175cd3}.p3{background:#f2f4f7;color:#475467}.pass{background:#ecfdf3;color:#067647}.partial{background:#fffaeb;color:#b54708}.missing{background:#fef3f2;color:#b42318}.na{background:#f2f4f7;color:#667085}
+    .charts{grid-template-columns:.72fr 1.28fr;gap:12px}.chart-card{min-height:330px}.bar-list{gap:13px}.bar-item{grid-template-columns:165px 1fr 42px}.bar-track{height:7px}.bar-fill{background:#6172f3}.bar-label{font-size:.78rem}.bar-meta{font-size:.67rem;color:#98a2b3}
+    .dimension-grid{grid-template-columns:1fr}.dimension-card{border:0;border-top:1px solid var(--border);border-radius:0;padding:17px 0}.dimension-card:first-child{border-top:0}.dimension-card h3{font-size:.87rem}.dimension-card p{font-size:.78rem}.rule-list{border-top:1px solid #eaecf0}.rule{padding:12px 0}.rule code{background:#f2f4f7;color:#475467}.rule small{font-size:.72rem}
+    .query-filters{gap:5px}.tab{border-radius:7px;padding:7px 9px;font-size:.72rem}.tab.active{background:#3448c5;border-color:#3448c5}.query-table,.history-table{font-size:.78rem}.query-table th,.history-table th{background:#f9fafb;color:#667085;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em}.query-table td,.history-table td{padding:12px 10px}
+    .gap{border-radius:9px;padding:13px;background:#fff}.gap-head{font-size:.65rem}.gap span{font-size:.76rem}.gap strong{font-size:.77rem}
+    .priority-board{grid-template-columns:1fr 1fr;gap:12px}.action-card{border-radius:9px;padding:14px}.action-card h4{font-size:.82rem}.action-card p{font-size:.75rem}.pill{background:#f2f4f7;color:#667085;font-size:.65rem}
+    .asset-grid{grid-template-columns:1.1fr .9fr}.asset-output{background:#101828;color:#f2f4f7;border-radius:9px;min-height:390px}.placement-card{border:0;border-top:1px solid var(--border);border-radius:0;padding:13px 0;margin:0}.placement-card:first-child{border-top:0}.placement-path{color:#3448c5}.placement-card h4{font-size:.8rem}.placement-card p{font-size:.72rem}
+    .learn-grid{gap:10px}.learn-card{border-radius:10px;padding:16px}.learn-card .num{background:#f2f4f7!important;color:#475467;border-radius:7px}.learn-card h3{font-size:.85rem}.learn-card p{font-size:.76rem}
+    #learn{margin-top:8px}#learn .section-heading h2:before{content:"Resource Center · ";color:#98a2b3;font-size:.65em;font-weight:600}
+    #simulation .section-heading h2{font-size:0}#simulation .section-heading h2:after{content:"AI Search Questions";font-size:1.35rem}
+    #generator .section-heading h2{font-size:0}#generator .section-heading h2:after{content:"Content Studio";font-size:1.35rem}
+    #readiness .section-heading h2{font-size:0}#readiness .section-heading h2:after{content:"Visibility Overview";font-size:1.35rem}
+    .history-empty{padding:40px}.footer{border-top:1px solid var(--border);padding-top:20px;margin-top:45px}
+    .commercial-note{display:flex;justify-content:space-between;gap:18px;align-items:center;margin:0 0 18px;padding:12px 14px;background:#fff;border:1px solid var(--border);border-radius:10px;color:#475467;font-size:12px}.commercial-note strong{color:#101828}.commercial-note .meta{color:#98a2b3}
+    @media(max-width:1040px){:root{--sidebar:210px}.hero-grid{grid-template-columns:1fr}.hero-side{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.hero-side:before,.trust-note{grid-column:1/-1}.value-row{border:0}}
+    @media(max-width:780px){body:before,.app-brand{display:none}.nav{position:sticky;top:0;left:auto;bottom:auto;width:auto;padding:8px 12px;border-bottom:1px solid var(--border);overflow-x:auto}.nav-inner{flex-direction:row;width:max-content}.nav-group,.nav-foot{display:none}.nav a{white-space:nowrap}.topbar{display:none}.hero,.main{margin-left:0}.hero{padding:30px 18px 16px}.main{padding:14px 18px 60px}.hero-side{display:none}.dashboard-grid,.charts,.priority-board,.asset-grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:540px){.hero h1{font-size:2.25rem}.kpis{grid-template-columns:1fr 1fr}.bar-item{grid-template-columns:105px 1fr 34px}.commercial-note{align-items:flex-start;flex-direction:column}}
+    @media print{body:before,.app-brand,.topbar{display:none!important}.main,.hero{margin-left:0}.hero{display:none!important}}
+  
+
+    /* V2.2 Readability & Navigation Polish */
+    body{font-size:16px;line-height:1.65}
+    .brand-copy strong{font-size:14px}.brand-copy small{font-size:11px}
+    .nav{padding:18px 12px}.nav-inner{gap:4px}.nav-group{font-size:11px;padding:18px 11px 7px}
+    .nav a{font-size:14px;line-height:1.35;padding:11px 12px;min-height:44px;position:relative}
+    .nav a .nav-icon{font-size:14px;width:20px}.nav a.active{background:#eef0ff;color:#2937a8;font-weight:800}
+    .nav a.active .nav-icon{color:#3448c5}.nav a.active:before{content:"";position:absolute;left:-12px;top:8px;bottom:8px;width:3px;border-radius:0 4px 4px 0;background:#6172f3}
+    .nav a.nav-locked{opacity:.58}.nav a.nav-locked:after{content:"Run Audit";margin-left:auto;font-size:10px;color:#98a2b3;background:#f2f4f7;border-radius:999px;padding:2px 6px}
+    .nav-foot{font-size:11px}
+    .topbar{height:68px}.topbar-title{font-size:15px}.topbar-title small{font-size:13px}.topbar-actions{font-size:13px}
+    .hero{padding-top:48px}.hero h1{font-size:clamp(2.5rem,4.8vw,4.35rem)}.hero p{font-size:1.08rem;line-height:1.75}
+    .eyebrow{font-size:.8rem}.value-row strong{font-size:14px}.value-row small{font-size:13px;line-height:1.6}.trust-note{font-size:.86rem;line-height:1.6}
+    .section{scroll-margin-top:92px}.section-heading{margin-bottom:16px}.section-heading h2{font-size:1.6rem}.section-heading span{font-size:.9rem;line-height:1.5}
+    #simulation .section-heading h2:after,#generator .section-heading h2:after,#readiness .section-heading h2:after{font-size:1.6rem}
+    .card{padding:24px}.card h3,.top-actions h3{font-size:16px}.commercial-note{font-size:14px;line-height:1.55;padding:14px 16px}.commercial-note .meta{font-size:13px}
+    .btn{font-size:14px;min-height:42px;padding:10px 16px}.btn.small{font-size:13px;min-height:36px;padding:7px 11px}
+    input,textarea,select{font-size:15px;padding:12px 13px;min-height:44px}.form-group label{font-size:.9rem}.form-group small{font-size:.82rem;line-height:1.5}.demo-banner{font-size:14px}.demo-banner small{font-size:13px;line-height:1.6}.seg{font-size:13px;min-height:36px}
+    .kpi{padding:20px 18px}.kpi small{font-size:.84rem}.kpi strong{font-size:2rem}.kpi .delta{font-size:.8rem}
+    .score-ring strong{font-size:2.45rem}.score-ring small{font-size:13px}.coverage{font-size:14px}.coverage>div:first-child{font-size:.86rem!important}
+    .action-mini strong{font-size:14px}.action-mini .muted{font-size:.82rem!important}.badge{font-size:.75rem;min-width:34px;padding:5px 8px}
+    .bar-label{font-size:.9rem}.bar-score{font-size:15px}.bar-meta{font-size:.8rem;line-height:1.45}
+    .dimension-card h3{font-size:1rem}.dimension-card p{font-size:.9rem}.rule{font-size:.9rem}.rule small{font-size:.82rem;line-height:1.55}.rule code{font-size:.8rem}
+    .tab{font-size:.84rem;padding:9px 11px;min-height:38px}.query-table,.history-table{font-size:.9rem}.query-table th,.history-table th{font-size:.75rem}.query-table td,.history-table td{padding:14px 12px;line-height:1.55}
+    .gap{padding:16px}.gap-head{font-size:.73rem}.gap strong{font-size:.9rem}.gap span{font-size:.86rem;line-height:1.55}
+    .action-card{padding:16px}.action-card h4{font-size:.95rem}.action-card p{font-size:.86rem;line-height:1.55}.pill{font-size:.75rem;padding:4px 8px}
+    .asset-output{font-size:.9rem;line-height:1.65}.placement-card h4{font-size:.95rem}.placement-path{font-size:.86rem}.placement-card p{font-size:.84rem;line-height:1.5}
+    .learn-card h3{font-size:1rem}.learn-card p{font-size:.9rem;line-height:1.6}.learn-card .num{font-size:14px}
+    .history-empty,.footer{font-size:.88rem}
+    .nav-feedback{position:fixed;left:calc(var(--sidebar) + 24px);top:82px;z-index:90;display:flex;align-items:flex-start;gap:10px;max-width:430px;padding:13px 15px;border:1px solid #b2ddff;border-radius:10px;background:#eff8ff;color:#175cd3;box-shadow:0 10px 30px rgba(16,24,40,.12);opacity:0;transform:translateY(-8px);pointer-events:none;transition:.18s}
+    .nav-feedback.show{opacity:1;transform:none}.nav-feedback strong{font-size:14px}.nav-feedback span{display:block;font-size:13px;color:#475467;margin-top:2px}
+    #content-gaps,#implementation-map{scroll-margin-top:92px}
+    @media(max-width:780px){body{font-size:15px}.section-heading h2,#simulation .section-heading h2:after,#generator .section-heading h2:after,#readiness .section-heading h2:after{font-size:1.4rem}.nav-feedback{left:16px;right:16px;top:76px;max-width:none}}
+
+  </style>
+</head>
+<body>
+<div class="app-brand no-print" aria-label="SEO GEO Growth Lab">
+  <div class="brand-mark">SG</div>
+  <div class="brand-copy"><strong>SEO × GEO Growth Lab</strong><small>VISIBILITY INTELLIGENCE</small></div>
+</div>
+<nav class="nav no-print" aria-label="主要功能">
+  <div class="nav-inner">
+    <div class="nav-group">Overview</div>
+    <a class="primary-link" href="#readiness" data-app-nav data-requires-audit><span class="nav-icon">◫</span>Dashboard</a>
+    <div class="nav-group">Intelligence</div>
+    <a href="#setup" data-app-nav><span class="nav-icon">◎</span>Website Audit</a>
+    <a href="#readiness" data-app-nav data-requires-audit><span class="nav-icon">◇</span>GEO Readiness</a>
+    <a href="#simulation" data-app-nav data-requires-audit><span class="nav-icon">⌁</span>AI Search Questions</a>
+    <a href="#simulation" data-app-nav data-requires-audit data-focus="gaps"><span class="nav-icon">≋</span>Content Gaps</a>
+    <div class="nav-group">Optimize</div>
+    <a href="#actions" data-app-nav data-requires-audit><span class="nav-icon">↗</span>Action Plan</a>
+    <a href="#generator" data-app-nav data-requires-audit><span class="nav-icon">✦</span>Content Studio</a>
+    <a href="#generator" data-app-nav data-requires-audit data-focus="placement"><span class="nav-icon">⌖</span>Placement Map</a>
+    <div class="nav-group">Measure</div>
+    <a href="#history" data-app-nav><span class="nav-icon">◷</span>History</a>
+    <a href="#history" data-app-nav data-report-nav><span class="nav-icon">▤</span>Reports</a>
+    <div class="nav-group">Resources</div>
+    <a href="#learn" data-app-nav><span class="nav-icon">?</span>Learning Lab</a>
+    <div class="nav-foot">V2.2 Commercial UI/UX Polish<br>Rule-based diagnostic prototype</div>
+  </div>
+</nav>
+<div class="topbar no-print">
+  <div class="topbar-title">Search & AI Visibility Intelligence <small>Decision workspace</small></div>
+  <div class="topbar-actions"><span class="muted"><span class="status-dot"></span>Prototype ready</span><a class="btn small ghost" href="#history" data-app-nav data-report-nav>Reports</a></div>
+</div>
+<header class="hero" id="top">
+  <div class="hero-inner hero-grid">
+    <div>
+      <span class="eyebrow">SEARCH & AI VISIBILITY INTELLIGENCE</span>
+      <h1>看見你的品牌，在搜尋與 AI 世界中的能見度。</h1>
+      <p>分析搜尋基礎、AI 理解度、內容缺口與引用準備度，將複雜的 SEO × GEO 訊號轉成可以排序、執行與追蹤的成長機會。</p>
+      <div class="url-box">
+        <input id="hero-url" type="url" inputmode="url" placeholder="輸入網站 URL，例如 https://example.com" aria-label="網站 URL">
+        <button class="btn" id="hero-audit">Analyze Website</button>
+      </div>
+      <div class="hero-actions">
+        <button class="btn ghost" id="load-demo-hero">View Sample Analysis</button>
+        <a class="btn ghost" href="#learn">How it works</a>
+      </div>
+    </div>
+    <aside class="hero-side">
+      <div class="value-row"><div class="value-icon">01</div><div><strong>Discoverable</strong><small>核心內容是否具備被搜尋、抓取與發現的條件。</small></div></div>
+      <div class="value-row"><div class="value-icon">02</div><div><strong>Answerable</strong><small>內容是否清楚到足以回應使用者與 AI 搜尋問題。</small></div></div>
+      <div class="value-row"><div class="value-icon">03</div><div><strong>Verifiable</strong><small>品牌主張是否具有證據、作者、來源與可歸因資訊。</small></div></div>
+      <div class="trust-note"><strong>Diagnostic principle</strong> — GEO Readiness 是內部診斷指標，不是任何搜尋或 AI 平台的官方排名，也不保證 Citation。</div>
+    </aside>
+  </div>
+</header>
+<main class="main" id="app">
+  <div class="print-title hidden"><h1>SEO × GEO Growth Lab — Audit Report</h1><p id="print-meta"></p></div>
+  <div class="commercial-note no-print"><div><strong>Executive workspace</strong>　先看能見度、最大缺口與優先行動；技術細節可Switch Technical View 檢視。</div><div class="meta">Readiness → Opportunity → Action → Measure</div></div>
+
+  <section class="section" id="learn">
+    <div class="section-heading"><h2>Learning Lab</h2><span>SEO × GEO 基礎概念與判讀原則</span></div>
+    <div class="learn-grid">
+      <article class="learn-card"><div class="num">1</div><h3>SEO：先被找到</h3><p>索引、canonical、標題、結構、內部連結、效能與搜尋意圖仍是基本盤。</p></article>
+      <article class="learn-card"><div class="num">2</div><h3>GEO：更容易被理解與重用</h3><p>Entity、服務、問題答案、證據、結構化資料與一致性，讓內容更容易被生成式搜尋解析。</p></article>
+      <article class="learn-card"><div class="num">3</div><h3>Citation：是結果，不是保證</h3><p>本工具先測 Readiness。V3 才把實際平台 Citation、Prompt Visibility 與歷史資料接進來。</p></article>
+    </div>
+  </section>
+
+  <section class="section" id="setup">
+    <div class="section-heading"><h2>Audit Setup</h2><span>建立診斷 Session · Rule-based Demo</span></div>
+    <div class="card">
+      <div class="demo-banner"><div>ℹ️</div><div><strong>目前是 V2 Rule-based Prototype</strong><small>你可以貼 URL 建立 Audit Session，但此版本不會遠端抓取網站；系統會以你提供的品牌/服務資訊與可解釋規則建立 Demo 診斷。未取得的爬站訊號會標為 Not Assessed，而不是直接扣分。</small></div></div>
+      <div class="form-grid">
+        <div class="form-group full"><label for="site-url">Website URL</label><input id="site-url" type="url" placeholder="https://example.com"></div>
+        <div class="form-group"><label for="industry">Industry</label><select id="industry"><option>Generic</option><option>Local Business</option><option>Professional Service</option><option>B2B</option><option>SaaS</option><option>E-commerce</option><option>Media / Publisher</option><option>Education</option><option>Restaurant / Hospitality</option><option>Personal Brand</option></select></div>
+        <div class="form-group"><label for="market">Primary market / Location</label><input id="market" placeholder="例如：台灣／台中"></div>
+        <div class="form-group"><label for="brand">品牌／公司名稱</label><input id="brand" placeholder="例如：北歐咖啡"></div>
+        <div class="form-group"><label for="service">主要產品／服務</label><input id="service" placeholder="例如：精品咖啡與安靜工作空間"></div>
+        <div class="form-group"><label for="audience">主要受眾</label><input id="audience" placeholder="例如：自由工作者、學生、情侶"></div>
+        <div class="form-group"><label for="business-goal">Business Goal</label><select id="business-goal"><option>Lead Generation</option><option>Education</option><option>Consulting Entry</option><option>Internal Audit</option><option>Sales / E-commerce</option></select></div>
+        <div class="form-group full"><label for="features">特色／差異化／服務描述</label><textarea id="features" placeholder="請描述 2–5 個具體特色、流程或差異，例如：安靜座位、插座、單品豆、捷運 5 分鐘等。"></textarea></div>
+        <div class="form-group full"><label for="evidence">證據／案例／資格／來源</label><textarea id="evidence" placeholder="例如：10 年經驗、已服務 120 家企業、客戶案例、證照、研究來源、媒體報導等。"></textarea></div>
+        <div class="form-group full"><label for="faq-input">已存在的 FAQ / 使用者問題（一行一題，可用「問題｜答案」）</label><textarea id="faq-input" placeholder="價格大約多少？｜每人低消 150 元\n適合帶筆電工作嗎？｜平日提供插座與 Wi-Fi"></textarea></div>
+      </div>
+      <div class="two-col" style="margin-top:16px">
+        <div><strong>View</strong><div class="mode-row" style="margin-top:8px"><button class="seg active mode-btn" data-mode="simple">Executive</button><button class="seg mode-btn" data-mode="expert">Technical</button></div></div>
+        <div style="display:flex;justify-content:flex-end;align-items:end;gap:8px"><button class="btn ghost" id="load-demo">Load Sample</button><button class="btn geo" id="run-audit">Run Analysis</button></div>
+      </div>
+      <div id="scan-state" class="scan-state"><div class="spinner"></div><strong>正在建立 GEO Diagnostic Workspace…</strong><div class="muted">Entity → Intent → Answerability → Evidence → Technical → Freshness</div></div>
+    </div>
+  </section>
+
+  <section class="section hidden" id="readiness">
+    <div class="section-heading"><h2>GEO Readiness Dashboard</h2><span id="audit-label">尚未分析</span></div>
+    <div class="kpis">
+      <div class="kpi"><small>GEO Readiness</small><strong id="overall-kpi">—</strong><span class="delta" id="overall-delta">首次 Audit</span></div>
+      <div class="kpi"><small>Evidence Coverage</small><strong id="coverage-kpi">—</strong><span class="delta" id="coverage-label">—</span></div>
+      <div class="kpi"><small>Query Coverage</small><strong id="query-kpi">—</strong><span class="delta" id="query-label">—</span></div>
+      <div class="kpi"><small>Citation Readiness</small><strong id="citation-kpi">—</strong><span class="delta">獨立指標</span></div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="card score-panel">
+        <div>
+          <div class="score-ring" id="score-ring"><div class="inner"><strong id="score-number">0</strong><small>/ 100</small></div></div>
+          <div class="coverage"><div style="display:flex;justify-content:space-between;font-size:.86rem"><span>Evidence Coverage</span><strong id="coverage-number">0%</strong></div><div class="progress"><span id="coverage-bar"></span></div></div>
+        </div>
+        <div class="top-actions"><h3>Top Opportunities</h3><div id="top-actions"></div><div class="trust-note" id="provisional-note"></div></div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Executive Brief</h3>
+        <p id="simple-summary" class="muted"></p>
+        <div class="expert-only"><hr style="border:0;border-top:1px solid var(--border)"><strong>Expert trace</strong><p id="expert-summary" class="muted"></p></div>
+        <div class="no-print" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px"><button class="btn small ghost" id="toggle-mode-dashboard">Switch Technical View</button><button class="btn small ghost" id="save-snapshot">Save Snapshot</button><button class="btn small" id="print-report">Print / PDF</button></div>
+      </div>
+    </div>
+    <div class="charts" style="margin-top:16px">
+      <div class="card chart-card"><h3 style="margin-top:0">Visibility Profile</h3><div class="canvas-wrap"><canvas id="radar" width="430" height="330" aria-label="8 維 GEO Readiness 雷達圖"></canvas></div><div class="muted" style="font-size:.86rem">圖表僅作概覽；精確數字與判斷請以下方 Bars / Diagnostic Detail 為準。</div></div>
+      <div class="card chart-card"><h3 style="margin-top:0">Dimension Performance</h3><div class="bar-list" id="bar-list"></div></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3 style="margin-top:0">Diagnostic Detail</h3><div class="dimension-grid" id="dimension-grid"></div></div>
+  </section>
+
+  <section class="section hidden" id="simulation">
+    <div class="section-heading"><h2>AI Search Questions</h2><span>看客戶可能會問什麼，以及網站目前能否可靠回答</span></div>
+    <div class="card">
+      <div class="demo-banner"><div>🧪</div><div><strong>AI-style Query Simulation</strong><small>此區以規則模板產生問題，並以目前 Audit 資料判斷 Answerable / Partial / Missing。它不是對 ChatGPT、Perplexity 或 Google AI Mode 的即時查詢。</small></div></div>
+      <div class="query-filters no-print" id="query-filters"></div>
+      <div style="overflow:auto"><table class="query-table"><thead><tr><th>Intent</th><th>Simulated Query</th><th>Result</th><th>Evidence / Missing</th><th>Target page</th></tr></thead><tbody id="query-body"></tbody></table></div>
+    </div>
+    <div class="card" id="content-gaps"><h3 style="margin-top:0">Content Gap Analysis</h3><div class="gap-grid" id="gap-grid"></div></div>
+  </section>
+
+  <section class="section hidden" id="actions">
+    <div class="section-heading"><h2>Recommended Action Plan</h2><span>Priority = Impact × Intent Importance × Confidence × Gate ÷ Effort</span></div>
+    <div class="priority-board">
+      <div class="card priority-column"><h3>Quick Wins</h3><div id="quick-wins"></div></div>
+      <div class="card priority-column"><h3>High Impact / Structural</h3><div id="structural-actions"></div></div>
+    </div>
+  </section>
+
+  <section class="section hidden" id="generator">
+    <div class="section-heading"><h2>Content Studio</h2><span>把診斷缺口轉成可實作的網站內容與 machine-readable assets</span></div>
+    <div class="asset-grid">
+      <div class="card">
+        <div class="tabs no-print" id="asset-tabs"></div>
+        <pre class="asset-output" id="asset-output">完成 Audit 後即可生成 Homepage、About、Service、FAQ、Meta 與 JSON-LD。</pre>
+        <div class="asset-actions no-print"><button class="btn small" id="generate-asset">重新產生目前資產</button><button class="btn small ghost" id="copy-asset">複製內容</button></div>
+      </div>
+      <div class="card" id="implementation-map"><h3 style="margin-top:0">Implementation Map</h3><div id="placement-map"></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="history">
+    <div class="section-heading"><h2>Performance History</h2><span>比較每次 Audit 的改善幅度與維度變化</span></div>
+    <div class="card">
+      <div id="history-empty" class="history-empty">尚無保存紀錄。完成一次 Audit 後，按「Save Snapshot」。</div>
+      <div id="history-wrap" class="hidden" style="overflow:auto"><table class="history-table"><thead><tr><th>Date</th><th>Website</th><th>Industry</th><th>Overall</th><th>Query</th><th>Citation</th><th>D1–D8</th><th class="no-print">Action</th></tr></thead><tbody id="history-body"></tbody></table></div>
+      <div class="no-print" style="margin-top:12px"><button class="btn small ghost" id="clear-history">清除本機 History</button></div>
+    </div>
+  </section>
+
+  <p class="footer">SEO × GEO Growth Lab · Search & AI Visibility Intelligence · Readiness ≠ Ranking ≠ Guaranteed Citation</p>
+</main>
+<div class="toast" id="toast"></div>
+<div class="nav-feedback no-print" id="nav-feedback" role="status" aria-live="polite"><div>ⓘ</div><div><strong>先完成 Website Audit</strong><span>Dashboard、GEO Readiness、AI Search Questions、Action Plan 與 Content Studio 會在分析完成後啟用。</span></div></div>
+
+<script>
+(() => {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const clamp = (n,min=0,max=100)=>Math.max(min,Math.min(max,n));
+  const esc = s => String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+  const state = { mode:'simple', audit:null, queryFilter:'All', asset:'Homepage', history:[] };
+
+  const industryWeights = {
+    'Generic':[15,15,15,15,15,10,10,5], 'Local Business':[18,14,12,12,14,12,10,8],
+    'Professional Service':[15,15,14,14,18,8,9,7], 'B2B':[14,17,16,14,17,7,9,6],
+    'SaaS':[12,18,17,16,15,8,9,5], 'E-commerce':[12,17,16,14,13,12,10,6],
+    'Media / Publisher':[10,13,17,18,18,8,8,8], 'Education':[12,15,17,17,16,8,8,7],
+    'Restaurant / Hospitality':[18,13,13,12,13,12,10,9], 'Personal Brand':[20,13,14,14,18,8,7,6]
+  };
+  const dimMeta = [
+    ['D1','Entity Clarity','AI / 搜尋系統是否能穩定辨識「你是誰」？'],['D2','Topic & Service Clarity','能否辨識「你提供什麼」？'],
+    ['D3','Intent Coverage','是否覆蓋使用者真正會問的任務？'],['D4','Answerability','內容是否能直接抽取成答案？'],
+    ['D5','Evidence & Trust','關鍵主張是否可驗證？'],['D6','Structured Data','機器可讀資訊是否正確且與可見內容一致？'],
+    ['D7','Technical Accessibility','內容是否可被發現、抓取、索引與解析？'],['D8','Freshness & Consistency','資訊是否最新且跨頁一致？']
+  ];
+
+  const demo = {
+    url:'https://nordic-coffee.example.com', industry:'Local Business', market:'台中西屯', brand:'北歐咖啡',
+    service:'精品咖啡、安靜工作與約會空間', audience:'學生、自由工作者、情侶、附近上班族', goal:'Lead Generation',
+    features:'北歐風安靜空間，距捷運步行約 5 分鐘，提供 Wi-Fi、插座、單品豆與手沖咖啡。平日下午較安靜，適合閱讀、工作與約會。',
+    evidence:'營運 8 年，Google 商家累積 1,200+ 則評論，咖啡師具 SCA 訓練背景；曾獲地方媒體咖啡專題報導。',
+    faq:'價格大約多少？｜飲品約 120–220 元，每人低消一杯飲品\n適合帶筆電工作嗎？｜平日提供 Wi-Fi 與部分插座座位\n需要預約嗎？｜一般座位免預約，6 人以上團體建議先聯絡\n營業時間？｜每日 10:00–21:00'
+  };
+
+  function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+  function normalizeUrl(v){v=(v||'').trim(); if(v && !/^https?:\/\//i.test(v)) v='https://'+v; return v;}
+  function getInput(){return {url:normalizeUrl($('#site-url').value),industry:$('#industry').value,market:$('#market').value.trim(),brand:$('#brand').value.trim(),service:$('#service').value.trim(),audience:$('#audience').value.trim(),goal:$('#business-goal').value,features:$('#features').value.trim(),evidence:$('#evidence').value.trim(),faq:$('#faq-input').value.trim()}}
+  function fillInput(d){$('#site-url').value=d.url||'';$('#industry').value=d.industry||'Generic';$('#market').value=d.market||'';$('#brand').value=d.brand||'';$('#service').value=d.service||'';$('#audience').value=d.audience||'';$('#business-goal').value=d.goal||'Lead Generation';$('#features').value=d.features||'';$('#evidence').value=d.evidence||'';$('#faq-input').value=d.faq||'';$('#hero-url').value=d.url||''}
+  function textScore(text, good, partial){const n=(text||'').trim().length; return n>=good?1:n>=partial?.5:0}
+  function hasAny(text, words){const s=(text||'').toLowerCase();return words.some(w=>s.includes(w.toLowerCase()))}
+  function faqLines(faq){return (faq||'').split(/\n+/).map(x=>x.trim()).filter(Boolean)}
+  function statusFrom(v){return v>=.95?'PASS':v>=.35?'PARTIAL':'MISSING'}
+  function statusClass(s){return s==='PASS'?'pass':s==='PARTIAL'?'partial':s==='MISSING'?'missing':'na'}
+
+  function makeRule(id,label,value,weight,evidence,fix,placement,assessed=true,confidence=1){
+    const status = assessed ? statusFrom(value) : 'NOT ASSESSED';
+    return {id,label,value:assessed?value:null,weight,status,evidence,fix,placement,assessed,confidence};
+  }
+  function calculateDimension(meta, rules, industryWeight){
+    const assessed=rules.filter(r=>r.assessed), denom=assessed.reduce((a,r)=>a+r.weight,0), points=assessed.reduce((a,r)=>a+r.weight*(r.value??0),0);
+    const score=denom?Math.round(points/denom*100):null; const coverage=Math.round(denom/rules.reduce((a,r)=>a+r.weight,0)*100);
+    return {id:meta[0],name:meta[1],question:meta[2],score,coverage,industryWeight,rules};
+  }
+
+  function buildDimensions(d){
+    const f=d.features, e=d.evidence, faq=faqLines(d.faq), hasUrl=!!d.url;
+    const weights=industryWeights[d.industry]||industryWeights.Generic;
+    const contactHint=hasAny(f+' '+d.faq,['電話','地址','營業','contact','預約','line','email']);
+    const priceHint=hasAny(f+' '+d.faq,['價格','元','費用','方案','price','報價','低消']);
+    const processHint=hasAny(f+' '+d.faq,['流程','步驟','預約','購買','申請','開始','process']);
+    const limitationHint=hasAny(f+' '+d.faq,['不適合','限制','至少','最多','需要','不得','僅','only']);
+    const sourceHint=hasAny(e,['研究','來源','報導','數據','案例','客戶','證照','sca','認證','review','評論','年','+']);
+    const updatedHint=hasAny(f+' '+d.faq,['2026','更新','最新','每日','週','營業時間']);
+    const dims=[];
+    dims.push(calculateDimension(dimMeta[0],[
+      makeRule('D1.01','品牌 / 公司名稱',d.brand?1:0,15,d.brand||'未提供','補上穩定一致的品牌/公司正式名稱','Homepage Hero / About'),
+      makeRule('D1.02','Entity type / Industry',d.industry!=='Generic'?1:.5,15,d.industry,'選擇更具體的產業與 entity 類型','About + JSON-LD'),
+      makeRule('D1.03','About clarity',textScore(f,80,30),15,f||'未提供品牌描述','補一句定位、公司背景與核心能力','About 首屏與 main'),
+      makeRule('D1.04','Contact / NAP clues',contactHint?1:(d.market?.5:0),15,contactHint?'描述中有聯絡/營業線索':d.market||'未提供','補可見的 Name / Address / Phone / Hours','Contact / Location'),
+      makeRule('D1.05','Location / area served',d.market?1:0,10,d.market||'未提供','補服務地區或主要市場','Homepage / Contact'),
+      makeRule('D1.06','sameAs / entity links',0,10,'V2 未收集 sameAs','補官方社群、商家頁或權威 profile','About / Organization JSON-LD'),
+      makeRule('D1.07','Cross-page entity consistency',0,20,'V2 尚未真正 crawl 多頁','V2.5 將比較名稱、NAP、schema 跨頁一致性','Site-wide',false,.5)
+    ],weights[0]));
+    dims.push(calculateDimension(dimMeta[1],[
+      makeRule('D2.01','Primary service',d.service?1:0,20,d.service||'未提供','明確說出主要服務/產品','Homepage + Service H1'),
+      makeRule('D2.02','H1 / topic signal',d.service?.75:0,15,d.service?'可由主要服務生成清楚 H1':'缺服務訊號','使用「服務 + 品牌/地區」而非空泛標語','Service H1'),
+      makeRule('D2.03','Service definition',textScore(f,70,25),20,f||'未提供','用 1–2 段直接定義服務與價值','Service opening'),
+      makeRule('D2.04','Audience',d.audience?1:0,15,d.audience||'未提供','補主要客群及情境','Homepage / Service'),
+      makeRule('D2.05','Area served',d.market?1:.25,10,d.market||'不明','明確說明服務範圍','Service / Contact'),
+      makeRule('D2.06','Topic consistency',0,20,'V2 尚未 crawl 多頁','檢查 title/H1/body/service taxonomy 是否一致','Site-wide',false,.5)
+    ],weights[1]));
+    const intentCoverage=(faq.length>=6?1:faq.length>=3?.65:faq.length>=1?.35:.1);
+    dims.push(calculateDimension(dimMeta[2],[
+      makeRule('D3.01','Core informational intents',Math.min(1,intentCoverage+.2),25,`${faq.length} 個已提供問題`,'補「是什麼 / 適合誰 / 怎麼運作」','Service / FAQ'),
+      makeRule('D3.02','Commercial / pricing',priceHint?1:.15,20,priceHint?'偵測到價格/方案資訊':'未偵測到價格線索','補價格區間、方案或影響價格因素','Service → Pricing'),
+      makeRule('D3.03','Comparison intent',hasAny(f+' '+d.faq,['比較','差異','vs','不同','優於'])?1:.1,15,'比較內容訊號偏少','說明與替代方案的差異與適用情境','Comparison / Service'),
+      makeRule('D3.04','Transactional intent',processHint?1:.35,10,processHint?'有流程/預約線索':'流程不完整','補 CTA、預約/購買步驟','Service / Contact'),
+      makeRule('D3.05','Local intent',d.market?1:.2,10,d.market||'未提供','補 location / area served / hours','Location / Contact'),
+      makeRule('D3.06','Qualification intent',limitationHint?1:(d.audience?.6:.1),10,d.audience||'未提供','補適合誰 / 不適合誰 / 限制','Service'),
+      makeRule('D3.07','Trust / research intent',sourceHint?1:(e?.5:.1),10,e||'未提供','補案例、資料、來源與方法','Case / About / Article')
+    ],weights[2]));
+    dims.push(calculateDimension(dimMeta[3],[
+      makeRule('D4.01','Direct answer blocks',faq.length>=3?1:faq.length?0.6:0.2,20,`${faq.length} 個 Q/A 線索`,'重要問題使用直接答案，不要只用行銷口號','Service / FAQ'),
+      makeRule('D4.02','Heading structure',.7,15,'V2 可生成結構化章節；尚未 crawl 原頁面','V2.5 檢查 H1/H2 實際層級','Page body',false,.6),
+      makeRule('D4.03','Process clarity',processHint?1:.2,15,processHint?'有流程線索':'缺流程','加入 3–5 步流程','Service'),
+      makeRule('D4.04','Pricing / constraints',priceHint?1:(limitationHint?.5:.1),15,priceHint?'有價格資訊':'價格/限制不足','補價格、限制與例外','Service / Pricing'),
+      makeRule('D4.05','Lists / tables',.4,10,'V2 無法確認原站格式','將比較、規格、步驟改為 list/table','Service / Comparison',false,.6),
+      makeRule('D4.06','FAQ / Q&A structure',faq.length>=4?1:faq.length>=2?.7:faq.length?.4:0,15,`${faq.length} 個 FAQ`,'補真實客戶問題與 1–3 段直接答案','Relevant service page'),
+      makeRule('D4.07','Summary / extractability',textScore(f,90,35),10,f||'未提供','頁首加入 2–3 句摘要與明確定義','Service opening')
+    ],weights[3]));
+    dims.push(calculateDimension(dimMeta[4],[
+      makeRule('D5.01','Case / first-hand evidence',hasAny(e,['案例','客戶','服務','年','營運'])?1:(e?.5:0),20,e||'未提供','補真實案例、過程與結果','Case Study / Service'),
+      makeRule('D5.02','Evidence / data',hasAny(e,['數據','+','%','則','家','人','報導'])?1:(e?.45:0),20,e||'未提供','用可驗證數據支撐主張','Near claims / Case'),
+      makeRule('D5.03','Author / expert identity',hasAny(e,['專家','證照','認證','背景','經驗','訓練','師'])?1:(e?.45:0),15,e||'未提供','補作者/團隊姓名、專業背景與 profile','About / Article bio'),
+      makeRule('D5.04','Sources',hasAny(e,['來源','研究','報導','官方','資料'])?1:(e?.4:0),15,e||'未提供','高價值主張附資料來源','Article / Evidence'),
+      makeRule('D5.05','Reviews / certifications',hasAny(e,['評論','證照','認證','獎','媒體','review'])?1:(e?.4:0),10,e||'未提供','補可驗證第三方信任訊號','About / Service'),
+      makeRule('D5.06','Dates / recency evidence',updatedHint?.8:.2,10,updatedHint?'有日期/營業時間線索':'缺日期訊號','補 published / modified / effective date','Article / dynamic content'),
+      makeRule('D5.07','Claim specificity',textScore(e,70,25),10,e||'未提供','避免「最好/專業」等無證據主張，改成具體事實','Near claims')
+    ],weights[4]));
+    dims.push(calculateDimension(dimMeta[5],[
+      makeRule('D6.01','Correct schema type',d.industry!=='Generic'?.75:.4,20,`Industry: ${d.industry}`,'依實際 entity/page type 選 Organization / LocalBusiness / Service / Product / Article','Relevant page <head>'),
+      makeRule('D6.02','Required properties',d.brand&&d.service?.7:.2,20,'可由輸入生成部分 properties','補 URL、name、description 與 type-specific 必要欄位','JSON-LD'),
+      makeRule('D6.03','Recommended properties',.35,15,'V2 僅有部分資料','依實際內容補 address/contact/sameAs/areaServed 等','JSON-LD'),
+      makeRule('D6.04','Valid JSON-LD syntax',1,15,'V2 Generator 使用 JSON.stringify 產生','上線前仍需 Structured Data validator','JSON-LD'),
+      makeRule('D6.05','Visible-content match',.7,20,'Generator 只使用使用者輸入的可見內容欄位','Schema 不得新增頁面不存在的主張','Page + JSON-LD'),
+      makeRule('D6.06','Entity relationships',.25,10,'尚未建完整 entity graph','用 @id / sameAs / author / publisher 串 Entity','JSON-LD')
+    ],weights[5]));
+    dims.push(calculateDimension(dimMeta[6],[
+      makeRule('D7.01','Indexability',0,25,'V2 未 crawl，因此不能判定 noindex','V2.5 取得 robots/meta/indexability','Technical',false,.5),
+      makeRule('D7.02','HTTP / robots',0,15,'V2 未發 request','檢查 2xx、robots、redirect、5xx','Technical',false,.5),
+      makeRule('D7.03','Canonical',0,10,'V2 未讀取 head','檢查 canonical 是否正確且一致','Head',false,.5),
+      makeRule('D7.04','Sitemap / discovery',0,10,'V2 未 crawl sitemap','解析 sitemap / robots discovery','Technical',false,.5),
+      makeRule('D7.05','Internal links',0,10,'V2 未 crawl link graph','建立核心頁 internal linking','Site-wide',false,.5),
+      makeRule('D7.06','Semantic / JS rendering',0,15,'V2 未 render 原站','V2.5 檢查 semantic HTML / rendered content','Technical',false,.5),
+      makeRule('D7.07','Mobile / performance',0,15,'V2 未測 Core Web Vitals','接 PageSpeed / field data','Technical',false,.5)
+    ],weights[6]));
+    dims.push(calculateDimension(dimMeta[7],[
+      makeRule('D8.01','Published / modified date',updatedHint?.8:.15,15,updatedHint?'有時間資訊線索':'日期線索弱','補清楚的更新日期','Article / dynamic content'),
+      makeRule('D8.02','NAP / price consistency',0,25,'V2 無法比對多頁','V2.5 比對價格、地址、電話、hours','Site-wide',false,.5),
+      makeRule('D8.03','Schema / HTML consistency',.7,20,'Generator 以同一輸入源產生','實站需比對 JSON-LD 與 visible HTML','Relevant page'),
+      makeRule('D8.04','Cross-page entity consistency',0,20,'V2 無法比對多頁','統一品牌/服務/location 命名','Site-wide',false,.5),
+      makeRule('D8.05','Stale / dead content',0,10,'V2 未 crawl','找出過期頁、舊價格、404','Site-wide',false,.5),
+      makeRule('D8.06','Update cadence',updatedHint?.65:.25,10,updatedHint?'有更新/營業資訊線索':'更新策略不明','建立內容 review / update cadence','Content ops')
+    ],weights[7]));
+    return dims;
+  }
+
+  function buildQueries(d){
+    const b=d.brand||'這個品牌', s=d.service||'這項服務', loc=d.market||'當地', f=(d.features+' '+d.faq+' '+d.evidence).toLowerCase(), faq=d.faq.toLowerCase();
+    const defs=[
+      ['Informational',`${s} 是什麼？${b} 適合哪些人？`,!!d.service&&!!d.audience,d.service&&d.audience?'服務與受眾明確':'缺服務定義或主要受眾','Service'],
+      ['Commercial',`${b} 的 ${s} 價格或方案大約多少？`,/價格|費用|元|方案|price|低消|報價/.test(f),/價格|費用|元|方案|price|低消|報價/.test(f)?'找到價格/方案線索':'缺價格區間、方案或影響價格因素','Pricing / Service'],
+      ['Comparison',`${b} 的 ${s} 和其他選擇差在哪？`,/比較|差異|vs|不同|優勢|特色/.test(f),/比較|差異|vs|不同|優勢|特色/.test(f)?'有部分特色/差異':'缺直接比較、替代方案與適用情境','Comparison / Service'],
+      ['Transactional',`我要怎麼開始、購買或預約 ${b}？`,/預約|購買|申請|聯絡|開始|流程|電話|line/.test(f),/預約|購買|申請|聯絡|開始|流程|電話|line/.test(f)?'有 CTA / 流程線索':'缺清楚的下一步與流程','Service / Contact'],
+      ['Local',`${loc} 有提供 ${s} 嗎？在哪裡？`,!!d.market, d.market?`服務地區：${d.market}`:'缺 location / area served','Location / Contact'],
+      ['Qualification',`什麼情況適合 ${s}？什麼情況不適合？`,!!d.audience&&/不適合|限制|需要|至少|最多|適合/.test(f),d.audience?'有適用受眾，但限制資訊可能不足':'缺適用/不適用條件','Service'],
+      ['Trust',`${b} 有哪些案例、專業資格或第三方證據？`,d.evidence.length>35,d.evidence.length>35?'已提供部分 evidence':'缺案例、作者/專家、數據或第三方證據','About / Case Study'],
+      ['Research',`${b} 的主張有沒有數據、來源、方法或更新日期可驗證？`,/來源|研究|數據|報導|2026|更新|官方/.test(f),/來源|研究|數據|報導|2026|更新|官方/.test(f)?'有來源/時間線索':'缺來源、方法或 updated date','Article / Evidence']
+    ];
+    return defs.map((x,i)=>{
+      const [intent,q,strong,evidence,target]=x; let score=strong?1:0;
+      if(!strong){ if((intent==='Comparison'&&d.features.length>50)||(intent==='Qualification'&&d.audience)||(intent==='Trust'&&d.evidence)||(intent==='Commercial'&&faq.includes('價格'))) score=.5; }
+      return {id:'Q'+(i+1),intent,query:q,value:score,status:score===1?'Answerable':score===.5?'Partial':'Not Answerable',evidence,target,weight:['Commercial','Transactional','Trust'].includes(intent)?2:1};
+    });
+  }
+
+  function buildGaps(queries){return queries.filter(q=>q.value<1).map(q=>({need:q.intent==='Commercial'?'價格/方案':q.intent==='Comparison'?'比較/差異':q.intent==='Transactional'?'購買/預約流程':q.intent==='Qualification'?'適用/限制':q.intent==='Trust'?'可信證據':q.intent==='Research'?'資料來源/更新':q.intent==='Local'?'地點/服務範圍':'直接答案',current:q.evidence,gap:q.status==='Partial'?'資訊存在但不足以完整回答':'缺少可直接回答的內容',impact:(q.weight===2?'高':'中')+'意圖 Query 回答性受限',recommendation:q.intent==='Commercial'?'補價格區間、方案、影響價格因素':q.intent==='Comparison'?'建立差異表與適用情境':q.intent==='Transactional'?'加入 3–5 步流程與 CTA':q.intent==='Qualification'?'加入適合誰 / 不適合誰 / 限制':q.intent==='Trust'?'補案例、具體數據、專家背景、第三方證據':q.intent==='Research'?'補來源、方法、published/modified date':q.intent==='Local'?'補 NAP、hours、area served':'加入 Q→A 直接答案區塊',placement:q.target,query:q.query,intent:q.intent}))}
+
+  function priorityFromAudit(dims,gaps){
+    const actions=[]; const add=(title,priority,impact,effort,confidence,placement,reason,gate=1)=>{const imp={Low:2,Medium:3,High:5,Critical:5}[impact]||3;const intent=priority==='P0'?3:priority==='P1'?3:priority==='P2'?2:1;const score=+(imp*intent*confidence*gate/effort).toFixed(2);actions.push({title,priority,impact,effort,confidence,placement,reason,score,quick:impact!=='Low'&&effort<=2})};
+    gaps.forEach(g=>{const p=['Commercial','Transactional','Trust'].includes(g.intent)?'P1':'P2';add(g.recommendation,p,g.impact.startsWith('高')?'High':'Medium',g.intent==='Comparison'?3:2,.9,g.placement,`對應 Query：${g.query}`)});
+    const d1=dims[0],d5=dims[4],d6=dims[5],d7=dims[6];
+    if(d1.score<65)add('補完整品牌 Entity 與 Contact/NAP','P1','High',2,.95,'Homepage / About / Contact','品牌識別不完整會影響多種 Query。');
+    if(d5.score<65)add('建立可驗證的 Evidence / Case Study','P1','High',3,.95,'Case Study / About','提高 Trust 與研究型 Query 的可驗證性。');
+    if(d6.score<70)add('校正 Entity / Page Type 對應 JSON-LD','P2','Medium',2,.9,'Relevant page <head>','Structured Data 應鏡像 visible content。');
+    if(d7.coverage<50)add('執行真實 Crawl：robots / index / canonical / status','P0','Critical',4,.6,'Technical','V2 尚未取得技術證據；V2.5 必須先排除 Crawl/Index Gate。',2);
+    const unique=[]; const keys=new Set(); actions.sort((a,b)=>b.score-a.score).forEach(a=>{const k=a.title+'|'+a.placement;if(!keys.has(k)){keys.add(k);unique.push(a)}}); return unique;
+  }
+
+  function citationReadiness(dims,queries,d){
+    const discoverable=dims[6].coverage>50?(dims[6].score||0):45; const understandable=Math.round((dims[0].score+dims[1].score)/2); const answerable=Math.round(queries.reduce((a,q)=>a+q.value*q.weight,0)/queries.reduce((a,q)=>a+q.weight,0)*100); const verifiable=dims[4].score; const attributable=Math.round((dims[0].score+dims[4].score)/2); return Math.round((discoverable+understandable+answerable+verifiable+attributable)/5)
+  }
+
+  function executeAudit(){
+    const d=getInput(); if(!d.url && !d.brand && !d.service){toast('請至少輸入 URL，或品牌／服務資料。');return}
+    $('#scan-state').classList.add('show'); $('#run-audit').disabled=true;
+    setTimeout(()=>{
+      const dims=buildDimensions(d); const weights=industryWeights[d.industry]||industryWeights.Generic;
+      let assessedWeight=0, weighted=0; dims.forEach((dim,i)=>{const assessFactor=dim.coverage/100; const w=weights[i]*assessFactor; if(dim.score!==null&&w>0){assessedWeight+=w; weighted+=dim.score*w}});
+      const overall=Math.round(weighted/assessedWeight); const evidenceCoverage=Math.round(assessedWeight); const queries=buildQueries(d); const queryScore=Math.round(queries.reduce((a,q)=>a+q.value*q.weight,0)/queries.reduce((a,q)=>a+q.weight,0)*100); const gaps=buildGaps(queries); const actions=priorityFromAudit(dims,gaps); const citation=citationReadiness(dims,queries,d);
+      state.audit={data:d,dims,overall,evidenceCoverage,queries,queryScore,gaps,actions,citation,createdAt:new Date().toISOString()};
+      $('#scan-state').classList.remove('show');$('#run-audit').disabled=false; renderAll(); location.hash='#readiness';
+    },620);
+  }
+
+  function renderAll(){updateNavState();const a=state.audit;if(!a)return;$('#readiness').classList.remove('hidden');$('#simulation').classList.remove('hidden');$('#actions').classList.remove('hidden');$('#generator').classList.remove('hidden');document.body.classList.toggle('expert',state.mode==='expert');
+    const prev=state.history.find(h=>h.url===a.data.url); const delta=prev?a.overall-prev.overall:null;
+    $('#overall-kpi').textContent=a.overall;$('#coverage-kpi').textContent=a.evidenceCoverage+'%';$('#query-kpi').textContent=a.queryScore+'%';$('#citation-kpi').textContent=a.citation+'%';$('#score-number').textContent=a.overall;$('#score-ring').style.setProperty('--p',a.overall);$('#coverage-number').textContent=a.evidenceCoverage+'%';$('#coverage-bar').style.width=a.evidenceCoverage+'%';
+    $('#overall-delta').textContent=delta===null?'首次 Audit':`${delta>=0?'+':''}${delta} vs last`;$('#coverage-label').textContent=a.evidenceCoverage<70?'Provisional / 資料不足':'Coverage 可接受';$('#query-label').textContent=a.queries.filter(q=>q.value===1).length+'/'+a.queries.length+' fully answerable';
+    $('#audit-label').textContent=`${a.data.url||a.data.brand||'Demo Site'} · ${a.data.industry} · ${state.mode==='expert'?'Expert':'Simple'} Mode`;
+    const weakest=[...a.dims].filter(d=>d.score!==null).sort((x,y)=>x.score-y.score).slice(0,3); $('#simple-summary').textContent=`目前系統對「${a.data.brand||'此網站'}」的可理解度基礎為 ${a.overall}/100。最需要優先改善的是 ${weakest.map(x=>x.name).join('、')}。${a.evidenceCoverage<70?'由於尚未真實抓取網站，技術與跨頁一致性仍有大量 Not Assessed，這個分數應視為暫定診斷。':'目前資料覆蓋度足以作為第一輪改善排序。'}`;
+    $('#expert-summary').textContent=`Overall 以「已評估之 dimension industry weight × dimension coverage」重新正規化；Not Assessed 不視為 Fail。Industry weights = ${(industryWeights[a.data.industry]||industryWeights.Generic).join('/')}。`;
+    $('#provisional-note').innerHTML=a.evidenceCoverage<70?'<strong>Provisional：</strong>Evidence Coverage 低於 70%。V2.5 真實 crawl 前，不應把此分數當成完整網站診斷。':'<strong>Reminder：</strong>Readiness 是改善優先工具，不代表任何平台保證引用。';
+    renderTopActions();renderBars();drawRadar();renderDimensions();renderQueries();renderGaps();renderActions();renderGenerator();updatePrintMeta();
+  }
+  function renderTopActions(){const list=state.audit.actions.slice(0,3);$('#top-actions').innerHTML=list.map(a=>`<div class="action-mini"><span class="badge ${a.priority.toLowerCase()}">${a.priority}</span><div><strong>${esc(a.title)}</strong><div class="muted" style="font-size:.86rem">${esc(a.placement)}</div></div><strong>${a.score}</strong></div>`).join('')||'<div class="muted">目前沒有高優先項目。</div>'}
+  function renderBars(){const a=state.audit;$('#bar-list').innerHTML=a.dims.map(d=>`<div class="bar-item"><div class="bar-label">${d.id} ${esc(d.name)}</div><div class="bar-track"><div class="bar-fill" style="width:${d.score??0}%"></div></div><div class="bar-score">${d.score===null?'—':d.score}</div><div class="bar-meta">Industry weight ${d.industryWeight}% · assessed ${d.coverage}%</div></div>`).join('')}
+  function drawRadar(){const c=$('#radar'),ctx=c.getContext('2d'),w=c.width,h=c.height,cx=w/2,cy=h/2+4,r=125,n=8;ctx.clearRect(0,0,w,h);ctx.font='12px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';for(let ring=1;ring<=5;ring++){ctx.beginPath();for(let i=0;i<n;i++){const ang=-Math.PI/2+i*2*Math.PI/n,rr=r*ring/5,x=cx+Math.cos(ang)*rr,y=cy+Math.sin(ang)*rr;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.closePath();ctx.strokeStyle='#dfe6e2';ctx.stroke()}for(let i=0;i<n;i++){const ang=-Math.PI/2+i*2*Math.PI/n;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(ang)*r,cy+Math.sin(ang)*r);ctx.strokeStyle='#e7ece9';ctx.stroke();const lx=cx+Math.cos(ang)*(r+28),ly=cy+Math.sin(ang)*(r+28);ctx.fillStyle='#586660';ctx.fillText(state.audit.dims[i].id,lx,ly)}ctx.beginPath();state.audit.dims.forEach((d,i)=>{const ang=-Math.PI/2+i*2*Math.PI/n,rr=r*(d.score??0)/100,x=cx+Math.cos(ang)*rr,y=cy+Math.sin(ang)*rr;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.closePath();ctx.fillStyle='rgba(198,129,77,.18)';ctx.fill();ctx.strokeStyle='#c6814d';ctx.lineWidth=2;ctx.stroke();state.audit.dims.forEach((d,i)=>{const ang=-Math.PI/2+i*2*Math.PI/n,rr=r*(d.score??0)/100,x=cx+Math.cos(ang)*rr,y=cy+Math.sin(ang)*rr;ctx.beginPath();ctx.arc(x,y,3.2,0,Math.PI*2);ctx.fillStyle='#3f7568';ctx.fill()})}
+  function renderDimensions(){const expert=state.mode==='expert';$('#dimension-grid').innerHTML=state.audit.dims.map(d=>`<article class="dimension-card ${expert?'open':''}" data-dim="${d.id}"><header><div><h3>${d.id} ${esc(d.name)}</h3><p>${esc(d.question)}</p></div><div style="text-align:right"><strong style="font-size:1.35rem">${d.score===null?'—':d.score}</strong><div class="muted" style="font-size:.82rem">w ${d.industryWeight}%</div></div></header><button class="btn small ghost no-print dim-toggle">${expert?'收合':'查看規則'}</button><div class="rule-list">${d.rules.map(r=>`<div class="rule"><div class="rule-top"><span><code>${r.id}</code> <strong>${esc(r.label)}</strong></span><span class="badge ${statusClass(r.status)}">${r.status}</span></div><small><b>Evidence:</b> ${esc(r.evidence)} · <b>Confidence:</b> ${r.confidence}</small><small><b>Fix:</b> ${esc(r.fix)} · <b>Placement:</b> ${esc(r.placement)}</small></div>`).join('')}</div></article>`).join('');$$('.dim-toggle').forEach(b=>b.onclick=()=>{const card=b.closest('.dimension-card');card.classList.toggle('open');b.textContent=card.classList.contains('open')?'收合':'查看規則'})}
+  function renderQueries(){const intents=['All',...new Set(state.audit.queries.map(q=>q.intent))];$('#query-filters').innerHTML=intents.map(i=>`<button class="tab ${state.queryFilter===i?'active':''}" data-filter="${i}">${i}</button>`).join('');$$('[data-filter]').forEach(b=>b.onclick=()=>{state.queryFilter=b.dataset.filter;renderQueries()});const qs=state.queryFilter==='All'?state.audit.queries:state.audit.queries.filter(q=>q.intent===state.queryFilter);$('#query-body').innerHTML=qs.map(q=>`<tr><td class="intent">${esc(q.intent)}</td><td class="query">${esc(q.query)}</td><td><span class="badge ${q.value===1?'pass':q.value===.5?'partial':'missing'}">${q.status}</span></td><td>${esc(q.evidence)}</td><td>${esc(q.target)}</td></tr>`).join('')}
+  function renderGaps(){const gaps=state.audit.gaps;$('#gap-grid').innerHTML=gaps.length?gaps.map(g=>`<div class="gap"><div><div class="gap-head">User Need</div><strong>${esc(g.need)}</strong></div><div><div class="gap-head">Current Evidence</div><span>${esc(g.current)}</span></div><div><div class="gap-head">Gap / Impact</div><span>${esc(g.gap)}；${esc(g.impact)}</span></div><div><div class="gap-head">Recommendation</div><span>${esc(g.recommendation)}</span></div><div><div class="gap-head">Placement</div><span>${esc(g.placement)}</span></div></div>`).join(''):'<div class="muted">所有規則型 Query 目前皆可完整回答；仍建議以真實 crawler / LLM / citation data 驗證。</div>'}
+  function actionHtml(a){return `<article class="action-card"><header><h4>${esc(a.title)}</h4><span class="badge ${a.priority.toLowerCase()}">${a.priority}</span></header><p>${esc(a.reason)}</p><div class="meta-pills"><span class="pill">Impact ${a.impact}</span><span class="pill">Effort ${a.effort}</span><span class="pill">Confidence ${a.confidence}</span><span class="pill">Score ${a.score}</span><span class="pill">${esc(a.placement)}</span></div></article>`}
+  function renderActions(){const q=state.audit.actions.filter(a=>a.quick).slice(0,8),s=state.audit.actions.filter(a=>!a.quick||a.priority==='P0').slice(0,10);$('#quick-wins').innerHTML=q.map(actionHtml).join('')||'<div class="muted">目前無 Quick Win。</div>';$('#structural-actions').innerHTML=s.map(actionHtml).join('')||'<div class="muted">目前無 Structural Action。</div>'}
+
+  const assetTypes=['Homepage','About','Service','FAQ','Meta','JSON-LD'];
+  function renderGenerator(){if(!assetTypes.includes(state.asset))state.asset='Homepage';$('#asset-tabs').innerHTML=assetTypes.map(t=>`<button class="tab ${state.asset===t?'active':''}" data-asset="${t}">${t}</button>`).join('');$$('[data-asset]').forEach(b=>b.onclick=()=>{state.asset=b.dataset.asset;renderGenerator()});$('#asset-output').textContent=generateAsset(state.asset);renderPlacement()}
+  function generateAsset(type){const d=state.audit.data,b=d.brand||'品牌名稱',s=d.service||'主要服務',loc=d.market||'主要服務地區',aud=d.audience||'主要受眾',feat=d.features||'請補具體特色與差異',ev=d.evidence||'請補案例、數據與可信來源',faqs=faqLines(d.faq);if(type==='Homepage')return `H1｜${s}｜${b}\n\n定位句｜${b} 為 ${aud} 提供 ${s}${d.market?`，主要服務 ${loc}`:''}。\n\n價值主張｜${feat}\n\nTrust strip｜${ev}\n\nCTA｜了解服務 / 預約諮詢 / 查看方案\n\nPlacement：Homepage → Hero + Below Hero`;if(type==='About')return `About ${b}\n\n${b} 專注於 ${s}，主要服務 ${aud}${d.market?`，服務範圍涵蓋 ${loc}`:''}。\n\n我們的做法\n${feat}\n\n可信證據\n${ev}\n\n建議補充：公司正式名稱、成立年份、團隊/專家姓名、專業背景、官方社群或第三方 profile。\n\nPlacement：About → 首屏摘要 + main content + team/evidence blocks`;if(type==='Service')return `${s}\n\n這是什麼？\n${b} 為 ${aud} 提供 ${s}。${feat}\n\n適合誰？\n${aud}\n\n服務流程\n1. 了解需求\n2. 確認方案與條件\n3. 執行 / 預約 / 購買\n4. 後續追蹤\n\n價格與方案\n請加入實際價格區間、方案差異，以及影響價格的因素。\n\n案例與證據\n${ev}\n\nPlacement：Service page → H1 / opening / process / pricing / evidence / FAQ`;if(type==='FAQ'){const seed=faqs.length?faqs:[`什麼是 ${s}？｜${b} 提供 ${s}，適合 ${aud}。`,`價格大約多少？｜請依實際方案填入價格區間與影響因素。`,`適合哪些人？｜主要適合 ${aud}。`,`如何開始或預約？｜請填入實際流程、聯絡方式與 CTA。`,`有哪些案例或證據？｜${ev}`];return seed.map((x,i)=>{const parts=x.split('｜');return `Q${i+1}. ${parts[0]}\nA. ${parts.slice(1).join('｜')||'請填入 1–3 段可直接回答的內容。'}`}).join('\n\n')+`\n\nPlacement：優先放在最相關的 Service / Product / Location page，而不是只做一個大型 FAQ Hub。`}if(type==='Meta')return `<title>${s}｜${b}${d.market?`｜${loc}`:''}</title>\n<meta name="description" content="${b} 為 ${aud} 提供 ${s}。${feat.slice(0,80)}">\n<meta property="og:title" content="${s}｜${b}">\n<meta property="og:description" content="${feat.slice(0,110)}">\n<link rel="canonical" href="${d.url||'https://example.com/'}">\n\nPlacement：對應頁面的 <head>；每頁需依內容重寫，不要全站共用同一組 Meta。`;if(type==='JSON-LD'){let t='Organization';if(['Local Business','Restaurant / Hospitality'].includes(d.industry))t=d.industry==='Restaurant / Hospitality'?'Restaurant':'LocalBusiness';else if(d.industry==='Personal Brand')t='Person';const obj={'@context':'https://schema.org','@type':t,'@id':(d.url||'https://example.com/').replace(/\/$/,'')+'/#entity',name:b,url:d.url||'https://example.com/',description:`${b} 提供 ${s}，主要服務 ${aud}。`,areaServed:d.market||undefined,sameAs:[]};Object.keys(obj).forEach(k=>obj[k]===undefined&&delete obj[k]);return `<script type="application/ld+json">\n${JSON.stringify(obj,null,2)}\n<\/script>\n\nPlacement：與實際 Entity 對應的 Homepage/About/Contact <head>。上線前必須確認 Schema 與 visible content 完全一致，並依真實類型補 required/recommended properties。`;}return ''}
+  function renderPlacement(){const d=state.audit.data;const rows=[['品牌一句話定位','Homepage','Hero H1 + subhead','Organization / WebSite 視情況'],['核心服務','Homepage + Service','Services + Service H1','Service / Product 視實際類型'],['適合誰 / 不適合誰','Service','main content','通常不需獨立 Schema'],['公司 / 品牌 Entity','About','首屏 + main','Organization'],['專家 / 作者背景','About / Article','bio block','Person + Article author'],['地址電話營業時間','Contact / Location','visible HTML','LocalBusiness（適用時）'],['價格 / 方案','Pricing / Service','H2 section','Product / Offer 視實際商業模型'],['案例 / 成果 / 證據','Case Study / Service','main content','Article / CreativeWork 視內容'],['FAQ','Relevant Service / Product / Location','正文下半部','FAQPage 僅在適用時'],['來源 / 更新日期','Article / Evidence','靠近主張 / title','dateModified / Article']];$('#placement-map').innerHTML=rows.map(r=>`<article class="placement-card"><h4>${r[0]}</h4><div class="placement-path">${r[1]} → ${r[2]}</div><p>Machine layer：${r[3]}</p></article>`).join('')}
+
+  function saveSnapshot(){if(!state.audit)return;const a=state.audit;const snap={id:Date.now(),date:new Date().toLocaleString('zh-TW',{hour12:false}),url:a.data.url||a.data.brand,industry:a.data.industry,overall:a.overall,query:a.queryScore,citation:a.citation,dims:a.dims.map(d=>d.score)};state.history.unshift(snap);state.history=state.history.slice(0,10);localStorage.setItem('seo_geo_v2_history',JSON.stringify(state.history));renderHistory();toast('已保存 Audit Snapshot')}
+  function loadHistory(){try{state.history=JSON.parse(localStorage.getItem('seo_geo_v2_history')||'[]')}catch(e){state.history=[]}renderHistory()}
+  function renderHistory(){const h=state.history;$('#history-empty').classList.toggle('hidden',h.length>0);$('#history-wrap').classList.toggle('hidden',!h.length);$('#history-body').innerHTML=h.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.url||'—')}</td><td>${esc(x.industry)}</td><td><strong>${x.overall}</strong></td><td>${x.query}%</td><td>${x.citation}%</td><td>${x.dims.map((d,i)=>`D${i+1}:${d??'—'}`).join(' · ')}</td><td class="no-print"><button class="btn small ghost" data-delete="${x.id}">刪除</button></td></tr>`).join('');$$('[data-delete]').forEach(b=>b.onclick=()=>{state.history=state.history.filter(x=>x.id!==+b.dataset.delete);localStorage.setItem('seo_geo_v2_history',JSON.stringify(state.history));renderHistory()})}
+  function updatePrintMeta(){if(!state.audit)return;$('#print-meta').textContent=`Website: ${state.audit.data.url||state.audit.data.brand} · Industry: ${state.audit.data.industry} · Audit: ${new Date(state.audit.createdAt).toLocaleString('zh-TW',{hour12:false})}`}
+  function setMode(mode){state.mode=mode;$$('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));if(state.audit)renderAll()}
+
+  function showNavFeedback(){
+    const n=$('#nav-feedback'); if(!n)return;
+    n.classList.add('show'); clearTimeout(showNavFeedback.timer);
+    showNavFeedback.timer=setTimeout(()=>n.classList.remove('show'),3200);
+  }
+  function updateNavState(){
+    $$('[data-app-nav]').forEach(a=>a.classList.toggle('nav-locked',a.hasAttribute('data-requires-audit')&&!state.audit));
+  }
+  function activateNav(hash,focus){
+    $$('.nav a[data-app-nav]').forEach(a=>a.classList.remove('active'));
+    let candidates=$$('.nav a[data-app-nav]').filter(a=>a.getAttribute('href')===hash);
+    let selected=candidates.find(a=>focus&&a.dataset.focus===focus)||candidates.find(a=>!a.dataset.focus)||candidates[0];
+    if(selected)selected.classList.add('active');
+  }
+  function navigateTo(hash,focus){
+    const target=focus==='gaps'?$('#content-gaps'):focus==='placement'?$('#implementation-map'):$(hash);
+    if(!target)return;
+    history.replaceState(null,'',hash);
+    target.scrollIntoView({behavior:'smooth',block:'start'});
+    activateNav(hash,focus);
+    if(focus){setTimeout(()=>target.scrollIntoView({behavior:'smooth',block:'start'}),220)}
+  }
+  $$('[data-app-nav]').forEach(a=>a.addEventListener('click',e=>{
+    e.preventDefault();
+    const hash=a.getAttribute('href'),focus=a.dataset.focus||'';
+    if(a.hasAttribute('data-requires-audit')&&!state.audit){
+      navigateTo('#setup',''); showNavFeedback(); $('#site-url').focus({preventScroll:true}); return;
+    }
+    if(a.hasAttribute('data-report-nav')){
+      navigateTo('#history','');
+      if(!state.history.length)toast('尚無報告紀錄；完成 Audit 後按 Save Snapshot 建立報告歷史。');
+      return;
+    }
+    navigateTo(hash,focus);
+  }));
+
+  const observedSections=['learn','setup','readiness','simulation','actions','generator','history'].map(id=>$('#'+id)).filter(Boolean);
+  if('IntersectionObserver' in window){
+    const navObserver=new IntersectionObserver(entries=>{
+      const visible=entries.filter(x=>x.isIntersecting&&!x.target.classList.contains('hidden')).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+      if(visible)activateNav('#'+visible.target.id,'');
+    },{rootMargin:'-18% 0px -68% 0px',threshold:[0,.1,.35]});
+    observedSections.forEach(s=>navObserver.observe(s));
+  }
+
+  $('#hero-audit').onclick=()=>{const v=normalizeUrl($('#hero-url').value);$('#site-url').value=v;location.hash='#setup';setTimeout(()=>$('#industry').focus(),300)};
+  $('#load-demo-hero').onclick=()=>{fillInput(demo);location.hash='#setup';setTimeout(executeAudit,250)};
+  $('#load-demo').onclick=()=>{fillInput(demo);toast('已載入完整 Demo 資料')};
+  $$('.mode-btn').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+  $('#run-audit').onclick=executeAudit;
+  $('#toggle-mode-dashboard').onclick=()=>setMode(state.mode==='simple'?'expert':'simple');
+  $('#save-snapshot').onclick=saveSnapshot;
+  $('#print-report').onclick=()=>window.print();
+  $('#generate-asset').onclick=()=>{$('#asset-output').textContent=generateAsset(state.asset);toast('已重新產生 '+state.asset)};
+  $('#copy-asset').onclick=async()=>{try{await navigator.clipboard.writeText($('#asset-output').textContent);toast('已複製內容')}catch(e){toast('瀏覽器未允許剪貼簿權限')}};
+  $('#clear-history').onclick=()=>{if(confirm('確定清除本機 Performance History？')){state.history=[];localStorage.removeItem('seo_geo_v2_history');renderHistory()}};
+  $('#hero-url').addEventListener('keydown',e=>{if(e.key==='Enter')$('#hero-audit').click()});
+  loadHistory();
+  updateNavState();
+  activateNav(location.hash || '#setup','');
+})();
+</script>
+</body>
+</html>
