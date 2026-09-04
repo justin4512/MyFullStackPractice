@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DevTools Debug 導航器｜小白互動版</title>
+<style>
+:root{
+  --bg:#f7f8fb; --panel:#fff; --text:#1f2937; --muted:#667085; --line:#d9dee8;
+  --accent:#315efb; --accent-soft:#eef2ff; --ok:#16794b; --warn:#9a6700; --bad:#b42318;
+  --code:#111827; --shadow:0 10px 30px rgba(31,41,55,.08)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.container{max-width:1180px;margin:auto;padding:24px}
+.hero{background:linear-gradient(135deg,#fff,#f1f4ff);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
+.hero h1{margin:0 0 8px;font-size:clamp(26px,4vw,42px)}
+.hero p{margin:0;color:var(--muted);line-height:1.7}
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:18px;margin-top:18px}
+.side,.main-card,.tool-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.side{padding:14px;align-self:start;position:sticky;top:12px}
+.step{width:100%;text-align:left;border:1px solid transparent;background:transparent;border-radius:12px;padding:12px;margin:4px 0;color:var(--text)}
+.step:hover,.step.active{background:var(--accent-soft);border-color:#c9d2ff}
+.step small{display:block;color:var(--muted);margin-top:3px}
+.main-card{padding:22px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700}
+h2,h3{margin-top:0}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0}
+.pill{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-weight:700}
+.arrow{color:var(--muted)}
+.checklist{display:grid;gap:10px;margin:14px 0}
+.check{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.check input{margin-top:4px;transform:scale(1.2)}
+.tip,.nextbox,.danger,.success{padding:14px;border-radius:12px;margin-top:12px;line-height:1.65}
+.tip{background:#f8fafc;border:1px solid var(--line)}
+.nextbox{background:var(--accent-soft);border:1px solid #c9d2ff}
+.danger{background:#fff1f0;border:1px solid #f5c2be}
+.success{background:#ecfdf3;border:1px solid #abefc6}
+.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#111827;color:#f9fafb;padding:12px;border-radius:12px;overflow:auto;font-size:14px}
+.navrow{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.btn{border:none;border-radius:11px;padding:11px 16px;font-weight:800}
+.btn-primary{background:var(--accent);color:#fff}.btn-secondary{background:#eef0f4;color:var(--text)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.tools{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-top:18px}
+.tool-card{padding:18px}
+.field{display:grid;gap:7px;margin:12px 0}
+.field label{font-weight:800}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:#fff;color:var(--text);min-height:44px}
+textarea{min-height:110px;resize:vertical}
+.result{margin-top:14px}
+.status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.status-btn{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px;font-weight:800}
+.status-btn:hover{background:var(--accent-soft)}
+.progress{height:10px;background:#e9edf5;border-radius:999px;overflow:hidden;margin-top:10px}
+.progress>div{height:100%;background:var(--accent);width:0;transition:.25s}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:7px 12px;font-size:14px}
+.kv b{color:var(--muted)}
+.history{max-height:260px;overflow:auto}
+.history-item{border-bottom:1px solid var(--line);padding:10px 0}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:22px}
+@media(max-width:900px){.layout,.tools{grid-template-columns:1fr}.side{position:static}.status-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.container{padding:12px}.hero,.main-card,.tool-card{border-radius:14px}.kv{grid-template-columns:1fr}.navrow{flex-direction:column}.btn{width:100%}}
+</style>
+</head>
+<body>
+<div class="container">
+  <section class="hero">
+    <span class="badge">🧭 小白 Debug 教練</span>
+    <h1>瀏覽器 DevTools Debug 導航器</h1>
+    <p>依照 Console → Network → Headers → Payload → Response → 判斷 的流程逐關檢查。任何一關看到錯誤碼或錯誤訊息，都可以丟到下方診斷器，它會告訴你「現在在哪一層、該看哪個欄位、下一步去哪裡」。</p>
+    <div class="progress" aria-label="debug progress"><div id="progressBar"></div></div>
+  </section>
+
+  <div class="layout">
+    <aside class="side">
+      <button class="step active" data-step="0"><b>1. 打開 DevTools</b><small>確認工具與基本頁籤</small></button>
+      <button class="step" data-step="1"><b>2. Console</b><small>找紅色 JS / CORS / fetch 錯誤</small></button>
+      <button class="step" data-step="2"><b>3. Network</b><small>確認 Request 是否真的送出</small></button>
+      <button class="step" data-step="3"><b>4. Headers</b><small>URL / Method / Status / Auth</small></button>
+      <button class="step" data-step="4"><b>5. Payload</b><small>送出的參數與資料格式</small></button>
+      <button class="step" data-step="5"><b>6. Response</b><small>伺服器實際回傳內容</small></button>
+      <button class="step" data-step="6"><b>7. 最終判斷</b><small>定位前端 / API / 後端</small></button>
+    </aside>
+
+    <main class="main-card">
+      <div id="lesson"></div>
+      <div class="navrow">
+        <button class="btn btn-secondary" id="prevBtn">← 上一步</button>
+        <button class="btn btn-primary" id="nextBtn">下一步 →</button>
+      </div>
+    </main>
+  </div>
+
+  <section class="tools">
+    <div class="tool-card">
+      <h2>🔎 即時錯誤診斷器</h2>
+      <p style="color:var(--muted)">輸入你在 Console / Network / Response 看到的內容，例如 <b>401</b>、<b>500</b>、<b>Failed to fetch</b>、<b>CORS</b>、<b>undefined</b>。</p>
+
+      <div class="field">
+        <label for="where">你在哪裡看到問題？</label>
+        <select id="where">
+          <option value="auto">不確定，幫我判斷</option>
+          <option value="console">Console</option>
+          <option value="network">Network</option>
+          <option value="headers">Headers</option>
+          <option value="payload">Payload</option>
+          <option value="response">Response / Preview</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="errorInput">錯誤碼 / 錯誤訊息</label>
+        <textarea id="errorInput" placeholder="例如：401 Unauthorized&#10;或：Failed to fetch&#10;或：Access to fetch... blocked by CORS policy"></textarea>
+      </div>
+
+      <button class="btn btn-primary" id="diagnoseBtn">開始診斷</button>
+
+      <div style="margin-top:14px">
+        <div style="font-weight:800;margin-bottom:8px">快速錯誤碼</div>
+        <div class="status-grid">
+          <button class="status-btn" data-code="200">200</button>
+          <button class="status-btn" data-code="400">400</button>
+          <button class="status-btn" data-code="401">401</button>
+          <button class="status-btn" data-code="403">403</button>
+          <button class="status-btn" data-code="404">404</button>
+          <button class="status-btn" data-code="405">405</button>
+          <button class="status-btn" data-code="422">422</button>
+          <button class="status-btn" data-code="429">429</button>
+          <button class="status-btn" data-code="500">500</button>
+          <button class="status-btn" data-code="502">502</button>
+          <button class="status-btn" data-code="503">503</button>
+          <button class="status-btn" data-code="504">504</button>
+        </div>
+      </div>
+
+      <div id="diagnosis" class="result tip">尚未診斷。你可以直接輸入錯誤訊息。</div>
+    </div>
+
+    <div class="tool-card">
+      <h2>🧠 Debug 決策摘要</h2>
+      <div class="flow">
+        <span class="pill">Console</span><span class="arrow">→</span>
+        <span class="pill">Network</span><span class="arrow">→</span>
+        <span class="pill">Status</span><span class="arrow">→</span>
+        <span class="pill">Headers</span><span class="arrow">→</span>
+        <span class="pill">Payload</span><span class="arrow">→</span>
+        <span class="pill">Response</span>
+      </div>
+      <div class="tip">
+        <b>最快判斷法：</b><br>
+        沒有 Request → 前端流程。<br>
+        4xx → Request / Auth / 欄位格式。<br>
+        5xx → 後端或上游服務。<br>
+        200 但畫面壞 → 前端解析 / 資料結構。
+      </div>
+      <h3 style="margin-top:18px">最近診斷紀錄</h3>
+      <div id="history" class="history"><div style="color:var(--muted)">尚無紀錄。</div></div>
+    </div>
+  </section>
+</div>
+
+<footer>此頁完全在瀏覽器本機運作，不會送出你的錯誤訊息。</footer>
+
+<script>
+(() => {
+const lessons = [
+{
+title:"1. 打開 DevTools：先認得你要用的地方",
+body:`<span class="badge">STEP 1</span><h2>先找到 Console 與 Network</h2>
+<p>Chrome / Edge 可按 <b>F12</b> 或 <b>Ctrl + Shift + I</b>。</p>
+<div class="checklist">
+<label class="check"><input type="checkbox" class="gate"><span><b>我已成功打開 DevTools</b><br><small>畫面右側或下方出現開發者工具。</small></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>我看得到 Console 頁籤</b><br><small>用來看 JavaScript 錯誤。</small></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>我看得到 Network 頁籤</b><br><small>用來看 API / fetch / XHR。</small></span></label>
+</div>
+<div class="nextbox"><b>下一步條件：</b>三個都確認後，去 Console 找紅色錯誤。</div>`
+},
+{
+title:"2. Console：先抓關鍵字，不要急著看懂整句",
+body:`<span class="badge">STEP 2</span><h2>Console 先看紅色訊息</h2>
+<div class="code">TypeError: Cannot read properties of undefined<br>Failed to fetch<br>Access to fetch ... blocked by CORS policy</div>
+<div class="checklist">
+<label class="check"><input type="checkbox" class="gate"><span><b>有紅色錯誤</b><br><small>把完整錯誤貼到下方診斷器。</small></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>如果是 Failed to fetch / CORS</b><br><small>下一步一定要去 Network 看 Request。</small></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>如果是 undefined / null / TypeError</b><br><small>可能 API 成功，但前端讀錯資料。</small></span></label>
+</div>
+<div class="tip"><b>辨識技巧：</b>只先抓關鍵字：<b>CORS、fetch、undefined、SyntaxError、TypeError</b>。</div>`
+},
+{
+title:"3. Network：API 到底有沒有送出去？",
+body:`<span class="badge">STEP 3</span><h2>Network 是 API Debug 的核心</h2>
+<p>打開 <b>Network → Fetch/XHR</b>，重新操作一次會出錯的按鈕。</p>
+<div class="checklist">
+<label class="check"><input type="checkbox" class="gate"><span><b>我看得到一筆 API Request</b><br><small>例如 /api/users、/audit、/login。</small></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>我找到 Status 欄位</b><br><small>例如 200、401、404、500。</small></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>我點進這筆 Request</b><br><small>準備看 Headers / Payload / Response。</small></span></label>
+</div>
+<div class="danger"><b>如果完全沒有 Request：</b>先不要看後端。通常是按鈕事件沒觸發、函式沒有執行、條件提前 return，或 JavaScript 已在前面報錯。</div>`
+},
+{
+title:"4. Headers：送去哪裡、用什麼方式送？",
+body:`<span class="badge">STEP 4</span><h2>Headers 先檢查 4 個欄位</h2>
+<div class="kv">
+<b>Request URL</b><span>網址、port、API 路徑是否正確？</span>
+<b>Request Method</b><span>GET / POST / PUT / DELETE 是否符合 API 規格？</span>
+<b>Status Code</b><span>200 / 4xx / 5xx 是最重要的分類依據。</span>
+<b>Authorization</b><span>Bearer Token / API Key 是否存在、是否過期？</span>
+<b>Content-Type</b><span>通常 JSON API 會是 application/json。</span>
+</div>
+<div class="checklist">
+<label class="check"><input type="checkbox" class="gate"><span><b>URL 沒打錯</b></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>Method 正確</b></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>Status Code 已記下</b></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>需要登入的 API 有 Authorization</b></span></label>
+</div>`
+},
+{
+title:"5. Payload：你送給 API 的資料對嗎？",
+body:`<span class="badge">STEP 5</span><h2>POST / PUT 常要看 Payload</h2>
+<div class="code">{<br>&nbsp;&nbsp;"url": "https://example.com",<br>&nbsp;&nbsp;"mode": "audit"<br>}</div>
+<div class="checklist">
+<label class="check"><input type="checkbox" class="gate"><span><b>必要欄位都有送</b><br><small>例如後端要 url，你不能送 website。</small></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>資料型態正確</b><br><small>數字、字串、布林值、陣列不要混錯。</small></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>沒有 undefined / 空字串 / null 異常值</b></span></label>
+</div>
+<div class="tip"><b>常見對應：</b>400 / 422 很常和 Payload、欄位名稱、驗證格式有關。</div>`
+},
+{
+title:"6. Response：伺服器真正回了什麼？",
+body:`<span class="badge">STEP 6</span><h2>不要只看畫面上的「載入失敗」</h2>
+<div class="code">{<br>&nbsp;&nbsp;"success": false,<br>&nbsp;&nbsp;"error": "Invalid API key"<br>}</div>
+<div class="checklist">
+<label class="check"><input type="checkbox" class="gate"><span><b>我已看 Response 或 Preview</b></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>我找到 error / message / detail 欄位</b></span></label>
+<label class="check"><input type="checkbox" class="gate"><span><b>如果是 200，我確認資料結構符合前端預期</b></span></label>
+</div>
+<div class="nextbox"><b>關鍵：</b>200 也不代表畫面一定正常。API 可能成功，但前端讀錯欄位層級。</div>`
+},
+{
+title:"7. 最終判斷：把問題定位在哪一層",
+body:`<span class="badge">STEP 7</span><h2>最後用這 4 種情況定位</h2>
+<div class="success"><b>A. Network 沒 Request</b><br>→ 前端事件 / JS 執行流程。</div>
+<div class="tip"><b>B. 有 Request + 4xx</b><br>→ URL / Method / Payload / Token / 權限。</div>
+<div class="danger"><b>C. 有 Request + 5xx</b><br>→ Response + Backend Log + DB / 環境變數 / 上游 API。</div>
+<div class="success"><b>D. 200 但畫面壞</b><br>→ Console + Response 資料結構 + 前端 mapping / render。</div>
+<div class="nextbox"><b>你真正要養成的思考順序：</b><br>請求有沒有發生？ → 送了什麼？ → 回了什麼？ → 前端怎麼處理？</div>`
+}
+];
+
+const lesson = document.getElementById("lesson");
+const progressBar = document.getElementById("progressBar");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const steps = [...document.querySelectorAll(".step")];
+let step = 0;
+
+function renderLesson(){
+  lesson.innerHTML = lessons[step].body;
+  steps.forEach((b,i)=>b.classList.toggle("active",i===step));
+  prevBtn.disabled = step===0;
+  nextBtn.textContent = step===lessons.length-1 ? "回到第一步 ↺" : "下一步 →";
+  progressBar.style.width = ((step+1)/lessons.length*100) + "%";
+}
+steps.forEach((b,i)=>b.addEventListener("click",()=>{step=i;renderLesson()}));
+prevBtn.addEventListener("click",()=>{if(step>0){step--;renderLesson()}});
+nextBtn.addEventListener("click",()=>{step = step===lessons.length-1 ? 0 : step+1; renderLesson()});
+
+const rules = [
+{match:/\b200\b|200 ok/i,title:"200 OK：API 有回來",layer:"前端解析 / 資料結構",next:"先看 Response → 再看 Console。確認回傳 JSON 的欄位層級與前端程式讀取方式一致。",fields:"Response / Preview、Console、前端 data mapping",tone:"success"},
+{match:/\b400\b|bad request/i,title:"400 Bad Request：請求內容不符合規格",layer:"Request / Payload",next:"檢查 Payload、Query Parameters、Content-Type 與 API 規格要求的欄位名稱。",fields:"Payload、Query String Parameters、Content-Type、Response",tone:"danger"},
+{match:/\b401\b|unauthorized/i,title:"401 Unauthorized：認證失敗",layer:"Authentication",next:"檢查 Authorization、Bearer Token、API Key、登入狀態與 Token 是否過期。",fields:"Request Headers → Authorization、Response",tone:"danger"},
+{match:/\b403\b|forbidden/i,title:"403 Forbidden：有身分但沒權限",layer:"Authorization / Permission",next:"確認帳號角色、API scope、資源權限，以及伺服器是否限制來源。",fields:"Authorization、Response、後端權限規則",tone:"danger"},
+{match:/\b404\b|not found/i,title:"404 Not Found：API 路徑不存在",layer:"Routing",next:"檢查 Request URL、port、base URL、API route、環境變數。",fields:"Headers → Request URL、Request Method",tone:"danger"},
+{match:/\b405\b|method not allowed/i,title:"405 Method Not Allowed：HTTP 方法錯了",layer:"Request Method",next:"確認 API 要的是 GET / POST / PUT / DELETE 哪一個。",fields:"Headers → Request Method、Allow response header",tone:"danger"},
+{match:/\b422\b|unprocessable/i,title:"422：資料驗證沒過",layer:"Payload Validation",next:"看 Response 裡哪個欄位驗證失敗，再逐一檢查型態、必填與格式。",fields:"Payload、Response → detail/errors",tone:"danger"},
+{match:/\b429\b|too many requests/i,title:"429：呼叫太頻繁",layer:"Rate Limit",next:"找 Retry-After、限流規則；避免短時間大量重複請求。",fields:"Response Headers → Retry-After、API 文件",tone:"danger"},
+{match:/\b500\b|internal server error/i,title:"500：後端程式出錯",layer:"Backend",next:"先讀 Response；若你能看後端，再查 server log、exception、DB、環境變數。",fields:"Response、Backend Log、Server Console",tone:"danger"},
+{match:/\b502\b|bad gateway/i,title:"502：Gateway / 上游服務異常",layer:"Proxy / Upstream",next:"確認反向代理、Serverless、上游 API 是否有回應。",fields:"Response、Proxy log、Upstream service",tone:"danger"},
+{match:/\b503\b|service unavailable/i,title:"503：服務暫時不可用",layer:"Backend Availability",next:"確認服務是否啟動、部署是否健康、是否維護中或資源不足。",fields:"Response、Hosting / Server health",tone:"danger"},
+{match:/\b504\b|gateway timeout/i,title:"504：上游回應太慢",layer:"Timeout",next:"檢查後端是否卡住、DB 查詢過慢、外部 API timeout。",fields:"Response、Backend timing、Upstream API",tone:"danger"},
+{match:/cors|blocked by cors policy|access-control-allow-origin/i,title:"CORS：瀏覽器阻止跨網域請求",layer:"Browser Security / Backend CORS",next:"先去 Network 看 Request 是否送出，再查 Response Headers 的 Access-Control-Allow-Origin。通常需要後端允許來源或透過自己的 backend proxy。",fields:"Console、Network、Response Headers",tone:"danger"},
+{match:/failed to fetch|networkerror|network error/i,title:"Failed to fetch：瀏覽器沒有成功拿到回應",layer:"Network / CORS / URL",next:"去 Network 看有沒有 Request；若沒有，查前端；若有但 blocked/failed，查 URL、CORS、HTTPS、DNS。",fields:"Network、Console、Request URL",tone:"danger"},
+{match:/undefined|null|cannot read properties|typeerror/i,title:"undefined / TypeError：前端讀到不存在的值",layer:"Frontend JavaScript",next:"如果 API 是 200，優先比對 Response JSON 與程式碼讀取路徑，例如 data.users vs data.data.users。",fields:"Console、Response、Sources",tone:"danger"},
+{match:/syntaxerror|unexpected token|json\.parse/i,title:"SyntaxError / JSON 解析錯誤",layer:"Frontend Parsing / Response Format",next:"看 Response 是否真的是 JSON，或其實回了一段 HTML / 空內容。",fields:"Response、Content-Type、Console",tone:"danger"},
+{match:/net::err_connection_refused|connection refused/i,title:"Connection Refused：目標服務沒接到",layer:"Server / Port",next:"確認 API server 是否啟動、port 是否正確、localhost 位址是否一致。",fields:"Request URL、Server terminal",tone:"danger"},
+{match:/mixed content/i,title:"Mixed Content：HTTPS 網頁呼叫 HTTP API",layer:"Browser Security",next:"把 API 改成 HTTPS，或讓前後端使用相容的安全協定。",fields:"Console、Request URL",tone:"danger"}
+];
+
+const diagnosis = document.getElementById("diagnosis");
+const errorInput = document.getElementById("errorInput");
+const where = document.getElementById("where");
+const history = document.getElementById("history");
+let historyItems = [];
+
+function diagnose(text){
+  const raw = (text || "").trim();
+  if(!raw){
+    diagnosis.className="result tip";
+    diagnosis.innerHTML="請先輸入錯誤碼或錯誤訊息。";
+    return;
+  }
+  const rule = rules.find(r=>r.match.test(raw));
+  if(rule){
+    diagnosis.className = "result " + rule.tone;
+    diagnosis.innerHTML = `<h3>${rule.title}</h3>
+      <div class="kv">
+        <b>判斷層級</b><span>${rule.layer}</span>
+        <b>你現在該看</b><span>${rule.fields}</span>
+        <b>下一步</b><span>${rule.next}</span>
+        <b>出現位置</b><span>${where.options[where.selectedIndex].text}</span>
+      </div>`;
+    addHistory(raw, rule.title);
+  } else {
+    diagnosis.className="result tip";
+    diagnosis.innerHTML=`<h3>目前無法用內建規則直接分類</h3>
+      <p><b>建議順序：</b>先確認 Network 有沒有 Request → 記下 Status Code → 看 Response → 再回到 Console。</p>
+      <p>如果是完整錯誤訊息，請保留關鍵字、HTTP 狀態碼與 Response 內容再判讀。</p>`;
+    addHistory(raw, "未分類：依標準流程排查");
+  }
+}
+
+function addHistory(raw,title){
+  historyItems.unshift({raw:raw.slice(0,90),title});
+  historyItems = historyItems.slice(0,8);
+  history.innerHTML = historyItems.map(i=>`<div class="history-item"><b>${i.title}</b><div style="color:var(--muted);font-size:13px;margin-top:3px;word-break:break-all">${escapeHtml(i.raw)}</div></div>`).join("");
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
+
+document.getElementById("diagnoseBtn").addEventListener("click",()=>diagnose(errorInput.value));
+document.querySelectorAll(".status-btn").forEach(b=>b.addEventListener("click",()=>{
+  errorInput.value=b.dataset.code;
+  diagnose(b.dataset.code);
+}));
+errorInput.addEventListener("keydown",e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==="Enter") diagnose(errorInput.value);
+});
+renderLesson();
+})();
+</script>
+</body>
+</html>

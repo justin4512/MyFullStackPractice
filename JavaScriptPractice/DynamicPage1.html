@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>動態新增待辦事項</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            margin-top: 20px;
+            padding-left: 20px;
+        }
+
+        li {
+            padding: 6px 0;
+            font-size: 16px;
+            color: #555;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>待辦事項清單</h2>
+    
+    <button id="add-btn">新增待辦事項</button>
+
+    <ul id="todo-list">
+        </ul>
+
+    <script>
+        // 1. 取得按鈕與清單元素
+        const addBtn = document.getElementById('add-btn');
+        const todoList = document.getElementById('todo-list');
+
+        // 2. 監聽按鈕的點擊事件
+        addBtn.addEventListener('click', function() {
+            // 3. 建立一個新的 li 元素
+            const newItem = document.createElement('li');
+            
+            // 4. 設定 li 的文字內容
+            newItem.textContent = '買牛奶';
+            
+            // 5. 將新建立的 li 加入到 ul (todo-list) 之中
+            todoList.appendChild(newItem);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>待辦清單 (重構版)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        #todo-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #add-btn {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #add-btn:hover {
+            background-color: #218838;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        /* 新增：已完成時的樣式 */
+        .todo-item.completed {
+            background-color: #e9ecef;
+        }
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        /* 新增：排版區塊 */
+        .todo-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .todo-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .todo-time {
+            font-size: 0.75em;
+            color: #888;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>待辦事項清單</h2>
+    
+    <div class="input-group">
+        <input type="text" id="todo-input" placeholder="輸入待辦事項...">
+        <button id="add-btn">新增</button>
+    </div>
+
+    <ul id="todo-list"></ul>
+
+    <script>
+        // ==========================================
+        // 1. 資料存取層 (Data Access)
+        // 這一層專門負責跟瀏覽器的 LocalStorage 溝通
+        // 這樣做的好處是：以後如果要改成存到資料庫，只要改這裡就好，不用動到其他地方。
+        // ==========================================
+        
+        // 定義一個常數作為 LocalStorage 的鑰匙 (Key)
+        const STORAGE_KEY = 'todo_list_data';
+
+        /**
+         * 讀取待辦事項
+         * 從 LocalStorage 拿出資料。因為存進去時是字串，拿出來要轉回陣列。
+         * @returns {Array} 待辦事項陣列
+         */
+        function loadTodos() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            // 如果有資料，就用 JSON.parse 把它轉回陣列；如果沒資料(初次使用)，就給一個空陣列 []
+            return data ? JSON.parse(data) : []; 
+        }
+
+        /**
+         * 儲存待辦事項
+         * @param {Array} todos - 要存檔的待辦事項陣列
+         */
+        function saveTodos(todos) {
+            // LocalStorage 只能存「字串」，所以要把陣列用 JSON.stringify 轉成文字後再存
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+        }
+
+        // ==========================================
+        // 2. 畫面渲染層 (UI Rendering)
+        // 這一層專門負責「把資料變成畫面上的 HTML」
+        // ==========================================
+        
+        // 取得網頁上的 <ul> 元素，準備把清單放進去
+        const todoListElement = document.getElementById('todo-list');
+
+        /**
+         * 重新繪製整個待辦事項清單
+         * @param {Array} todos - 目前最新的待辦事項陣列
+         */
+        function renderTodos(todos) {
+            // 每次重新畫圖前，先把目前的清單清空 (避免重複出現舊資料)
+            todoListElement.innerHTML = '';
+
+            // 使用 forEach 迴圈，把陣列裡的每一個項目 (todo) 拿出來變成 HTML 標籤
+            todos.forEach((todo, index) => {
+                // 創造一個 <li> 標籤代表一列
+                const li = document.createElement('li');
+                li.className = 'todo-item'; // 加上 CSS class 來套用樣式
+                
+                // 如果已經完成，就加上 completed class (會有灰色背景跟刪除線)
+                if (todo.completed) {
+                    li.classList.add('completed');
+                }
+
+                // 創造一個左側內容區塊 (包含打勾框與文字資訊)
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'todo-content';
+
+                // 創造一個 checkbox 用來打勾
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'toggle-btn';
+                checkbox.checked = todo.completed; // 根據資料決定是否打勾
+                checkbox.dataset.index = index;
+
+                // 創造一個資訊區塊 (包含標題與時間)
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'todo-info';
+
+                // 創造一個 <span> 標籤來放文字
+                const textSpan = document.createElement('span');
+                textSpan.className = 'todo-text';
+                textSpan.textContent = todo.text; 
+
+                // 創造一個 <span> 標籤來放時間
+                const timeSpan = document.createElement('span');
+                timeSpan.className = 'todo-time';
+                
+                // 組合顯示時間字串
+                let timeText = `建立: ${todo.createdAt}`;
+                if (todo.completed && todo.completedAt) {
+                    timeText += ` | 完成: ${todo.completedAt}`;
+                }
+                timeSpan.textContent = timeText;
+
+                // 將文字與時間放入資訊區塊
+                infoDiv.appendChild(textSpan);
+                infoDiv.appendChild(timeSpan);
+
+                // 將 checkbox 與資訊區塊放入左側內容區塊
+                contentDiv.appendChild(checkbox);
+                contentDiv.appendChild(infoDiv);
+
+                // 創造一個 <button> 作為刪除按鈕
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = '刪除';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.dataset.index = index;
+
+                // 把左側區塊和刪除按鈕放進 <li> 裡面
+                li.appendChild(contentDiv);
+                li.appendChild(deleteBtn);
+                
+                // 最後把組裝好的 <li> 放到網頁上的 <ul> 裡面
+                todoListElement.appendChild(li);
+            });
+        }
+
+        // ==========================================
+        // 3. 業務邏輯與事件綁定層 (Logic & Events)
+        // 這一層負責處理「使用者做了什麼動作」以及「狀態的改變」
+        // ==========================================
+        
+        // 取得輸入框與新增按鈕
+        const addBtn = document.getElementById('add-btn');
+        const todoInput = document.getElementById('todo-input');
+        
+        // 【重要】這就是我們程式的「狀態 (State)」，所有資料都以這個陣列為主
+        let todos = []; 
+
+        /**
+         * 初始化程式 (一打開網頁時會執行的動作)
+         */
+        function init() {
+            todos = loadTodos(); // 第一步：把之前的紀錄讀取出來放到狀態裡
+            renderTodos(todos);  // 第二步：把讀取出來的紀錄畫到畫面上
+        }
+
+        /**
+         * 處理「新增」動作的邏輯
+         */
+        function handleAddTodo() {
+            // 取出輸入框的文字，並用 trim() 去除前後多餘的空白
+            const text = todoInput.value.trim();
+            
+            // 如果沒輸入文字就按下新增，直接結束 (不理他)
+            if (!text) return;
+
+            // 1. 更新資料狀態 (把新項目推到陣列的最後面，並加入當下時間)
+            const now = new Date().toLocaleString();
+            todos.push({ 
+                text: text, 
+                completed: false,
+                createdAt: now,     // 記錄登錄時間
+                completedAt: null   // 剛建立時尚未完成，記錄為 null
+            });
+            
+            // 2. 存檔 (把最新的陣列存到 LocalStorage)
+            saveTodos(todos);
+            
+            // 3. 更新畫面 (根據最新的陣列重新畫一次清單)
+            renderTodos(todos);
+            
+            // 4. 清空輸入框，方便使用者輸入下一個
+            todoInput.value = '';
+        }
+
+        /**
+         * 處理「刪除」動作的邏輯
+         * @param {number} index - 要刪除的項目的索引值
+         */
+        function handleDeleteTodo(index) {
+            // 1. 更新資料狀態 (從陣列中指定的 index 位置，刪除 1 個項目)
+            todos.splice(index, 1);
+            
+            // 2. 存檔 (把刪除後的陣列存回 LocalStorage)
+            saveTodos(todos);
+            
+            // 3. 更新畫面 (根據刪除後的陣列重新畫一次清單)
+            renderTodos(todos);
+        }
+
+        /**
+         * 處理「切換完成狀態」動作的邏輯
+         * @param {number} index - 要切換的項目的索引值
+         */
+        function handleToggleTodo(index) {
+            // 1. 切換資料狀態的 completed 值 (true 變 false, false 變 true)
+            todos[index].completed = !todos[index].completed;
+            
+            // 如果變成已完成，記錄當下時間；如果變成未完成，清空完成時間
+            if (todos[index].completed) {
+                todos[index].completedAt = new Date().toLocaleString();
+            } else {
+                todos[index].completedAt = null;
+            }
+
+            // 2. 存檔
+            saveTodos(todos);
+            
+            // 3. 更新畫面
+            renderTodos(todos);
+        }
+
+        // --- 以下是綁定事件監聽器 (當使用者點擊時要做什麼事) ---
+
+        // 綁定「新增」按鈕的點擊事件
+        addBtn.addEventListener('click', handleAddTodo);
+
+        // 綁定「刪除」與「切換狀態」事件 (使用事件委派)
+        todoListElement.addEventListener('click', function(event) {
+            // 取出被點擊元素的 data-index
+            const index = event.target.dataset.index;
+            if (index === undefined) return; // 如果點擊到的不是有 data-index 的元素，直接結束
+
+            // 檢查被點擊的是不是刪除按鈕
+            if (event.target.classList.contains('delete-btn')) {
+                handleDeleteTodo(index);
+            } 
+            // 檢查被點擊的是不是 checkbox
+            else if (event.target.classList.contains('toggle-btn')) {
+                handleToggleTodo(index);
+            }
+        });
+
+        // 當所有函式都準備好之後，呼叫 init() 啟動程式
+        init();
+    </script>
+</body>
+</html>

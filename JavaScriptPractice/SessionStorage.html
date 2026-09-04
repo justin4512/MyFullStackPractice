@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SessionStorage 基礎示範</title>
+  <style>
+    body { font-family: Arial, "Microsoft JhengHei", sans-serif; max-width: 820px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
+    h1 { margin-bottom: 8px; }
+    .note { background: #f3f4f6; padding: 12px 16px; border-radius: 10px; }
+    .panel { margin-top: 24px; padding: 20px; border: 1px solid #ddd; border-radius: 12px; }
+    input { padding: 10px; width: 220px; margin: 6px; }
+    button { padding: 10px 14px; margin: 6px; cursor: pointer; }
+    pre { background: #111; color: #f5f5f5; padding: 16px; border-radius: 10px; overflow-x: auto; }
+    #result { margin-top: 16px; padding: 12px; background: #fff7e6; border-radius: 8px; min-height: 24px; }
+  </style>
+</head>
+<body>
+  <h1>SessionStorage 基礎示範</h1>
+  <div class="note">
+    <strong>特性：</strong>資料只在目前分頁的工作階段中保存。關閉該分頁後，SessionStorage 通常會被清除。
+  </div>
+
+  <div class="panel">
+    <h2>互動測試</h2>
+    <input id="keyInput" type="text" placeholder="Key，例如 username" />
+    <input id="valueInput" type="text" placeholder="Value，例如 Alex" />
+    <br />
+    <button onclick="writeData()">寫入數據</button>
+    <button onclick="readData()">讀取數據</button>
+    <button onclick="removeData()">移除單一數據</button>
+    <button onclick="clearAllData()">清除所有數據</button>
+
+    <div id="result">操作結果會顯示在這裡。</div>
+  </div>
+
+  <h2>最基礎 JavaScript 寫法</h2>
+  <pre><code>// 1. 寫入數據
+sessionStorage.setItem('username', 'Alex');
+
+// 2. 讀取數據
+const username = sessionStorage.getItem('username');
+console.log(username);
+
+// 3. 移除單一數據
+sessionStorage.removeItem('username');
+
+// 4. 清除所有數據
+sessionStorage.clear();</code></pre>
+
+  <script>
+    function writeData() {
+      const key = document.getElementById('keyInput').value.trim();
+      const value = document.getElementById('valueInput').value;
+
+      if (!key) {
+        document.getElementById('result').textContent = '請先輸入 Key。';
+        return;
+      }
+
+      sessionStorage.setItem(key, value);
+      document.getElementById('result').textContent = `已寫入：${key} = ${value}`;
+    }
+
+    function readData() {
+      const key = document.getElementById('keyInput').value.trim();
+
+      if (!key) {
+        document.getElementById('result').textContent = '請先輸入 Key。';
+        return;
+      }
+
+      const value = sessionStorage.getItem(key);
+      document.getElementById('result').textContent =
+        value === null ? `找不到 Key：${key}` : `讀取結果：${key} = ${value}`;
+    }
+
+    function removeData() {
+      const key = document.getElementById('keyInput').value.trim();
+
+      if (!key) {
+        document.getElementById('result').textContent = '請先輸入 Key。';
+        return;
+      }
+
+      sessionStorage.removeItem(key);
+      document.getElementById('result').textContent = `已移除：${key}`;
+    }
+
+    function clearAllData() {
+      sessionStorage.clear();
+      document.getElementById('result').textContent = 'SessionStorage 已全部清除。';
+    }
+  </script>
+</body>
+</html>

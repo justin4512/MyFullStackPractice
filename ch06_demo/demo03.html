@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>商品列表卡頓</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f8fafc;margin:0;padding:32px 16px}.container{max-width:900px;margin:0 auto}
+    #search{width:100%;padding:12px;margin:16px 0;border:1px solid #d1d5db;border-radius:8px}#productList{display:grid;gap:12px}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:16px}.meta{color:#6b7280;font-size:14px}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>商品列表</h1>
+    <input id="search" type="text" placeholder="搜尋商品名稱">
+    <div id="stats"></div>
+    <div id="productList"></div>
+  </main>
+  <script>
+    const searchInput=document.getElementById('search');
+    const productList=document.getElementById('productList');
+    const stats=document.getElementById('stats');
+    const products=Array.from({length:2000},(_,i)=>({id:i+1,name:`商品 ${i+1}`,price:Math.floor(Math.random()*1000)+100,category:i%2===0?'A':'B'}));
+    function renderProducts(list){
+      const html=list.map(product=>{
+        // BUG: 每次 render 都做大量重複計算
+        let expensiveCheck=0;
+        for(let i=0;i<50000;i++) expensiveCheck+=i;
+        return `<div class="card"><h3>${product.name}</h3><p>價格：${product.price}</p><p class="meta">分類：${product.category}</p><p class="meta">計算值：${expensiveCheck}</p></div>`;
+      }).join('');
+      productList.innerHTML=html;
+      stats.textContent=`共 ${list.length} 筆商品`;
+    }
+    function filterProducts(keyword){return products.filter(product=>product.name.includes(keyword))}
+    searchInput.addEventListener('input',()=>{const keyword=searchInput.value.trim();renderProducts(filterProducts(keyword))});
+    renderProducts(products);
+  </script>
+</body>
+</html>

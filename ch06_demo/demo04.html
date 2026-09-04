@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>分頁與篩選異常</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f4f7fa;margin:0;padding:32px 16px}.container{max-width:760px;margin:0 auto;background:#fff;padding:24px;border-radius:12px;border:1px solid #e5e7eb}
+    #orderList{margin:20px 0;display:grid;gap:12px}.order{padding:12px;border:1px solid #e5e7eb;border-radius:10px}button,select{font:inherit}
+    button{margin-right:8px;padding:8px 12px;border:1px solid #d1d5db;background:#fff;border-radius:8px;cursor:pointer}select{padding:10px 12px;border:1px solid #d1d5db;border-radius:8px}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>訂單列表</h1>
+    <select id="filter"><option value="all">全部</option><option value="paid">已付款</option><option value="pending">待付款</option></select>
+    <div id="orderList"></div>
+    <div id="pagination"></div>
+  </main>
+  <script>
+    const filterEl=document.getElementById('filter');
+    const orderList=document.getElementById('orderList');
+    const pagination=document.getElementById('pagination');
+    const orders=Array.from({length:30},(_,i)=>({id:i+1,name:`訂單 ${i+1}`,status:i%2===0?'paid':'pending'}));
+    let currentPage=1;const pageSize=5;let currentFilter='all';
+    function getFilteredOrders(){return currentFilter==='all'?orders:orders.filter(order=>order.status===currentFilter)}
+    function render(){
+      const filtered=getFilteredOrders();
+      const totalPages=Math.ceil(filtered.length/pageSize);
+      const start=(currentPage-1)*pageSize;
+      const pageItems=filtered.slice(start,start+pageSize);
+      orderList.innerHTML=pageItems.map(order=>`<div class="order"><strong>${order.name}</strong><p>狀態：${order.status}</p></div>`).join('');
+      pagination.innerHTML='';
+      for(let i=1;i<=totalPages;i++){
+        const btn=document.createElement('button');
+        btn.textContent=i;
+        btn.addEventListener('click',()=>{currentPage=i;render()});
+        pagination.appendChild(btn);
+      }
+    }
+    filterEl.addEventListener('change',()=>{currentFilter=filterEl.value;currentPage=1;render()});
+    render();
+  </script>
+</body>
+</html>

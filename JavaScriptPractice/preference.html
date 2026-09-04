@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocalStorage 偏好設定與主題切換</title>
+  <style>
+    /* 基本主題樣式定義 */
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --card-bg: #f9f9f9;
+      --border-color: #ccc;
+    }
+
+    /* 暗色主題 (Dark Theme) */
+    body.dark-theme {
+      --bg-color: #1e1e1e;
+      --text-color: #f5f5f5;
+      --card-bg: #2d2d2d;
+      --border-color: #444;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      line-height: 1.5;
+      transition: background-color 0.3s, color 0.3s; /* 平滑過渡效果 */
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .field {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    select, button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    pre {
+      background: rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+
+    body.dark-theme pre {
+      background: rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>使用者偏好設定管理</h2>
+    
+    <div class="field">
+      <label for="themeSelect">主題顏色：</label>
+      <select id="themeSelect">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>
+        <input type="checkbox" id="notifyCheckbox"> 接收通知
+      </label>
+    </div>
+
+    <button id="saveBtn">儲存設定並套用</button>
+
+    <h3>目前載入的偏好設定 (State)：</h3>
+    <pre id="output"></pre>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'user_preference';
+    
+    // 預設偏好設定物件
+    const DEFAULT_PREFERENCES = {
+      theme: 'dark',
+      notify: true
+    };
+
+    /**
+     * 安全地從 LocalStorage 讀取偏好設定
+     */
+    function getPreferences() {
+      try {
+        const item = localStorage.getItem(STORAGE_KEY);
+        if (!item) return { ...DEFAULT_PREFERENCES };
+        
+        const parsed = JSON.parse(item);
+        return { ...DEFAULT_PREFERENCES, ...parsed };
+      } catch (error) {
+        console.error('讀取失敗，使用預設值：', error);
+        return { ...DEFAULT_PREFERENCES };
+      }
+    }
+
+    /**
+     * 安全地將偏好設定寫入 LocalStorage
+     */
+    function savePreferences(preferences) {
+      try {
+        const serialized = JSON.stringify(preferences);
+        localStorage.setItem(STORAGE_KEY, serialized);
+      } catch (error) {
+        console.error('寫入 LocalStorage 失敗：', error);
+      }
+    }
+
+    /**
+     * 關鍵點：根據主題名稱，動態切換 <body> 的 Class 屬性來改變畫面樣式
+     */
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark-theme');
+      } else {
+        document.body.classList.remove('dark-theme');
+      }
+    }
+
+    // --- DOM 元素控制 ---
+    const themeSelect = document.getElementById('themeSelect');
+    const notifyCheckbox = document.getElementById('notifyCheckbox');
+    const saveBtn = document.getElementById('saveBtn');
+    const output = document.getElementById('output');
+
+    // 1. 初始化頁面：讀取設定、改變主題、更新 UI 欄位
+    function init() {
+      const prefs = getPreferences();
+      
+      // 同步 UI 選擇狀態
+      themeSelect.value = prefs.theme;
+      notifyCheckbox.checked = prefs.notify;
+      output.textContent = JSON.stringify(prefs, null, 2);
+
+      // 套用主題顏色到畫面上
+      applyTheme(prefs.theme);
+    }
+
+    // 2. 儲存按鈕事件
+    saveBtn.addEventListener('click', () => {
+      const newPrefs = {
+        theme: themeSelect.value,
+        notify: notifyCheckbox.checked
+      };
+
+      // 步驟 A: 寫入 LocalStorage
+      savePreferences(newPrefs);
+
+      // 步驟 B: 即時修改畫面 Theme
+      applyTheme(newPrefs.theme);
+
+      // 步驟 C: 更新畫面的 JSON 顯示
+      output.textContent = JSON.stringify(newPrefs, null, 2);
+    });
+
+    // 啟動頁面初始化
+    init();
+  </script>
+</body>
+</html>
