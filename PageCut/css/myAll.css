@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Iansui&display=swap');
+
 
 * {
     margin: 0;
@@ -6,5 +7,30 @@
 }
 
 body {
-    font-family: "Noto Sans TC", sans-serif;
+    font-family: "Iansui", cursive;
+    background-color: var(--bg-body);
+}
+
+:root {
+    /* 您的原始色板
+    --drySage: #ccd5ae;
+    --Beige: #e9edc9;
+    --Cornsilk:#fefae0;
+    --PapayaWhip: #faedcd;
+    --LightBronze: #d4a373; */
+
+    /* 延伸搭配設計 (Semantic Colors) */
+    --primary-color: #d4a373;       /* 主色調 */
+    --primary-hover: #b58250;                  /* 主色調 Hover 加深 */
+    --secondary-color: #ccd5ae;         /* 次色調 */
+    --secondary-hover: #a3ae7e;                /* 次色調 Hover */
+    
+    --bg-body: #faf7f2;                        /* 網頁外層大背景 (微暖灰白) */
+    --bg-wrapper: #fefae0;             /* 主要內容區背景 */
+    --bg-nav: #e9edc9;                    /* 導覽列背景 */
+    --bg-footer: #faedcd;            /* 頁尾背景 */
+    
+    --text-dark: #4a4036;                      /* 主要深色文字 */
+    --text-title: #8c5b30;                     /* 標題強調色 */
+    --text-light: #7b736a;                     /* 次要文字 */
 }

@@ -1,29 +1,29 @@
 .wrapper {
-    background-color: #FFFFFF;
+    background-color: var(--bg-body);
     /* 改為白色，才能看出原本被相同底色隱藏的 margin 間距 */
     width: 1024px;
     margin-top: 30px;
     margin-bottom: 30px;
     margin-left: auto;
     margin-right: auto;
-    box-shadow: 2px 2px 2px 2px #252525;
+    box-shadow: 2px 2px 2px 2px var(--text-light);
 }
 
 .logo {
-    background-color: aquamarine;
+    background-color: var(--primary-color);
     width: 1024px;
     height: 80px;
     font-size: 50px;
     text-align: center;
     line-height: 80px;
-    color: #000000;
+    color: var(--text-dark);
     font-weight: bold;
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
 nav {
-    background-color: #F0EAD2;
+    background-color: var(--bg-nav);
     height: 50px;
     line-height: 50px;
     text-align: center;
@@ -46,26 +46,27 @@ nav ul li {
 
 nav ul li a {
     display: block;
-    background-color: #A98467;
+    background-color: var(--primary-color);
     text-decoration: none;
     font-size: 24px;
     font-weight: bold;
-    color: #ffffff;
+    color: var(--text-light);
     border-radius: 8px;
     padding-left: 8px;
     padding-right: 8px;
-    box-shadow: 2px 2px 2px 2px #252525;
+    box-shadow: 2px 2px 2px 2px var(--text-dark);
     margin-right: 15px;
 }
 
 nav ul li a:hover {
-    background-color: darkcyan;
-    box-shadow: 2px 2px 2px 2px #252525;
+    background-color: var(--primary-hover);
+    color: var(--text-dark);
+    box-shadow: 2px 2px 2px 2px var(--text-light);
     border-radius: 8px;
 }
 
 .content {
-    background-color: tan;
+    background-color: var(--bg-wrapper);
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 50px;
@@ -79,14 +80,14 @@ nav ul li a:hover {
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
-    color: #000000;
+    color: var(--LightBronze);
     font-weight: bold;
 }
 
 .content p {
     font-size: 24px;
     font-weight: bold;
-    color: #a04300e4;
+    color: var(--text-light);
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 10px;
@@ -96,7 +97,7 @@ nav ul li a:hover {
 
 .content a {
     display: block;
-    background-color: #F0EAD2;
+    background-color: var(--secondary-color);
     width: 120px;
     height: 40px;
     line-height: 40px;
@@ -107,26 +108,26 @@ nav ul li a:hover {
     margin-left: auto;
     margin-right: auto;
     text-decoration: none;
-    color: #6C5C4C;
+    color: var(--text-dark);
     border-radius: 8px;
 }
 
 .content a:hover {
-    background-color: #6C584C;
-    color: #FFFFFF;
+    background-color: var(--secondary-hover);
+    color: var(--bg-body);
     font-weight: bold;
-    box-shadow: 2px 2px 2px 2px #252525;
+    box-shadow: 2px 2px 2px 2px var(--text-dark);
     border-radius: 8px;
 }
 
 .footer {
-    background-color: #F0EAD2;
+    background-color: var(--bg-footer);
     height: 40px;
     line-height: 40px;
     font-size: 16px;
     font-weight: bold;
     text-align: center;
-    color: #A98467;
+    color: var(--text-dark);
     margin-top: 5px;
     margin-bottom: 5px;
 }
