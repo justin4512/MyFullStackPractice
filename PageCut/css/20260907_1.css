@@ -16,10 +16,16 @@
     font-size: 50px;
     text-align: center;
     line-height: 80px;
-    color: var(--text-dark);
+    color: var(--bg-body);
     font-weight: bold;
     margin-top: 5px;
     margin-bottom: 5px;
+    background: url(../Images/landscape001.avif);
+    background-size: cover;
+    /* 封面撐滿 */
+    background-position: center center;
+    /* 中央裁切 */
+
 }
 
 nav {
@@ -84,6 +90,33 @@ nav ul li a:hover {
     font-weight: bold;
 }
 
+.content .imageSquare1 {
+    width: 49%;
+    height: 200px;
+      
+    background-image: url(../Images/landscape002.avif);
+    background-size: cover;
+    /* 封面撐滿 */
+    background-position: center center;
+    /* 中央裁切 */
+    float: left;
+    margin-right: 1px;
+    margin-left: 1px;
+}
+.content .imageSquare2 {
+    width: 49%;
+    height: 200px;     
+    background-image: url(../Images/landscape003.avif);
+    background-size: cover;
+    /* 封面撐滿 */
+    background-position: center center;
+    /* 中央裁切 */
+    float: left;
+    margin-right: 1px;
+    margin-left: 1px;
+
+}
+
 .content p {
     font-size: 24px;
     font-weight: bold;
@@ -141,9 +174,25 @@ nav ul li a:hover {
         width: 100%;
         height: 100px;
     }
+
+    .logo {
+        background-image: url(../Images/landscape002.avif);
+        background-size: cover;
+        /* 封面撐滿 */
+        background-position: center center;
+        /* 中央裁切 */
+    }
 }
 
 @media screen and (max-width: 768px) {
+    .logo {
+        background-image: url(../Images/landscape003.avif);
+        background-size: cover;
+        /* 封面撐滿 */
+        background-position: center center;
+        /* 中央裁切 */
+    }
+
     nav {
         height: auto;
     }
@@ -161,6 +210,8 @@ nav ul li a:hover {
         display: block;
         width: 90%;
         height: 40px;
+        line-height: 40px;
+        color: var(--bg-body);
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 10px;
