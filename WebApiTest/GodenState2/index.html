@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>DUB NATION | MEMBER PORTAL</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Ops+One&family=Montserrat:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@400;700;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
+</head>
+
+<body>
+
+    <!-- 背景 -->
+    <div class="bg-layer"></div>
+
+    <!-- 噴漆粒子 -->
+    <div class="spray spray-1"></div>
+    <div class="spray spray-2"></div>
+    <div class="spray spray-3"></div>
+
+    <!-- 裝飾文字 -->
+    <div class="graffiti-text graffiti-left">
+        BAY AREA
+    </div>
+
+    <div class="graffiti-text graffiti-right">
+        30
+    </div>
+
+
+    <main class="page-wrapper">
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div class="hero-tag">
+                <span class="tag-dot"></span>
+                SAN FRANCISCO • BAY AREA
+            </div>
+
+            <h1 class="hero-title">
+
+                <span class="hero-small">
+                    WELCOME TO
+                </span>
+
+                <span class="hero-big">
+                    DUB NATION
+                </span>
+
+            </h1>
+
+            <p class="hero-subtitle">
+
+                <span>HOOPS.</span>
+
+                <span>HUSTLE.</span>
+
+                <span>HISTORY.</span>
+
+            </p>
+
+        </section>
+
+
+        <!-- 主內容 -->
+        <div class="container">
+
+
+            <!-- ===================== -->
+            <!-- PLAYER REGISTRATION -->
+            <!-- ===================== -->
+
+            <section class="court-card form-section">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="card-number">
+                            01
+                        </span>
+
+                        <h2>
+                            JOIN THE
+                            <span>SQUAD</span>
+                        </h2>
+
+                    </div>
+
+                    <div class="basketball-icon">
+                        🏀
+                    </div>
+
+                </div>
+
+
+                <p class="card-description">
+
+                    STEP ON THE COURT.
+                    DROP YOUR INFO.
+                    JOIN THE DUB NATION.
+
+                </p>
+
+
+                <form id="memberForm">
+
+
+                    <div class="form-group">
+
+                        <label for="name">
+
+                            <span>PLAYER NAME</span>
+
+                            <small>
+                                姓名
+                            </small>
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="form-control"
+                            required
+                            placeholder="例如：Stephen Curry"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+
+                            <span>CONTACT</span>
+
+                            <small>
+                                EMAIL
+                            </small>
+
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-control"
+                            required
+                            placeholder="player@dubnation.com"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="role">
+
+                            <span>COURT ROLE</span>
+
+                            <small>
+                                角色
+                            </small>
+
+                        </label>
+
+                        <select
+                            id="role"
+                            name="role"
+                            class="form-control"
+                            required
+                        >
+
+                            <option value="班代">
+                                班代
+                            </option>
+
+                            <option value="副班代">
+                                副班代
+                            </option>
+
+                            <option value="服務股長">
+                                服務股長
+                            </option>
+
+                            <option value="一般成員">
+                                一般成員
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn"
+                        id="submitBtn"
+                    >
+
+                        <span class="btn-text">
+
+                            ENTER THE COURT
+
+                        </span>
+
+                        <span class="btn-arrow">
+
+                            →
+
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                <!-- Card Graffiti -->
+                <div class="card-graffiti">
+
+                    NO DAYS OFF
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ===================== -->
+            <!-- ROSTER -->
+            <!-- ===================== -->
+
+            <section class="court-card table-section">
+
+
+                <div class="card-header roster-header">
+
+                    <div>
+
+                        <span class="card-number">
+
+                            02
+
+                        </span>
+
+                        <h2>
+
+                            SQUAD
+                            <span>ROSTER</span>
+
+                        </h2>
+
+                    </div>
+
+
+                    <div class="live-indicator">
+
+                        <span></span>
+
+                        LIVE DATA
+
+                    </div>
+
+                </div>
+
+
+                <div class="roster-info">
+
+                    <span>
+
+                        CURRENT PLAYERS
+
+                    </span>
+
+                    <span class="roster-line"></span>
+
+                    <span>
+
+                        DUB NATION DATABASE
+
+                    </span>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>#</th>
+
+                                <th>PLAYER</th>
+
+                                <th>CONTACT</th>
+
+                                <th>ROLE</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="tableBody">
+
+                            <!-- JS 動態資料 -->
+
+                        </tbody>
+
+                    </table>
+
+
+                    <!-- Loading -->
+                    <div
+                        class="loader-container"
+                        id="tableLoader"
+                        style="display:none;"
+                    >
+
+                        <div class="neon-spinner"></div>
+
+                        <span>
+
+                            LOADING THE ROSTER...
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="roster-footer">
+
+                    <span>
+
+                        EST. BAY AREA
+
+                    </span>
+
+                    <strong>
+
+                        DUB NATION
+
+                    </strong>
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+        <!-- Footer -->
+
+        <footer>
+
+            <span>
+
+                GOLDEN STATE SPIRIT
+
+            </span>
+
+            <strong>
+
+                BUILT FOR THE BAY
+
+            </strong>
+
+            <span>
+
+                2026
+
+            </span>
+
+        </footer>
+
+
+    </main>
+
+
+
+    <!-- Alert -->
+
+    <div
+        class="custom-alert-overlay"
+        id="customAlertOverlay"
+    >
+
+        <div class="custom-alert">
+
+            <div class="alert-ball">
+
+                🏀
+
+            </div>
+
+            <h3>
+
+                SUCCESS!
+
+            </h3>
+
+            <p id="alertMessage">
+
+                操作成功
+
+            </p>
+
+            <button onclick="closeCustomAlert()">
+
+                GOT IT
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="./main.js"></script>
+
+</body>
+
+</html>

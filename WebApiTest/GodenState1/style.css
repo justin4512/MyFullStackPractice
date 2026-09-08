@@ -1,0 +1,1521 @@
+/* =====================================================
+   GOLDEN STATE STREETBALL
+   NBA × HIP-HOP × GRAFFITI
+===================================================== */
+
+:root {
+
+    --warriors-blue: #1d428a;
+    --warriors-blue-dark: #071c45;
+    --warriors-blue-deep: #020b1f;
+
+    --warriors-gold: #ffc72c;
+    --warriors-gold-light: #ffe17a;
+
+    --white: #ffffff;
+    --off-white: #e9edf5;
+
+    --street-black: #080808;
+    --concrete: #151515;
+
+    --red: #ff4d35;
+    --cyan: #00e5ff;
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        "Noto Sans TC",
+        Arial,
+        sans-serif;
+
+    color: var(--white);
+
+    background:
+        linear-gradient(
+            rgba(2, 11, 31, 0.75),
+            rgba(0, 0, 0, 0.9)
+        ),
+        url(
+            "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=85&w=2200&auto=format&fit=crop"
+        );
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    overflow-x: hidden;
+
+    padding: 35px 25px 60px;
+
+}
+
+
+/* =====================================================
+   BACKGROUND EFFECT
+===================================================== */
+
+.bg-overlay {
+
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(255, 199, 44, 0.15),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(29, 66, 138, 0.4),
+            transparent 35%
+        );
+
+    z-index: -2;
+
+}
+
+
+.noise {
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.18;
+
+    z-index: -1;
+
+    background-image:
+
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.03),
+            rgba(255,255,255,0.03) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+}
+
+
+/* =====================================================
+   GRAFFITI DECORATION
+===================================================== */
+
+.graffiti {
+
+    position: fixed;
+
+    font-family: "Permanent Marker", cursive;
+
+    font-size: clamp(2.5rem, 7vw, 7rem);
+
+    line-height: 0.85;
+
+    opacity: 0.08;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    transform: rotate(-12deg);
+
+    color: var(--warriors-gold);
+
+    text-shadow:
+
+        4px 4px 0 var(--warriors-blue),
+
+        8px 8px 0 rgba(0,0,0,0.5);
+
+}
+
+
+.graffiti-left {
+
+    left: -20px;
+    top: 25%;
+
+}
+
+
+.graffiti-right {
+
+    right: -25px;
+    bottom: 10%;
+
+    transform: rotate(10deg);
+
+}
+
+
+/* =====================================================
+   FLOATING BASKETBALL
+===================================================== */
+
+.basketball {
+
+    position: fixed;
+
+    font-size: 4rem;
+
+    opacity: 0.16;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+}
+
+
+.ball-1 {
+
+    top: 15%;
+    right: 6%;
+
+    animation:
+        ballFloat 7s ease-in-out infinite;
+
+}
+
+
+.ball-2 {
+
+    bottom: 12%;
+    left: 5%;
+
+    font-size: 3rem;
+
+    animation:
+        ballFloat 9s ease-in-out infinite reverse;
+
+}
+
+
+@keyframes ballFloat {
+
+    0% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translateY(-25px)
+            rotate(20deg);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+
+    max-width: 1300px;
+
+    margin:
+        0 auto
+        35px;
+
+    position: relative;
+
+    z-index: 2;
+
+    text-align: center;
+
+}
+
+
+.hero-tag {
+
+    display: inline-block;
+
+    padding:
+        7px
+        16px;
+
+    margin-bottom: 10px;
+
+    background: var(--warriors-gold);
+
+    color: #000;
+
+    font-family: "Black Ops One", sans-serif;
+
+    font-size: 0.7rem;
+
+    letter-spacing: 2px;
+
+    transform: rotate(-2deg);
+
+}
+
+
+.hero h1 {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    line-height: 0.8;
+
+}
+
+
+.hero-small {
+
+    font-family: "Bebas Neue", sans-serif;
+
+    letter-spacing: 10px;
+
+    font-size: clamp(1rem, 2vw, 1.7rem);
+
+    color: var(--off-white);
+
+}
+
+
+.hero-main {
+
+    font-family: "Black Ops One", sans-serif;
+
+    font-size: clamp(4rem, 12vw, 10rem);
+
+    color: var(--warriors-gold);
+
+    letter-spacing: -2px;
+
+    text-shadow:
+
+        5px 5px 0 var(--warriors-blue),
+
+        10px 10px 0 rgba(0,0,0,0.45),
+
+        0 0 30px rgba(255,199,44,0.3);
+
+}
+
+
+.hero-outline {
+
+    font-family: "Black Ops One", sans-serif;
+
+    font-size: clamp(2rem, 6vw, 5rem);
+
+    letter-spacing: 10px;
+
+    color: transparent;
+
+    -webkit-text-stroke:
+        2px var(--white);
+
+    text-shadow:
+        4px 4px 0 var(--warriors-blue);
+
+}
+
+
+.hero-bottom {
+
+    margin-top: 15px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+    font-family: "Bebas Neue", sans-serif;
+
+    font-size: 1rem;
+
+    letter-spacing: 2px;
+
+    color: var(--warriors-gold-light);
+
+}
+
+
+.slash {
+
+    color: var(--red);
+
+}
+
+
+/* =====================================================
+   MAIN LAYOUT
+===================================================== */
+
+.container {
+
+    width: 100%;
+    max-width: 1300px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(300px, 0.85fr)
+        minmax(500px, 1.6fr);
+
+    gap: 28px;
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+/* =====================================================
+   FLOATING CARD
+   保留使用者要求的 @keyframes float
+===================================================== */
+
+@keyframes float {
+
+    0% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translateY(-9px)
+            rotate(0.15deg);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+}
+
+
+.street-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 35px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(12, 34, 79, 0.94),
+            rgba(3, 10, 27, 0.97)
+        );
+
+    border:
+
+        2px solid
+        rgba(255, 199, 44, 0.75);
+
+    box-shadow:
+
+        10px 10px 0
+        rgba(0,0,0,0.55),
+
+        0 0 40px
+        rgba(29,66,138,0.45);
+
+    animation:
+        float
+        7s
+        ease-in-out
+        infinite;
+
+}
+
+
+/* 第二張卡片不同節奏 */
+
+.table-section {
+
+    animation-delay: -3.5s;
+
+}
+
+
+/* 卡片噴漆斜線 */
+
+.street-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -50px;
+    right: -70px;
+
+    width: 260px;
+    height: 150px;
+
+    background:
+
+        repeating-linear-gradient(
+            -45deg,
+            var(--warriors-gold),
+            var(--warriors-gold) 10px,
+            transparent 10px,
+            transparent 20px
+        );
+
+    opacity: 0.08;
+
+    transform: rotate(10deg);
+
+}
+
+
+.street-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 5px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            var(--warriors-blue),
+            var(--warriors-gold),
+            var(--red)
+        );
+
+}
+
+
+/* =====================================================
+   CARD NUMBER
+===================================================== */
+
+.card-number {
+
+    position: absolute;
+
+    right: 18px;
+    top: 5px;
+
+    font-family: "Black Ops One", sans-serif;
+
+    font-size: 5rem;
+
+    color:
+
+        rgba(255,255,255,0.035);
+
+}
+
+
+/* =====================================================
+   FORM CARD
+===================================================== */
+
+.spray-text {
+
+    position: absolute;
+
+    right: -12px;
+    top: 120px;
+
+    font-family: "Permanent Marker", cursive;
+
+    font-size: 1.5rem;
+
+    color: var(--red);
+
+    transform: rotate(90deg);
+
+    opacity: 0.65;
+
+}
+
+
+.card-header {
+
+    margin-bottom: 35px;
+
+}
+
+
+.mini-label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-family: "Bebas Neue", sans-serif;
+
+    font-size: 0.85rem;
+
+    letter-spacing: 3px;
+
+    color: var(--warriors-gold);
+
+}
+
+
+h2 {
+
+    font-family: "Black Ops One", sans-serif;
+
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+
+    line-height: 0.95;
+
+    color: var(--white);
+
+}
+
+
+h2 span {
+
+    color: var(--warriors-gold);
+
+    text-shadow:
+
+        3px 3px 0
+        var(--warriors-blue);
+
+}
+
+
+.card-header p {
+
+    margin-top: 18px;
+
+    font-family: "Bebas Neue", sans-serif;
+
+    font-size: 1rem;
+
+    line-height: 1.4;
+
+    letter-spacing: 1.5px;
+
+    color: rgba(255,255,255,0.6);
+
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-group {
+
+    margin-bottom: 22px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-family: "Bebas Neue", sans-serif;
+
+    font-size: 1rem;
+
+    letter-spacing: 1.5px;
+
+    color: var(--white);
+
+}
+
+
+.form-group label span {
+
+    color: var(--warriors-gold);
+
+    margin-right: 5px;
+
+}
+
+
+.form-control {
+
+    width: 100%;
+
+    border: 2px solid
+        rgba(255,255,255,0.16);
+
+    border-radius: 0;
+
+    padding: 15px 16px;
+
+    outline: none;
+
+    background:
+        rgba(0,0,0,0.38);
+
+    color: var(--white);
+
+    font-family: "Bebas Neue", "Noto Sans TC", sans-serif;
+
+    font-size: 1.15rem;
+
+    letter-spacing: 1px;
+
+    transition:
+        0.25s ease;
+
+}
+
+
+.form-control::placeholder {
+
+    color:
+        rgba(255,255,255,0.25);
+
+}
+
+
+.form-control:focus {
+
+    border-color:
+        var(--warriors-gold);
+
+    box-shadow:
+
+        5px 5px 0
+        var(--warriors-blue),
+
+        0 0 20px
+        rgba(255,199,44,0.18);
+
+    transform:
+        translate(-2px, -2px);
+
+}
+
+
+select.form-control {
+
+    cursor: pointer;
+
+}
+
+
+select option {
+
+    background:
+        var(--warriors-blue-deep);
+
+    color:
+        var(--white);
+
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+.btn {
+
+    width: 100%;
+
+    margin-top: 12px;
+
+    padding: 16px 18px;
+
+    border: 0;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background:
+        var(--warriors-gold);
+
+    color:
+        #050505;
+
+    font-family:
+        "Black Ops One",
+        sans-serif;
+
+    font-size:
+        1rem;
+
+    letter-spacing:
+        2px;
+
+    transition:
+        0.25s ease;
+
+    box-shadow:
+
+        7px 7px 0
+        var(--warriors-blue);
+
+}
+
+
+.btn:hover:not(:disabled) {
+
+    transform:
+        translate(4px, 4px);
+
+    box-shadow:
+
+        3px 3px 0
+        var(--warriors-blue);
+
+    background:
+        var(--white);
+
+}
+
+
+.btn:active {
+
+    transform:
+        translate(7px, 7px);
+
+    box-shadow:
+        none;
+
+}
+
+
+.btn:disabled {
+
+    opacity: 0.7;
+
+    cursor:
+        not-allowed;
+
+}
+
+
+.btn-number {
+
+    color:
+        var(--warriors-blue);
+
+}
+
+
+.btn-arrow {
+
+    font-size:
+        1.8rem;
+
+}
+
+
+/* =====================================================
+   FORM FOOTER
+===================================================== */
+
+.card-footer {
+
+    margin-top: 30px;
+
+    padding-top: 15px;
+
+    border-top:
+        1px solid rgba(255,255,255,0.12);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-family: "Bebas Neue", sans-serif;
+
+    letter-spacing: 2px;
+
+    color:
+        rgba(255,255,255,0.35);
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-section {
+
+    min-width: 0;
+
+}
+
+
+.table-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 30px;
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+.roster-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 7px 10px;
+
+    border:
+        1px solid
+        rgba(255,199,44,0.4);
+
+    font-family:
+        "Bebas Neue",
+        sans-serif;
+
+    letter-spacing:
+        1px;
+
+    color:
+        var(--warriors-gold);
+
+}
+
+
+.status-dot {
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background:
+        #3cff62;
+
+    box-shadow:
+        0 0 10px #3cff62;
+
+}
+
+
+.table-graffiti {
+
+    position: absolute;
+
+    right: -5px;
+    top: 115px;
+
+    font-family:
+        "Permanent Marker",
+        cursive;
+
+    font-size:
+        2.2rem;
+
+    line-height:
+        0.9;
+
+    color:
+        var(--red);
+
+    opacity:
+        0.13;
+
+    transform:
+        rotate(-8deg);
+
+    pointer-events:
+        none;
+
+}
+
+
+/* =====================================================
+   TABLE CONTAINER
+===================================================== */
+
+.table-container {
+
+    position: relative;
+
+    overflow-x: auto;
+
+    border:
+
+        1px solid
+        rgba(255,255,255,0.12);
+
+    background:
+        rgba(0,0,0,0.25);
+
+}
+
+
+table {
+
+    width: 100%;
+
+    min-width: 620px;
+
+    border-collapse:
+        collapse;
+
+}
+
+
+thead {
+
+    background:
+        var(--warriors-gold);
+
+}
+
+
+th {
+
+    padding:
+        16px;
+
+    color:
+        #050505;
+
+    text-align:
+        left;
+
+    font-family:
+        "Black Ops One",
+        sans-serif;
+
+    font-size:
+        0.75rem;
+
+    letter-spacing:
+        1px;
+
+}
+
+
+td {
+
+    padding:
+        18px 16px;
+
+    border-bottom:
+
+        1px solid
+        rgba(255,255,255,0.08);
+
+    font-size:
+        0.9rem;
+
+    color:
+        rgba(255,255,255,0.88);
+
+}
+
+
+tbody tr {
+
+    transition:
+        0.2s ease;
+
+}
+
+
+tbody tr:hover {
+
+    background:
+        rgba(255,199,44,0.1);
+
+    transform:
+        translateX(5px);
+
+}
+
+
+tbody tr:hover td:first-child {
+
+    color:
+        var(--warriors-gold);
+
+}
+
+
+/* =====================================================
+   ROLE BADGES
+===================================================== */
+
+.badge {
+
+    display: inline-block;
+
+    padding:
+        6px 12px;
+
+    border:
+
+        1px solid
+        currentColor;
+
+    font-family:
+        "Bebas Neue",
+        "Noto Sans TC",
+        sans-serif;
+
+    font-size:
+        0.9rem;
+
+    letter-spacing:
+        1px;
+
+}
+
+
+.badge-admin {
+
+    color:
+        var(--warriors-gold);
+
+    background:
+        rgba(255,199,44,0.1);
+
+}
+
+
+.badge-pro {
+
+    color:
+        var(--cyan);
+
+    background:
+        rgba(0,229,255,0.08);
+
+}
+
+
+.badge-user {
+
+    color:
+        var(--white);
+
+    background:
+        rgba(255,255,255,0.05);
+
+}
+
+
+/* =====================================================
+   ROSTER FOOTER
+===================================================== */
+
+.roster-footer {
+
+    margin-top: 18px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color:
+        rgba(255,255,255,0.35);
+
+    font-family:
+        "Bebas Neue",
+        sans-serif;
+
+    letter-spacing:
+        2px;
+
+}
+
+
+.footer-code {
+
+    color:
+        var(--warriors-gold);
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loader-container {
+
+    min-height: 250px;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+
+.court-loader {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 15px;
+
+    font-family:
+        "Bebas Neue",
+        sans-serif;
+
+    letter-spacing:
+        2px;
+
+    color:
+        var(--warriors-gold);
+
+}
+
+
+.loader-ball {
+
+    font-size: 4rem;
+
+    animation:
+        bounceBall
+        0.8s
+        infinite
+        alternate;
+
+}
+
+
+@keyframes bounceBall {
+
+    from {
+
+        transform:
+            translateY(0)
+            rotate(-15deg);
+
+    }
+
+    to {
+
+        transform:
+            translateY(25px)
+            rotate(15deg);
+
+    }
+
+}
+
+
+/* =====================================================
+   ALERT
+===================================================== */
+
+.custom-alert-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+        rgba(0,0,0,0.82);
+
+    backdrop-filter:
+        blur(8px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        0.25s ease;
+
+    z-index: 999;
+
+}
+
+
+.custom-alert-overlay.show {
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+}
+
+
+.custom-alert {
+
+    width: min(90%, 400px);
+
+    padding: 45px 35px;
+
+    text-align: center;
+
+    background:
+        var(--warriors-blue-deep);
+
+    border:
+        3px solid var(--warriors-gold);
+
+    box-shadow:
+
+        10px 10px 0
+        var(--warriors-blue),
+
+        0 0 50px
+        rgba(255,199,44,0.2);
+
+    transform:
+        scale(0.8)
+        rotate(-2deg);
+
+    transition:
+        0.3s ease;
+
+}
+
+
+.custom-alert-overlay.show .custom-alert {
+
+    transform:
+        scale(1)
+        rotate(0deg);
+
+}
+
+
+.alert-ball {
+
+    font-size:
+        4rem;
+
+    margin-bottom:
+        10px;
+
+}
+
+
+.custom-alert h3 {
+
+    font-family:
+        "Black Ops One",
+        sans-serif;
+
+    font-size:
+        2rem;
+
+    color:
+        var(--warriors-gold);
+
+}
+
+
+.custom-alert p {
+
+    margin-top:
+        15px;
+
+    color:
+        rgba(255,255,255,0.8);
+
+}
+
+
+.custom-alert button {
+
+    margin-top:
+        28px;
+
+    padding:
+        12px 25px;
+
+    border:
+        0;
+
+    background:
+        var(--warriors-gold);
+
+    color:
+        #000;
+
+    cursor:
+        pointer;
+
+    font-family:
+        "Black Ops One",
+        sans-serif;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .container {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .form-section {
+
+        order: 1;
+
+    }
+
+
+    .table-section {
+
+        order: 2;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    body {
+
+        padding:
+            20px
+            14px
+            40px;
+
+    }
+
+
+    .hero-main {
+
+        font-size:
+            4.5rem;
+
+    }
+
+
+    .hero-outline {
+
+        letter-spacing:
+            5px;
+
+    }
+
+
+    .street-card {
+
+        padding:
+            25px
+            20px;
+
+    }
+
+
+    .table-header {
+
+        flex-direction:
+            column;
+
+        gap:
+            15px;
+
+    }
+
+
+    .graffiti {
+
+        display:
+            none;
+
+    }
+
+
+    .ball-1,
+    .ball-2 {
+
+        display:
+            none;
+
+    }
+
+}

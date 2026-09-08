@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WARRIORS STREET ROSTER</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Permanent+Marker&family=Black+Ops+One&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <!-- 背景層 -->
+    <div class="bg-overlay"></div>
+    <div class="noise"></div>
+
+    <!-- 街頭塗鴉 -->
+    <div class="graffiti graffiti-left">DUB<br>STREET</div>
+    <div class="graffiti graffiti-right">MAKE<br>NOISE</div>
+
+    <!-- 籃球裝飾 -->
+    <div class="basketball ball-1">🏀</div>
+    <div class="basketball ball-2">🏀</div>
+
+    <!-- 頂部 Hero -->
+    <header class="hero">
+
+        <div class="hero-tag">
+            SAN FRANCISCO • BAY AREA • EST. STREET
+        </div>
+
+        <h1>
+            <span class="hero-small">WELCOME TO THE</span>
+            <span class="hero-main">DUBS</span>
+            <span class="hero-outline">ROSTER</span>
+        </h1>
+
+        <div class="hero-bottom">
+            <span>🏀 GOLDEN STATE STREETBALL LEAGUE</span>
+            <span class="slash">///</span>
+            <span>NO FEAR • JUST BALL</span>
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <!-- =========================
+             左側：加入隊伍
+        ========================== -->
+        <section class="street-card form-section">
+
+            <div class="card-number">01</div>
+
+            <div class="spray-text">JOIN THE SQUAD</div>
+
+            <div class="card-header">
+                <span class="mini-label">PLAYER REGISTRATION</span>
+
+                <h2>
+                    ADD
+                    <span>MEMBER</span>
+                </h2>
+
+                <p>
+                    STEP INTO THE COURT.<br>
+                    PUT YOUR NAME ON THE ROSTER.
+                </p>
+            </div>
+
+
+            <form id="memberForm">
+
+                <div class="form-group">
+                    <label for="name">
+                        <span>01.</span> PLAYER NAME
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control"
+                        required
+                        placeholder="ENTER YOUR NAME"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="email">
+                        <span>02.</span> CONTACT EMAIL
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-control"
+                        required
+                        placeholder="YOUR@EMAIL.COM"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="role">
+                        <span>03.</span> TEAM ROLE
+                    </label>
+
+                    <select
+                        id="role"
+                        name="role"
+                        class="form-control"
+                        required
+                    >
+                        <option value="班代">班代</option>
+                        <option value="副班代">副班代</option>
+                        <option value="服務股長">服務股長</option>
+                        <option value="一般成員">一般成員</option>
+                    </select>
+                </div>
+
+
+                <button type="submit" class="btn" id="submitBtn">
+
+                    <span class="btn-number">01</span>
+
+                    <span class="btn-text">
+                        JOIN THE CREW
+                    </span>
+
+                    <span class="btn-arrow">→</span>
+
+                </button>
+
+            </form>
+
+
+            <div class="card-footer">
+                <span>WEST COAST</span>
+                <span>●</span>
+                <span>PLAY HARD</span>
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             右側：球員名單
+        ========================== -->
+        <section class="street-card table-section">
+
+            <div class="card-number">02</div>
+
+            <div class="table-graffiti">
+                BAY AREA<br>LEGENDS
+            </div>
+
+
+            <div class="table-header">
+
+                <div>
+                    <span class="mini-label">
+                        OFFICIAL MEMBER LIST
+                    </span>
+
+                    <h2>
+                        DUBS
+                        <span>ROSTER</span>
+                    </h2>
+                </div>
+
+
+                <div class="roster-status">
+                    <span class="status-dot"></span>
+                    LIVE DATA
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>PLAYER</th>
+                            <th>EMAIL</th>
+                            <th>POSITION</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tableBody">
+                        <!-- JS 動態載入 -->
+                    </tbody>
+
+                </table>
+
+
+                <!-- Loading -->
+                <div
+                    class="loader-container"
+                    id="tableLoader"
+                    style="display: none;"
+                >
+                    <div class="court-loader">
+
+                        <div class="loader-ball">🏀</div>
+
+                        <span>LOADING ROSTER...</span>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="roster-footer">
+
+                <span>🏀 STREET DATA SYSTEM</span>
+
+                <span class="footer-code">
+                    GSW-001
+                </span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         Custom Alert
+    ========================== -->
+
+    <div
+        class="custom-alert-overlay"
+        id="customAlertOverlay"
+    >
+
+        <div class="custom-alert">
+
+            <div class="alert-ball">🏀</div>
+
+            <h3>LET'S GO!</h3>
+
+            <p id="alertMessage">
+                操作成功
+            </p>
+
+            <button onclick="closeCustomAlert()">
+                GOT IT →
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="./main.js"></script>
+
+</body>
+</html>
