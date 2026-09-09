@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>賈斯汀的零股清單 // BLACK TERMINAL</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         BACKGROUND
+    ====================================================== -->
+
+    <div class="noise"></div>
+
+    <div class="grid-background"></div>
+
+    <div class="terminal-orb orb-1"></div>
+    <div class="terminal-orb orb-2"></div>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-symbol">
+                //
+            </div>
+
+            <div>
+
+                <div class="brand-title">
+                    BLACK<span>_</span>TERMINAL
+                </div>
+
+                <div class="brand-subtitle">
+                    PORTFOLIO DEBUG SYSTEM
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            <span id="connectionStatus">
+                SYSTEM ONLINE
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-bg-text">
+            DEBUG
+        </div>
+
+        <div class="hero-content">
+
+            <div class="terminal-label">
+                <span>&gt;_</span>
+                TERMINAL / PORTFOLIO
+            </div>
+
+            <h1>
+                STOCK
+                <span>CONTROL</span>
+            </h1>
+
+            <div class="hero-title-zh">
+                賈斯汀的零股清單
+            </div>
+
+            <p>
+                REAL-TIME MARKET DATA //
+                ANTI-GRAVITY PORTFOLIO ENGINE
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main-container">
+
+
+        <!-- =================================================
+             LEFT FORM
+        ================================================== -->
+
+        <section class="glass-card form-card floating">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        TERMINAL INPUT
+                    </div>
+
+                    <h2>
+                        ADD POSITION
+                    </h2>
+
+                </div>
+
+                <div class="card-code">
+                    #001
+                </div>
+
+            </div>
+
+
+            <form id="stockForm">
+
+
+                <!-- 股票名稱 -->
+
+                <div class="field">
+
+                    <label>
+                        STOCK NAME
+                    </label>
+
+                    <input
+                        type="text"
+                        id="stockName"
+                        name="stockName"
+                        placeholder="例如：台積電"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- 股票代號 -->
+
+                <div class="field">
+
+                    <label>
+                        STOCK CODE
+                    </label>
+
+                    <input
+                        type="text"
+                        id="stockCode"
+                        name="stockCode"
+                        placeholder="例如：2330"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- 股價來源 -->
+
+                <div class="field">
+
+                    <label>
+                        PRICE ENGINE
+                    </label>
+
+                    <select
+                        id="priceSource"
+                        name="priceSource"
+                    >
+
+                        <option value="FETCH">
+                            FETCH_TW_STOCK_PRICE
+                        </option>
+
+                        <option value="GOOGLEFINANCE">
+                            GOOGLEFINANCE
+                        </option>
+
+                        <option value="MANUAL">
+                            MANUAL INPUT
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- 現價 -->
+
+                <div class="field">
+
+                    <label>
+                        CURRENT PRICE
+                    </label>
+
+                    <input
+                        type="number"
+                        id="currentPrice"
+                        name="currentPrice"
+                        step="0.01"
+                        placeholder="自動同步"
+                    >
+
+                </div>
+
+
+                <!-- 股數 -->
+
+                <div class="field">
+
+                    <label>
+                        QUANTITY
+                    </label>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        step="1"
+                        placeholder="例如：100"
+                    >
+
+                </div>
+
+
+                <!-- 均價 -->
+
+                <div class="field">
+
+                    <label>
+                        AVG. COST
+                    </label>
+
+                    <input
+                        type="number"
+                        id="avgPrice"
+                        name="avgPrice"
+                        step="0.01"
+                        placeholder="例如：1000"
+                    >
+
+                </div>
+
+
+                <!-- 即時計算 -->
+
+                <div class="live-calculation">
+
+                    <div class="calc-title">
+                        LIVE DEBUG
+                    </div>
+
+                    <div class="calc-row">
+
+                        <span>
+                            EST. COST
+                        </span>
+
+                        <strong id="previewCost">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="calc-row">
+
+                        <span>
+                            EST. VALUE
+                        </span>
+
+                        <strong id="previewValue">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="calc-row">
+
+                        <span>
+                            EST. P/L
+                        </span>
+
+                        <strong id="previewProfit">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="calc-row">
+
+                        <span>
+                            RETURN
+                        </span>
+
+                        <strong id="previewReturn">
+                            0.00%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="submitButton"
+                    class="neon-button"
+                >
+
+                    <span id="submitText">
+                        EXECUTE INSERT
+                    </span>
+
+                    <span
+                        id="submitLoader"
+                        class="button-loader hidden"
+                    ></span>
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- =================================================
+             RIGHT TABLE
+        ================================================== -->
+
+        <section class="glass-card table-card floating-delay">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        MARKET DATABASE
+                    </div>
+
+                    <h2>
+                        PORTFOLIO
+                    </h2>
+
+                </div>
+
+
+                <button
+                    id="refreshButton"
+                    class="icon-button"
+                    title="重新讀取"
+                >
+                    ↻
+                </button>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <div class="portfolio-summary">
+
+                <div class="summary-item">
+
+                    <span>
+                        POSITIONS
+                    </span>
+
+                    <strong id="positionCount">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="summary-item">
+
+                    <span>
+                        TOTAL VALUE
+                    </span>
+
+                    <strong id="totalValue">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="summary-item">
+
+                    <span>
+                        TOTAL P/L
+                    </span>
+
+                    <strong id="totalProfit">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div class="table-wrapper">
+
+                <div
+                    id="tableLoading"
+                    class="table-loading"
+                >
+
+                    <div class="neon-spinner"></div>
+
+                    <div>
+                        載入零股資料較多，請稍候...
+                    </div>
+
+                </div>
+
+
+                <table id="stockTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                股票
+                            </th>
+
+                            <th>
+                                代號
+                            </th>
+
+                            <th>
+                                現價
+                            </th>
+
+                            <th>
+                                股數
+                            </th>
+
+                            <th>
+                                均價
+                            </th>
+
+                            <th>
+                                成本
+                            </th>
+
+                            <th>
+                                市值
+                            </th>
+
+                            <th>
+                                損益
+                            </th>
+
+                            <th>
+                                報酬率
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="stockTableBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- EMPTY -->
+
+            <div
+                id="emptyState"
+                class="empty-state hidden"
+            >
+
+                <div class="empty-icon">
+                    ∅
+                </div>
+
+                <div>
+                    NO POSITION DETECTED
+                </div>
+
+                <small>
+                    EXECUTE INSERT TO INITIALIZE
+                </small>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         TOAST
+    ====================================================== -->
+
+    <div
+        id="toast"
+        class="toast"
+    >
+
+        <div
+            id="toastIcon"
+            class="toast-icon"
+        >
+            ✓
+        </div>
+
+        <div>
+
+            <div
+                id="toastTitle"
+                class="toast-title"
+            >
+                SYSTEM
+            </div>
+
+            <div
+                id="toastMessage"
+                class="toast-message"
+            >
+                Operation completed.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         JS
+    ====================================================== -->
+
+    <script src="main.js"></script>
+
+</body>
+
+</html>
