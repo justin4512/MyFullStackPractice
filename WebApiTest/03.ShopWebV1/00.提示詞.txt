@@ -1,0 +1,48 @@
+我要建立一個AI課程商業應用：動態資料網站，幫我完成以下幾件事情，商品試算表；包含:
+id,name,category,description,price,imageUrl,status,
+orders:orderId,customerName,items,totalPrice,timestamp,
+imageUrl幫我從unsplash去尋找對應的資料
+
+你現在是一位後端 API 開發專家。請幫我寫一個完整的『購物網站系統』 Google Apps Script Web API 程式碼。需求如下：。
+我的需求如下：
+
+1.我現在的表單是:"https://docs.google.com/spreadsheets/d/1LZk6Teu-M4wowgpDQzox8nanY_LlzMtiEX1ENo996Bk/edit?gid=167679705#gid=167679705"，內有"menu"及"orders"表單
+3.請實作 doGet(e) 函式：
+．接收一個查詢參數 action。
+．若 action === "read"，讀取試算表中 'members' 工作表的所有資料（不含標題列），將其轉為 JSON 物件陣列。
+．回傳一個標準的 JSON 格式回應，結構為：{ status: "success", data: [...] }。
+．若 action 參數不正確，回傳錯誤 JSON：{ status: "error", message: "不支援的 action" }。
+4.請實作 doPost(e) 函式：
+．接收外部傳入的 JSON Body 資料（包含 name, email, role）。
+．解析該 JSON 內容（請注意，前端為了避免 CORS 跨來源資源共用限制，可能會以 text/plain 格式傳入，請使用 JSON.parse(e.postData.contents) 進行安全解析）。
+．將解析後的資料寫入 'members' 工作表（ID 需自動遞增）。
+．寫入成功後，回傳：{ status: "success", message: "資料新增成功", data: { 剛寫入的物件 } }。
+5.請封裝兩個輔助函式：responseSuccess(data, message) 與 responseError(message)，統一使用 ContentService.createTextOutput 來輸出 MimeType.JSON 格式，避免重寫重複的程式碼。
+6.請加入完整的 try...catch 錯誤處理。
+
+
+你現在是一位極富創意、精通網頁視覺與JavaScript 非同步串接的UI/UX開發大師。請幫我寫一個網站(index.html、CSS、JS分開)，做為『賈斯汀AI課程商業應用網站』。
+需求如下：
+1.校園視覺設計與排版：
+．主調：主調彩墨藍迪淺色風格，背景設計有動態寫下筆記、推導數學公式、敲鍵盤指令及紙飛機飛行出等等微幅漂移的輕量動態質感，帶出學習、探索求知的氣氛架構。
+2.顧客選課介面：
+．左側菜單網格：以課程卡片呈現。卡片包含：課程圖片、名稱、分類標記（category）、描述與價格，分別要對應我的試算表：id,name,category,description,price,imageUrl,status。
+．課程卡片幫我設計類似桌遊風格的設計，帶有滑鼠移過去會翻牌的動態效果。
+．右側購物車卡片：
+．點擊選單點選「加入課程」後，自動算入購物車。
+．可於購物車內直接點擊+ 與 -調整數量、即時更新小計與總金額。
+．提供「顧客姓名」輸入欄位。點擊「確認送出選單」時，利用Fetch POST 將資料送出至後端（action 為 'order'）。下單成功後顯示美化提示框並清空購物車。
+3.管理員控制介面：
+．在網頁最上方，提供一個「切換為管理員模式」的按鈕。
+．開啟管理員模式後：
+．畫面頂部會以滑動動畫展開「新增課程表單」（欄位：名稱、分類、描述、價格、圖片網址）。提交表單時會以Fetch POST（action 為 'add'）傳送課程下單資訊，新增成功後自動更新menu。
+．菜單上的每張課程卡片右上角會出現「紅色垃圾桶刪除按鈕」，點擊會Fetch POST（action 為 'delete'），發送課程 ID 刪除該品項，並同步抹除 Google 試算表中的資料。下單架構要顯示在試算表'menu'的'status'，每堂課設計開課人數50，下單後會計算顯示'還剩15個名額'，如低於25員，出現紅色字體告訴顧客"僅剩00名，欲購從速"
+4.資料串接防呆與載入控制：
+．宣告API_URL 變數（請在程式碼中留空或以 placeholder 提示我更換）。
+．圖片載入錯誤（onerror）時自動以內聯 SVG 代替，確保介面完美不破圖。
+．寫入、下單、載入時，皆加入精緻的Loading 載入對應的動畫(這動畫由你UI/UX的專業來自由發揮，不要讓我失望)。
+5.請用台灣繁體中文撰寫所有程式碼註解、UI 說明與提示資訊，提供完整、可直接複製執行的 HTML 網頁程式碼。
+6.配色請統一寫在CSS，以.root方式來設計
+7.API請統一寫在JS檔最上方一處，方便維護
+8.本設計幫我評估使用React、Vue、Angular適合本專案的架構
+9.針對以上需求先思考並採漸進式開發，產出BDD，TDD及SDD文件，再開發

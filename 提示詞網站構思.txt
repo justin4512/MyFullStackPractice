@@ -1,0 +1,49 @@
+我正在構思一個收集提示詞網站，除了我的初步架構，似乎還缺乏一些策略面的想法，請問需要包含哪些元素?
+
+一、先決定定位（會影響一半的設計）
+選項	差別
+A.(一般使用者) 個人／小團隊私藏庫	不用登入，管理員密碼即可，重點在「找得快、複製得快」
+B.(付費解鎖帳號) 公開共享站	需要投稿、審核、按讚排行、防洗版，複雜度 ×3
+建議先做 A，資料結構預留 B 的欄位（author、likes、status）。以下都以 A 為主。
+
+二、資料模型（Google Sheets prompts 工作表）
+欄位	說明
+id	唯一碼，如 P001
+title	標題（搜尋主欄）
+category	大分類：寫作／程式／繪圖／分析／翻譯／角色扮演
+tags	標籤，逗號分隔，可多選過濾
+model	適用模型：Claude／GPT／Gemini／Midjourney／通用
+content	提示詞本體（要保留換行與 Markdown）
+variables	變數清單，如 主題,語氣,字數
+description	這則提示詞在做什麼、什麼時候用
+exampleOutput	範例輸出（讓人知道效果）
+source	出處／原作者／連結
+version	版本號，配合修改紀錄
+useCount	被複製次數（拿來做熱門排行）
+rating	自評星等 1–5
+favorite	是否釘選
+status	published / draft / archived
+createdAt / updatedAt	時間戳
+另開 logs 工作表記錄複製事件，日後做統計。
+
+三、提示詞網站「非做不可」的特色功能
+這幾點是它跟你的購物站最不一樣的地方：
+
+一鍵複製 + Toast 提示 — 這是全站最高頻動作，按鈕要大、要在卡片正面就看得到，複製後 useCount +1。
+變數填空器 — 提示詞內寫 {{主題}}、{{語氣}}，前端自動解析成表單欄位，使用者填完再複製組好的完整版。這功能最有價值，別省。
+全文搜尋 + 標籤雙軸過濾 — 搜尋框（標題＋內文＋標籤）配上分類 chips，即時過濾不重新讀 API。
+換行與格式保真 — 用 <pre> 或 textarea 呈現，white-space: pre-wrap；存 Sheets 時注意換行不要被吃掉（別走 CSV，直接用 GAS 寫入）。
+版本／修改紀錄 — 提示詞是「調」出來的，看得到 v1→v2 改了什麼很重要（你已經有 01.修改紀錄提示詞.txt 的習慣）。
+單則分享連結 — index.html?id=P001 開啟時自動展開該則、捲動定位。
+匯入／匯出 JSON — 讓資料不被鎖死，也方便你在課堂上發給學員。
+深色模式 + 鍵盤快捷（/ 聚焦搜尋、Esc 關閉）— 這類受眾很吃這套。
+四、頁面結構
+五、技術架構（沿用你現有那套）
+前端：index.html / style.css（:root 設計代幣）/ main.js（頂部 API 設定區）
+後端：Code.gs，doGet(?action=read)、doPost({action:'add'|'update'|'delete'|'copy'})，回應格式維持 {status, message, data}
+一樣保留 離線展示模式（未填 API_URL 時用內建 15 則示範提示詞）
+tests.html / tests.js 單元＋整合測試，docs/ 放 BDD/TDD/SDD
+六、要注意的坑
+Sheets 單格上限約 5 萬字元，長提示詞夠用但要在前端擋。
+GAS 回應有延遲，複製次數建議「前端先加、後端非同步寫」，別卡住 UX。
+收錄他人提示詞時標註 source，避免版權爭議。

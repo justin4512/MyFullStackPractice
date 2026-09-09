@@ -1,0 +1,178 @@
+/**
+ * 購物網站系統 - Google Apps Script Web API
+ * 試算表 ID: 1LZk6Teu-M4wowgpDQzox8nanY_LlzMtiEX1ENo996Bk
+ */
+
+// 試算表 ID 與預設工作表名稱設定
+const SPREADSHEET_ID = "1LZk6Teu-M4wowgpDQzox8nanY_LlzMtiEX1ENo996Bk";
+const DEFAULT_READ_SHEET = "menu";     // 商品選單工作表
+const DEFAULT_WRITE_SHEET = "orders";  // 訂單工作表
+
+/**
+ * HTTP GET 請求處理函式
+ * 用途：讀取試算表資料
+ */
+function doGet(e) {
+  try {
+    const action = e && e.parameter ? e.parameter.action : null;
+    // 允許指定 targetSheet，若未指定則依 action 預設 (read 預設讀取 menu)
+    const targetSheetName = (e && e.parameter && e.parameter.sheet) ? e.parameter.sheet : DEFAULT_READ_SHEET;
+
+    if (action === "read") {
+      const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+      const sheet = spreadsheet.getSheetByName(targetSheetName);
+
+      if (!sheet) {
+        return responseError(`找不到指定的工作表: ${targetSheetName}`);
+      }
+
+      const dataRange = sheet.getDataRange();
+      const values = dataRange.getValues();
+
+      // 若工作表無資料或只有標題列，回傳空陣列
+      if (values.length <= 1) {
+        return responseSuccess([], "工作表目前無資料");
+      }
+
+      const headers = values[0]; // 第一列為標題列
+      const rows = values.slice(1); // 標題以外的列
+
+      // 將資料陣列轉換為 JSON 物件陣列
+      const jsonData = rows.map(row => {
+        const item = {};
+        headers.forEach((header, index) => {
+          if (header) {
+            item[header] = row[index];
+          }
+        });
+        return item;
+      });
+
+      return responseSuccess(jsonData);
+    } else {
+      return responseError("不支援的 action");
+    }
+  } catch (err) {
+    return responseError(`伺服器處理 doGet 發生錯誤: ${err.message}`);
+  }
+}
+
+/**
+ * HTTP POST 請求處理函式
+ * 用途：新增資料（訂單/會員等）至試算表
+ */
+function doPost(e) {
+  try {
+    // 檢查是否有 POST 內容
+    if (!e || !e.postData || !e.postData.contents) {
+      return responseError("缺少請求主體 (Request Body)");
+    }
+
+    // 解析 JSON (前端常以 text/plain 發送以避開 CORS 預檢)
+    let body;
+    try {
+      body = JSON.parse(e.postData.contents);
+    } catch (parseErr) {
+      return responseError("JSON 格式解析失敗，請確認傳入的資料是否為有效的 JSON 格式");
+    }
+
+    // 判斷要寫入的工作表（可由前端指定 targetSheet，預設寫入 orders）
+    const targetSheetName = body.targetSheet || DEFAULT_WRITE_SHEET;
+    const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = spreadsheet.getSheetByName(targetSheetName);
+
+    if (!sheet) {
+      return responseError(`找不到寫入的工作表: ${targetSheetName}`);
+    }
+
+    // 取得標題列以確定欄位順序
+    const lastColumn = sheet.getLastColumn();
+    if (lastColumn === 0) {
+      return responseError(`工作表 ${targetSheetName} 為空，請先建立標題列`);
+    }
+
+    const headers = sheet.getRange(1, 1, 1, lastColumn).getValues()[0];
+    const lastRow = sheet.getLastRow();
+
+    // 計算自動遞增 ID (根據現有最大 ID + 1，或直接使用列數計算)
+    let newId = 1;
+    if (lastRow > 1) {
+      // 讀取最後一列的第一欄作為舊 ID，嘗試轉成數字
+      const lastIdValue = sheet.getRange(lastRow, 1).getValue();
+      const parsedId = parseInt(lastIdValue, 10);
+      if (!isNaN(parsedId)) {
+        newId = parsedId + 1;
+      } else {
+        newId = lastRow; // 若原本 ID 不是純數字，預設使用列數 - 1 + 1
+      }
+    }
+
+    // 依照標題列順序組合新新增的列資料與物件
+    const newRowData = [];
+    const insertedObject = {};
+
+    headers.forEach((header, index) => {
+      const fieldName = String(header).trim();
+      let value = "";
+
+      // 判斷 ID 欄位 (通常為 id, orderId, memberId 等)
+      if (index === 0 && (fieldName.toLowerCase().includes("id"))) {
+        value = newId;
+      } else if (fieldName === "timestamp" || fieldName === "created_at" || fieldName === "建立時間") {
+        value = body[fieldName] || new Date().toISOString();
+      } else if (body.hasOwnProperty(fieldName)) {
+        // 如果 items 等欄位傳入的是物件或陣列，轉為字串儲存
+        if (typeof body[fieldName] === "object") {
+          value = JSON.stringify(body[fieldName]);
+        } else {
+          value = body[fieldName];
+        }
+      }
+
+      newRowData.push(value);
+      insertedObject[fieldName] = value;
+    });
+
+    // 寫入試算表最後一列
+    sheet.appendRow(newRowData);
+
+    return responseSuccess(insertedObject, "資料新增成功");
+
+  } catch (err) {
+    return responseError(`伺服器處理 doPost 發生錯誤: ${err.message}`);
+  }
+}
+
+// ==================== 輔助函式 (Helper Functions) ====================
+
+/**
+ * 成功回應封裝
+ * @param {Object|Array} data - 回傳的資料物件或陣列
+ * @param {string} [message] - 可選的成功訊息
+ */
+function responseSuccess(data, message) {
+  const output = {
+    status: "success",
+    data: data
+  };
+  if (message) {
+    output.message = message;
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify(output))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * 失敗回應封裝
+ * @param {string} message - 錯誤訊息
+ */
+function responseError(message) {
+  const output = {
+    status: "error",
+    message: message
+  };
+  return ContentService
+    .createTextOutput(JSON.stringify(output))
+    .setMimeType(ContentService.MimeType.JSON);
+}

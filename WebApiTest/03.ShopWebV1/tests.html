@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>單元測試 ─ 賈斯汀 AI 課程網站</title>
+<style>
+  :root{
+    --ink-900:#0d2b45; --ink-700:#17496f; --ink-500:#2f7fb8; --ink-050:#eaf4fb;
+    --jade:#2f9e8f; --rouge:#d1495b; --paper:#f2f7fc; --line:rgba(23,73,111,.16);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:32px 20px 60px;
+    font-family:'Noto Sans TC','Microsoft JhengHei',system-ui,sans-serif;
+    color:var(--ink-900); background:linear-gradient(168deg,#f2f7fc,#e8f1f9); line-height:1.7;
+  }
+  .wrap{width:min(100% - 24px, 940px); margin:0 auto}
+  h1{font-size:24px; margin:0 0 4px}
+  .lead{color:#4a6b85; font-size:14px; margin-bottom:20px}
+  .summary{
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    padding:16px 22px; margin-bottom:22px; border-radius:16px; background:#fff;
+    box-shadow:0 10px 28px rgba(13,43,69,.12); border-left:6px solid var(--ink-500);
+  }
+  .summary b{font-size:18px}
+  .summary span{font-size:13.5px; color:#4a6b85; font-family:Consolas,monospace}
+  .summary.pass{border-left-color:var(--jade)} .summary.pass b{color:var(--jade)}
+  .summary.fail{border-left-color:var(--rouge)} .summary.fail b{color:var(--rouge)}
+  .suite{
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:6px 20px 14px; margin-bottom:16px; box-shadow:0 4px 14px rgba(13,43,69,.06);
+  }
+  .suite h2{font-size:15px; color:var(--ink-700); margin:14px 0 8px; letter-spacing:.02em}
+  .case{
+    display:flex; align-items:flex-start; gap:8px; flex-wrap:wrap;
+    font-size:13.5px; padding:5px 0; border-top:1px dashed var(--line);
+  }
+  .mark{font-weight:700; width:18px}
+  .ok .mark{color:var(--jade)} .ng{color:var(--rouge)} .ng .mark{color:var(--rouge)}
+  .err{
+    width:100%; margin:4px 0 6px 26px; padding:8px 12px;
+    font-family:Consolas,monospace; font-size:12.5px; color:#a5303f;
+    background:rgba(209,73,91,.08); border-radius:8px;
+  }
+  .hint{font-size:12.5px; color:#7d97ab; margin-top:18px; text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>賈斯汀 AI 課程網站 ─ 測試報告</h1>
+  <p class="lead">對應 <code>docs/02_TDD.md</code>：純函式單元測試 + fetch stub 整合測試。此頁不會連線至真實後端。</p>
+
+  <div class="summary" id="summary"><b>測試執行中…</b><span>請稍候</span></div>
+  <div id="out"></div>
+
+  <p class="hint">※ 本頁僅載入 main.js 的純函式，不會啟動主畫面 UI。</p>
+</div>
+
+<script src="main.js"></script>
+<script src="tests.js"></script>
+</body>
+</html>

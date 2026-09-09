@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>賈斯汀 AI 課程商業應用學院</title>
+<meta name="description" content="賈斯汀 AI 課程商業應用網站：桌遊風格選課卡、即時選課車、管理員課程維護。" />
+
+<!-- 字體：思源黑體（介面）＋ JetBrains Mono（終端機指令感） -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- 英式學院風排版：Playfair Display（標題襯線）＋ Noto Serif TC（中文標題）
+     ＋ Caveat（手寫註記）＋ Noto Sans TC（內文）＋ JetBrains Mono（指令感） -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,600;1,700&family=Caveat:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+<!-- ?v= 版本號：改版後更新此數字，可強制瀏覽器重新下載，不會吃到舊快取 -->
+<link rel="stylesheet" href="style.css?v=1.4.1" />
+</head>
+<body>
+
+<!-- ============================================================
+     ① 背景動態層：手寫筆記、數學公式、終端機指令、紙飛機、墨暈
+     此層 pointer-events:none，純裝飾、不影響互動
+============================================================ -->
+<div class="ink-stage" aria-hidden="true">
+
+  <!-- 墨暈光斑（呼吸漸層） -->
+  <span class="ink-blob ink-blob--1"></span>
+  <span class="ink-blob ink-blob--2"></span>
+  <span class="ink-blob ink-blob--3"></span>
+
+  <!-- 方格筆記紙紋理 -->
+  <div class="grid-paper"></div>
+
+  <!-- 手寫筆記：以 stroke-dashoffset 模擬「正在書寫」 -->
+  <svg class="note-write note-write--a" viewBox="0 0 320 120" fill="none">
+    <path d="M8 24 C60 10, 120 38, 190 20 S300 30, 312 16" />
+    <path d="M8 56 C70 44, 140 70, 210 50 S290 62, 300 48" />
+    <path d="M8 88 C50 80, 110 100, 170 84" />
+  </svg>
+  <svg class="note-write note-write--b" viewBox="0 0 320 120" fill="none">
+    <path d="M10 20 C80 6, 150 34, 220 16 S308 26, 314 12" />
+    <path d="M10 52 C60 42, 130 66, 200 46" />
+    <path d="M10 84 C70 74, 130 94, 240 78" />
+  </svg>
+
+  <!-- 漂浮數學公式（推導感） -->
+  <span class="formula formula--1">E = mc²</span>
+  <span class="formula formula--2">∫₀^∞ e⁻ˣ² dx = √π⁄2</span>
+  <span class="formula formula--3">P(A|B) = P(B|A)P(A) ⁄ P(B)</span>
+  <span class="formula formula--4">∇θ J(θ) = −α ∑ᵢ ∂L⁄∂θ</span>
+  <span class="formula formula--5">softmax(zᵢ) = e^zᵢ ⁄ ∑ e^zⱼ</span>
+  <span class="formula formula--6">a² + b² = c²</span>
+
+  <!-- 終端機指令：打字機動畫 -->
+  <div class="terminal-chip terminal-chip--1">
+    <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
+    <code class="typing">python train_agent.py --epochs 50</code>
+  </div>
+  <div class="terminal-chip terminal-chip--2">
+    <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
+    <code class="typing typing--slow">npm run build --prompt "商業應用"</code>
+  </div>
+
+  <!-- 紙飛機：沿路徑飛行並輕微擺動 -->
+  <svg class="paper-plane paper-plane--1" viewBox="0 0 48 48"><path d="M46 2 2 22l16 6 6 18z" /><path d="M46 2 18 28" /></svg>
+  <svg class="paper-plane paper-plane--2" viewBox="0 0 48 48"><path d="M46 2 2 22l16 6 6 18z" /><path d="M46 2 18 28" /></svg>
+  <svg class="paper-plane paper-plane--3" viewBox="0 0 48 48"><path d="M46 2 2 22l16 6 6 18z" /><path d="M46 2 18 28" /></svg>
+</div>
+
+
+<!-- ============================================================
+     ② 頁首：品牌 + 管理員模式切換
+============================================================ -->
+<header class="site-header">
+  <div class="wrap header-inner">
+
+    <div class="brand">
+      <span class="brand-seal" aria-hidden="true">賈</span>
+      <span class="brand-text">
+        <strong>賈斯汀 AI 課程</strong>
+        <small>Justin AI Academy ・ 商業應用實戰學院</small>
+      </span>
+    </div>
+
+    <div class="header-actions">
+      <span class="mode-badge" id="modeBadge">顧客模式</span>
+      <!-- 需求 3：最上方的管理員模式切換按鈕 -->
+      <button type="button" class="btn btn-admin" id="adminToggle" aria-expanded="false" aria-controls="adminPanel">
+        <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 2 4 6v6c0 5 3.4 9.2 8 10 4.6-.8 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg>
+        <span id="adminToggleText">切換為管理員模式</span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- ============================================================
+     ③ 管理員面板：以滑動動畫展開的「新增課程表單」
+============================================================ -->
+<section class="admin-panel" id="adminPanel" aria-hidden="true">
+  <div class="wrap">
+    <div class="admin-card">
+
+      <h2 class="admin-title">
+        <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        新增課程　<small>資料將寫入 Google 試算表的 menu 工作表</small>
+      </h2>
+
+      <form id="courseForm" class="admin-form" novalidate>
+        <div class="field">
+          <label for="fName">課程名稱 <b>*</b></label>
+          <input type="text" id="fName" name="name" placeholder="例：AI Agent 智能代理人實作工作坊" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label for="fCategory">課程分類 <b>*</b></label>
+          <input type="text" id="fCategory" name="category" list="categoryList" placeholder="例：技術實作" autocomplete="off" />
+          <datalist id="categoryList"></datalist>
+        </div>
+
+        <div class="field">
+          <label for="fPrice">課程價格（NT$） <b>*</b></label>
+          <input type="number" id="fPrice" name="price" min="0" step="100" placeholder="例：4800" />
+        </div>
+
+        <div class="field">
+          <label for="fSeats">開課名額 <b>*</b></label>
+          <select id="fSeats" name="seats">
+            <option value="50" selected>50 人（滿編，預設）</option>
+            <option value="45">45 人</option>
+            <option value="40">40 人</option>
+            <option value="35">35 人</option>
+            <option value="30">30 人</option>
+            <option value="25">25 人</option>
+            <option value="20">20 人（小班）</option>
+            <option value="15">15 人（小班）</option>
+            <option value="10">10 人（精緻班）</option>
+            <option value="6">6 人（工作坊）</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fImage">課程圖片網址</label>
+          <input type="url" id="fImage" name="imageUrl" placeholder="https://images.unsplash.com/..." autocomplete="off" />
+        </div>
+
+        <div class="field field--full">
+          <label for="fDesc">課程描述 <b>*</b></label>
+          <textarea id="fDesc" name="description" rows="3" placeholder="用一句話說明學員能帶走什麼具體成果。"></textarea>
+        </div>
+
+        <div class="admin-form-actions">
+          <p class="form-hint" id="formHint">＊ 標示為必填欄位；新增後將自動重新載入課程清單。</p>
+          <div class="btn-row">
+            <button type="reset" class="btn btn-ghost">清空欄位</button>
+            <button type="submit" class="btn btn-primary" id="addCourseBtn">
+              <span class="btn-spinner" aria-hidden="true"></span>
+              <span class="btn-label">送出新增課程</span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- 退貨（名額回補）：依訂單編號把課程名額加回 menu -->
+      <div class="refund-box">
+        <h3 class="refund-title">
+          <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          訂單退貨　<small>名額將加回 menu，訂單標記為「已退貨」</small>
+        </h3>
+        <div class="refund-row">
+          <div class="field">
+            <label for="returnOrderId">訂單編號</label>
+            <input type="text" id="returnOrderId" list="orderList" placeholder="例：ORD-20260909-001（可下拉選擇）" autocomplete="off" />
+            <datalist id="orderList"></datalist>
+          </div>
+          <button type="button" class="btn btn-warn" id="returnBtn">
+            <span class="btn-spinner" aria-hidden="true"></span>
+            <span class="btn-label">辦理退貨並回補名額</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     ④ 主要內容：左側課程網格 + 右側選課車
+============================================================ -->
+<!-- ---------- 頁面工具列：橫跨整個寬度，讓下方課程卡與選課車齊高 ---------- -->
+<section class="board-head wrap" aria-labelledby="menuTitle">
+
+  <!-- 離線 / 錯誤提示列（預設隱藏） -->
+  <div class="alert-bar" id="offlineBar" hidden>
+    <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+    <span id="offlineText">目前為離線展示資料。請於 <code>main.js</code> 最上方填入你的 API_URL。</span>
+  </div>
+
+  <div class="section-head">
+    <h1 id="menuTitle" class="section-title">
+      <span class="title-ink">課程牌組</span>
+      <small>滑鼠移到卡片上即可翻牌，翻開就有專屬折扣</small>
+    </h1>
+    <div class="section-tools">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+        <input type="search" id="searchInput" placeholder="搜尋課程名稱或關鍵字…" aria-label="搜尋課程" />
+      </div>
+      <span class="count-chip" id="countChip">共 0 門課程</span>
+    </div>
+  </div>
+
+  <!-- 分類篩選晶片（由 JS 依資料產生） -->
+  <div class="category-bar" id="categoryBar" role="tablist" aria-label="課程分類篩選"></div>
+</section>
+
+
+<main class="wrap layout">
+
+  <!-- ---------- 左：課程牌組 ---------- -->
+  <section class="menu-col">
+
+    <!-- 課程卡網格（由 JS 渲染；載入時顯示骨架卡） -->
+    <div class="course-grid" id="courseGrid" aria-live="polite" aria-busy="true"></div>
+
+    <!-- 查無資料時的空狀態 -->
+    <div class="empty-state" id="emptyState" hidden>
+      <svg viewBox="0 0 120 90" class="empty-illus" aria-hidden="true">
+        <rect x="14" y="18" width="92" height="60" rx="8"/>
+        <path d="M14 34h92M32 50h34M32 62h22"/>
+        <circle cx="86" cy="58" r="14"/><path d="m96 68 10 10"/>
+      </svg>
+      <p>找不到符合條件的課程，換個關鍵字或分類試試。</p>
+    </div>
+  </section>
+
+
+  <!-- ---------- 右：選課車 ---------- -->
+  <aside class="cart-col" id="cartCol" aria-labelledby="cartTitle">
+    <div class="cart-card">
+
+      <header class="cart-head">
+        <h2 id="cartTitle">
+          <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M3 4h2l2.4 11.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+          我的選課車
+        </h2>
+        <span class="cart-badge" id="cartBadge">0</span>
+        <button type="button" class="cart-close" id="cartClose" aria-label="關閉選課車">×</button>
+      </header>
+
+      <!-- 課程明細（由 JS 渲染） -->
+      <div class="cart-body" id="cartBody"></div>
+
+      <!-- 空車狀態 -->
+      <div class="cart-empty" id="cartEmpty">
+        <svg viewBox="0 0 120 100" class="cart-empty-illus" aria-hidden="true">
+          <path d="M18 26h14l10 44h50l12-30H36"/>
+          <circle cx="50" cy="84" r="6"/><circle cx="86" cy="84" r="6"/>
+          <path class="dash" d="M62 8 74 20 62 32 50 20z"/>
+        </svg>
+        <p>選課車還空著</p>
+        <small>翻開左側卡片，把想學的課程加進來吧！</small>
+      </div>
+
+      <!-- 金額結算 -->
+      <div class="cart-summary" id="cartSummary" hidden>
+        <div class="sum-row"><span>課程數量</span><b id="sumCount">0 門</b></div>
+        <div class="sum-row"><span>合計堂數</span><b id="sumQty">0 堂</b></div>
+        <div class="sum-row sum-row--total"><span>應付總金額</span><b id="sumTotal">NT$ 0</b></div>
+      </div>
+
+      <!-- 送出區 -->
+      <div class="cart-foot">
+        <div class="field">
+          <label for="customerName">顧客姓名 <b>*</b></label>
+          <input type="text" id="customerName" placeholder="請輸入報名人姓名" autocomplete="name" />
+        </div>
+        <button type="button" class="btn btn-submit" id="submitOrderBtn">
+          <span class="btn-spinner" aria-hidden="true"></span>
+          <span class="btn-label">確認送出選單</span>
+        </button>
+        <p class="cart-note">送出後將寫入 orders 工作表，並更新課程剩餘名額。</p>
+      </div>
+
+    </div>
+  </aside>
+</main>
+
+
+<!-- 手機版：底部浮動選課車按鈕 -->
+<button type="button" class="cart-fab" id="cartFab" aria-label="開啟選課車">
+  <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M3 4h2l2.4 11.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+  <span class="fab-badge" id="fabBadge">0</span>
+</button>
+
+
+<!-- ============================================================
+     ⑤ 頁尾
+============================================================ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <p>賈斯汀 AI 課程商業應用學院　|　資料來源：Google 試算表（menu / orders）</p>
+    <p class="foot-sub">以 AI 為筆，把商業問題寫成解答。</p>
+    <p class="foot-version">前端版本 <span id="appVersion">—</span></p>
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     ⑥ 全域遮罩與提示元件
+============================================================ -->
+
+<!-- 墨滴載入遮罩：送單 / 新增 / 刪除時顯示 -->
+<div class="busy-overlay" id="busyOverlay" hidden>
+  <div class="busy-box" role="status" aria-live="assertive">
+    <div class="ink-loader" aria-hidden="true">
+      <span class="ink-drop"></span>
+      <span class="ink-ripple"></span>
+      <span class="ink-ripple ink-ripple--2"></span>
+      <svg class="loader-plane" viewBox="0 0 48 48"><path d="M46 2 2 22l16 6 6 18z"/><path d="M46 2 18 28"/></svg>
+    </div>
+    <p class="busy-text" id="busyText">處理中，請稍候…</p>
+    <div class="busy-progress"><span></span></div>
+  </div>
+</div>
+
+<!-- 成功提示框：下單 / 新增成功 -->
+<div class="modal" id="successModal" hidden>
+  <div class="modal-mask" data-close="1"></div>
+  <div class="modal-card modal-card--success" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+    <div class="success-ring" aria-hidden="true">
+      <svg viewBox="0 0 60 60">
+        <circle class="ring-circle" cx="30" cy="30" r="26"/>
+        <path class="ring-check" d="M18 31l8.5 8.5L43 22"/>
+      </svg>
+      <span class="spark spark--1"></span><span class="spark spark--2"></span>
+      <span class="spark spark--3"></span><span class="spark spark--4"></span>
+    </div>
+    <h3 id="successTitle">報名成功！</h3>
+    <p class="modal-desc" id="successDesc">已為你保留座位，我們會盡快與你聯繫。</p>
+    <div class="order-slip" id="orderSlip" hidden>
+      <span>訂單編號</span><b id="orderIdText">—</b>
+    </div>
+    <button type="button" class="btn btn-primary" data-close="1">太好了，繼續逛逛</button>
+  </div>
+</div>
+
+<!-- 確認對話框：刪除課程二次確認 -->
+<div class="modal" id="confirmModal" hidden>
+  <div class="modal-mask" data-cancel="1"></div>
+  <div class="modal-card modal-card--confirm" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="confirm-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/><path d="M10 11v5M14 11v5"/></svg>
+    </div>
+    <h3 id="confirmTitle">確認刪除課程？</h3>
+    <p class="modal-desc" id="confirmDesc">此操作會同步刪除 Google 試算表中的資料，且無法復原。</p>
+    <div class="btn-row btn-row--center">
+      <button type="button" class="btn btn-ghost" id="confirmCancel">取消</button>
+      <button type="button" class="btn btn-danger" id="confirmOk">確認刪除</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast 提示容器 -->
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<script src="main.js?v=1.4.1"></script>
+</body>
+</html>
