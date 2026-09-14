@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-folio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "前端作品輯網站 — 依 README.md 全案整合文件實作。零執行期依賴。",
+  "scripts": {
+    "serve": "php -S 127.0.0.1:8321 -t .",
+    "validate": "node tools/validate-projects.mjs data/projects.json",
+    "test": "node tests/cli.mjs",
+    "test:browser": "echo \"開啟 http://localhost:8321/tests/\""
+  },
+  "dependencies": {}
+}

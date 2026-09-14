@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CH03. 文字相關</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../PageCut/css/myAll.css">
+    <style>
+        .box01{
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--text-light);
+            margin-bottom: 5px;
+        }
+        @media screen and (max-width: 768px){
+            .table-rwd thead{
+                display: none;
+            }
+            .table-rwd tbody tr{
+                display: block;
+                border: 1px solid var(--text-light);
+                margin-bottom: 5px;
+                border-radius: 10px;
+            }
+            .table-rwd tbody tr td{
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="display-1">CH5.表格練習</div>
+        <table class="table table-striped table-hover table-bordered table-sm table-rwd">
+            <caption>成績表</caption>
+            <thead class="table-dark">
+                <tr>
+                    <th>項次</th>
+                    <th>姓名</th>
+                    <th>性別</th>
+                    <th>職務</th>
+                    <th>備註</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>11500160492001</td>
+                    <td>黃冠霖</td>
+                    <td>男</td>
+                    <td>班代</td>
+                    <td class="table-danger">優等</td>
+                </tr>
+                <tr>
+                    <td>11500160492002</td>
+                    <td>許東杰</td>
+                    <td>男</td>
+                    <td>副班代</td>
+                    <td>甲等</td>
+                </tr>
+                <tr>
+                    <td>11500160492003</td>
+                    <td>柯博元</td>
+                    <td>男</td>
+                    <td>風紀股長</td>
+                    <td>甲等</td>
+                </tr>
+                <tr>
+                    <td>11500160492004</td>
+                    <td>張家銘</td>
+                    <td>男</td>
+                    <td>服務股長</td>
+                    <td class="bg-danger"><del>丙等</del>   丁等</td>
+                </tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </div>
+    
+
+</body>
+
+</html>

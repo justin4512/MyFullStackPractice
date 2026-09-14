@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "title": "陳品儒 — 作品簡報",
+    "owner": "陳品儒",
+    "role": "前端工程師與互動設計師"
+  },
+  "slides": [
+    {
+      "id": "cover",
+      "type": "cover",
+      "theme": "dark",
+      "eyebrow": "作品簡報 · 2026",
+      "title": "把複雜流程\n收斂成看得懂的介面",
+      "lead": "陳品儒 — 前端工程師與互動設計師",
+      "hint": "向下捲動，或按 ↓ 開始"
+    },
+    {
+      "id": "statement-approach",
+      "type": "statement",
+      "theme": "light",
+      "kicker": "我的作法",
+      "title": "能被機器擋下的，\n就不要靠人記得。",
+      "lead": "對比驗證、資料契約、追溯矩陣——我把規範寫成可執行的檢查，而不是寫成文件裡的期許。"
+    },
+    {
+      "id": "tidal",
+      "type": "embed",
+      "theme": "light",
+      "kicker": "作品 01 · 可互動",
+      "title": "Tidal 營運監控台",
+      "lead": "把三個後台的告警集中成一頁。這是可以實際操作的版本——切換、鍵盤、深連結都能用。",
+      "embed": {
+        "kind": "site",
+        "src": "works/folio/index.html",
+        "title": "Tidal 營運監控台的可互動展示",
+        "ratio": "16/10",
+        "sandbox": "allow-scripts allow-same-origin allow-popups",
+        "fallbackHref": "works/folio/index.html",
+        "fallbackLabel": "在新分頁開啟這個作品"
+      },
+      "facts": [
+        { "label": "確認時間", "value": "90 秒", "note": "原為 20 分鐘" },
+        { "label": "我的角色", "value": "前端主要開發" },
+        { "label": "年份", "value": "2026" }
+      ]
+    },
+    {
+      "id": "meridian",
+      "type": "showcase",
+      "theme": "dark",
+      "kicker": "作品 02",
+      "title": "Meridian 設計系統",
+      "lead": "把散落在四個產品線的介面收斂為一套語意權杖與元件庫。導入當天就抓到兩組實際未達 AA 的既有配色。",
+      "visual": {
+        "src": "assets/img/meridian.svg",
+        "alt": "Meridian 設計系統的權杖總覽頁，左側為語意色票清單，右側顯示每組配色的實算對比值與 AA／AAA 標記",
+        "width": 1600,
+        "height": 1000
+      },
+      "facts": [
+        { "label": "改色工時", "value": "20 分鐘", "note": "原為 2 人日" },
+        { "label": "對比驗證", "value": "26 組", "note": "CI 閘門" }
+      ]
+    },
+    {
+      "id": "deck-demo",
+      "type": "embed",
+      "theme": "light",
+      "kicker": "作品 03 · 簡報",
+      "title": "嵌入 PPT 的示範",
+      "lead": "把 Google 簡報或 PowerPoint 的分享連結填進 data/deck.json 即可。下方目前指向一份範例簡報。",
+      "embed": {
+        "kind": "slides",
+        "src": "",
+        "title": "簡報嵌入示範",
+        "ratio": "16/9",
+        "sandbox": "allow-scripts allow-same-origin allow-popups allow-presentation",
+        "placeholder": "尚未設定簡報網址。在 data/deck.json 的這一頁填入 embed.src 即可：Google 簡報用「檔案 → 分享 → 發布到網路 → 嵌入」取得的網址，PowerPoint 用 OneDrive 的嵌入網址。"
+      }
+    },
+    {
+      "id": "statement-evidence",
+      "type": "statement",
+      "theme": "dark",
+      "kicker": "關於成果數字",
+      "title": "沒有來源的數字，\n我寧可標成「未量測」。",
+      "lead": "作品輯最常見的誠信問題是把感覺寫成數字。我的資料模型強制每一筆成果標明證據強度，缺來源的量化數字會在建置期被擋下。"
+    },
+    {
+      "id": "contact",
+      "type": "closing",
+      "theme": "dark",
+      "kicker": "聯絡",
+      "title": "如果你的專案卡在\n「做得出來但沒人敢改」",
+      "lead": "我大概能幫上忙。",
+      "actions": [
+        { "label": "寄信給我", "href": "mailto:hello@example.com", "primary": true },
+        { "label": "回到第一頁", "href": "#cover" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,409 @@
+/* ============================================================
+   簡報介面 — 全幅、吸附捲動、亮暗交替。
+   沿用 design-system.css 的語意權杖（對比已驗證），此處只加顯示層級與版面。
+   ============================================================ */
+
+:root {
+  /* 顯示級字階：Apple 式的大字需要更緊的行高與負字距 */
+  --display-1: clamp(2.5rem, 1.4rem + 4.8vw, 5.5rem);
+  --display-2: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+  --display-3: clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem);
+  --tracking-display: -0.022em;
+  --leading-display: 1.06;
+
+  --deck-gutter: clamp(1.25rem, 4vw, 5rem);
+  --deck-max: 1120px;
+  --chrome-h: 56px;
+}
+
+/* 基礎 reset。components.css 不在本頁載入，這裡必須自帶——
+   缺少 border-box 會讓每個含內距的元素都比預期高，嵌入頁因此溢出視窗。 */
+*, *::before, *::after { box-sizing: border-box; }
+img { max-width: 100%; display: block; }
+h1, h2, h3, p, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+button { font: inherit; }
+
+/* ── 捲動容器：原生 scroll-snap，不劫持捲動 ────────────────── */
+html, body { height: 100%; }
+body { margin: 0; overflow: hidden; background: var(--bg-primary); }
+
+.deck {
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+}
+/* 減少動態時關閉平滑捲動——平滑捲動本身就是位移動畫 */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .deck { scroll-behavior: auto; }
+}
+:root[data-motion="reduced"] .deck { scroll-behavior: auto; }
+
+/* ── 單頁 ─────────────────────────────────────────────────── */
+.slide {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100dvh;
+  display: grid;
+  align-content: center;
+  padding: calc(var(--chrome-h) + var(--space-8)) var(--deck-gutter) var(--space-16);
+  position: relative;
+  /* 每頁自帶主題：亮暗交替是 Apple 式節奏的主要手段 */
+  background: var(--slide-bg);
+  color: var(--slide-fg);
+}
+.slide[data-theme="light"] {
+  --slide-bg: #f5f5f7;
+  --slide-fg: #11161f;
+  --slide-muted: #5a6472;   /* 6.00:1 於 #f5f5f7 */
+  --slide-line: #d8dade;
+}
+.slide[data-theme="dark"] {
+  --slide-bg: #0b0e14;
+  --slide-fg: #f2f5f8;
+  --slide-muted: #9aa6b2;   /* 7.79:1 於 #0b0e14 */
+  --slide-line: #232b38;
+}
+
+.slide__inner { width: 100%; max-width: var(--deck-max); margin-inline: auto; }
+.slide__inner--center { text-align: center; display: grid; justify-items: center; gap: var(--space-5); }
+.slide__inner--wide { display: grid; gap: var(--space-8); }
+.slide__inner--split { display: grid; gap: var(--space-10); align-items: center; }
+@media (min-width: 900px) {
+  .slide__inner--split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: var(--space-12); }
+}
+
+.slide__eyebrow,
+.slide__kicker {
+  margin: 0;
+  font-size: var(--text-xs);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: var(--weight-semibold);
+  color: var(--slide-muted);
+}
+.slide__title {
+  margin: var(--space-4) 0 0;
+  font-size: var(--display-2);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  font-weight: var(--weight-semibold);
+  text-wrap: balance;
+}
+.slide[data-slide-type="cover"] .slide__title,
+.slide[data-slide-type="statement"] .slide__title { font-size: var(--display-1); }
+.slide[data-slide-type="embed"] .slide__title,
+.slide[data-slide-type="showcase"] .slide__title { font-size: var(--display-3); }
+
+.slide__lead {
+  margin: var(--space-5) 0 0;
+  max-width: 62ch;
+  font-size: clamp(1rem, .95rem + .35vw, 1.25rem);
+  line-height: var(--leading-relaxed);
+  color: var(--slide-muted);
+}
+.slide__inner--center .slide__lead { margin-inline: auto; }
+
+.slide__hint {
+  margin-top: var(--space-10);
+  font-size: var(--text-sm);
+  color: var(--slide-muted);
+}
+.slide__hint::after {
+  content: ""; display: block; width: 1px; height: 28px; margin: var(--space-3) auto 0;
+  background: linear-gradient(var(--slide-muted), transparent);
+}
+
+.slide__head { display: grid; }
+.slide__figure { margin: 0; }
+.slide__img {
+  width: 100%; height: auto; display: block;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--slide-line);
+}
+
+/* ── 數據列 ───────────────────────────────────────────────── */
+.fact-row {
+  display: flex; flex-wrap: wrap; gap: var(--space-8);
+  margin: var(--space-8) 0 0; padding: 0; list-style: none;
+}
+.fact { display: grid; gap: 2px; }
+.fact__label { font-size: var(--text-xs); letter-spacing: .08em; text-transform: uppercase; color: var(--slide-muted); }
+.fact__value { font-size: var(--text-2xl); font-weight: var(--weight-semibold); letter-spacing: -0.01em; }
+.fact__note { font-size: var(--text-xs); color: var(--slide-muted); }
+
+/* ── 嵌入 ─────────────────────────────────────────────────── */
+.embed { display: grid; gap: var(--space-3); }
+.embed__frame {
+  position: relative;
+  aspect-ratio: var(--embed-ratio, 16/10);   /* 版位鎖定 = CLS 0 */
+  max-height: 58dvh;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--slide-line);
+  background: color-mix(in srgb, var(--slide-fg) 5%, transparent);
+  overflow: hidden;
+}
+.embed__frame iframe { width: 100%; height: 100%; border: 0; display: block; position: relative; z-index: 1; }
+/* 尚未掛載時顯示骨架，避免空白 */
+.embed__frame[data-embed-state="idle"]::after {
+  content: "載入中…"; position: absolute; inset: 0; z-index: 2;
+  display: grid; place-items: center;
+  font-size: var(--text-sm); color: var(--slide-muted);
+  background: var(--slide-bg);
+}
+/* 未進入時蓋一層透明擋板，避免滑鼠捲動被內層文件吃掉 */
+.embed__frame[data-embed-entered="false"]::before {
+  content: ""; position: absolute; inset: 0; z-index: 3; cursor: pointer;
+}
+.embed__frame[data-embed-entered="true"] {
+  outline: 2px solid var(--brand-fill); outline-offset: 3px;
+}
+.embed__fallback {
+  position: absolute; inset: 0; z-index: 0;
+  display: grid; place-items: center; gap: var(--space-2);
+  padding: var(--space-6); text-align: center;
+  font-size: var(--text-sm); color: var(--slide-muted);
+}
+.embed__fallback a { color: var(--brand-text); }
+
+.embed--placeholder .embed__note {
+  position: absolute; inset: 0; display: grid; place-content: center;
+  gap: var(--space-2); padding: var(--space-8); text-align: center;
+}
+.embed--placeholder {
+  aspect-ratio: var(--embed-ratio, 16/9); max-height: 58dvh;
+  position: relative; border: 1px dashed var(--slide-line);
+  border-radius: var(--radius-lg);
+}
+.embed__note-title { margin: 0; font-weight: var(--weight-semibold); }
+.embed__note-text { margin: 0; max-width: 52ch; font-size: var(--text-sm); color: var(--slide-muted); }
+
+.embed__bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+
+/* ── 按鈕與連結 ───────────────────────────────────────────── */
+.deck-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: var(--target-comfortable); padding: 0 var(--space-6);
+  border: 1px solid var(--slide-line); border-radius: var(--radius-pill);
+  background: transparent; color: var(--slide-fg);
+  font: inherit; font-size: var(--text-sm); font-weight: var(--weight-medium);
+  text-decoration: none; cursor: pointer;
+  transition: transform var(--duration-fast) var(--easing-base),
+              background-color var(--duration-fast) var(--easing-base);
+}
+.deck-btn--primary { background: var(--brand-fill); color: var(--text-on-brand); border-color: transparent; }
+.deck-btn--small { min-height: 38px; padding: 0 var(--space-4); font-size: var(--text-xs); }
+.deck-btn--ghost { border-style: dashed; }
+@media (hover: hover) and (pointer: fine) { .deck-btn:hover { transform: translateY(-1px); } }
+.deck-btn:active { transform: scale(.97); }
+
+/* 觸控目標不得低於 24 × 24 CSS 像素（NFR-1.8）——
+   純文字連結預設只有行高，實測時量到 17px。 */
+.deck-link {
+  display: inline-flex; align-items: center;
+  min-height: var(--target-min); padding-inline: var(--space-2);
+  font-size: var(--text-xs); color: var(--slide-muted);
+}
+.deck-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-8); justify-content: center; }
+
+/* ── 固定介面（頁首列、頁碼、進度）────────────────────────── */
+.chrome {
+  position: fixed; inset: 0 0 auto; z-index: 50; height: var(--chrome-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding-inline: var(--deck-gutter);
+  color: var(--slide-fg);
+  background: color-mix(in srgb, var(--slide-bg) 72%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid color-mix(in srgb, var(--slide-fg) 8%, transparent);
+  pointer-events: none;
+}
+.chrome > * { pointer-events: auto; }
+.chrome__brand { font-size: var(--text-sm); font-weight: var(--weight-semibold); text-decoration: none; color: inherit; }
+.chrome__right { display: flex; align-items: center; gap: var(--space-3); }
+.chrome__counter { font-size: var(--text-xs); color: var(--slide-muted); font-variant-numeric: tabular-nums; }
+
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60; height: 2px;
+  background: transparent;
+}
+.progress::after {
+  content: ""; display: block; height: 100%; width: var(--progress, 0%);
+  background: var(--brand-fill);
+  transition: width var(--duration-base) var(--easing-base);
+}
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .progress::after { transition: none; }
+}
+:root[data-motion="reduced"] .progress::after { transition: none; }
+
+/* 右側頁碼點 */
+.dots {
+  position: fixed; right: max(12px, calc(var(--deck-gutter) * .45)); top: 50%;
+  transform: translateY(-50%); z-index: 50;
+  display: grid; gap: 10px; margin: 0; padding: 0; list-style: none;
+}
+.dot {
+  width: var(--target-min); height: var(--target-min);
+  display: grid; place-items: center;
+  border: 0; background: transparent; cursor: pointer; padding: 0;
+}
+.dot::before {
+  content: ""; display: block; width: 8px; height: 8px; border-radius: 99px;
+  background: color-mix(in srgb, var(--slide-fg) 30%, transparent);
+  transition: height var(--duration-base) var(--easing-base),
+              background-color var(--duration-base) var(--easing-base);
+}
+/* 當前頁：拉長 ＋ 變色 ＋ aria-current，三重表達（WCAG 1.4.1） */
+.dot[aria-current="true"]::before { height: 22px; background: var(--brand-fill); }
+@media (hover: hover) and (pointer: fine) {
+  .dot:hover::before { background: color-mix(in srgb, var(--slide-fg) 60%, transparent); }
+}
+@media (max-width: 640px) { .dots { display: none; } }
+
+/* 上下頁控制：置於右下，單手可及 */
+.pager {
+  position: fixed; right: var(--deck-gutter); bottom: var(--space-6); z-index: 50;
+  display: flex; gap: var(--space-2);
+}
+.pager__btn {
+  width: var(--target-comfortable); height: var(--target-comfortable);
+  display: grid; place-items: center;
+  border: 1px solid color-mix(in srgb, var(--slide-fg) 18%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--slide-bg) 70%, transparent);
+  backdrop-filter: blur(12px);
+  color: var(--slide-fg); font-size: var(--text-lg); cursor: pointer;
+}
+.pager__btn:disabled { opacity: .35; cursor: not-allowed; }
+
+/* ── 進場：每頁內容在接近視窗時浮現 ───────────────────────── */
+@keyframes slide-rise {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.slide__inner > * { animation: slide-rise 520ms var(--easing-base) both; }
+.slide__inner > *:nth-child(1) { animation-delay: 0ms; }
+.slide__inner > *:nth-child(2) { animation-delay: 60ms; }
+.slide__inner > *:nth-child(3) { animation-delay: 120ms; }
+.slide__inner > *:nth-child(n+4) { animation-delay: 180ms; }
+/* 只有進入視窗的那一頁才播放，避免離畫面的頁面也在動 */
+.slide:not(.is-visible) .slide__inner > * { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .slide__inner > * {
+    animation: none !important;
+  }
+  :root:not([data-motion="full"]) .slide__hint::after { display: none; }
+}
+:root[data-motion="reduced"] .slide__inner > * { animation: none !important; }
+:root[data-motion="reduced"] .slide__hint::after { display: none; }
+
+/* ── 焦點 ─────────────────────────────────────────────────── */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-sm);
+}
+.skip-link {
+  position: fixed; left: var(--space-4); top: -100px; z-index: 200;
+  padding: var(--space-3) var(--space-4);
+  background: var(--brand-fill); color: var(--text-on-brand);
+  border-radius: var(--radius-md); font-weight: var(--weight-semibold); text-decoration: none;
+}
+.skip-link:focus { top: var(--space-4); }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+@media (forced-colors: active) {
+  .dot[aria-current="true"]::before { forced-color-adjust: none; background: Highlight; }
+  .embed__frame[data-embed-entered="true"] { outline: 3px solid Highlight; }
+}
+
+/* ============================================================
+   修正一：固定介面的主題
+   .chrome / .pager / .dots 都在 .deck 之外，拿不到 .slide 的區域變數。
+   改由 <html data-current-theme> 提供，deck.mjs 每次換頁時同步。
+   ============================================================ */
+:root {
+  --chrome-fg: #11161f;
+  --chrome-bg: #f5f5f7;
+  --chrome-muted: #5a6472;
+  --chrome-line: rgb(17 22 31 / 10%);
+}
+:root[data-current-theme="dark"] {
+  --chrome-fg: #f2f5f8;
+  --chrome-bg: #0b0e14;
+  --chrome-muted: #9aa6b2;
+  --chrome-line: rgb(242 245 248 / 12%);
+}
+.chrome {
+  color: var(--chrome-fg);
+  background: color-mix(in srgb, var(--chrome-bg) 72%, transparent);
+  border-bottom-color: var(--chrome-line);
+  transition: color var(--duration-base) var(--easing-base),
+              background-color var(--duration-base) var(--easing-base);
+}
+.chrome__counter { color: var(--chrome-muted); }
+.chrome .deck-btn { color: var(--chrome-fg); border-color: var(--chrome-line); }
+.pager__btn {
+  color: var(--chrome-fg);
+  border-color: var(--chrome-line);
+  background: color-mix(in srgb, var(--chrome-bg) 70%, transparent);
+}
+.dot::before { background: color-mix(in srgb, var(--chrome-fg) 32%, transparent); }
+.dot[aria-current="true"]::before { background: var(--brand-fill); }
+@media (hover: hover) and (pointer: fine) {
+  .dot:hover::before { background: color-mix(in srgb, var(--chrome-fg) 64%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .chrome { transition: none; }
+}
+:root[data-motion="reduced"] .chrome { transition: none; }
+
+/* ============================================================
+   修正二：每頁必須完整落在視窗內
+   嵌入頁的內容原本高於視窗，底部的「進入／離開」工具列被裁掉，
+   而 scroll-snap 是 mandatory，使用者捲不到那裡——等於功能消失。
+   改為：整頁固定一個視窗高，嵌入區以 flex 吃掉剩餘空間。
+   ============================================================ */
+.slide {
+  height: 100dvh;
+  padding-block: calc(var(--chrome-h) + var(--space-6)) var(--space-10);
+  overflow-y: auto;           /* 最後一道保險：內容真的放不下時仍可捲到 */
+  overscroll-behavior: contain;
+}
+/* 嵌入頁改為撐滿：align-content:center 會讓格線列只有內容高，
+   max-height 無法讓嵌入框長大，必須讓該列實際吃掉整頁高度。 */
+.slide[data-slide-type="embed"] { align-content: stretch; }
+.slide[data-slide-type="embed"] .slide__inner--wide { height: 100%; max-height: 100%; }
+.slide[data-slide-type="showcase"] .slide__inner--split { max-height: 100%; }
+.slide[data-slide-type="embed"] .slide__inner--wide {
+  display: flex; flex-direction: column; gap: var(--space-5); min-height: 0;
+}
+.slide[data-slide-type="embed"] .slide__head { flex: 0 0 auto; }
+/* .embed 預設是 grid，子元素的 flex 屬性不會生效——必須改成 flex column */
+.slide[data-slide-type="embed"] .embed {
+  display: flex; flex-direction: column; gap: var(--space-3);
+  flex: 1 1 auto; min-height: 0;
+}
+.slide[data-slide-type="embed"] .embed__frame,
+.slide[data-slide-type="embed"] .embed--placeholder {
+  flex: 1 1 auto; min-height: 220px; max-height: none;
+  aspect-ratio: auto;         /* 由 flex 決定高度；版位仍由整頁高度鎖定 */
+}
+.slide[data-slide-type="embed"] .embed__bar { flex: 0 0 auto; }
+/* 嵌入頁的數據列在空間吃緊時收斂 */
+.slide[data-slide-type="embed"] .fact-row { margin-top: var(--space-4); gap: var(--space-6); }
+.slide[data-slide-type="embed"] .fact__value { font-size: var(--text-xl); }
+.slide[data-slide-type="embed"] .slide__lead { margin-top: var(--space-3); }
+
+@media (max-height: 700px) {
+  .slide[data-slide-type="embed"] .slide__lead,
+  .slide[data-slide-type="embed"] .fact-row { display: none; }
+}

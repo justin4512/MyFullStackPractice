@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>單元測試 — 前端作品輯</title>
+<style>
+  body { font: 14px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; margin: 2rem; background:#0b0e14; color:#f2f5f8; }
+  h1 { font-size: 1.1rem; }
+  .pass { color:#4ade80; } .fail { color:#f87171; } .muted { color:#7c8794; }
+  pre { white-space: pre-wrap; }
+  .bar { padding:.6rem 1rem; border-radius:8px; margin:1rem 0; font-weight:600; }
+  .bar.ok { background:#052e16; color:#4ade80; } .bar.no { background:#2b0d0d; color:#f87171; }
+</style>
+</head>
+<body>
+<h1>單元測試 — 前端作品輯</h1>
+<p class="muted">在瀏覽器中直接執行純邏輯測試。Node.js 到位後可改以 <code>npm test</code> 執行同一批檔案。</p>
+<div id="summary" class="bar muted">執行中…</div>
+<pre id="out"></pre>
+<script type="module">
+  import { run, formatReport } from './run.mjs';
+  const report = await run();
+  document.getElementById('out').textContent = formatReport(report);
+  const el = document.getElementById('summary');
+  el.className = 'bar ' + (report.failed === 0 ? 'ok' : 'no');
+  el.textContent = `${report.passed} / ${report.total} 通過　失敗 ${report.failed}`;
+  window.__report = report;
+</script>
+</body>
+</html>

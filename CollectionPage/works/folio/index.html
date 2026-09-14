@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>陳品儒 — 前端工程師與互動設計師｜作品輯</title>
+<meta name="description" content="六件前端與互動設計作品，含角色分工、關鍵決策與可追溯的成果證據。">
+<!-- 防止載入閃爍（FOUC）：於任何內容繪製前先套用主題 -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) { /* 私密模式／storage 被封鎖時靜默降級 */ }
+  })();
+</script>
+<link rel="stylesheet" href="../../assets/css/design-system.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<script type="module" src="../../assets/js/main.mjs"></script>
+</head>
+<body>
+
+<a class="skip-link" href="#work">跳至作品輯</a>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="#top">陳品儒</a>
+    <nav class="nav" aria-label="主要導覽">
+      <a class="nav__link" href="#work">作品</a>
+      <a class="nav__link" href="#about">關於我</a>
+      <a class="nav__link" href="#contact">聯絡</a>
+    </nav>
+    <div class="theme-toggle" role="radiogroup" aria-label="佈景主題" data-theme-toggle>
+      <button type="button" class="theme-toggle__btn" role="radio" aria-checked="false" data-theme-option="light">亮</button>
+      <button type="button" class="theme-toggle__btn" role="radio" aria-checked="false" data-theme-option="dark">暗</button>
+      <button type="button" class="theme-toggle__btn" role="radio" aria-checked="true" data-theme-option="system">系統</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero：內容不依賴 opacity 0 起始狀態；無 JS 時完全可見（FR-2.6） -->
+  <section class="section" id="hero">
+    <div class="container hero">
+      <p class="hero__eyebrow">可合作中 · 台北</p>
+      <h1 class="hero__title">陳品儒 — 前端工程師與互動設計師</h1>
+      <p class="hero__lead">
+        我做的是把複雜流程收斂成看得懂、按得動的介面。六件作品，每一件都附上我實際負責的範圍與可追溯的成果證據。
+      </p>
+      <div class="cta-group">
+        <a class="btn btn--primary" href="#work">查看作品 ▸</a>
+        <a class="btn btn--secondary" href="#contact">討論你的專案</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="work">
+    <div class="container" data-folio>
+      <h2 class="section__title">作品輯</h2>
+
+      <p class="notice" data-folio-notice></p>
+
+      <div class="toolbar">
+        <div class="filter-bar" data-folio-filter hidden></div>
+        <p class="folio-position" data-folio-position>
+          <span class="folio-position__value"><strong>1</strong> / 6</span>
+        </p>
+      </div>
+
+      <!-- DOM 順序：主視覺 → 說明欄位 → 切換控制（NFR-1.6 堆疊閱讀順序） -->
+      <div class="folio">
+
+        <div class="folio-visual" data-folio-visual>
+          <img class="folio-visual__img"
+               src="../../assets/img/tidal.svg"
+               alt="Tidal 監控台主畫面，上方為依可行動性排序的告警清單，下方為選定告警的時間軸與相關指標圖"
+               width="1600" height="1000" decoding="async" loading="eager" fetchpriority="high">
+        </div>
+
+        <div class="folio-panel" data-folio-panel>
+          <header class="folio-head">
+            <h2 class="folio-title" id="folio-title">Tidal 營運監控台</h2>
+            <p class="folio-meta"><span class="folio-meta__item">2026</span><span class="folio-meta__item">Web App</span></p>
+            <p class="folio-summary">把三個後台的告警集中成一頁，讓值班人員不必在分頁之間追資訊。</p>
+          </header>
+          <div class="folio-fields">
+            <section class="field">
+              <h3 class="field__label">我的角色與貢獻</h3>
+              <p class="field__lead">前端主要開發</p>
+              <p class="field__text"><span class="field__key">我負責</span>資訊架構、即時資料層、告警排序邏輯、鍵盤操作流程</p>
+              <p class="field__text field__text--muted"><span class="field__key">團隊</span>與 1 位後端工程師、1 位營運主管共同定義告警優先級</p>
+            </section>
+            <section class="field">
+              <h3 class="field__label">問題與目標</h3>
+              <p class="field__text"><span class="field__key">問題</span>值班人員需要同時開三個後台才能判斷一次異常，平均要 20 分鐘才能確認問題來源。</p>
+              <p class="field__text"><span class="field__key">目標</span>讓最需要處理的告警在首屏就出現，並且不需要滑鼠就能完成處理流程。</p>
+            </section>
+            <section class="field">
+              <h3 class="field__label">成果</h3>
+              <ul class="evidence-list">
+                <li class="evidence" data-evidence="measured">
+                  <span class="evidence__badge">實測結果</span>
+                  <p class="evidence__metric"><span class="evidence__number">90</span><span class="evidence__unit">秒</span></p>
+                  <p class="evidence__text">異常來源確認時間由 20 分鐘縮短至 90 秒內</p>
+                  <p class="evidence__source">來源：5 位營運主管的任務計時測試（前後各 3 次）（2026-06）</p>
+                </li>
+              </ul>
+            </section>
+          </div>
+        </div>
+
+        <div class="folio-controls">
+          <button type="button" class="icon-btn" data-action="prev" aria-label="上一件作品">◀</button>
+          <button type="button" class="icon-btn" data-action="next" aria-label="下一件作品">▶</button>
+          <span class="folio-position" aria-hidden="true">使用 ← → 方向鍵也可切換</span>
+        </div>
+
+      </div>
+
+      <h3 class="visually-hidden" id="index-heading">所有作品</h3>
+      <ul class="index-list" data-folio-index aria-labelledby="index-heading">
+        <li class="index-list__item">
+          <button type="button" class="index-list__btn" data-project-id="tidal-ops-console" aria-current="true">
+            <span class="index-list__num">01</span>
+            <span class="index-list__title">Tidal 營運監控台</span>
+            <span class="index-list__meta">2026 · Web App</span>
+          </button>
+        </li>
+      </ul>
+
+      <!-- 切換時以 aria-live 宣布（FR-3.8） -->
+      <p class="visually-hidden" role="status" aria-live="polite" data-folio-live></p>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container hero">
+      <h2 class="section__title">關於我</h2>
+      <p class="hero__lead">
+        八年前端經驗，近三年專注在設計系統與無障礙。我偏好把規範變成可執行的檢查——
+        對比驗證、資料契約、追溯矩陣，能被機器擋下的就不要靠人記得。
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container hero">
+      <h2 class="section__title">聯絡</h2>
+      <p class="hero__lead">如果你的專案卡在「做得出來但沒人敢改」的階段，我大概能幫上忙。</p>
+      <div class="cta-group">
+        <a class="btn btn--primary" href="mailto:hello@example.com">討論你的專案</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <p>© 2026 陳品儒</p>
+    <nav class="nav" aria-label="頁尾導覽">
+      <a class="nav__link" href="#work">作品</a>
+      <a class="nav__link" href="#about">關於我</a>
+      <a class="nav__link" href="#contact">聯絡</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

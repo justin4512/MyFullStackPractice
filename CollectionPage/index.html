@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>陳品儒 — 作品簡報</title>
+<meta name="description" content="全幅簡報式作品輯：每一頁可嵌入可實際操作的網頁或簡報。">
+<meta name="color-scheme" content="light dark">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      var m = localStorage.getItem('motion');
+      if (m === 'reduced' || m === 'full') document.documentElement.setAttribute('data-motion', m);
+    } catch (e) { /* 私密模式：靜默降級 */ }
+  })();
+</script>
+<link rel="stylesheet" href="assets/css/design-system.css">
+<link rel="stylesheet" href="assets/css/deck.css">
+<script type="module" src="assets/js/deck-main.mjs"></script>
+</head>
+<body>
+
+<a class="skip-link" href="#deck-slides">跳至簡報內容</a>
+
+<div class="progress" data-deck-progress role="progressbar"
+     aria-label="簡報進度" aria-valuemin="1" aria-valuenow="1" aria-valuemax="1"></div>
+
+<header class="chrome">
+  <a class="chrome__brand" href="#cover">陳品儒</a>
+  <div class="chrome__right">
+    <span class="chrome__counter" data-deck-counter aria-hidden="true">1 / 1</span>
+    <button type="button" class="deck-btn deck-btn--small" data-motion-toggle aria-pressed="false">動態：開</button>
+  </div>
+</header>
+
+<main class="deck" data-deck data-deck-scroller id="deck-scroller">
+  <div data-deck-slides id="deck-slides">
+
+    <!-- 無 JS 時的靜態內容：標題與定位永遠可讀（FR-2.6）。
+         JS 啟動後會以 data/deck.json 的完整簡報取代這裡。 -->
+    <section class="slide" data-theme="dark" id="cover">
+      <div class="slide__inner slide__inner--center">
+        <p class="slide__eyebrow">作品簡報 · 2026</p>
+        <h1 class="slide__title">把複雜流程<br>收斂成看得懂的介面</h1>
+        <p class="slide__lead">陳品儒 — 前端工程師與互動設計師</p>
+        <p class="slide__lead">
+          若你看到這一頁而沒有其他內容，代表 JavaScript 未載入。
+          作品清單仍可直接開啟：<a href="works/folio/index.html">Tidal 營運監控台</a>。
+        </p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<ul class="dots" data-deck-dots aria-label="投影片導覽"></ul>
+
+<nav class="pager" aria-label="翻頁">
+  <button type="button" class="pager__btn" data-deck-prev aria-label="上一頁">↑</button>
+  <button type="button" class="pager__btn" data-deck-next aria-label="下一頁">↓</button>
+</nav>
+
+<p class="visually-hidden" role="status" aria-live="polite" data-deck-live></p>
+
+</body>
+</html>
