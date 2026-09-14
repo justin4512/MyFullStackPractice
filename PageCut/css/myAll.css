@@ -28,11 +28,13 @@ body {
     --bg-body: #faf7f2;                        /* 網頁外層大背景 (微暖灰白) */
     --bg-wrapper: #fefae0;             /* 主要內容區背景 */
     --bg-nav: #e9edc9;                    /* 導覽列背景 */
-    --bg-footer: #faedcd;            /* 頁尾背景 */
+    --bg-footer: #faedcd;
+    --bg-black: #000000;            /* 頁尾背景 */
     
     --text-dark: #4a4036;                      /* 主要深色文字 */
     --text-title: #8c5b30;                     /* 標題強調色 */
-    --text-light: #7b736a;                     /* 次要文字 */
+    --text-light: #7b736a;
+    --text-white: #FFFFFF;                         /* 次要文字 */
 }
 
 .fw-100 {
