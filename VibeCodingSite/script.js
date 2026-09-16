@@ -87,6 +87,7 @@ function showProject(nextIndex, options = {}) {
   elements.tags.innerHTML = project.tags.map((tag) => `<span>${tag}</span>`).join('');
   elements.count.textContent = String(currentIndex + 1).padStart(2, '0');
   renderIndex();
+  if (options.restoreIndexFocus) elements.index.querySelector(`[data-index="${currentIndex}"]`)?.focus();
   animateProject(direction);
 
   if (options.history !== false) history.pushState({ projectId: project.id }, '', `${location.pathname}?project=${project.id}#work`);
@@ -99,7 +100,7 @@ elements.index.addEventListener('click', (event) => {
   const button = event.target.closest('[data-index]');
   if (!button) return;
   const nextIndex = Number(button.dataset.index);
-  showProject(nextIndex, { direction: nextIndex < currentIndex ? 'prev' : 'next' });
+  showProject(nextIndex, { direction: nextIndex < currentIndex ? 'prev' : 'next', restoreIndexFocus: true });
 });
 
 window.addEventListener('popstate', (event) => {
@@ -124,14 +125,18 @@ elements.motion.addEventListener('click', () => {
   reducedMotion = active || motionQuery.matches;
 });
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add('is-visible');
-    revealObserver.unobserve(entry.target);
-  });
-}, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
-document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+if ('IntersectionObserver' in window) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    });
+  }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+} else {
+  document.querySelectorAll('.reveal').forEach((element) => element.classList.add('is-visible'));
+}
 
 const cursorGlow = $('.cursor-glow');
 let pointerFrame;

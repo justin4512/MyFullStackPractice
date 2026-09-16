@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SENTINEL GEOINT — Geospatial Intelligence Operations Dashboard">
+  <title>GEOINT // Sentinel Ops Dashboard v2</title>
+
+  <!-- External Libraries -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- Dashboard Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<header id="topbar">
+  <div class="brand">
+    <div class="logo">◈</div>
+    <div>
+      <div class="title">SENTINEL // GEOINT</div>
+      <div class="sub">Geospatial Intelligence Operations</div>
+    </div>
+  </div>
+  <div class="top-meta">
+    <div class="meta-item"><span class="label">AOI</span><span class="value cyan">THEATER-07 // EASTERN MED</span></div>
+    <div class="meta-item"><span class="label">Collection</span><span class="value">SAT-4 · UAV-2 · SIGINT</span></div>
+    <div class="meta-item"><span class="label">Classification</span><span class="value amber">TS//SI//REL-5</span></div>
+    <div class="meta-item"><span class="label">Refresh</span><span class="value green" id="refresh-val">LIVE</span></div>
+  </div>
+  <div class="top-right">
+    <div class="status-pill"><span class="dot"></span>UPLINK NOMINAL</div>
+    <div class="clock" id="clock">--:--:--</div>
+    <div class="avatar">OP</div>
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<div id="app">
+
+  <!-- LEFT SIDEBAR -->
+  <aside id="left-panel">
+    <div class="side-section">
+      <h3><span class="bar"></span>Base Layers</h3>
+      <div class="layer-group">
+        <div class="lg-title">IMAGERY</div>
+        <div class="layer-item" data-layer="sat">
+          <div class="radio-d" style="background:linear-gradient(135deg,#0f2a3d,#1a4a6b)"></div>
+          <span class="name">Satellite Imagery</span>
+          <span class="tag">EO</span>
+          <div class="check">✓</div>
+        </div>
+        <div class="layer-item" data-layer="terrain">
+          <div class="radio-d" style="background:linear-gradient(135deg,#1a2e1a,#3a5a3a)"></div>
+          <span class="name">Terrain / Topo</span>
+          <span class="tag">DEM</span>
+          <div class="check">✓</div>
+        </div>
+        <div class="layer-item active" data-layer="dark">
+          <div class="radio-d" style="background:linear-gradient(135deg,#0e141d,#1c2a3a)"></div>
+          <span class="name">Dark Ops</span>
+          <span class="tag">VEC</span>
+          <div class="check">✓</div>
+        </div>
+      </div>
+      <div class="layer-group">
+        <div class="lg-title">ACTIVITY</div>
+        <div class="layer-item" data-layer="heat">
+          <div class="radio-d" style="background:linear-gradient(135deg,#7c2d12,#fbbf24)"></div>
+          <span class="name">Activity Heat</span>
+          <span class="tag">SIG</span>
+          <div class="check">✓</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-section">
+      <h3><span class="bar"></span>Data Overlays</h3>
+      <div class="overlay-item on" data-overlay="assets">
+        <div class="switch"></div>
+        <span class="name">Tracked Assets</span>
+        <span class="count" id="cnt-assets">0</span>
+      </div>
+      <div class="overlay-item on" data-overlay="threats">
+        <div class="switch"></div>
+        <span class="name">Threat Events</span>
+        <span class="count" id="cnt-threats">0</span>
+      </div>
+      <div class="overlay-item on" data-overlay="zones">
+        <div class="switch"></div>
+        <span class="name">AOI / Exclusion Zones</span>
+        <span class="count" id="cnt-zones">0</span>
+      </div>
+      <div class="overlay-item on" data-overlay="routes">
+        <div class="switch"></div>
+        <span class="name">Movement Routes</span>
+        <span class="count" id="cnt-routes">0</span>
+      </div>
+      <div class="overlay-item" data-overlay="grid">
+        <div class="switch"></div>
+        <span class="name">MGRS Grid</span>
+        <span class="count">ON</span>
+      </div>
+    </div>
+
+    <div class="side-section">
+      <h3><span class="bar"></span>Analysis Tools</h3>
+      <div class="btn-row">
+        <button class="btn" id="btn-measure">⤢ Measure</button>
+        <button class="btn" id="btn-export">⇩ Export</button>
+        <button class="btn" id="btn-reset">⟲ Reset</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAP -->
+  <div id="map-wrap">
+    <div id="map"></div>
+
+    <!-- HUD: Top-Left -->
+    <div class="map-hud hud-tl">
+      <div class="hud-box">
+        <div class="hud-title">AOI // THEATER-07</div>
+        <div class="hud-val">34.05°N · 35.20°E</div>
+        <div class="hud-sub">Zoom <span id="hud-zoom">6</span> · <span id="hud-scale">—</span></div>
+      </div>
+    </div>
+
+    <!-- HUD: Top-Right -->
+    <div class="map-hud hud-tr">
+      <div class="hud-box">
+        <div class="hud-title">Collection Status</div>
+        <div class="hud-val" style="color:var(--green)">● 3/3 SENSORS</div>
+        <div class="hud-sub">Last pass: <span id="hud-lastpass">02:14:09</span></div>
+      </div>
+    </div>
+
+    <!-- HUD: Bottom-Left (Legend) -->
+    <div class="map-hud hud-bl">
+      <div class="hud-box">
+        <div class="hud-title">Legend</div>
+        <div class="legend-grid">
+          <div class="legend-item"><span class="sw" style="background:var(--cyan)"></span>Friendly Asset</div>
+          <div class="legend-item"><span class="sw" style="background:var(--red)"></span>Threat Event</div>
+          <div class="legend-item"><span class="sw" style="background:var(--amber)"></span>Watch Item</div>
+          <div class="legend-item"><span class="sw" style="background:var(--green)"></span>AOI Zone</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD: Bottom-Right (Coordinates) -->
+    <div class="map-hud hud-br">
+      <div class="hud-box coord-readout">
+        <span id="coord-lat">35.2000°N</span> · <span id="coord-lng">35.0500°E</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <aside id="right-panel">
+    <div class="panel-section">
+      <h3><span class="bar"></span>Operational Snapshot</h3>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="s-label">Tracked Assets</div>
+          <div class="s-value cyan" id="stat-assets">0</div>
+          <div class="s-delta up">▲ 2 in last 24h</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Threat Events</div>
+          <div class="s-value red" id="stat-threats">0</div>
+          <div class="s-delta down">▲ 3 new today</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Signal Density</div>
+          <div class="s-value amber" id="stat-sig">0</div>
+          <div class="s-delta up">▲ 12% vs baseline</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Uplink Health</div>
+          <div class="s-value green">99.7%</div>
+          <div class="s-delta up">Nominal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3><span class="bar"></span>Time-Series Analysis <span class="spacer"></span><span class="live">● LIVE</span></h3>
+      <div class="chart-box"><canvas id="chart-signal"></canvas></div>
+      <div class="chart-legend">
+        <span><span class="sw" style="background:var(--cyan)"></span>Signal Activity</span>
+        <span><span class="sw" style="background:var(--red)"></span>Threat Index</span>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3><span class="bar"></span>Movement / Traffic</h3>
+      <div class="chart-box tall"><canvas id="chart-movement"></canvas></div>
+      <div class="chart-legend">
+        <span><span class="sw" style="background:var(--green)"></span>Maritime</span>
+        <span><span class="sw" style="background:var(--amber)"></span>Ground Convoy</span>
+        <span><span class="sw" style="background:var(--violet)"></span>Air</span>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3><span class="bar"></span>Intelligence Reporting</h3>
+      <div class="feed" id="intel-feed"></div>
+    </div>
+
+    <div class="panel-section">
+      <h3><span class="bar"></span>Tracked Assets</h3>
+      <table class="asset-table">
+        <thead><tr><th>ID</th><th>Type</th><th>Status</th><th>Speed</th></tr></thead>
+        <tbody id="asset-tbody"></tbody>
+      </table>
+    </div>
+  </aside>
+
+</div><!-- #app -->
+
+<!-- ===== STATUS BAR ===== -->
+<footer id="statusbar">
+  <div class="sb-item"><span class="dot" style="background:var(--green)"></span>SAT-7 LINK</div>
+  <div class="sb-item"><span class="dot" style="background:var(--green)"></span>UAV-2 LINK</div>
+  <div class="sb-item"><span class="dot" style="background:var(--amber)"></span>SIGINT: 87%</div>
+  <div class="sb-right">
+    <span>GRID: <b style="color:var(--cyan)">36S YC 12345 67890</b></span>
+    <span>UTC <b id="utc-clock">--:--:--</b></span>
+  </div>
+</footer>
+
+<!-- Dashboard Logic -->
+<script src="main.js"></script>
+</body>
+</html>
