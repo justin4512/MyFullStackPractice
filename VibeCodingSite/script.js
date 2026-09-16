@@ -1,67 +1,147 @@
-document.getElementById('contactForm').addEventListener('submit', async function (e) {
-  e.preventDefault(); // 阻止網頁預設的跳轉重新整理行為
+document.documentElement.classList.add('js');
 
-  const form = this;
-  const submitBtn = form.querySelector('.contact-submit');
-  const successBox = form.querySelector('.form-success');
-
-  // 1. 簡易前端驗證：檢查必填欄位 (姓名、Email、最想做的作品)
-  const name = form.querySelector('#contact-name').value.trim();
-  const email = form.querySelector('#contact-email').value.trim();
-  const project = form.querySelector('#contact-project').value.trim();
-
-  if (!name || !email || !project) {
-    alert('請填寫必要的欄位 (姓名、Email、最想做的作品)');
-    return;
+const projects = [
+  {
+    id: 'field-notes', title: 'Field Notes', year: '2026', type: 'PRODUCT EXPERIENCE', url: 'fieldnotes.app',
+    summary: '讓散落的田野觀察，成為團隊可以共同理解與採取行動的研究脈絡。',
+    role: 'UX Strategy · Frontend', challenge: '研究資料很多，真正被團隊看見的洞察卻很少。', result: '研究整理時間 -42%',
+    tags: ['Product Design', 'Vanilla JS', 'A11y'], color: '#b9d4ff', scene: 'notes'
+  },
+  {
+    id: 'after-rain', title: 'After Rain', year: '2025', type: 'CULTURAL ARCHIVE', url: 'afterrain.tw',
+    summary: '用聲音、地圖與日常物件，重新拼起一座城市在雨後留下的集體記憶。',
+    role: 'Creative Direction · Motion', challenge: '地方故事很動人，傳統資料庫卻讓它們失去溫度。', result: '平均停留時間 4m 18s',
+    tags: ['Storytelling', 'Web Audio', 'Motion'], color: '#ffc7a8', scene: 'archive'
+  },
+  {
+    id: 'common-ground', title: 'Common Ground', year: '2025', type: 'CIVIC PLATFORM', url: 'commonground.city',
+    summary: '把艱澀的公共議題翻譯成每個人都能參與、比較與留下意見的討論工具。',
+    role: 'Design System · Engineering', challenge: '資訊立場複雜，使用者很難快速建立完整觀點。', result: '任務完成率 +31%',
+    tags: ['Design System', 'Data UI', 'Testing'], color: '#c8ff32', scene: 'civic'
+  },
+  {
+    id: 'slow-office', title: 'Slow Office', year: '2024', type: 'WORKPLACE TOOL', url: 'slowoffice.work',
+    summary: '不再用更多通知催促工作，而是替團隊留下真正能專心完成事情的安靜空間。',
+    role: 'Product Design · Prototype', challenge: '協作工具越來越多，深度工作的時間卻越來越少。', result: '非必要會議 -27%',
+    tags: ['UX Research', 'Prototype', 'Frontend'], color: '#d7c8ff', scene: 'office'
   }
+];
 
-  // 2. 收集表單所有欄位資料
-  const lineId = form.querySelector('#contact-line').value.trim() || '未填寫';
-  const phone = form.querySelector('#contact-phone').value.trim() || '未填寫';
-  const role = form.querySelector('#contact-role').value || '未選擇';
+const scenes = {
+  notes: `<div class="scene scene-notes"><aside><b>FIELD / NOTES</b><span>12 insights</span><span>7 interviews</span><span>3 themes</span></aside><main><p>INSIGHT 04</p><h4>People don't need<br>more data.<br><em>They need a thread.</em></h4><div class="note-cards"><i></i><i></i><i></i></div></main></div>`,
+  archive: `<div class="scene scene-archive"><div class="archive-title"><small>AN AUDIO ARCHIVE OF</small><strong>雨<br>後</strong><span>AFTER RAIN</span></div><div class="sound-wave">${'<i></i>'.repeat(18)}</div><p>25.0330° N<br>121.5654° E</p></div>`,
+  civic: `<div class="scene scene-civic"><header><b>COMMON / GROUND</b><span>議題探索</span></header><main><p>我們如何讓城市<br><strong>更適合步行？</strong></p><div class="poll"><i style="--w:76%"></i><i style="--w:58%"></i><i style="--w:42%"></i></div></main></div>`,
+  office: `<div class="scene scene-office"><header><b>SLOW OFFICE</b><span>FOCUS MODE</span></header><div class="focus-clock"><small>DEEP WORK</small><strong>42:18</strong><i></i></div><p>Quiet tools for<br>thoughtful teams.</p></div>`
+};
 
-  const codingLevelRadio = form.querySelector('input[name="coding-level"]:checked');
-  const codingLevel = codingLevelRadio ? codingLevelRadio.nextElementSibling.innerText : '未選擇';
+const $ = (selector) => document.querySelector(selector);
+const elements = {
+  visual: $('#project-visual'), mock: $('#mock-content'), url: $('#mock-url'), caption: $('#visual-caption'), story: $('#project-story'),
+  number: $('#project-number'), year: $('#project-year'), title: $('#project-title'), summary: $('#project-summary'), role: $('#project-role'),
+  challenge: $('#project-challenge'), result: $('#project-result'), tags: $('#project-tags'), count: $('#current-count'), total: $('#total-count'),
+  index: $('#project-index'), announcement: $('#project-announcement'), prev: $('#prev-project'), next: $('#next-project'), motion: $('.motion-toggle')
+};
 
-  const reason = form.querySelector('#contact-reason').value.trim() || '未填寫';
+let currentIndex = 0;
+let cleanupTimer;
+let reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+elements.total.textContent = String(projects.length).padStart(2, '0');
 
-  // 3. 送到自己的後端 API，由伺服器代為通知 Telegram
-  //
-  //    安全性說明：
-  //    Bot Token 與 Chat ID 只存在 NAS 上的 config.env，
-  //    絕不出現在這份 HTML、也不會傳到瀏覽器。前端只送出
-  //    表單欄位，訊息組裝、字元逸出與頻率限制都由後端負責。
-  const payload = { name, email, lineId, phone, role, codingLevel, reason, project };
+function renderIndex() {
+  elements.index.innerHTML = projects.map((project, index) => `
+    <button class="index-button" type="button" data-index="${index}" aria-current="${index === currentIndex}">
+      <span class="index-no">${String(index + 1).padStart(2, '0')}</span>
+      <strong>${project.title}</strong>
+      <small>${project.year} · ${project.type}</small>
+    </button>`).join('');
+}
 
-  // 改變按鈕文字提示「傳送中...」
-  const originalBtnText = submitBtn.innerHTML;
-  submitBtn.innerHTML = '<span>傳送中...</span>';
-  submitBtn.disabled = true;
+function animateProject(direction) {
+  [elements.visual, elements.story].forEach((element) => {
+    element.classList.remove('project-enter-next', 'project-enter-prev');
+    void element.offsetWidth;
+    if (!reducedMotion) element.classList.add(direction === 'prev' ? 'project-enter-prev' : 'project-enter-next');
+  });
+  clearTimeout(cleanupTimer);
+  cleanupTimer = setTimeout(() => [elements.visual, elements.story].forEach((el) => el.classList.remove('project-enter-next', 'project-enter-prev')), 550);
+}
 
-  try {
-    // 4. 呼叫同源後端（/api/contact），不再直接打 Telegram
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+function showProject(nextIndex, options = {}) {
+  const normalized = (nextIndex + projects.length) % projects.length;
+  const previousIndex = currentIndex;
+  currentIndex = normalized;
+  const project = projects[currentIndex];
+  const direction = options.direction || (currentIndex < previousIndex ? 'prev' : 'next');
 
-    const result = await response.json().catch(() => ({ ok: false, error: '伺服器回應格式錯誤' }));
+  elements.visual.style.setProperty('--visual-bg', project.color);
+  elements.mock.innerHTML = scenes[project.scene];
+  elements.url.textContent = project.url;
+  elements.caption.textContent = `${project.type} / ${project.year}`;
+  elements.number.textContent = `PROJECT ${String(currentIndex + 1).padStart(2, '0')}`;
+  elements.year.textContent = project.year;
+  elements.title.textContent = project.title;
+  elements.summary.textContent = project.summary;
+  elements.role.textContent = project.role;
+  elements.challenge.textContent = project.challenge;
+  elements.result.textContent = project.result;
+  elements.tags.innerHTML = project.tags.map((tag) => `<span>${tag}</span>`).join('');
+  elements.count.textContent = String(currentIndex + 1).padStart(2, '0');
+  renderIndex();
+  animateProject(direction);
 
-    if (response.ok && result.ok) {
-      // 成功送出：顯示成功區塊並清空表單
-      successBox.classList.add('is-visible');
-      form.reset();
-    }
-    else {
-      alert('發送失敗：' + (result.error || '請稍後再試。'));
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    alert('網路連線發生錯誤，請檢查網路。');
-  } finally {
-    // 恢復按鈕狀態...
-    submitBtn.innerHTML = originalBtnText;
-    submitBtn.disabled = false;
-  }
+  if (options.history !== false) history.pushState({ projectId: project.id }, '', `${location.pathname}?project=${project.id}#work`);
+  if (options.announce !== false) elements.announcement.textContent = `目前顯示第 ${currentIndex + 1} 件作品，共 ${projects.length} 件：${project.title}`;
+}
+
+elements.prev.addEventListener('click', () => showProject(currentIndex - 1, { direction: 'prev' }));
+elements.next.addEventListener('click', () => showProject(currentIndex + 1, { direction: 'next' }));
+elements.index.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-index]');
+  if (!button) return;
+  const nextIndex = Number(button.dataset.index);
+  showProject(nextIndex, { direction: nextIndex < currentIndex ? 'prev' : 'next' });
 });
+
+window.addEventListener('popstate', (event) => {
+  const id = event.state?.projectId || new URLSearchParams(location.search).get('project');
+  const index = projects.findIndex((project) => project.id === id);
+  if (index >= 0) showProject(index, { history: false, direction: 'next' });
+});
+
+document.addEventListener('keydown', (event) => {
+  if (!document.querySelector('#work:hover') && !document.activeElement.closest?.('#work')) return;
+  if (event.key === 'ArrowRight') { event.preventDefault(); showProject(currentIndex + 1, { direction: 'next' }); }
+  if (event.key === 'ArrowLeft') { event.preventDefault(); showProject(currentIndex - 1, { direction: 'prev' }); }
+});
+
+const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+motionQuery.addEventListener('change', (event) => { reducedMotion = event.matches || document.documentElement.dataset.reducedMotion === 'true'; });
+elements.motion.addEventListener('click', () => {
+  const active = elements.motion.getAttribute('aria-pressed') !== 'true';
+  elements.motion.setAttribute('aria-pressed', String(active));
+  elements.motion.lastChild.textContent = active ? ' MOTION OFF' : ' MOTION ON';
+  document.documentElement.dataset.reducedMotion = String(active);
+  reducedMotion = active || motionQuery.matches;
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('is-visible');
+    revealObserver.unobserve(entry.target);
+  });
+}, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
+document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+
+const cursorGlow = $('.cursor-glow');
+let pointerFrame;
+window.addEventListener('pointermove', (event) => {
+  if (reducedMotion) return;
+  cancelAnimationFrame(pointerFrame);
+  pointerFrame = requestAnimationFrame(() => { cursorGlow.style.transform = `translate3d(${event.clientX - 130}px,${event.clientY - 130}px,0)`; });
+}, { passive: true });
+
+const initialId = new URLSearchParams(location.search).get('project');
+const initialIndex = projects.findIndex((project) => project.id === initialId);
+showProject(initialIndex >= 0 ? initialIndex : 0, { history: false, announce: false });
+history.replaceState({ projectId: projects[currentIndex].id }, '', location.href);

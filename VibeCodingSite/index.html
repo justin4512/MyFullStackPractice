@@ -1,539 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant-TW">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>AI 協作開發課｜VIBE 一點小想法，創造活用程式</title>
-  <meta name="description"
-    content="專屬程式小白的 AI 協作開發課，教你如何利用 AI 工具從 0 到 1 打造並上線屬於自己的作品。不要害怕 Terminal，跟著 VIBE 建立想得到、問得好、做得出的開發直覺，立即加入體驗！">
-  <link rel="canonical" href="https://your-domain.dev/">
-
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="AI 協作開發課｜VIBE 一點小想法，創造活用程式">
-  <meta property="og:description"
-    content="專屬程式小白的 AI 協作開發課，教你如何利用 AI 工具從 0 到 1 打造並上線屬於自己的作品。不要害怕 Terminal，跟著 VIBE 建立想得到、問得好、做得出的開發直覺，立即加入體驗！">
-  <meta property="og:image" content="https://your-domain.dev/og-image.jpg">
-  <meta property="og:url" content="https://your-domain.dev/">
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="林予安的前端作品輯：把複雜需求整理成清楚、好用，也讓人記得住的數位體驗。">
+  <meta name="theme-color" content="#f1efe8">
+  <title>林予安 — Creative Frontend Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-  <header class="site-header">
-    <nav class="site-navigation" aria-label="主要導覽">
-      <a class="site-logo" href="#hero" aria-label="VIBE 回到首頁">
-        VIBE / 001
-      </a>
-      <button class="navigation-toggle" type="button" aria-label="開啟導覽選單" aria-expanded="false">
-        <span class="navigation-toggle-line"></span>
-        <span class="navigation-toggle-line"></span>
-      </button>
-      <div class="navigation-menu">
-        <a class="navigation-link" href="#about">ABOUT</a>
-        <a class="navigation-link" href="#skills">HOW IT WORKS</a>
-        <a class="navigation-link" href="#projects">BUILT STUFF</a>
-        <a class="navigation-link" href="#contact">LET'S VIBE</a>
-        <a class="navigation-cta" href="#contact">JOIN THE VIBE ↗</a>
-      </div>
-    </nav>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <header class="site-header" id="top">
+    <a class="brand" href="#hero" aria-label="林予安，回到首頁"><span class="brand-mark" aria-hidden="true">LY</span><span>LIN YU-AN</span></a>
+    <nav class="main-nav" aria-label="主要導覽"><a href="#work">作品</a><a href="#about">關於</a><a href="#contact">聯絡</a></nav>
+    <button class="motion-toggle" type="button" aria-pressed="false" aria-label="切換減少動態模式"><span aria-hidden="true"></span> MOTION ON</button>
   </header>
-
-  <main>
-
-    <section class="hero-section" aria-labelledby="hero-title">
-      <div class="hero-grid">
-        <div class="hero-meta">
-          <span class="hero-meta-label">VIBE CODING</span>
-          <span class="hero-meta-number">/ 001</span>
-        </div>
-        <div class="hero-note hero-note-top">
-          <span class="hero-note-arrow">↘</span>
-          <span>for people<br>who think they<br>can't code.</span>
-        </div>
-        <div class="hero-main">
-          <p class="hero-eyebrow">AI × CODE × YOU</p>
-          <h1 class="hero-title" id="hero-title">
-            <span class="hero-title-line hero-title-line-light">一點小想法，</span>
-            <span class="hero-title-line hero-title-line-heavy">創造<span class="hero-title-accent">活用程式</span></span>
-          </h1>
-          <div class="hero-description-wrap">
-            <p class="hero-description">專屬程式小白的 AI 協作開發課，從 0 到上線一個屬於你的作品。</p>
-            <a class="hero-cta" href="#contact">
-              <span class="hero-cta-text">立即感受 Vibe 的搖滾浪漫</span>
-              <span class="hero-cta-arrow" aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </div>
-        <div class="hero-code-card">
-          <div class="hero-code-header">
-            <span class="hero-code-dot"></span><span class="hero-code-dot"></span><span class="hero-code-dot"></span>
-            <span class="hero-code-label">idea.txt</span>
-          </div>
-          <div class="hero-code-body">
-            <p><span class="hero-code-symbol">01</span> I have an idea.</p>
-            <p><span class="hero-code-symbol">02</span> ask AI.</p>
-            <p><span class="hero-code-symbol">03</span> try.</p>
-            <p class="hero-code-error"><span class="hero-code-symbol">04</span> error?!</p>
-            <p><span class="hero-code-symbol">05</span> try again.</p>
-            <p class="hero-code-success"><span class="hero-code-symbol">06</span> <strong>✓ works!</strong></p>
-          </div>
-          <span class="hero-code-cursor">_</span>
-        </div>
-        <div class="hero-scribble hero-scribble-circle" aria-hidden="true"></div>
-        <div class="hero-scribble hero-scribble-arrow" aria-hidden="true">↙</div>
-        <div class="hero-bottom-note">
-          <span class="hero-bottom-mark">✳</span>
-          <span>不需要先成為<br>工程師。</span>
-        </div>
-        <a class="hero-scroll" href="#about" aria-label="前往 About">
-          <span class="hero-scroll-line"></span>
-          <span class="hero-scroll-text">SCROLL TO VIBE</span>
-        </a>
+  <main id="main">
+    <section class="hero section-grid" id="hero" aria-labelledby="hero-title">
+      <div class="hero-rail" aria-hidden="true"><span>PORTFOLIO / 2026</span><span>SCROLL TO EXPLORE</span></div>
+      <div class="hero-content">
+        <p class="eyebrow reveal">CREATIVE FRONTEND DEVELOPER · TAIPEI</p>
+        <h1 id="hero-title" class="hero-title reveal">我把複雜的事，<br>做得<span class="circled">清楚</span>又<br><em>讓人記得。</em></h1>
+        <div class="hero-bottom reveal"><p>從介面策略到前端實作，我替產品找到一條使用者願意走完的路。</p><a class="arrow-link" href="#work">開始這段旅程 <span aria-hidden="true">↘</span></a></div>
+      </div>
+      <div class="hero-orbit" aria-hidden="true"><div class="orbit-ring"></div><div class="orbit-core"><span>IDEA</span><strong>→</strong><span>IMPACT</span></div><span class="orbit-note">DESIGNING<br>THE IN-BETWEEN</span></div>
+      <div class="scroll-cue" aria-hidden="true"><span></span></div>
+    </section>
+    <section class="manifesto section-grid" aria-labelledby="manifesto-title">
+      <p class="chapter-label reveal"><span>01</span> 起點 / THE WHY</p>
+      <div class="manifesto-copy"><h2 id="manifesto-title" class="reveal">漂亮不是終點。<br>理解，才是。</h2><p class="reveal">每個專案都從一團混亂開始：商業目標、使用者焦慮、技術限制互相拉扯。我的工作，是找出那條看不見的主線。</p></div>
+      <div class="story-steps" aria-label="設計流程">
+        <article class="story-step reveal"><span>01</span><h3>聽見雜訊</h3><p>研究真實情境，不急著替問題命名。</p></article>
+        <article class="story-step reveal"><span>02</span><h3>找出主線</h3><p>把洞察變成有優先順序的互動決策。</p></article>
+        <article class="story-step reveal"><span>03</span><h3>做成體驗</h3><p>用程式讓設計穩定、快速，而且可被每個人使用。</p></article>
       </div>
     </section>
-
-
-    <section class="about-section" id="about" aria-labelledby="about-title">
-      <div class="about-layout">
-        <div class="about-header">
-          <p class="section-label">01 / THE STORY</p>
-          <p class="about-kicker">BEFORE I STARTED VIBING</p>
-        </div>
-        <div class="about-intro">
-          <h2 class="about-title" id="about-title">我曾經也是<br><span class="about-title-mark">看到 Terminal 就手抖的人。</span>
-          </h2>
-        </div>
-        <div class="about-transformation">
-          <article class="about-terminal about-terminal-before">
-            <div class="about-terminal-bar">
-              <span class="about-terminal-dot"></span><span class="about-terminal-dot"></span><span
-                class="about-terminal-dot"></span>
-              <span class="about-terminal-name">terminal</span>
-            </div>
-            <div class="about-terminal-screen">
-              <p class="terminal-line terminal-muted">$ ./start-coding.sh</p>
-              <p class="terminal-line"><span class="terminal-prompt">&gt;</span> command not found</p>
-              <p class="terminal-line terminal-error">ERROR: too many unknowns</p>
-              <p class="terminal-line terminal-muted">$ <span class="terminal-cursor">_</span></p>
-              <div class="terminal-reaction"><span class="terminal-reaction-face">⊙﹏⊙</span> <span>手抖中...</span></div>
-            </div>
-            <div class="about-card-label">BEFORE</div>
-          </article>
-          <div class="about-transition">
-            <span class="about-transition-line"></span>
-            <span class="about-transition-icon">✦</span>
-            <span class="about-transition-text">then I met AI</span>
-            <span class="about-transition-arrow">→</span>
-          </div>
-          <article class="about-terminal about-terminal-after">
-            <div class="about-terminal-bar">
-              <span class="about-terminal-dot"></span><span class="about-terminal-dot"></span><span
-                class="about-terminal-dot"></span>
-              <span class="about-terminal-name">vibe-mode</span>
-            </div>
-            <div class="about-terminal-screen">
-              <p class="terminal-line terminal-muted">$ describe-my-idea</p>
-              <p class="terminal-line terminal-ai">AI: got it. let's build.</p>
-              <p class="terminal-line"><span class="terminal-prompt">&gt;</span> building...</p>
-              <div class="terminal-progress"><span class="terminal-progress-fill"></span></div>
-              <p class="terminal-line terminal-success">✓ works!</p>
-              <div class="terminal-reaction"><span class="terminal-reaction-face">ヽ(°▽°)ノ</span> <span>欸？真的可以！</span>
-              </div>
-            </div>
-            <div class="about-card-label">AFTER</div>
-          </article>
-        </div>
-        <div class="about-story">
-          <div class="about-story-number">001</div>
-          <div class="about-story-content">
-            <p class="about-story-lead">直到遇見 AI 協作開發，我才發現寫程式原來可以像即興創作一樣自由。</p>
-            <p>不需要先把所有語法背起來，也不需要等到「準備好了」才開始。從一個模糊的小想法開始，和 AI 對話、嘗試、犯錯，再一起修正。</p>
-            <p>一年之後，我累積做出了 <strong>100+ 個真正有用的程式。</strong></p>
-          </div>
-        </div>
-        <div class="about-philosophy-block">
-          <span class="about-philosophy-label">THE VIBE PHILOSOPHY</span>
-          <blockquote class="about-philosophy">
-            <span class="about-philosophy-mark">“</span>
-            <span>我相信寫程式不是背語法，而是培養一種 <strong>「和 AI 對話、把想法落地實踐」</strong> 的具體過程。</span>
-          </blockquote>
-          <span class="about-philosophy-doodle">make something<br>you actually need.</span>
-        </div>
+    <section class="work" id="work" aria-labelledby="work-heading">
+      <div class="work-heading section-grid">
+        <p class="chapter-label reveal"><span>02</span> 證據 / SELECTED WORK</p><h2 id="work-heading" class="reveal">四個專案，<br>四種改變。</h2>
+        <div class="work-meta reveal"><p>不只看最後的畫面，也看問題如何被拆解、決策如何被證明。</p><p class="project-count" aria-live="polite"><strong id="current-count">01</strong> / <span id="total-count">04</span></p></div>
       </div>
-    </section>
-
-
-    <section class="skills-section" id="skills" aria-labelledby="skills-title">
-      <div class="skills-layout">
-        <header class="skills-header">
-          <div class="skills-header-meta">
-            <p class="section-label">02 / VIBE METHOD</p>
-            <span class="skills-header-note">NOT ANOTHER CODING COURSE</span>
-          </div>
-          <h2 class="skills-title" id="skills-title">你真正要學的，<br><span class="skills-title-accent">不是語法。</span></h2>
-          <p class="skills-intro">而是建立一套「想得到、問得好、做得出來、出錯也不會慌」的 AI 協作直覺。</p>
-        </header>
-        <div class="skills-board">
-          <article class="skill-card skill-card-one" tabindex="0">
-            <div class="skill-card-top"><span class="skill-number">01</span><span class="skill-tag">THINK</span></div>
-            <div class="skill-card-body">
-              <p class="skill-mini-label">KNOW HOW</p>
-              <h3 class="skill-title">Know How<br>構建</h3>
-              <p class="skill-mantra">先想清楚要去哪裡，再決定怎麼走。</p>
-              <p class="skill-description">以終為始，培養發現問題、定義需求，並將模糊想法轉化成可開發作品的能力。</p>
-            </div>
-            <span class="skill-card-mark">?</span>
-          </article>
-          <article class="skill-card skill-card-two" tabindex="0">
-            <div class="skill-card-top"><span class="skill-number">02</span><span class="skill-tag">ASK</span></div>
-            <div class="skill-card-body">
-              <p class="skill-mini-label">PROMPT INSTINCT</p>
-              <h3 class="skill-title">Prompt<br>直覺力</h3>
-              <p class="skill-mantra">少一點廢話，多一點精準。</p>
-              <p class="skill-description">學會用最少的文字描述需求，讓 AI 更精準地理解你真正想做的事。</p>
-            </div>
-            <span class="skill-card-mark">→</span>
-          </article>
-          <article class="skill-card skill-card-three" tabindex="0">
-            <div class="skill-card-top"><span class="skill-number">03</span><span class="skill-tag">TALK</span></div>
-            <div class="skill-card-body">
-              <p class="skill-mini-label">AI AS A TEAMMATE</p>
-              <h3 class="skill-title">AI 協作<br>心法</h3>
-              <p class="skill-mantra">不要命令 AI。跟它一起工作。</p>
-              <p class="skill-description">把 AI 當成隊友，建立有效的來回對話，讓每一次提問都成為下一步的線索。</p>
-            </div>
-            <span class="skill-card-mark">≋</span>
-          </article>
-          <article class="skill-card skill-card-four" tabindex="0">
-            <div class="skill-card-top"><span class="skill-number">04</span><span class="skill-tag">BUILD</span></div>
-            <div class="skill-card-body">
-              <p class="skill-mini-label">FROM 0 TO LIVE</p>
-              <h3 class="skill-title">從 0<br>到上線</h3>
-              <p class="skill-mantra">Idea → Code → Deploy</p>
-              <p class="skill-description">拆解一個作品從發想到開發、測試、部署，直到真正可以被別人使用的完整流程。</p>
-            </div>
-            <span class="skill-card-mark">↗</span>
-          </article>
-          <article class="skill-card skill-card-five" tabindex="0">
-            <div class="skill-card-top"><span class="skill-number">05</span><span class="skill-tag">DEBUG</span></div>
-            <div class="skill-card-body">
-              <p class="skill-mini-label">DON'T PANIC</p>
-              <h3 class="skill-title">除錯<br>不慌張</h3>
-              <p class="skill-mantra">Error？先深呼吸。</p>
-              <p class="skill-description">培養閱讀錯誤訊息、描述問題，並與 AI 一起逐步排查問題的膽識。</p>
-            </div>
-            <span class="skill-card-mark">!</span>
-          </article>
-        </div>
-        <div class="skills-manifesto">
-          <span class="skills-manifesto-line"></span>
-          <p>YOU DON'T NEED TO <strong>KNOW EVERYTHING.</strong><br>YOU JUST NEED TO KNOW <strong>WHAT TO ASK
-              NEXT.</strong></p>
-          <span class="skills-manifesto-doodle">← that's the vibe.</span>
-        </div>
+      <div class="folio-shell">
+        <div class="folio-visual" id="project-visual" aria-hidden="true"><div class="visual-noise"></div><div class="visual-frame"><div class="mock-window"><div class="mock-bar"><i></i><i></i><i></i><span id="mock-url">fieldnotes.app</span></div><div class="mock-content" id="mock-content"></div></div></div><p class="visual-caption" id="visual-caption">PRODUCT EXPERIENCE / 2026</p></div>
+        <article class="project-story" id="project-story">
+          <div class="project-kicker"><span id="project-number">PROJECT 01</span><span id="project-year">2026</span></div><h3 id="project-title">Field Notes</h3><p class="project-summary" id="project-summary">讓散落的田野觀察，成為團隊可以共同理解與採取行動的研究脈絡。</p>
+          <dl class="project-facts"><div><dt>角色</dt><dd id="project-role">UX Strategy · Frontend</dd></div><div><dt>挑戰</dt><dd id="project-challenge">研究資料很多，真正被團隊看見的洞察卻很少。</dd></div><div><dt>結果</dt><dd id="project-result">研究整理時間 -42%</dd></div></dl>
+          <div class="tag-list" id="project-tags" aria-label="使用技術"></div><a class="case-link" id="case-link" href="#project-index">閱讀專案脈絡 <span aria-hidden="true">↗</span></a>
+        </article>
+        <div class="folio-controls" aria-label="作品切換控制"><button type="button" id="prev-project" aria-label="上一件作品"><span aria-hidden="true">←</span> PREV</button><button type="button" id="next-project" aria-label="下一件作品">NEXT <span aria-hidden="true">→</span></button></div>
       </div>
+      <div class="project-index" id="project-index" aria-label="作品索引"></div><p class="sr-only" id="project-announcement" aria-live="polite"></p>
     </section>
-
-
-    <section class="projects-section" id="projects" aria-labelledby="projects-title">
-      <div class="projects-layout">
-        <header class="projects-header">
-          <div class="projects-header-top">
-            <p class="section-label">03 / THINGS I BUILT</p>
-            <span class="projects-header-stamp">REAL PROJECTS / REAL USE</span>
-          </div>
-          <div class="projects-heading">
-            <h2 class="projects-title" id="projects-title">想法不一定要很偉大，<br><span
-                class="projects-title-accent">但可以真的做出來。</span></h2>
-            <p class="projects-intro">這些不是為了展示而展示的 Demo，而是從「我想要一個東西」開始，一路和 AI 協作，最後真的跑起來的作品。</p>
-          </div>
-        </header>
-
-        <div class="projects-wall">
-
-          <article class="project-card" tabindex="0">
-            <div class="project-card-header">
-              <span class="project-number">PROJECT / 01</span>
-              <span class="project-status">● ACTIVE</span>
-            </div>
-            <div class="project-visual project-visual-telegram">
-              <div class="project-phone">
-                <div class="project-phone-header"><span>Telegram</span><span>09:00</span></div>
-                <div class="project-chat">
-                  <div class="project-chat-bot">🤖</div>
-                  <div class="project-chat-message">
-                    <strong>今日 CEH 複習任務</strong><span>Network Security</span><small>10 questions · 15 min</small>
-                  </div>
-                  <div class="project-chat-message project-chat-user">Let's go!</div>
-                </div>
-              </div>
-              <span class="project-visual-note">every day.<br>just a little.</span>
-            </div>
-            <div class="project-card-content">
-              <p class="project-category">AI × TELEGRAM × STUDY</p>
-              <h3 class="project-name">CEH 考試<br>複習機器人</h3>
-              <p class="project-description">結合 Telegram，每天自動規劃複習內容，把原本「不知道今天要讀什麼」的焦慮，變成每天一點點的學習節奏。</p>
-              <div class="project-tools">
-                <span>AI</span><span>Telegram</span><span>Automation</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 02 (已升級為股市紅綠K棒與移動平均線) -->
-          <article class="project-card" tabindex="0">
-            <div class="project-card-header">
-              <span class="project-number">PROJECT / 02</span>
-              <span class="project-status">● DAILY USE</span>
-            </div>
-            <div class="project-visual project-visual-trading">
-              <div class="trading-screen">
-                <div class="trading-screen-top"><span>DAILY REVIEW</span><span>2026.08</span></div>
-
-                <!-- 股市 K 棒與均線圖表 -->
-                <div class="trading-chart">
-                  <svg class="trading-ma-line" viewBox="0 0 400 150" preserveAspectRatio="none">
-                    <path d="M 0,120 Q 80,90 160,60 T 320,40 T 400,30" fill="none" stroke="var(--brand-primary)"
-                      stroke-width="2.5" opacity="0.85" />
-                    <path d="M 0,140 Q 100,110 200,85 T 400,60" fill="none" stroke="#60a5fa" stroke-width="1.5"
-                      opacity="0.6" />
-                  </svg>
-                  <div class="candlestick-group">
-                    <div class="candlestick bearish">
-                      <div class="wick"></div>
-                      <div class="body"></div>
-                    </div>
-                    <div class="candlestick bullish">
-                      <div class="wick"></div>
-                      <div class="body"></div>
-                    </div>
-                    <div class="candlestick bullish">
-                      <div class="wick"></div>
-                      <div class="body"></div>
-                    </div>
-                    <div class="candlestick bearish">
-                      <div class="wick"></div>
-                      <div class="body"></div>
-                    </div>
-                    <div class="candlestick bullish">
-                      <div class="wick"></div>
-                      <div class="body"></div>
-                    </div>
-                    <div class="candlestick bullish tall">
-                      <div class="wick"></div>
-                      <div class="body"></div>
-                    </div>
-                    <div class="candlestick bearish">
-                      <div class="wick"></div>
-                      <div class="body"></div>
-                    </div>
-                    <div class="candlestick bullish">
-                      <div class="wick"></div>
-                      <div class="body"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="trading-stats">
-                  <div><small>WIN RATE</small><strong>72%</strong></div>
-                  <div><small>TRADES</small><strong>48</strong></div>
-                  <div><small>REVIEW</small><strong>✓</strong></div>
-                </div>
-              </div>
-              <span class="project-visual-note">don't guess.<br>review.</span>
-            </div>
-            <div class="project-card-content">
-              <p class="project-category">AI × DATA × SELF REVIEW</p>
-              <h3 class="project-name">Trading<br>復盤機器人</h3>
-              <p class="project-description">記錄每天交易過程，自動整理交易結果並統計正確率，讓每一次交易都留下可以回頭分析的資料。</p>
-              <div class="project-tools">
-                <span>AI</span><span>Data</span><span>Analysis</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card project-card-infra" tabindex="0">
-            <div class="project-card-header">
-              <span class="project-number">PROJECT / 03</span>
-              <span class="project-status project-status-featured">★ FEATURED</span>
-            </div>
-            <div class="project-visual project-visual-infra">
-              <div class="infra-node infra-node-nas"><span class="infra-node-icon">NAS</span><small>HOME SERVER</small>
-              </div>
-              <div class="infra-node infra-node-openclaw"><span class="infra-node-icon">🦞</span><small>OPENCLAW</small>
-              </div>
-              <div class="infra-node infra-node-hermes"><span class="infra-node-icon">H</span><small>HERMES</small>
-              </div>
-              <div class="infra-node infra-node-cloud"><span class="infra-node-icon">☁</span><small>CLOUDFLARED</small>
-              </div>
-              <span class="infra-line infra-line-one"></span>
-              <span class="infra-line infra-line-two"></span>
-              <span class="infra-line infra-line-three"></span>
-              <div class="infra-center">
-                <span class="infra-center-label">MY</span><strong>OWN<br>WEB</strong>
-              </div>
-            </div>
-            <div class="project-card-content">
-              <p class="project-category">AI × NAS × SELF HOSTING</p>
-              <h3 class="project-name">NAS、OpenClaw<br>& Hermes 部署</h3>
-              <p class="project-description">使用 AI 解決網站於 NAS 上的部署，串接 OpenClaw、Hermes 與 Cloudflared，建立真正屬於自己的網站環境。</p>
-              <div class="project-tools project-tools-large">
-                <span>NAS</span><span>Docker</span><span>OpenClaw</span><span>Hermes</span><span>Cloudflared</span>
-              </div>
-            </div>
-          </article>
-
-        </div>
-
-        <div class="projects-bottom">
-          <p>下一個作品，<span>也許就是你的。</span></p>
-          <a class="projects-bottom-link" href="#contact">LET'S BUILD SOMETHING <span>↗</span></a>
-        </div>
-      </div>
+    <section class="about section-grid" id="about" aria-labelledby="about-heading">
+      <p class="chapter-label reveal"><span>03</span> 方法 / HOW I WORK</p><div class="about-intro"><h2 id="about-heading" class="reveal">設計感，<br><em>也要有工程感。</em></h2><p class="reveal">我在設計與程式之間工作。這意味著想法不會停在 Figma，細節也不會在交付時消失。</p></div>
+      <div class="capability-list"><article class="capability reveal"><span>01</span><h3>Product thinking</h3><p>使用者研究、資訊架構、互動策略</p></article><article class="capability reveal"><span>02</span><h3>Interface design</h3><p>視覺系統、原型、動態敘事</p></article><article class="capability reveal"><span>03</span><h3>Frontend craft</h3><p>HTML / CSS / JavaScript、效能、無障礙</p></article></div>
+      <blockquote class="quote reveal"><p>「予安不是只把需求做完，他讓我們第一次能清楚說出產品真正的價值。」</p><footer>— MIA CHEN, PRODUCT LEAD</footer></blockquote>
     </section>
-
-
-    <section class="contact-section" id="contact" aria-labelledby="contact-title">
-      <div class="contact-layout">
-        <div class="contact-intro">
-          <div class="contact-intro-meta">
-            <p class="section-label">04 / YOUR TURN</p>
-            <span class="contact-hand-note">no perfect idea required :)</span>
-          </div>
-          <h2 class="contact-title" id="contact-title">好，<br><span class="contact-title-accent">換你了。</span></h2>
-          <p class="contact-lead">不需要會寫程式，<br>甚至不需要先知道自己要做什麼。</p>
-          <p class="contact-description">告訴我你腦中那個「如果可以就好了」的小想法，我們一起看看，它能不能真的被做出來。</p>
-          <div class="contact-quote">
-            <span class="contact-quote-mark">“</span>
-            <p>最好的作品，通常都只是某個人突然想：<strong>「如果有這個東西就好了。」</strong></p>
-          </div>
-        </div>
-
-        <div class="contact-form-wrapper">
-          <div class="contact-form-header">
-            <div>
-              <span class="contact-form-label">START HERE</span>
-              <h3>Tell me your idea.</h3>
-            </div>
-            <span class="contact-form-number">01 → 08</span>
-          </div>
-          <form class="contact-form" id="contactForm" novalidate>
-            <div class="form-field">
-              <label class="form-label" for="contact-name">01 / 姓名 <span>*</span></label>
-              <input class="form-input" type="text" id="contact-name" name="name" placeholder="怎麼稱呼你？"
-                autocomplete="name" required />
-              <small class="form-error">請輸入你的姓名</small>
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="contact-email">02 / Email <span>*</span></label>
-              <input class="form-input" type="email" id="contact-email" name="email" placeholder="hello@example.com"
-                autocomplete="email" required />
-              <small class="form-error">請輸入有效的 Email</small>
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="contact-line">03 / LINE ID</label>
-              <input class="form-input" type="text" id="contact-line" name="line" placeholder="你的 LINE ID" />
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="contact-phone">04 / 電話</label>
-              <input class="form-input" type="tel" id="contact-phone" name="phone" placeholder="方便聯絡你的電話"
-                autocomplete="tel" />
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="contact-role">05 / 職業／身份</label>
-              <select class="form-input form-select" id="contact-role" name="role">
-                <option value="">選擇你的身份</option>
-                <option value="employee">上班族</option>
-                <option value="manager">管理職</option>
-                <option value="freelancer">自由工作者</option>
-                <option value="student">學生</option>
-                <option value="business">創業／企業主</option>
-                <option value="other">其他</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label class="form-label">06 / 目前的程式程度</label>
-              <div class="form-options">
-                <label class="form-option"><input type="radio" name="coding-level" value="zero" /><span>0
-                    基礎</span></label>
-                <label class="form-option"><input type="radio" name="coding-level"
-                    value="beginner" /><span>有摸過一點</span></label>
-                <label class="form-option"><input type="radio" name="coding-level"
-                    value="intermediate" /><span>可以自己寫</span></label>
-                <label class="form-option"><input type="radio" name="coding-level"
-                    value="advanced" /><span>已經在開發</span></label>
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="contact-reason">07 / 想學 Vibe Coding 的原因</label>
-              <textarea class="form-input form-textarea" id="contact-reason" name="reason" rows="4"
-                placeholder="最近是不是有一個東西，你很想做？"></textarea>
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="contact-project">08 / 最想做的作品 <span>*</span></label>
-              <textarea class="form-input form-textarea form-project-input" id="contact-project" name="project" rows="5"
-                placeholder="不用想得太完整，告訴我你的直覺就好..." required></textarea>
-              <small class="form-error">告訴我你最想做什麼</small>
-            </div>
-            <div class="contact-submit-area">
-              <button class="contact-submit" type="submit">
-                <span>我要開始 Vibe</span>
-                <span class="contact-submit-arrow">↗</span>
-              </button>
-              <p class="contact-submit-note">沒有標準答案。<br>你的想法就是起點。</p>
-            </div>
-            <div class="form-success" role="status" aria-live="polite">
-              <span class="form-success-icon">✓</span>
-              <div>
-                <strong>收到你的想法了。</strong>
-                <p>接下來，就讓我們看看它能變成什麼。</p>
-              </div>
-            </div>
-          </form>
-        </div>
-
-        <footer class="contact-footer">
-          <div class="contact-footer-title">
-            <span>SAY HI</span><span>↓</span>
-          </div>
-          <div class="contact-channels">
-            <a class="contact-channel" href="mailto:justin4512@gmail.com" style="--brand-primary: #EA4335;">Email</a>
-            <a class="contact-channel"
-              href="https://line.me/ti/g2/13qbovUd_QVPLjgxoj4p8sC-1yShyJyFLchj4Q?utm_source=invitation&utm_medium=link_copy&utm_campaign=default"
-              style="--brand-primary: #06C755;" target="_blank" rel="noopener noreferrer">LINE</a>
-            <a class="contact-channel" href="https://facebook.com/justin4512" style="--brand-primary: #1877F2;"
-              target="_blank" rel="noopener noreferrer">Facebook</a>
-            <a class="contact-channel" href="https://instagram.com/twtesla521" style="--brand-primary: #E1306C;"
-              target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a class="contact-channel" href="https://t.me/justin4512" style="--brand-primary: #2AABEE;" target="_blank"
-              rel="noopener noreferrer">Telegram</a>
-            <a class="contact-channel" href="https://discord.com/justin4512" style="--brand-primary: #5865F2;"
-              target="_blank" rel="noopener noreferrer">Discord</a>
-          </div>
-          <div class="contact-footer-bottom">
-            <span>VIBE CODING / 2026</span>
-            <span>MADE WITH CURIOSITY + AI</span>
-          </div>
-        </footer>
-      </div>
+    <section class="contact" id="contact" aria-labelledby="contact-heading">
+      <div class="contact-stamp" aria-hidden="true">AVAILABLE<br>FOR<br>SELECTED<br>PROJECTS</div><p class="chapter-label light reveal"><span>04</span> 下一章 / LET'S TALK</p><h2 id="contact-heading" class="reveal">你有一個還說不清楚，<br>但值得被做好的想法嗎？</h2><a class="contact-link reveal" href="mailto:hello@linyuan.design">hello@linyuan.design <span aria-hidden="true">↗</span></a>
+      <div class="contact-footer"><p>TAIPEI · UTC+8</p><div><a href="#top">回到頂端 ↑</a><a href="mailto:hello@linyuan.design">EMAIL</a></div><p>© 2026 LIN YU-AN</p></div>
     </section>
-
   </main>
-
-  <button class="back-to-top" type="button" aria-label="回到頂部">
-    ↑ REWIND
-  </button>
-
-  <footer class="site-footer">
-    <p class="footer-text">
-      VIBE / 001 — Built with curiosity, AI &amp; a little courage.
-    </p>
-  </footer>
-
   <script src="script.js"></script>
-
 </body>
-
 </html>
