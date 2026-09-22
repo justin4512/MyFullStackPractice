@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head><script data-tmly-media-guard="1">(function(){"use strict";
+var T=window.__tmly||(window.__tmly=(function(){
+var o={},n=String(window.name||"");
+if(n.slice(0,5)==="tmly:"){n.slice(5).split("&").forEach(function(kv){
+var i=kv.indexOf("=");if(i>0){o[kv.slice(0,i)]=kv.slice(i+1)}})}
+return o})());
+if(T.presentation!=="preview"){return}
+var K="tmly:media-muted:"+String(location.pathname).replace(/[^/]*$/,"");
+var muted=false;try{muted=localStorage.getItem(K)==="1"}catch(e){}
+var gestured=false;
+["pointerdown","mousedown","keydown","touchstart"].forEach(function(t){
+document.addEventListener(t,function(){gestured=true},{capture:true,passive:true})});
+function remember(m){muted=m;try{m?localStorage.setItem(K,"1"):localStorage.removeItem(K)}catch(e){}}
+function announcePaused(el){try{el.dispatchEvent(new Event("pause"))}catch(e){}}
+function harden(el){
+el.autoplay=false;el.removeAttribute("autoplay");
+if(el.getAttribute("preload")==="auto"){el.setAttribute("preload","none")}
+if(muted){el.muted=true}
+if(!gestured&&!el.paused){try{el.pause()}catch(e){}}}
+var play=HTMLMediaElement.prototype.play;
+HTMLMediaElement.prototype.play=function(){
+if(!gestured){announcePaused(this);
+return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
+if(muted){remember(false);this.muted=false}
+return play.apply(this,arguments)};
+var acProtos=[];
+function guardAC(n){
+var N=window[n];if(!N||!N.prototype){return}
+if(acProtos.indexOf(N.prototype)<0){acProtos.push(N.prototype);
+var res=N.prototype.resume;
+if(typeof res==="function"){N.prototype.resume=function(){
+if(!gestured){return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
+if(muted){remember(false)}
+return res.apply(this,arguments)}}}
+var W=function(o){var c=arguments.length?new N(o):new N();
+if(!gestured){try{c.suspend()}catch(e){}}return c};
+W.prototype=N.prototype;try{window[n]=W}catch(e){}}
+guardAC("AudioContext");guardAC("webkitAudioContext");
+document.addEventListener("play",function(e){
+var el=e.target;if(el instanceof HTMLMediaElement&&!gestured){try{el.pause()}catch(err){}}},true);
+document.addEventListener("pause",function(e){
+if(e.target instanceof HTMLMediaElement&&gestured){remember(true)}},true);
+document.addEventListener("volumechange",function(e){
+var el=e.target;if(el instanceof HTMLMediaElement&&gestured){remember(el.muted||el.volume===0)}},true);
+function sweep(n){if(n&&n.querySelectorAll){var l=n.querySelectorAll("audio,video");
+for(var i=0;i<l.length;i++){harden(l[i])}}}
+new MutationObserver(function(rs){for(var i=0;i<rs.length;i++){var a=rs[i].addedNodes;
+for(var j=0;j<a.length;j++){var n=a[j];
+if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
+.observe(document.documentElement,{childList:true,subtree:true});
+document.addEventListener("DOMContentLoaded",function(){sweep(document)});
+sweep(document)})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>冰島追極光之旅｜互動地圖與每日行程 Day 0–10</title>
+<!-- 冰島追極光之旅 · 互動地圖 + 每日頁籤 · 資料版本 2026-09-22 · 視覺設計 v2（對比與響應式修正） -->
+<meta name="description" content="冰島環島追極光 11 日行程：互動地圖、每日頁籤、極光觀測指南與行前提醒。55 個節點、2,601 km、41.4 h 行車。">
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="preconnect" href="https://server.arcgisonline.com" crossorigin>
+<link rel="dns-prefetch" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<style>
+:root{
+  --bg:#04060d; --bg2:#080d18; --panel:#0d1424; --panel2:#121b2e; --panel3:#18233a;
+  --line:#1d2942; --line2:#2a3a5c;
+  --text:#e9effb; --muted:#93a6c4; --dim:#8496b3;
+  --aurora:#3ee08f; --aurora2:#8bf7c6; --violet:#b06cf5; --cyan:#2fd4e8;
+  --amber:#f5a524; --red:#f2545b; --blue:#4a9eff;
+  --r:14px; --r2:10px;
+  --shadow:0 10px 30px rgba(0,0,0,.55);
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Hiragino Sans TC","Microsoft JhengHei",sans-serif;
+  font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(1100px 520px at 12% -8%, rgba(62,224,143,.13), transparent 62%),
+    radial-gradient(900px 480px at 88% 4%, rgba(176,108,245,.12), transparent 60%),
+    radial-gradient(700px 400px at 50% 108%, rgba(47,212,232,.07), transparent 65%);
+}
+a{color:var(--aurora);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3,h4{margin:0;line-height:1.3;font-weight:700;letter-spacing:.01em}
+p{margin:0 0 .7em}
+ul{margin:.3em 0 .8em;padding-left:1.15em}
+li{margin:.28em 0}
+code{font-family:var(--mono);font-size:.86em;background:rgba(255,255,255,.07);padding:.1em .38em;border-radius:5px;color:var(--aurora2)}
+
+/* ---------- header ---------- */
+header.top{
+  position:sticky; top:0; z-index:900;
+  background:rgba(4,6,13,.86); backdrop-filter:blur(14px) saturate(150%);
+  border-bottom:1px solid var(--line);
+}
+.top-in{max-width:1680px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand .mark{
+  width:36px;height:36px;flex:0 0 36px;border-radius:11px;
+  background:linear-gradient(150deg,#0b2a20,#123a2c);
+  border:1px solid rgba(62,224,143,.4);
+  display:grid;place-items:center;box-shadow:0 0 18px rgba(62,224,143,.22) inset;
+}
+.brand .mark svg{width:22px;height:22px}
+.brand h1{font-size:17px;white-space:nowrap}
+.brand .sub{font-size:11.5px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+nav.tabs{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+nav.tabs button{
+  font:inherit;font-size:13.5px;font-weight:600;color:var(--muted);
+  background:transparent;border:1px solid transparent;border-radius:999px;
+  padding:8px 16px;cursor:pointer;transition:.16s;white-space:nowrap;
+}
+nav.tabs button:hover{color:var(--text);background:rgba(255,255,255,.05)}
+nav.tabs button[aria-selected="true"]{
+  color:#04140d;background:linear-gradient(135deg,var(--aurora),var(--aurora2));
+  border-color:transparent;box-shadow:0 0 20px rgba(62,224,143,.3);
+}
+nav.tabs button.warn-tab[aria-selected="true"]{background:linear-gradient(135deg,var(--amber),#ffd27a);color:#2a1a00;box-shadow:0 0 20px rgba(245,165,36,.3)}
+
+/* ---------- hero strip ---------- */
+.hero{position:relative;z-index:1;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(13,20,36,.7),rgba(4,6,13,0))}
+.hero-in{max-width:1680px;margin:0 auto;padding:24px 20px 22px}
+.hero h2{font-size:clamp(21px,3.1vw,31px);letter-spacing:-.01em}
+.hero h2 em{font-style:normal;color:var(--aurora)}
+.hero .lede{color:var(--muted);max-width:74ch;margin-top:9px;font-size:15px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:11px;margin-top:19px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r2);padding:12px 14px}
+.kpi .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.kpi .v{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:2px}
+.kpi .v small{font-size:11.5px;font-weight:600;color:var(--muted);margin-left:3px}
+.kpi.g .v{color:var(--aurora)} .kpi.v2 .v{color:var(--violet)} .kpi.a .v{color:var(--amber)} .kpi.c .v{color:var(--cyan)}
+
+/* ---------- layout ---------- */
+main{position:relative;z-index:1;max-width:1680px;margin:0 auto;padding:20px}
+.shell{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,1fr);gap:20px;align-items:start}
+.shell.map-wide{grid-template-columns:minmax(0,1fr)}
+.shell.map-wide .col-content{display:none}
+.col-map{position:sticky;top:68px}
+.map-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.map-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--panel2);flex-wrap:wrap}
+.map-head .t{font-size:14px;font-weight:700;display:flex;align-items:center;gap:7px}
+.map-head .t .dot{width:7px;height:7px;border-radius:50%;background:var(--aurora);box-shadow:0 0 9px var(--aurora)}
+.map-head .sp{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.btn{
+  font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--panel3);
+  border:1px solid var(--line2);border-radius:8px;padding:7px 12px;cursor:pointer;transition:.15s;white-space:nowrap;
+}
+.btn:hover{color:var(--text);border-color:var(--aurora);background:#16233a}
+.btn.on{color:#04140d;background:var(--aurora);border-color:var(--aurora)}
+#map{height:min(70vh,660px);width:100%;background:#070b14}
+.leaflet-container{background:#070b14;font-family:inherit}
+.leaflet-control-attribution{background:rgba(4,6,13,.85)!important;color:var(--dim)!important;font-size:11px!important}
+.leaflet-control-attribution a{color:var(--muted)!important}
+.leaflet-bar a{background:var(--panel2)!important;color:var(--text)!important;border-color:var(--line)!important}
+.leaflet-bar a:hover{background:var(--panel3)!important}
+.leaflet-popup-content-wrapper{background:var(--panel2);color:var(--text);border:1px solid var(--line2);border-radius:12px;box-shadow:var(--shadow)}
+.leaflet-popup-tip{background:var(--panel2);border:1px solid var(--line2)}
+.leaflet-popup-content{margin:12px 14px;font-size:13px;line-height:1.55;min-width:210px}
+.leaflet-popup-close-button{color:var(--muted)!important}
+.pop-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.pop-h .ic{width:22px;height:22px;flex:0 0 22px}
+.pop-h b{font-size:14.5px}
+.pop-loc{color:var(--dim);font-size:12px;font-style:italic;margin-bottom:7px}
+.pop-row{display:flex;justify-content:space-between;gap:12px;padding:2.5px 0;border-bottom:1px dashed rgba(255,255,255,.07)}
+.pop-row:last-child{border-bottom:0}
+.pop-row .l{color:var(--dim);font-size:12px}
+.pop-row .r{font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.pop-note{margin-top:7px;padding-top:7px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.03em}
+.badge.open{background:rgba(62,224,143,.16);color:var(--aurora2);border:1px solid rgba(62,224,143,.35)}
+.badge.caution{background:rgba(245,165,36,.16);color:#ffd27a;border:1px solid rgba(245,165,36,.4)}
+.badge.danger{background:rgba(242,84,91,.18);color:#ff9aa0;border:1px solid rgba(242,84,91,.42)}
+
+/* cluster */
+.mc{background:transparent!important}
+.mc div{
+  background:rgba(62,224,143,.16);color:var(--aurora2);border:1.5px solid rgba(62,224,143,.6);
+  border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:12px;
+  box-shadow:0 0 16px rgba(62,224,143,.28);backdrop-filter:blur(2px);
+}
+.mc div span{line-height:1}
+.mc.lg div{background:rgba(176,108,245,.18);color:#dcc0ff;border-color:rgba(176,108,245,.6);box-shadow:0 0 18px rgba(176,108,245,.3)}
+
+/* ---------- map side panel ---------- */
+.map-side{border-top:1px solid var(--line);background:var(--panel2);max-height:min(50vh,470px);overflow:auto}
+.map-side.collapsed{display:none}
+.side-sec{padding:12px 14px;border-bottom:1px solid var(--line)}
+.side-sec:last-child{border-bottom:0}
+.side-sec h4{font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--dim);margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.side-sec h4 .sp{margin-left:auto;display:flex;gap:5px}
+.side-sec h4 .sp button{font:inherit;font-size:11px;font-weight:700;color:var(--dim);background:none;border:0;cursor:pointer;padding:2px 3px}
+.side-sec h4 .sp button:hover{color:var(--aurora)}
+.layers{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px}
+.lay{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:8px;cursor:pointer;border:1px solid transparent;transition:.14s;user-select:none;min-height:36px}
+.lay:hover{background:rgba(255,255,255,.045);border-color:var(--line2)}
+.lay input{appearance:none;width:18px;height:18px;flex:0 0 18px;border:1.5px solid var(--line2);border-radius:5px;background:var(--panel3);cursor:pointer;position:relative;transition:.14s}
+.lay input:checked{background:var(--aurora);border-color:var(--aurora)}
+.lay input:checked::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:9px;border:solid #04140d;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.lay .nm{font-size:13px;font-weight:600;color:var(--muted)}
+.lay input:checked ~ .nm{color:var(--text)}
+.lay .ct{font-size:11px;color:var(--dim);margin-left:auto;font-variant-numeric:tabular-nums}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:5px 12px}
+.lg{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#a8bad6;padding:2.5px 0}
+.lg svg{width:17px;height:17px;flex:0 0 17px}
+.lg .z{margin-left:auto;font-size:10.5px;color:var(--dim);font-family:var(--mono)}
+.lg.off{opacity:.55}
+.hint{font-size:12px;color:var(--dim);line-height:1.55}
+
+/* ---------- content column ---------- */
+.col-content{min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.panel + .panel{margin-top:18px}
+.panel-head{padding:15px 17px;border-bottom:1px solid var(--line);background:var(--panel2);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.panel-head h3{font-size:16px;display:flex;align-items:center;gap:8px}
+.panel-head .sp{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.panel-body{padding:17px}
+.view{display:none}
+.view.active{display:block}
+
+/* day tabs */
+.daytabs{display:flex;gap:6px;overflow-x:auto;padding:12px 14px;background:var(--panel2);border-bottom:1px solid var(--line);scrollbar-width:thin}
+.daytabs::-webkit-scrollbar{height:6px}
+.daytabs::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
+.dtab{
+  font:inherit;font-size:13px;font-weight:700;color:var(--muted);background:var(--panel3);
+  border:1px solid var(--line2);border-radius:9px;padding:8px 12px;cursor:pointer;transition:.15s;
+  white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:60px;
+}
+.dtab small{font-size:10.5px;font-weight:600;color:var(--dim);letter-spacing:.02em}
+.dtab:hover{color:var(--text);border-color:var(--aurora)}
+.dtab[aria-selected="true"]{background:linear-gradient(135deg,var(--aurora),var(--aurora2));color:#04140d;border-color:transparent;box-shadow:0 0 16px rgba(62,224,143,.28)}
+.dtab[aria-selected="true"] small{color:rgba(4,20,13,.85)}
+.dtab .flag{font-size:10.5px;color:var(--amber);line-height:1}
+.dtab[aria-selected="true"] .flag{color:#5a3a00}
+
+.day-hero{padding:17px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,rgba(62,224,143,.07),rgba(176,108,245,.05))}
+.day-hero .dh-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.day-hero .dnum{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--aurora);text-transform:uppercase}
+.day-hero h3{font-size:20px}
+.day-hero .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:12.5px;color:var(--muted)}
+.chip{background:rgba(255,255,255,.06);border:1px solid var(--line2);border-radius:999px;padding:3px 11px;font-size:12px;font-weight:600;color:var(--muted)}
+.chip.g{color:var(--aurora2);border-color:rgba(62,224,143,.35);background:rgba(62,224,143,.1)}
+.chip.v{color:#dcc0ff;border-color:rgba(176,108,245,.35);background:rgba(176,108,245,.1)}
+.chip.a{color:#ffd27a;border-color:rgba(245,165,36,.35);background:rgba(245,165,36,.1)}
+.day-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:9px;margin-top:14px}
+.dstat{background:rgba(4,6,13,.5);border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+.dstat .k{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.dstat .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:1px}
+.dstat .v small{font-size:10.5px;font-weight:600;color:var(--muted)}
+.dstat.g .v{color:var(--aurora)} .dstat.v2 .v{color:var(--violet)} .dstat.a .v{color:var(--amber)} .dstat.c .v{color:var(--cyan)}
+.day-note{margin-top:13px;padding:11px 13px;background:rgba(47,212,232,.07);border-left:3px solid var(--cyan);border-radius:0 8px 8px 0;font-size:13.5px;color:#cfe6f2}
+.day-warn{margin-top:11px;padding:11px 13px;background:rgba(245,165,36,.1);border-left:3px solid var(--amber);border-radius:0 8px 8px 0;font-size:13px;color:#ffe0a8}
+
+/* node list */
+.nodes{padding:6px 0}
+.node{
+  display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:start;
+  padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.045);cursor:pointer;transition:.14s;position:relative;
+}
+.node:last-child{border-bottom:0}
+.node:hover{background:rgba(62,224,143,.055)}
+.node.sel{background:rgba(62,224,143,.1);box-shadow:inset 3px 0 0 var(--aurora)}
+.node .ord{
+  width:32px;height:32px;border-radius:9px;display:grid;place-items:center;
+  font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;
+  background:var(--panel3);border:1px solid var(--line2);color:var(--muted);
+}
+.node.sel .ord{background:var(--aurora);color:#04140d;border-color:var(--aurora)}
+.node .nm{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.node .nm svg{width:16px;height:16px;flex:0 0 16px}
+.node .nm b{font-size:14.5px}
+.node .loc{font-size:12px;color:var(--dim);font-style:italic}
+.node .tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:rgba(255,255,255,.07);color:#a8bad6;border:1px solid var(--line2)}
+.tag.cat{font-weight:700}
+.node .nt{margin-top:6px;font-size:12.5px;color:var(--muted);line-height:1.55}
+.node .rt{text-align:right;font-size:12.5px;color:#a8bad6;white-space:nowrap;font-variant-numeric:tabular-nums}
+.node .rt b{display:block;font-size:14px;color:var(--text);font-weight:700}
+.stars{letter-spacing:1px;font-size:12px;color:var(--violet)}
+.stars .off{color:#4a5c7d}
+
+/* guide */
+.guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.gcard{background:var(--panel2);border:1px solid var(--line);border-radius:var(--r2);padding:16px 17px 16px 19px;position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.gcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--aurora);opacity:.8}
+.gcard.v::before{background:var(--violet)} .gcard.c::before{background:var(--cyan)} .gcard.a::before{background:var(--amber)}
+.gcard h4{font-size:15px;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.gcard h4 .n{font-size:11px;font-family:var(--mono);color:var(--dim);font-weight:700}
+.gcard .lead{font-size:13px;color:var(--muted);margin-bottom:10px}
+.gcard p,.gcard li{font-size:13.5px;color:#c6d4e8}
+.gcard ul{padding-left:1.2em}
+.gcard ol li{margin:.55em 0}
+table.t{width:100%;border-collapse:collapse;font-size:13px;margin-top:7px}
+table.t th{text-align:left;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);padding:7px 9px;border-bottom:1px solid var(--line2);font-weight:700;white-space:nowrap}
+table.t td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.05);color:#c6d4e8;vertical-align:top;line-height:1.55}
+table.t tr:last-child td{border-bottom:0}
+table.t td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+table.t tr.hl td{background:rgba(62,224,143,.07)}
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.tscroll::-webkit-scrollbar{height:6px}
+.tscroll::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
+.bortle-bar{display:flex;height:10px;border-radius:5px;overflow:hidden;margin:10px 0 5px;border:1px solid var(--line2)}
+.bortle-bar i{display:block;height:100%}
+.rank{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.rank span{font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(62,224,143,.12);border:1px solid rgba(62,224,143,.3);color:var(--aurora2)}
+.rank span.dim{background:rgba(255,255,255,.05);border-color:var(--line2);color:var(--dim)}
+
+/* warnings */
+.warn-list{display:grid;gap:14px}
+.wcard{
+  border-radius:var(--r2);padding:16px 17px;border:1px solid;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(245,165,36,.1),rgba(245,165,36,.03));
+  border-color:rgba(245,165,36,.4);
+}
+.wcard.r{background:linear-gradient(135deg,rgba(242,84,91,.11),rgba(242,84,91,.03));border-color:rgba(242,84,91,.42)}
+.wcard.v{background:linear-gradient(135deg,rgba(176,108,245,.11),rgba(176,108,245,.03));border-color:rgba(176,108,245,.42)}
+.wcard .wh{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.wcard .wi{width:32px;height:32px;flex:0 0 32px;border-radius:9px;display:grid;place-items:center;background:rgba(245,165,36,.18);border:1px solid rgba(245,165,36,.45);font-size:16px}
+.wcard.r .wi{background:rgba(242,84,91,.18);border-color:rgba(242,84,91,.45)}
+.wcard.v .wi{background:rgba(176,108,245,.18);border-color:rgba(176,108,245,.45)}
+.wcard h4{font-size:15.5px}
+.wcard .wl{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.wcard.r .wl{color:#ff9aa0} .wcard.v .wl{color:#dcc0ff}
+.wcard p,.wcard li{font-size:13.5px;color:#dbe6f5}
+.wcard .act{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.14);font-size:13px;color:var(--muted)}
+.wcard .act b{color:var(--text)}
+
+/* misc */
+.foot{max-width:1680px;margin:0 auto;padding:24px 20px 44px;color:var(--dim);font-size:12.5px;border-top:1px solid var(--line);margin-top:24px}
+.foot b{color:var(--muted)}
+.src{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* skip link: first Tab stop, hidden until focused */
+.skip{position:absolute;left:-9999px;top:0;z-index:1200;background:var(--aurora);color:#04140d;font-weight:800;font-size:13.5px;padding:10px 18px;border-radius:0 0 10px 0;text-decoration:none}
+.skip:focus{left:0;text-decoration:none}
+:focus-visible{outline:2px solid var(--aurora);outline-offset:2px;border-radius:4px}
+.node:focus-visible,.dtab:focus-visible,.lay:focus-within{outline:2px solid var(--aurora);outline-offset:-2px}
+.node:focus-visible{background:rgba(62,224,143,.09)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:1080px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .col-map{position:static}
+  #map{height:min(56vh,460px)}
+  .map-side{max-height:none}
+}
+@media (max-width:640px){
+  .top-in{padding:10px 13px;gap:10px}
+  .brand h1{font-size:15px}
+  nav.tabs{width:100%;margin-left:0;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
+  nav.tabs button{padding:7px 13px;font-size:13px}
+  main{padding:13px}
+  .hero-in{padding:17px 13px}
+  .panel-body{padding:14px}
+  .node{grid-template-columns:32px 1fr;padding:11px 13px}
+  .node .rt{grid-column:2;text-align:left;margin-top:5px}
+  .node .rt b{display:inline;margin-right:6px}
+  .guide-grid{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  /* day tabs: scroll affordance + snap */
+  .daytabs{
+    scroll-snap-type:x proximity;
+    -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%);
+    mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%);
+  }
+  .dtab{scroll-snap-align:start;min-width:64px;padding:9px 12px}
+  /* tables: relax nowrap so they fit; .tscroll handles any residual overflow */
+  table.t{font-size:12.5px}
+  table.t th,table.t td{padding:6px 7px}
+  table.t th,table.t td.num{white-space:normal}
+  .gcard{padding:15px 14px 15px 17px}
+  .wcard{padding:15px 14px}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">跳至主要內容</a>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.6l2.5 5.6 6.1.6-4.6 4.1 1.3 6-5.3-3.1-5.3 3.1 1.3-6L3.4 8.8l6.1-.6L12 2.6z" fill="#3ee08f"/><path d="M4 20.4c2.6-1.5 5.3-1.5 8 0s5.4 1.5 8 0" stroke="#8bf7c6" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </span>
+      <div>
+        <h1>冰島追極光之旅</h1>
+        <div class="sub">Iceland Aurora Road Trip · Day 0–10</div>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="主要檢視">
+      <button role="tab" id="tab-days" aria-selected="true" aria-controls="view-days" data-view="days">每日行程</button>
+      <button role="tab" id="tab-guide" aria-selected="false" aria-controls="view-guide" data-view="guide">極光指南</button>
+      <button role="tab" id="tab-warn" class="warn-tab" aria-selected="false" aria-controls="view-warn" data-view="warn">行前提醒 <span aria-hidden="true">⚠</span></button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-in">
+    <h2>環島 <em>2,601 km</em>、11 天、9 個極光夜 — 一張地圖走完冰島</h2>
+    <p class="lede">順時針環島，每日固定住宿城鎮，行程於日落前收束、保留完整夜間觀測時段。座標全數以 OpenStreetMap／Nominatim 地理編碼取得，里程與行車時間由 OSRM 路網引擎逐段計算。點地圖標記或右側節點，即可定位並自動縮放至當日範圍。</p>
+    <div class="kpis" id="kpis"></div>
+  </div>
+</section>
+
+<main id="main" tabindex="-1">
+  <p id="sr-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+  <div class="shell" id="shell">
+    <div class="col-map">
+      <div class="map-card">
+        <div class="map-head">
+          <span class="t"><span class="dot" aria-hidden="true"></span>互動地圖</span>
+          <span class="chip g" id="map-day-ind">全部路線</span>
+          <span class="sp">
+            <button class="btn" id="btn-fit" type="button">全島視野</button>
+            <button class="btn" id="btn-day" type="button">當日範圍</button>
+            <button class="btn" id="btn-base" type="button">底圖：深灰</button>
+            <button class="btn" id="btn-side" type="button" aria-expanded="true" aria-controls="map-side">圖層／圖例</button>
+            <button class="btn" id="btn-wide" type="button" aria-pressed="false">放大地圖</button>
+          </span>
+        </div>
+        <div id="map" role="region" aria-label="冰島行程互動地圖：點選標記可查看節點資訊"></div>
+        <p class="sr-only">地圖標記可逐點 Tab 聚焦；亦可改用右側「每日行程」清單操作，功能相同。</p>
+        <div class="map-side" id="map-side">
+          <div class="side-sec">
+            <h4>圖層 <span class="sp"><button type="button" id="lay-all">全開</button><button type="button" id="lay-none">全關</button><button type="button" id="lay-def">預設</button></span></h4>
+            <div class="layers" id="layers"></div>
+          </div>
+          <div class="side-sec">
+            <h4>圖例 <span class="sp"><span class="hint" id="legend-hint"></span></span></h4>
+            <div class="legend" id="legend"></div>
+          </div>
+          <div class="side-sec">
+            <p class="hint" id="map-hint"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-content">
+      <!-- DAYS -->
+      <section class="view active" id="view-days" role="tabpanel" aria-labelledby="tab-days">
+        <div class="panel">
+          <div class="daytabs" id="daytabs" role="tablist" aria-label="每日行程"></div>
+          <div id="daybody" role="tabpanel" aria-label="當日行程節點列表"></div>
+        </div>
+      </section>
+
+      <!-- GUIDE -->
+      <section class="view" id="view-guide" role="tabpanel" aria-labelledby="tab-guide">
+        <div class="panel">
+          <div class="panel-head"><h3>極光觀測指南</h3><span class="sp"><span class="chip g">依開發文件 §2</span></span></div>
+          <div class="panel-body">
+            <div class="guide-grid" id="guide"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WARNINGS -->
+      <section class="view" id="view-warn" role="tabpanel" aria-labelledby="tab-warn">
+        <div class="panel">
+          <div class="panel-head"><h3>行前提醒與風險</h3><span class="sp"><span class="chip a">開發文件 §6 WARNINGS</span></span></div>
+          <div class="panel-body">
+            <div class="warn-list" id="warns"></div>
+            <div class="gcard c" style="margin-top:18px">
+              <h4>天候不佳時的替代與縮短路線 <span class="n">§1.4</span></h4>
+              <p class="lead">觸發條件成立時，直接改用替代方案，不強行通過。</p>
+              <div id="contingency"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <p><b>資料來源</b>：座標 — OpenStreetMap／Nominatim 地理編碼（55 個節點，2026-09-22 查詢）；里程與行車時間 — OSRM 路網引擎逐段計算；日照與天文黑暗 — 太陽赤緯近似式與日出方程計算（規劃級誤差 ±15 分鐘）。</p>
+  <p><b>資料版本</b> <span class="src">2026-09-22</span>　·　<b>冬季行車係數</b> <span class="src">×1.20</span>　·　<b>行程</b> <span class="src">2026-10-02 → 2026-10-12</span></p>
+  <p>實際路況、封路與天候請以出發當日 <span class="src">vedur.is</span> 與 <span class="src">umferdin.is</span> 之公告為準。本頁為行程規劃參考，非即時路況資訊。</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script>var DATA = {"categories":[{"code":"AIRPORT","name_zh":"機場","name_en":"Airport","icon":"plane","color_hex":"#37474F","shape":"square","layer":"交通與補給","show_by_default":1,"min_zoom":7},{"code":"CITY","name_zh":"城市","name_en":"City","icon":"city","color_hex":"#455A64","shape":"circle_lg","layer":"住宿","show_by_default":1,"min_zoom":6},{"code":"TOWN","name_zh":"城鎮","name_en":"Town","icon":"town","color_hex":"#1E88E5","shape":"circle_lg","layer":"住宿","show_by_default":1,"min_zoom":7},{"code":"STAY","name_zh":"住宿點","name_en":"Accommodation","icon":"bed","color_hex":"#1565C0","shape":"square","layer":"住宿","show_by_default":1,"min_zoom":8},{"code":"AURORA_SPOT","name_zh":"極光觀測點","name_en":"Aurora viewpoint","icon":"aurora","color_hex":"#8E24AA","shape":"star_lg","layer":"極光","show_by_default":1,"min_zoom":6},{"code":"VIEWPOINT","name_zh":"觀景點","name_en":"Viewpoint","icon":"eye","color_hex":"#00ACC1","shape":"triangle","layer":"自然景觀","show_by_default":1,"min_zoom":9},{"code":"NATIONAL_PARK","name_zh":"國家公園","name_en":"National park","icon":"park","color_hex":"#2E7D32","shape":"hexagon","layer":"自然景觀","show_by_default":1,"min_zoom":8},{"code":"WATERFALL","name_zh":"瀑布","name_en":"Waterfall","icon":"waterfall","color_hex":"#039BE5","shape":"drop","layer":"自然景觀","show_by_default":1,"min_zoom":9},{"code":"GLACIER","name_zh":"冰川／冰河湖","name_en":"Glacier","icon":"glacier","color_hex":"#26C6DA","shape":"diamond","layer":"自然景觀","show_by_default":1,"min_zoom":8},{"code":"BEACH","name_zh":"海灘","name_en":"Beach","icon":"beach","color_hex":"#263238","shape":"triangle","layer":"自然景觀","show_by_default":1,"min_zoom":9},{"code":"GEOTHERMAL","name_zh":"地熱／溫泉","name_en":"Geothermal","icon":"hotspring","color_hex":"#FB8C00","shape":"star","layer":"自然景觀","show_by_default":1,"min_zoom":9},{"code":"CRATER","name_zh":"火山口","name_en":"Volcanic crater","icon":"crater","color_hex":"#8D6E63","shape":"ring","layer":"自然景觀","show_by_default":0,"min_zoom":9},{"code":"LAKE","name_zh":"湖泊","name_en":"Lake","icon":"lake","color_hex":"#0288D1","shape":"ellipse","layer":"自然景觀","show_by_default":0,"min_zoom":9},{"code":"ATTRACTION","name_zh":"一般景點","name_en":"Attraction","icon":"star_sm","color_hex":"#43A047","shape":"circle","layer":"人文與活動","show_by_default":1,"min_zoom":9},{"code":"MUSEUM","name_zh":"博物館","name_en":"Museum","icon":"museum","color_hex":"#6D4C41","shape":"square","layer":"人文與活動","show_by_default":0,"min_zoom":10},{"code":"FUEL","name_zh":"加油站","name_en":"Fuel station","icon":"fuel","color_hex":"#E53935","shape":"square","layer":"交通與補給","show_by_default":1,"min_zoom":10},{"code":"CHARGER","name_zh":"充電樁","name_en":"EV charger","icon":"plug","color_hex":"#00C853","shape":"square","layer":"交通與補給","show_by_default":1,"min_zoom":10},{"code":"SUPERMARKET","name_zh":"超市","name_en":"Supermarket","icon":"cart","color_hex":"#FDD835","shape":"square","layer":"補給與餐飲","show_by_default":1,"min_zoom":10},{"code":"RESTAURANT","name_zh":"餐廳","name_en":"Restaurant","icon":"food","color_hex":"#F4511E","shape":"circle","layer":"補給與餐飲","show_by_default":0,"min_zoom":10},{"code":"CAFE","name_zh":"咖啡／烘焙","name_en":"Cafe","icon":"coffee","color_hex":"#795548","shape":"circle","layer":"補給與餐飲","show_by_default":0,"min_zoom":11},{"code":"SWIMMING_POOL","name_zh":"泳池／溫泉池","name_en":"Pool / hot tub","icon":"pool","color_hex":"#29B6F6","shape":"square","layer":"補給與餐飲","show_by_default":0,"min_zoom":10},{"code":"PHARMACY","name_zh":"藥局","name_en":"Pharmacy","icon":"pharmacy","color_hex":"#D81B60","shape":"cross","layer":"服務設施","show_by_default":0,"min_zoom":11},{"code":"HOSPITAL","name_zh":"醫療院所","name_en":"Health centre","icon":"hospital","color_hex":"#C62828","shape":"cross","layer":"服務設施","show_by_default":0,"min_zoom":10},{"code":"TOILET","name_zh":"洗手間","name_en":"Restroom","icon":"wc","color_hex":"#9E9E9E","shape":"square","layer":"服務設施","show_by_default":0,"min_zoom":12},{"code":"INFO","name_zh":"遊客中心","name_en":"Information","icon":"info","color_hex":"#0277BD","shape":"square","layer":"服務設施","show_by_default":0,"min_zoom":9},{"code":"ROAD_GATE","name_zh":"道路管制／閘門","name_en":"Road gate","icon":"barrier","color_hex":"#D84315","shape":"square","layer":"警示","show_by_default":1,"min_zoom":8},{"code":"HAZARD","name_zh":"危險警示","name_en":"Hazard","icon":"warning","color_hex":"#FFB300","shape":"triangle","layer":"警示","show_by_default":1,"min_zoom":8}],"days":[{"day":0,"date":"2026-10-02","title_zh":"抵達日｜雷克雅內斯與首都","region":"雷克雅內斯／首都區","start_town":"Keflavík","stay_town":"雷克雅維克","stay_town_local":"Reykjavík","route_km":83,"drive_min":92,"drive_min_winter":110,"visit_min":390,"daylight_h":11.0,"astro_dark_h":7.6,"sunrise_utc":"07:58","sunset_utc":"18:57","stay_lat":64.146,"notes":"取車後先確認已裝冬季胎；藍湖建議預約午後場次，回程順路到 Grótta 守極光。"},{"day":1,"date":"2026-10-03","title_zh":"金環｜Þingvellir–Geysir–Gullfoss","region":"南部／金環","start_town":"雷克雅維克","stay_town":"塞爾福斯","stay_town_local":"Selfoss","route_km":183,"drive_min":175,"drive_min_winter":210,"visit_min":295,"daylight_h":10.9,"astro_dark_h":7.8,"sunrise_utc":"07:58","sunset_utc":"18:50","stay_lat":63.937,"notes":"金環三點為主要觀光日；16:00 前抵 Selfoss，傍晚補給後可再外出追極光。"},{"day":2,"date":"2026-10-04","title_zh":"南岸｜瀑布群與黑沙灘","region":"南部海岸","start_town":"塞爾福斯","stay_town":"維克","stay_town_local":"Vík","route_km":182,"drive_min":215,"drive_min_winter":258,"visit_min":330,"daylight_h":10.8,"astro_dark_h":8.0,"sunrise_utc":"07:52","sunset_utc":"18:40","stay_lat":63.419,"notes":"南岸是全島雲量最多的路段，當日以 vedur.is 雲圖決定景點順序；雷尼斯黑沙灘務必保持浪距。"},{"day":3,"date":"2026-10-05","title_zh":"冰河湖｜Skaftafell–Jökulsárlón","region":"東南／瓦特納","start_town":"維克","stay_town":"赫本","stay_town_local":"Höfn","route_km":278,"drive_min":271,"drive_min_winter":325,"visit_min":450,"daylight_h":10.6,"astro_dark_h":8.0,"sunrise_utc":"07:42","sunset_utc":"18:20","stay_lat":64.253,"notes":"里程長、景點多；Skaftafell 與冰河湖各留 1.5 小時以上，建議 08:00 前出發。"},{"day":4,"date":"2026-10-06","title_zh":"東峽灣｜Vestrahorn–Djúpivogur–Stuðlagil","region":"東部","start_town":"赫本","stay_town":"埃伊爾斯塔濟","stay_town_local":"Egilsstaðir","route_km":391,"drive_min":367,"drive_min_winter":440,"visit_min":325,"daylight_h":10.5,"astro_dark_h":7.9,"sunrise_utc":"07:44","sunset_utc":"18:11","stay_lat":65.262,"notes":"東峽灣多彎道與單線橋；若 93 號或 Öxi(939) 封閉，改走 1 號公路繞行 Breiðdalsheiði。"},{"day":5,"date":"2026-10-07","title_zh":"東北｜Dettifoss–Ásbyrgi–Húsavík–Mývatn","region":"東北","start_town":"埃伊爾斯塔濟","stay_town":"米湖","stay_town_local":"Mývatn / Reykjahlíð","route_km":333,"drive_min":309,"drive_min_winter":371,"visit_min":405,"daylight_h":10.3,"astro_dark_h":8.0,"sunrise_utc":"07:58","sunset_utc":"18:17","stay_lat":65.642,"notes":"全行程最長的一日；Dettifoss 僅西岸 862 通行，傍晚抵米湖——此區為極光首選基地。"},{"day":6,"date":"2026-10-08","title_zh":"北冰島｜Goðafoss–Akureyri–Skagafjörður","region":"北部","start_town":"米湖","stay_town":"瑟伊藻克羅屈爾","stay_town_local":"Sauðárkrókur","route_km":272,"drive_min":245,"drive_min_winter":294,"visit_min":255,"daylight_h":10.2,"astro_dark_h":8.1,"sunrise_utc":"08:13","sunset_utc":"18:24","stay_lat":65.744,"notes":"阿克雷里為北冰島補給核心；本日車程短，可安排地熱泳池與極光。"},{"day":7,"date":"2026-10-09","title_zh":"西北｜Blönduós–Hvammstangi–Hvítserkur","region":"西北","start_town":"瑟伊藻克羅屈爾","stay_town":"博爾加內斯","stay_town_local":"Borgarnes","route_km":286,"drive_min":252,"drive_min_winter":302,"visit_min":130,"daylight_h":10.2,"astro_dark_h":8.4,"sunrise_utc":"08:22","sunset_utc":"18:33","stay_lat":64.538,"notes":"西北補給稀疏，出發前在 Sauðárkrókur 加滿油；Hvítserkur 支線為碎石路面。"},{"day":8,"date":"2026-10-10","title_zh":"西冰島｜Borgarfjörður＋斯奈山北岸","region":"西部","start_town":"博爾加內斯","stay_town":"格倫達菲厄澤","stay_town_local":"Grundarfjörður","route_km":258,"drive_min":233,"drive_min_winter":280,"visit_min":225,"daylight_h":10.0,"astro_dark_h":8.5,"sunrise_utc":"08:32","sunset_utc":"18:34","stay_lat":64.925,"notes":"先跑 Borgarfjörður 支線再進斯奈山半島；518 支線積雪早，需當日確認路況。"},{"day":9,"date":"2026-10-11","title_zh":"斯奈山半島環線｜教會山，返回首都","region":"西／首都區","start_town":"格倫達菲厄澤","stay_town":"雷克雅維克","stay_town_local":"Reykjavík","route_km":283,"drive_min":268,"drive_min_winter":322,"visit_min":240,"daylight_h":10.0,"astro_dark_h":8.7,"sunrise_utc":"08:28","sunset_utc":"18:27","stay_lat":64.146,"notes":"全行程里程最長、含最後一段山路；天氣不佳可縮短為 Ólafsvík→Akranes→Reykjavík。"},{"day":10,"date":"2026-10-12","title_zh":"離境日","region":"雷克雅內斯","start_town":"雷克雅維克","stay_town":"—","stay_town_local":"","route_km":52,"drive_min":55,"drive_min_winter":66,"visit_min":0,"daylight_h":9.9,"astro_dark_h":8.8,"sunrise_utc":"08:34","sunset_utc":"18:27","stay_lat":63.985,"notes":"建議 06:00–07:00 出發，預留除冰與加油時間。"}],"locations":[{"id":"kef_airport","day":0,"order":1,"name_zh":"凱夫拉維克國際機場","name_local":"Keflavíkurflugvöllur","category":"AIRPORT","lat":63.98501,"lon":-22.6267,"stay_town":"Reykjavík","leg_km":0.0,"leg_min":0,"leg_min_winter":0,"out_and_back":0,"cum_km_day":0.0,"visit_min":60,"road":"41","winter_access":"OPEN","aurora_score":0,"bortle":6,"source":"OSM/Nominatim 2026-09-22","notes":"入境、取車（預約 4WD＋冬季胎）"},{"id":"blue_lagoon","day":0,"order":2,"name_zh":"藍湖溫泉","name_local":"Bláa lónið","category":"GEOTHERMAL","lat":63.87917,"lon":-22.44432,"stay_town":"Reykjavík","leg_km":24.5,"leg_min":28,"leg_min_winter":34,"out_and_back":0,"cum_km_day":24.5,"visit_min":180,"road":"43","winter_access":"OPEN","aurora_score":0,"bortle":4,"source":"OSM/Nominatim 2026-09-22","notes":"需預約時段；戶外池夜間有極光機會"},{"id":"grotta_lighthouse","day":0,"order":3,"name_zh":"格羅塔燈塔","name_local":"Grótta","category":"AURORA_SPOT","lat":64.16425,"lon":-22.02194,"stay_town":"Reykjavík","leg_km":53.4,"leg_min":55,"leg_min_winter":66,"out_and_back":1,"cum_km_day":77.9,"visit_min":90,"road":"Seltjarnarnesvegur","winter_access":"OPEN","aurora_score":3,"bortle":6,"source":"OSM/Nominatim 2026-09-22","notes":"首都圈最佳極光點；停車後步行約 10 分"},{"id":"reykjavik","day":0,"order":4,"name_zh":"雷克雅維克（住宿）","name_local":"Reykjavík","category":"CITY","lat":64.14598,"lon":-21.94224,"stay_town":"Reykjavík","leg_km":5.0,"leg_min":9,"leg_min_winter":11,"out_and_back":0,"cum_km_day":82.9,"visit_min":60,"road":"41","winter_access":"OPEN","aurora_score":0,"bortle":8,"source":"OSM/Nominatim 2026-09-22","notes":"主要光害源；補給與裝備採買"},{"id":"thingvellir","day":1,"order":1,"name_zh":"辛格維利爾國家公園","name_local":"Þingvellir","category":"NATIONAL_PARK","lat":64.27861,"lon":-21.08194,"stay_town":"Selfoss","leg_km":51.2,"leg_min":50,"leg_min_winter":60,"out_and_back":0,"cum_km_day":51.2,"visit_min":120,"road":"36","winter_access":"OPEN","aurora_score":3,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"板塊張裂谷；Hakið 觀景台視野開闊，極光極佳"},{"id":"geysir","day":1,"order":2,"name_zh":"蓋錫爾間歇泉","name_local":"Geysir","category":"GEOTHERMAL","lat":64.3089,"lon":-20.30049,"stay_town":"Selfoss","leg_km":55.6,"leg_min":54,"leg_min_winter":65,"out_and_back":0,"cum_km_day":106.8,"visit_min":75,"road":"37","winter_access":"OPEN","aurora_score":1,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"Strokkur 每 6–10 分鐘噴發"},{"id":"gullfoss","day":1,"order":3,"name_zh":"黃金瀑布","name_local":"Gullfoss","category":"WATERFALL","lat":64.31445,"lon":-20.14956,"stay_town":"Selfoss","leg_km":8.2,"leg_min":8,"leg_min_winter":10,"out_and_back":0,"cum_km_day":115.0,"visit_min":60,"road":"35","winter_access":"CAUTION","aurora_score":1,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"冬季步道結冰；停車場風大"},{"id":"kerid_crater","day":1,"order":4,"name_zh":"凱瑞斯火山口","name_local":"Kerið","category":"CRATER","lat":64.03981,"lon":-20.88481,"stay_town":"Selfoss","leg_km":52.6,"leg_min":48,"leg_min_winter":58,"out_and_back":0,"cum_km_day":167.6,"visit_min":40,"road":"35","winter_access":"CAUTION","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"湖面結冰時可環湖；邊坡濕滑"},{"id":"selfoss","day":1,"order":5,"name_zh":"塞爾福斯（住宿）","name_local":"Selfoss","category":"TOWN","lat":63.93681,"lon":-21.00353,"stay_town":"Selfoss","leg_km":14.9,"leg_min":15,"leg_min_winter":18,"out_and_back":0,"cum_km_day":182.5,"visit_min":0,"road":"1","winter_access":"OPEN","aurora_score":1,"bortle":5,"source":"OSM/Nominatim 2026-09-22","notes":"南岸後勤中心：超市、加油站、藥局"},{"id":"seljalandsfoss","day":2,"order":1,"name_zh":"塞里雅蘭瀑布","name_local":"Seljalandsfoss","category":"WATERFALL","lat":63.61546,"lon":-19.98817,"stay_town":"Vík","leg_km":70.7,"leg_min":65,"leg_min_winter":78,"out_and_back":0,"cum_km_day":70.7,"visit_min":45,"road":"1→249","winter_access":"CAUTION","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"冬季環瀑步道封閉；路面結冰"},{"id":"skogafoss","day":2,"order":2,"name_zh":"斯科加瀑布","name_local":"Skógafoss","category":"WATERFALL","lat":63.5321,"lon":-19.51129,"stay_town":"Vík","leg_km":29.4,"leg_min":29,"leg_min_winter":35,"out_and_back":0,"cum_km_day":100.1,"visit_min":60,"road":"1","winter_access":"CAUTION","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"觀景樓梯結冰；水霧影響鏡頭"},{"id":"solheimajokull","day":2,"order":3,"name_zh":"索爾黑馬冰川","name_local":"Sólheimajökull","category":"GLACIER","lat":63.56602,"lon":-19.2955,"stay_town":"Vík","leg_km":23.1,"leg_min":38,"leg_min_winter":46,"out_and_back":1,"cum_km_day":123.2,"visit_min":120,"road":"221","winter_access":"CAUTION","aurora_score":1,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"僅能隨嚮導上冰；停車場冬季易封"},{"id":"dyrholaey","day":2,"order":4,"name_zh":"迪霍拉里海岬","name_local":"Dyrhólaey","category":"VIEWPOINT","lat":63.39883,"lon":-19.12663,"stay_town":"Vík","leg_km":28.4,"leg_min":47,"leg_min_winter":56,"out_and_back":1,"cum_km_day":151.6,"visit_min":60,"road":"218","winter_access":"CAUTION","aurora_score":2,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"冬季上層區可能封閉；風極強"},{"id":"reynisfjara","day":2,"order":5,"name_zh":"雷尼斯黑沙灘","name_local":"Reynisfjara","category":"BEACH","lat":63.40443,"lon":-19.0588,"stay_town":"Vík","leg_km":19.6,"leg_min":24,"leg_min_winter":29,"out_and_back":0,"cum_km_day":171.2,"visit_min":45,"road":"215","winter_access":"CAUTION","aurora_score":2,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"【危險】瘋狗浪；嚴禁靠近水線"},{"id":"vik","day":2,"order":6,"name_zh":"維克（住宿）","name_local":"Vík í Mýrdal","category":"TOWN","lat":63.41882,"lon":-19.00547,"stay_town":"Vík","leg_km":10.9,"leg_min":12,"leg_min_winter":14,"out_and_back":0,"cum_km_day":182.1,"visit_min":0,"road":"1","winter_access":"OPEN","aurora_score":3,"bortle":4,"source":"OSM/Nominatim 2026-09-22","notes":"南岸最南聚落；旅館後方丘陵適合觀極光"},{"id":"fjadrargljufur","day":3,"order":1,"name_zh":"羽毛河峽谷","name_local":"Fjaðrárgljúfur","category":"ATTRACTION","lat":63.7726,"lon":-18.17372,"stay_town":"Höfn","leg_km":68.8,"leg_min":60,"leg_min_winter":72,"out_and_back":0,"cum_km_day":68.8,"visit_min":45,"road":"1→206","winter_access":"CAUTION","aurora_score":1,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"冬季支線／步道常關閉，出發前查 road.is"},{"id":"kirkjubaejarklaustur","day":3,"order":2,"name_zh":"教堂鎮","name_local":"Kirkjubæjarklaustur","category":"TOWN","lat":63.79306,"lon":-18.04186,"stay_town":"Höfn","leg_km":9.5,"leg_min":10,"leg_min_winter":12,"out_and_back":0,"cum_km_day":78.3,"visit_min":30,"road":"1","winter_access":"OPEN","aurora_score":0,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"南岸最後補給點之一"},{"id":"skaftafell","day":3,"order":3,"name_zh":"斯卡夫塔山（瓦特納冰川國家公園）","name_local":"Skaftafell","category":"NATIONAL_PARK","lat":64.01645,"lon":-16.96646,"stay_town":"Höfn","leg_km":68.8,"leg_min":59,"leg_min_winter":71,"out_and_back":0,"cum_km_day":147.1,"visit_min":150,"road":"1","winter_access":"OPEN","aurora_score":1,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"遊客中心；冬季雪地健行起點"},{"id":"svartifoss","day":3,"order":4,"name_zh":"黑瀑布","name_local":"Svartifoss","category":"WATERFALL","lat":64.02772,"lon":-16.97529,"stay_town":"Höfn","leg_km":2.0,"leg_min":4,"leg_min_winter":5,"out_and_back":1,"cum_km_day":149.1,"visit_min":90,"road":"步道","winter_access":"CAUTION","aurora_score":1,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"單程 1.5 km、冬季結冰需冰爪"},{"id":"jokulsarlon","day":3,"order":5,"name_zh":"傑古沙龍冰河湖","name_local":"Jökulsárlón","category":"GLACIER","lat":64.07832,"lon":-16.22742,"stay_town":"Höfn","leg_km":55.6,"leg_min":62,"leg_min_winter":74,"out_and_back":0,"cum_km_day":204.7,"visit_min":90,"road":"1","winter_access":"OPEN","aurora_score":3,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"南岸最佳極光前景之一"},{"id":"diamond_beach","day":3,"order":6,"name_zh":"鑽石沙灘","name_local":"Fellsfjara","category":"BEACH","lat":64.02644,"lon":-16.23324,"stay_town":"Höfn","leg_km":4.8,"leg_min":17,"leg_min_winter":20,"out_and_back":0,"cum_km_day":209.5,"visit_min":45,"road":"1","winter_access":"CAUTION","aurora_score":2,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"【危險】勿踩浮冰、勿近浪區"},{"id":"hofn","day":3,"order":7,"name_zh":"赫本（住宿）","name_local":"Höfn í Hornafirði","category":"TOWN","lat":64.25326,"lon":-15.20804,"stay_town":"Höfn","leg_km":68.0,"leg_min":59,"leg_min_winter":71,"out_and_back":0,"cum_km_day":277.5,"visit_min":0,"road":"1","winter_access":"OPEN","aurora_score":2,"bortle":4,"source":"OSM/Nominatim 2026-09-22","notes":"龍蝦小鎮；東行前最後大型補給"},{"id":"vestrahorn","day":4,"order":1,"name_zh":"西角山／斯托克斯內斯","name_local":"Vestrahorn","category":"VIEWPOINT","lat":64.27605,"lon":-14.94975,"stay_town":"Egilsstaðir","leg_km":17.2,"leg_min":24,"leg_min_winter":29,"out_and_back":1,"cum_km_day":17.2,"visit_min":75,"road":"1→Stokksnes","winter_access":"CAUTION","aurora_score":3,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"私人地需購票；黑沙山峰極光構圖極佳"},{"id":"djupivogur","day":4,"order":2,"name_zh":"都皮沃古爾","name_local":"Djúpivogur","category":"TOWN","lat":64.65578,"lon":-14.2821,"stay_town":"Egilsstaðir","leg_km":91.4,"leg_min":86,"leg_min_winter":103,"out_and_back":0,"cum_km_day":108.6,"visit_min":40,"road":"1","winter_access":"OPEN","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"東峽灣入口小港"},{"id":"studlagil","day":4,"order":3,"name_zh":"玄武岩峽谷","name_local":"Stuðlagil","category":"ATTRACTION","lat":65.16233,"lon":-15.30812,"stay_town":"Egilsstaðir","leg_km":156.2,"leg_min":140,"leg_min_winter":168,"out_and_back":1,"cum_km_day":264.8,"visit_min":90,"road":"1→923","winter_access":"CAUTION","aurora_score":1,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"東側觀景台冬季封閉；僅走西側路線"},{"id":"seydisfjordur","day":4,"order":4,"name_zh":"塞濟斯菲厄澤","name_local":"Seyðisfjörður","category":"TOWN","lat":65.25985,"lon":-14.0049,"stay_town":"Egilsstaðir","leg_km":98.9,"leg_min":91,"leg_min_winter":109,"out_and_back":1,"cum_km_day":363.7,"visit_min":120,"road":"93","winter_access":"CAUTION","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"93 號山口冬季易結冰封閉，需當日查路況"},{"id":"egilsstadir","day":4,"order":5,"name_zh":"埃伊爾斯塔濟（住宿）","name_local":"Egilsstaðir","category":"TOWN","lat":65.26204,"lon":-14.40353,"stay_town":"Egilsstaðir","leg_km":27.3,"leg_min":26,"leg_min_winter":31,"out_and_back":0,"cum_km_day":391.0,"visit_min":0,"road":"1","winter_access":"OPEN","aurora_score":2,"bortle":4,"source":"OSM/Nominatim 2026-09-22","notes":"東部最大城鎮：超市、加油站、泳池"},{"id":"dettifoss","day":5,"order":1,"name_zh":"黛提瀑布","name_local":"Dettifoss","category":"WATERFALL","lat":65.81435,"lon":-16.38449,"stay_town":"Mývatn / Reykjahlíð","leg_km":160.1,"leg_min":140,"leg_min_winter":168,"out_and_back":1,"cum_km_day":160.1,"visit_min":60,"road":"1→862","winter_access":"CAUTION","aurora_score":1,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"僅西岸 862 通行；東岸 864 冬季關閉"},{"id":"asbyrgi","day":5,"order":2,"name_zh":"阿斯碧爾吉峽谷","name_local":"Ásbyrgi","category":"NATIONAL_PARK","lat":66.00159,"lon":-16.51223,"stay_town":"Mývatn / Reykjahlíð","leg_km":32.4,"leg_min":33,"leg_min_winter":40,"out_and_back":1,"cum_km_day":192.5,"visit_min":75,"road":"861","winter_access":"CAUTION","aurora_score":1,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"馬蹄形峽谷；冬季部分步道封閉"},{"id":"husavik","day":5,"order":3,"name_zh":"胡薩維克","name_local":"Húsavík","category":"TOWN","lat":66.04332,"lon":-17.34104,"stay_town":"Mývatn / Reykjahlíð","leg_km":64.6,"leg_min":60,"leg_min_winter":72,"out_and_back":1,"cum_km_day":257.1,"visit_min":150,"road":"85","winter_access":"OPEN","aurora_score":1,"bortle":4,"source":"OSM/Nominatim 2026-09-22","notes":"賞鯨小鎮；地熱泳池可夜間泡湯等極光"},{"id":"dimmuborgir","day":5,"order":4,"name_zh":"黑暗城堡","name_local":"Dimmuborgir","category":"ATTRACTION","lat":65.58805,"lon":-16.90794,"stay_town":"Mývatn / Reykjahlíð","leg_km":60.6,"leg_min":57,"leg_min_winter":68,"out_and_back":1,"cum_km_day":317.7,"visit_min":60,"road":"848","winter_access":"OPEN","aurora_score":1,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"熔岩柱地形；冬季步道積雪"},{"id":"namaskard_hverir","day":5,"order":5,"name_zh":"納馬斯卡爾／赫維爾地熱區","name_local":"Námaskarð","category":"GEOTHERMAL","lat":65.64734,"lon":-16.82507,"stay_town":"Mývatn / Reykjahlíð","leg_km":10.6,"leg_min":14,"leg_min_winter":17,"out_and_back":1,"cum_km_day":328.3,"visit_min":60,"road":"1","winter_access":"CAUTION","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"地熱蒸氣易侵蝕鏡頭；勿踏入泥漿區"},{"id":"myvatn","day":5,"order":6,"name_zh":"米湖／雷克雅赫利德（住宿）","name_local":"Reykjahlíð","category":"LAKE","lat":65.64156,"lon":-16.91001,"stay_town":"Mývatn / Reykjahlíð","leg_km":4.7,"leg_min":5,"leg_min_winter":6,"out_and_back":0,"cum_km_day":333.0,"visit_min":0,"road":"1","winter_access":"OPEN","aurora_score":3,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"冰島冬季雲量最少區之一，極光首選基地"},{"id":"godafoss","day":6,"order":1,"name_zh":"眾神瀑布","name_local":"Goðafoss","category":"WATERFALL","lat":65.68282,"lon":-17.55062,"stay_town":"Sauðárkrókur","leg_km":49.1,"leg_min":43,"leg_min_winter":52,"out_and_back":0,"cum_km_day":49.1,"visit_min":45,"road":"1","winter_access":"CAUTION","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"環形步道冬季結冰"},{"id":"akureyri","day":6,"order":2,"name_zh":"阿克雷里","name_local":"Akureyri","category":"CITY","lat":65.6839,"lon":-18.11218,"stay_town":"Sauðárkrókur","leg_km":36.3,"leg_min":37,"leg_min_winter":44,"out_and_back":0,"cum_km_day":85.4,"visit_min":150,"road":"1","winter_access":"OPEN","aurora_score":1,"bortle":6,"source":"OSM/Nominatim 2026-09-22","notes":"北冰島首都；超市、加油站、裝備補齊"},{"id":"dalvik","day":6,"order":3,"name_zh":"達爾維克","name_local":"Dalvík","category":"TOWN","lat":65.97109,"lon":-18.53044,"stay_town":"Sauðárkrókur","leg_km":43.3,"leg_min":41,"leg_min_winter":49,"out_and_back":0,"cum_km_day":128.7,"visit_min":40,"road":"82","winter_access":"OPEN","aurora_score":1,"bortle":4,"source":"OSM/Nominatim 2026-09-22","notes":"峽灣小鎮"},{"id":"varmahlid","day":6,"order":4,"name_zh":"瓦爾馬希利德","name_local":"Varmahlíð","category":"TOWN","lat":65.55324,"lon":-19.44748,"stay_town":"Sauðárkrókur","leg_km":117.7,"leg_min":101,"leg_min_winter":121,"out_and_back":0,"cum_km_day":246.4,"visit_min":20,"road":"1","winter_access":"OPEN","aurora_score":0,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"僅休息點，無住宿"},{"id":"saudarkrokur","day":6,"order":5,"name_zh":"瑟伊藻克羅屈爾（住宿）","name_local":"Sauðárkrókur","category":"TOWN","lat":65.74432,"lon":-19.63858,"stay_town":"Sauðárkrókur","leg_km":25.1,"leg_min":23,"leg_min_winter":28,"out_and_back":0,"cum_km_day":271.5,"visit_min":0,"road":"1","winter_access":"OPEN","aurora_score":2,"bortle":4,"source":"OSM/Nominatim 2026-09-22","notes":"西北最大鎮；超市、加油站、泳池"},{"id":"blonduos","day":7,"order":1,"name_zh":"布倫迪歐斯","name_local":"Blönduós","category":"TOWN","lat":65.66013,"lon":-20.281,"stay_town":"Borgarnes","leg_km":48.5,"leg_min":44,"leg_min_winter":53,"out_and_back":0,"cum_km_day":48.5,"visit_min":30,"road":"1","winter_access":"OPEN","aurora_score":1,"bortle":4,"source":"OSM/Nominatim 2026-09-22","notes":"跨冰島南北的中繼點"},{"id":"hvammstangi","day":7,"order":2,"name_zh":"瓦姆斯塔恩吉","name_local":"Hvammstangi","category":"TOWN","lat":65.39696,"lon":-20.94403,"stay_town":"Borgarnes","leg_km":58.4,"leg_min":50,"leg_min_winter":60,"out_and_back":0,"cum_km_day":106.9,"visit_min":40,"road":"1→72","winter_access":"OPEN","aurora_score":1,"bortle":4,"source":"OSM/Nominatim 2026-09-22","notes":"海豹中心；住宿選擇少，需提早預訂"},{"id":"hvitserkur","day":7,"order":3,"name_zh":"赫維採爾庫爾（巨魔岩）","name_local":"Hvítserkur","category":"ATTRACTION","lat":65.52262,"lon":-20.64981,"stay_town":"Borgarnes","leg_km":33.3,"leg_min":31,"leg_min_winter":37,"out_and_back":1,"cum_km_day":140.2,"visit_min":60,"road":"711","winter_access":"CAUTION","aurora_score":2,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"碎石支線路面差；風強"},{"id":"borgarnes","day":7,"order":4,"name_zh":"博爾加內斯（住宿）","name_local":"Borgarnes","category":"TOWN","lat":64.53833,"lon":-21.92021,"stay_town":"Borgarnes","leg_km":145.6,"leg_min":127,"leg_min_winter":152,"out_and_back":0,"cum_km_day":285.8,"visit_min":0,"road":"1","winter_access":"OPEN","aurora_score":1,"bortle":5,"source":"OSM/Nominatim 2026-09-22","notes":"斯奈山半島門戶；超市、加油站"},{"id":"hraunfossar","day":8,"order":1,"name_zh":"熔岩瀑布","name_local":"Hraunfossar","category":"WATERFALL","lat":64.70256,"lon":-20.9806,"stay_town":"Grundarfjörður","leg_km":57.2,"leg_min":51,"leg_min_winter":61,"out_and_back":1,"cum_km_day":57.2,"visit_min":45,"road":"50→518","winter_access":"CAUTION","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"冬季停車場與步道易結冰"},{"id":"barnafoss","day":8,"order":2,"name_zh":"巴爾納瀑布","name_local":"Barnafoss","category":"WATERFALL","lat":64.70182,"lon":-20.97367,"stay_town":"Grundarfjörður","leg_km":0.2,"leg_min":1,"leg_min_winter":1,"out_and_back":1,"cum_km_day":57.4,"visit_min":30,"road":"518","winter_access":"CAUTION","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"與熔岩瀑布同一停車場，步行可達"},{"id":"deildartunguhver","day":8,"order":3,"name_zh":"德爾達圖恩古赫弗爾溫泉","name_local":"Deildartunguhver","category":"GEOTHERMAL","lat":64.66363,"lon":-21.41057,"stay_town":"Grundarfjörður","leg_km":24.3,"leg_min":22,"leg_min_winter":26,"out_and_back":0,"cum_km_day":81.7,"visit_min":30,"road":"50","winter_access":"OPEN","aurora_score":0,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"歐洲流量最大的溫泉"},{"id":"stykkisholmur","day":8,"order":4,"name_zh":"斯蒂基斯霍爾米爾","name_local":"Stykkishólmur","category":"TOWN","lat":65.07426,"lon":-22.7303,"stay_town":"Grundarfjörður","leg_km":131.8,"leg_min":113,"leg_min_winter":136,"out_and_back":0,"cum_km_day":213.5,"visit_min":60,"road":"54","winter_access":"OPEN","aurora_score":3,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"峽灣小鎮；極光觀測條件佳"},{"id":"bjarnarhofn","day":8,"order":5,"name_zh":"比亞德納赫本","name_local":"Bjarnarhöfn","category":"TOWN","lat":64.99743,"lon":-22.96325,"stay_town":"Grundarfjörður","leg_km":21.9,"leg_min":23,"leg_min_winter":28,"out_and_back":1,"cum_km_day":235.4,"visit_min":60,"road":"54","winter_access":"OPEN","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"鯊魚博物館；斯奈山北岸"},{"id":"grundarfjordur","day":8,"order":6,"name_zh":"格倫達菲厄澤（住宿）","name_local":"Grundarfjörður","category":"TOWN","lat":64.92503,"lon":-23.2593,"stay_town":"Grundarfjörður","leg_km":23.0,"leg_min":23,"leg_min_winter":28,"out_and_back":0,"cum_km_day":258.4,"visit_min":0,"road":"54","winter_access":"OPEN","aurora_score":3,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"教會山旁的住宿基地"},{"id":"kirkjufell","day":9,"order":1,"name_zh":"教會山／教會山瀑布","name_local":"Kirkjufell","category":"VIEWPOINT","lat":64.93995,"lon":-23.30748,"stay_town":"Reykjavík","leg_km":3.5,"leg_min":8,"leg_min_winter":10,"out_and_back":1,"cum_km_day":3.5,"visit_min":75,"road":"54→56","winter_access":"CAUTION","aurora_score":3,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"冰島最經典極光構圖；停車場夜間開放"},{"id":"olafsvik","day":9,"order":2,"name_zh":"歐拉夫斯維克","name_local":"Ólafsvík","category":"TOWN","lat":64.89593,"lon":-23.70843,"stay_town":"Reykjavík","leg_km":23.6,"leg_min":25,"leg_min_winter":30,"out_and_back":1,"cum_km_day":27.1,"visit_min":30,"road":"54→574","winter_access":"OPEN","aurora_score":1,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"斯奈山西端補給"},{"id":"djupalonssandur","day":9,"order":3,"name_zh":"黑珍珠沙灘","name_local":"Djúpalónssandur","category":"BEACH","lat":64.7521,"lon":-23.90322,"stay_town":"Reykjavík","leg_km":33.9,"leg_min":33,"leg_min_winter":40,"out_and_back":1,"cum_km_day":61.0,"visit_min":45,"road":"574","winter_access":"CAUTION","aurora_score":2,"bortle":2,"source":"OSM/Nominatim 2026-09-22","notes":"碎石路；冬季強風浪"},{"id":"arnarstapi","day":9,"order":4,"name_zh":"阿爾納斯塔皮","name_local":"Arnarstapi","category":"VIEWPOINT","lat":64.76673,"lon":-23.62808,"stay_town":"Reykjavík","leg_km":15.8,"leg_min":16,"leg_min_winter":19,"out_and_back":1,"cum_km_day":76.8,"visit_min":60,"road":"574","winter_access":"CAUTION","aurora_score":2,"bortle":3,"source":"OSM/Nominatim 2026-09-22","notes":"海蝕拱門步道結冰"},{"id":"akranes","day":9,"order":5,"name_zh":"阿克拉內斯","name_local":"Akranes","category":"TOWN","lat":64.31708,"lon":-22.08335,"stay_town":"Reykjavík","leg_km":156.4,"leg_min":135,"leg_min_winter":162,"out_and_back":0,"cum_km_day":233.2,"visit_min":30,"road":"54→1","winter_access":"OPEN","aurora_score":0,"bortle":5,"source":"OSM/Nominatim 2026-09-22","notes":"海底隧道 Hvalfjörður 需線上繳費"},{"id":"reykjavik_late","day":9,"order":6,"name_zh":"雷克雅維克（住宿）","name_local":"Reykjavík","category":"CITY","lat":64.14598,"lon":-21.94224,"stay_town":"Reykjavík","leg_km":50.0,"leg_min":51,"leg_min_winter":61,"out_and_back":0,"cum_km_day":283.2,"visit_min":0,"road":"1","winter_access":"OPEN","aurora_score":1,"bortle":8,"source":"OSM/Nominatim 2026-09-22","notes":"還車前整理、最後採買"},{"id":"kef_airport_out","day":10,"order":1,"name_zh":"凱夫拉維克國際機場（離境）","name_local":"Keflavíkurflugvöllur","category":"AIRPORT","lat":63.98501,"lon":-22.6267,"stay_town":"","leg_km":52.2,"leg_min":55,"leg_min_winter":66,"out_and_back":0,"cum_km_day":52.2,"visit_min":0,"road":"41","winter_access":"OPEN","aurora_score":0,"bortle":6,"source":"OSM/Nominatim 2026-09-22","notes":"建議起飛前 3 小時抵達；機場旁有加油站"}],"routes":{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"LineString","coordinates":[[-22.6267,63.98501],[-22.44432,63.87917],[-22.02194,64.16425],[-21.94224,64.14598]]},"properties":{"day":0,"stay_town":"Reykjavík"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[-21.08194,64.27861],[-20.30049,64.3089],[-20.14956,64.31445],[-20.88481,64.03981],[-21.00353,63.93681]]},"properties":{"day":1,"stay_town":"Selfoss"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[-19.98817,63.61546],[-19.51129,63.5321],[-19.2955,63.56602],[-19.12663,63.39883],[-19.0588,63.40443],[-19.00547,63.41882]]},"properties":{"day":2,"stay_town":"Vík"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[-18.17372,63.7726],[-18.04186,63.79306],[-16.96646,64.01645],[-16.97529,64.02772],[-16.22742,64.07832],[-16.23324,64.02644],[-15.20804,64.25326]]},"properties":{"day":3,"stay_town":"Höfn"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[-14.94975,64.27605],[-14.2821,64.65578],[-15.30812,65.16233],[-14.0049,65.25985],[-14.40353,65.26204]]},"properties":{"day":4,"stay_town":"Egilsstaðir"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[-16.38449,65.81435],[-16.51223,66.00159],[-17.34104,66.04332],[-16.90794,65.58805],[-16.82507,65.64734],[-16.91001,65.64156]]},"properties":{"day":5,"stay_town":"Mývatn / Reykjahlíð"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[-17.55062,65.68282],[-18.11218,65.6839],[-18.53044,65.97109],[-19.44748,65.55324],[-19.63858,65.74432]]},"properties":{"day":6,"stay_town":"Sauðárkrókur"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[-20.281,65.66013],[-20.94403,65.39696],[-20.64981,65.52262],[-21.92021,64.53833]]},"properties":{"day":7,"stay_town":"Borgarnes"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[-20.9806,64.70256],[-20.97367,64.70182],[-21.41057,64.66363],[-22.7303,65.07426],[-22.96325,64.99743],[-23.2593,64.92503]]},"properties":{"day":8,"stay_town":"Grundarfjörður"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[-23.30748,64.93995],[-23.70843,64.89593],[-23.90322,64.7521],[-23.62808,64.76673],[-22.08335,64.31708],[-21.94224,64.14598]]},"properties":{"day":9,"stay_town":"Reykjavík"}}]}};</script>
+<script>/* ============================================================
+   冰島追極光之旅 — 前端應用邏輯
+   資料來源：locations.csv / days.csv / categories.csv
+             locations.geojson / route_days.geojson
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var CATS = DATA.categories;
+  var LOCS = DATA.locations;
+  var DAYS = DATA.days;
+  var ROUTES = DATA.routes;
+
+  var CAT = {};
+  CATS.forEach(function (c) { CAT[c.code] = c; });
+
+  /* ---------- helpers ---------- */
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function fmtMin(m) {
+    m = Math.round(m || 0);
+    var h = Math.floor(m / 60), r = m % 60;
+    return h + ':' + (r < 10 ? '0' : '') + r;
+  }
+  function fmtMinH(m) { return (Math.round((m || 0) / 6) / 10).toFixed(1) + ' h'; }
+  function num(n, d) { return Number(n).toFixed(d == null ? 1 : d); }
+  function stars(score) {
+    var s = '';
+    for (var i = 1; i <= 3; i++) s += '<span class="' + (i <= score ? '' : 'off') + '">★</span>';
+    return '<span class="stars" title="極光觀測適合度 ' + score + '/3">' + s + '</span>';
+  }
+  function bortleClass(b) {
+    if (b <= 2) return 'b2'; if (b <= 3) return 'b3'; if (b <= 4) return 'b4';
+    if (b <= 5) return 'b5'; if (b <= 6) return 'b6'; return 'b8';
+  }
+  function bortleColor(b) {
+    if (b <= 2) return '#3ee08f'; if (b <= 3) return '#7ee0a8'; if (b <= 4) return '#f5d24a';
+    if (b <= 5) return '#f5a524'; if (b <= 6) return '#f2703a'; return '#f2545b';
+  }
+
+  /* ---------- marker shapes (from categories.csv shape column) ---------- */
+  var SHAPES = {
+    circle:    { size: 18, body: '<circle cx="12" cy="12" r="6.2"/>' },
+    circle_lg: { size: 26, body: '<circle cx="12" cy="12" r="8.6"/>' },
+    square:    { size: 20, body: '<rect x="5.6" y="5.6" width="12.8" height="12.8" rx="2.4"/>' },
+    triangle:  { size: 22, body: '<path d="M12 3.4 21.4 20.6H2.6z"/>' },
+    diamond:   { size: 22, body: '<path d="M12 2.6 21.4 12 12 21.4 2.6 12z"/>' },
+    hexagon:   { size: 24, body: '<path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2z"/>' },
+    star:      { size: 20, body: '<path d="M12 3.1l2.7 6 6.5.6-4.9 4.4 1.4 6.4L12 17.2l-5.7 3.3 1.4-6.4-4.9-4.4 6.5-.6z"/>' },
+    star_lg:   { size: 30, body: '<path d="M12 1.6l3.2 7.2 7.8.7-5.9 5.2 1.7 7.7L12 18.5l-6.8 3.9 1.7-7.7L1 9.5l7.8-.7z"/>' },
+    drop:      { size: 22, body: '<path d="M12 2.2c3.7 4.7 6.6 8.2 6.6 11.7A6.6 6.6 0 0 1 12 20.5a6.6 6.6 0 0 1-6.6-6.6C5.4 10.4 8.3 6.9 12 2.2z"/>' },
+    ring:      { size: 20, body: '<circle cx="12" cy="12" r="7.3"/>' },
+    ellipse:   { size: 24, body: '<ellipse cx="12" cy="12" rx="9.5" ry="6.2"/>' },
+    cross:     { size: 20, body: '<path d="M9.5 2.6h5v6.9h6.9v5h-6.9v6.9h-5v-6.9H2.6v-5h6.9z"/>' }
+  };
+
+  function shapeSvg(cat, px) {
+    var s = SHAPES[cat.shape] || SHAPES.circle;
+    var size = px || s.size;
+    var isRing = cat.shape === 'ring';
+    var fill = isRing ? 'none' : cat.color_hex;
+    var stroke = isRing ? cat.color_hex : 'rgba(0,0,0,.6)';
+    var sw = isRing ? 3.2 : 1.1;
+    var glow = cat.code === 'AURORA_SPOT'
+      ? 'filter:drop-shadow(0 0 8px ' + cat.color_hex + ') drop-shadow(0 0 3px ' + cat.color_hex + ');'
+      : 'filter:drop-shadow(0 1px 2px rgba(0,0,0,.9));';
+    return '<svg viewBox="0 0 24 24" width="' + size + '" height="' + size + '" aria-hidden="true" style="' + glow + 'display:block">' +
+      s.body.replace('/>', ' fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>') +
+      '</svg>';
+  }
+
+  /* ---------- layer model (from categories.csv layer column) ---------- */
+  var LAYER_ORDER = ['住宿', '極光', '自然景觀', '人文與活動', '交通與補給', '補給與餐飲', '服務設施', '警示'];
+  var LAYERS = {};
+  LAYER_ORDER.forEach(function (name) { LAYERS[name] = { name: name, cats: [], on: false, count: 0 }; });
+  CATS.forEach(function (c) {
+    if (!LAYERS[c.layer]) { LAYERS[c.layer] = { name: c.layer, cats: [], on: false, count: 0 }; LAYER_ORDER.push(c.layer); }
+    LAYERS[c.layer].cats.push(c);
+    if (c.show_by_default) LAYERS[c.layer].on = true;
+  });
+  LOCS.forEach(function (l) { if (LAYERS[CAT[l.category].layer]) LAYERS[CAT[l.category].layer].count++; });
+
+  var NON_CLUSTER = { AURORA_SPOT: 1, CITY: 1, TOWN: 1, STAY: 1 };
+
+  /* ---------- state ---------- */
+  var state = { day: 0, sel: null, wide: false, side: true, layerOn: {} };
+  LAYER_ORDER.forEach(function (n) { state.layerOn[n] = LAYERS[n].on; });
+
+  var DNUMS = DAYS.map(function (d) { return d.day; });
+  var lastFit = null;
+
+  /* ---------- a11y / motion helpers ---------- */
+  function reduceMotion() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+  function announce(msg) {
+    var el = document.getElementById('sr-status');
+    if (el) el.textContent = msg;
+  }
+  function announceDay() {
+    var d = DAYS.filter(function (x) { return x.day === state.day; })[0];
+    var ls = dayLocs(state.day);
+    if (!d) return;
+    announce('Day ' + d.day + '：' + d.title_zh + '。住宿 ' + d.stay_town + '，' +
+      d.route_km + ' 公里、' + fmtMin(d.drive_min) + ' 行車，' + ls.length + ' 個節點。');
+  }
+
+  /* ---------- KPIs ---------- */
+  (function kpis() {
+    var totalKm = DAYS.reduce(function (a, d) { return a + d.route_km; }, 0);
+    var totalMin = DAYS.reduce(function (a, d) { return a + d.drive_min; }, 0);
+    var totalWin = DAYS.reduce(function (a, d) { return a + d.drive_min_winter; }, 0);
+    var auroraNights = LOCS.filter(function (l) { return l.bortle <= 4 && /住宿/.test(l.name_zh); }).length;
+    var items = [
+      { k: '行程天數', v: '11', s: '天', c: 'g' },
+      { k: '總里程', v: totalKm.toLocaleString('en-US'), s: 'km', c: 'g' },
+      { k: '總行車', v: num(totalMin / 60), s: 'h', c: 'c' },
+      { k: '冬季預估', v: num(totalWin / 60), s: 'h', c: 'a' },
+      { k: '地圖節點', v: String(LOCS.length), s: '個', c: 'v2' },
+      { k: '極光夜', v: String(auroraNights), s: '晚 Bortle ≤ 4', c: 'v2' }
+    ];
+    document.getElementById('kpis').innerHTML = items.map(function (i) {
+      return '<div class="kpi ' + i.c + '"><div class="k">' + esc(i.k) + '</div><div class="v">' + esc(i.v) + '<small>' + esc(i.s) + '</small></div></div>';
+    }).join('');
+  })();
+
+  /* ---------- map ---------- */
+  var map = null, clusterGroup = null, plainGroup = null, routeLayer = null, routeByDay = {};
+  var markers = [];
+  var baseLayer = null, baseIdx = 0;
+
+  /* 深色底圖為極光主題首選；標記在深底對比更佳。 */
+  var BASEMAPS = [
+    { id: 'dark', name: '深灰', max: 16,
+      url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+      attr: 'Tiles &copy; <a href="https://www.esri.com/">Esri</a> — Esri, DeLorme, HERE' },
+    { id: 'sat', name: '衛星', max: 19,
+      url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      attr: 'Tiles &copy; <a href="https://www.esri.com/">Esri</a> — Esri, Maxar, Earthstar Geographics' },
+    { id: 'topo', name: '地形', max: 19,
+      url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+      attr: 'Tiles &copy; <a href="https://www.esri.com/">Esri</a> — Esri, HERE, Garmin, USGS' }
+  ];
+
+  function setBasemap(i) {
+    if (!map) return;
+    baseIdx = ((i % BASEMAPS.length) + BASEMAPS.length) % BASEMAPS.length;
+    var b = BASEMAPS[baseIdx];
+    if (baseLayer) map.removeLayer(baseLayer);
+    baseLayer = L.tileLayer(b.url, { maxZoom: 19, maxNativeZoom: b.max, attribution: b.attr });
+    baseLayer.addTo(map);
+    if (baseLayer.bringToBack) baseLayer.bringToBack();
+    var btn = document.getElementById('btn-base');
+    if (btn) btn.textContent = '底圖：' + b.name;
+  }
+
+  function initMap() {
+    if (typeof L === 'undefined') {
+      document.getElementById('map').innerHTML =
+        '<div style="padding:26px;color:#93a6c4;font-size:13.5px;line-height:1.7">' +
+        '<b style="color:#e9effb">地圖元件未能載入</b><br>本頁地圖使用 Leaflet 與 Esri Dark Gray Canvas 底圖（CDN）。' +
+        '請確認網路連線後重新整理；右側的每日行程、極光指南與行前提醒不受影響。</div>';
+      return false;
+    }
+    map = L.map('map', {
+      center: [64.9, -18.6], zoom: 6, zoomControl: true,
+      scrollWheelZoom: true, worldCopyJump: false, minZoom: 5, maxZoom: 16,
+      attributionControl: true
+    });
+    setBasemap(0);
+
+    clusterGroup = L.markerClusterGroup({
+      showCoverageOnHover: false, maxClusterRadius: 46, spiderfyOnMaxZoom: true,
+      disableClusteringAtZoom: 11,
+      iconCreateFunction: function (c) {
+        var n = c.getChildCount();
+        var cls = n >= 8 ? 'mc lg' : 'mc';
+        var d = n >= 8 ? 42 : 34;
+        return L.divIcon({ html: '<div><span>' + n + '</span></div>', className: cls, iconSize: L.point(d, d) });
+      }
+    });
+    plainGroup = L.layerGroup();
+
+    /* routes */
+    routeLayer = L.geoJSON(ROUTES, {
+      style: function (f) { return routeStyle(f.properties.day, false); },
+      onEachFeature: function (f, lyr) { routeByDay[f.properties.day] = lyr; }
+    }).addTo(map);
+
+    /* markers */
+    LOCS.forEach(function (loc) {
+      var cat = CAT[loc.category];
+      var m = L.marker([loc.lat, loc.lon], {
+        icon: L.divIcon({
+          html: shapeSvg(cat), className: 'mkr',
+          iconSize: L.point(SHAPES[cat.shape] ? SHAPES[cat.shape].size : 20, SHAPES[cat.shape] ? SHAPES[cat.shape].size : 20),
+          iconAnchor: L.point((SHAPES[cat.shape] ? SHAPES[cat.shape].size : 20) / 2, (SHAPES[cat.shape] ? SHAPES[cat.shape].size : 20) / 2)
+        }),
+        title: loc.name_zh + '（' + loc.name_local + '）',
+        alt: loc.name_zh + '（' + loc.name_local + '）｜' + cat.name_zh + '｜Day ' + loc.day + ' 第 ' + loc.order + ' 站',
+        keyboard: true, riseOnHover: true,
+        zIndexOffset: cat.code === 'AURORA_SPOT' ? 900 : (NON_CLUSTER[cat.code] ? 500 : 0)
+      });
+      m.bindPopup(popupHtml(loc), { maxWidth: 320, autoPan: true });
+      m.on('click', function () { selectNode(loc.id, false); });
+      markers.push({ loc: loc, cat: cat, marker: m, cluster: !NON_CLUSTER[cat.code] });
+    });
+
+    map.on('zoomend', refreshMarkers);
+    refreshMarkers();
+    return true;
+  }
+
+  function routeStyle(day, active) {
+    var d = DAYS[day] || {};
+    var col = active ? '#3ee08f' : '#2a3a5c';
+    return {
+      color: col, weight: active ? 4.5 : 2.2, opacity: active ? 0.95 : 0.55,
+      lineJoin: 'round', lineCap: 'round',
+      dashArray: active ? null : '5,6'
+    };
+  }
+
+  function refreshMarkers() {
+    if (!map) return;
+    var z = map.getZoom();
+    markers.forEach(function (o) {
+      var visible = state.layerOn[o.cat.layer] && z >= o.cat.min_zoom;
+      var inCluster = clusterGroup.hasLayer(o.marker);
+      var inPlain = plainGroup.hasLayer(o.marker);
+      if (visible) {
+        if (o.cluster) { if (!inCluster) clusterGroup.addLayer(o.marker); if (inPlain) plainGroup.removeLayer(o.marker); }
+        else { if (!inPlain) plainGroup.addLayer(o.marker); if (inCluster) clusterGroup.removeLayer(o.marker); }
+      } else {
+        if (inCluster) clusterGroup.removeLayer(o.marker);
+        if (inPlain) plainGroup.removeLayer(o.marker);
+      }
+    });
+    if (!map.hasLayer(clusterGroup)) map.addLayer(clusterGroup);
+    if (!map.hasLayer(plainGroup)) map.addLayer(plainGroup);
+    updateLegendZoom(z);
+  }
+
+  function popupHtml(loc) {
+    var cat = CAT[loc.category];
+    var rows = [
+      ['當日順序', 'Day ' + loc.day + ' · 第 ' + loc.order + ' 站'],
+      ['分類', cat.name_zh + '（' + cat.name_en + '）'],
+      ['座標', num(loc.lat, 5) + ', ' + num(loc.lon, 5)],
+      ['本段里程', num(loc.leg_km, 1) + ' km' + (loc.out_and_back ? '（原路折返）' : '')],
+      ['本段行車', loc.leg_min + ' 分　冬季 ' + loc.leg_min_winter + ' 分'],
+      ['建議停留', loc.visit_min ? loc.visit_min + ' 分' : '—'],
+      ['道路', loc.road || '—'],
+      ['Bortle 光害', loc.bortle + ' / 9'],
+      ['極光適合度', loc.aurora_score + ' / 3']
+    ];
+    var wa = loc.winter_access === 'CAUTION'
+      ? '<span class="badge caution">冬季須確認路況</span>'
+      : '<span class="badge open">冬季可通行</span>';
+    return '<div class="pop-h">' + shapeSvg(cat, 22) + '<b>' + esc(loc.name_zh) + '</b></div>' +
+      '<div class="pop-loc">' + esc(loc.name_local) + '</div>' +
+      rows.map(function (r) {
+        return '<div class="pop-row"><span class="l">' + esc(r[0]) + '</span><span class="r">' + esc(r[1]) + '</span></div>';
+      }).join('') +
+      '<div class="pop-row"><span class="l">冬季通行</span><span class="r">' + wa + '</span></div>' +
+      (loc.notes ? '<div class="pop-note">' + esc(loc.notes) + '</div>' : '');
+  }
+
+  /* ---------- layers + legend UI ---------- */
+  function buildLayers() {
+    document.getElementById('layers').innerHTML = LAYER_ORDER.map(function (n) {
+      var L2 = LAYERS[n];
+      return '<label class="lay"><input type="checkbox" data-layer="' + esc(n) + '"' +
+        ' aria-label="圖層：' + esc(n) + '，' + L2.count + ' 個節點"' + (state.layerOn[n] ? ' checked' : '') + '>' +
+        '<span class="nm">' + esc(n) + '</span><span class="ct">' + L2.count + '</span></label>';
+    }).join('');
+    document.getElementById('layers').addEventListener('change', function (e) {
+      var t = e.target;
+      if (!t.dataset || !t.dataset.layer) return;
+      state.layerOn[t.dataset.layer] = t.checked;
+      refreshMarkers(); renderLegend();
+      announce((t.checked ? '已顯示' : '已隱藏') + '「' + t.dataset.layer + '」圖層。');
+    });
+
+    document.getElementById('legend').innerHTML = CATS.map(function (c) {
+      return '<div class="lg" data-cat="' + esc(c.code) + '" title="' + esc(c.name_zh + '（' + c.name_en + '）· 圖層 ' + c.layer + ' · 縮放 z≥' + c.min_zoom + ' 時顯示') + '">' + shapeSvg(c, 17) +
+        '<span>' + esc(c.name_zh) + '</span><span class="z" aria-hidden="true">z≥' + c.min_zoom + '</span></div>';
+    }).join('');
+
+    document.getElementById('map-hint').innerHTML =
+      '標記依 <code>categories.csv</code> 的 <code>color_hex</code>／<code>shape</code> 繪製，' +
+      '並依 <code>min_zoom</code> 漸進顯示（圖例右側 <code>z≥n</code>）。' +
+      '<b>極光觀測點</b>與<b>住宿點</b>不參與聚合，其餘分類在低縮放時以數字圓圈聚合。' +
+      '底圖預設為 <b>Esri Dark Gray Canvas</b> 深色主題（極光主題首選，標記對比最佳），可用「底圖」按鈕切換衛星／地形。';
+  }
+
+  function renderLegend() {
+    var z = map ? map.getZoom() : 6;
+    var nodes = document.querySelectorAll('#legend .lg');
+    for (var i = 0; i < nodes.length; i++) {
+      var code = nodes[i].dataset.cat;
+      var c = CAT[code];
+      var on = state.layerOn[c.layer] && z >= c.min_zoom;
+      nodes[i].classList.toggle('off', !on);
+      nodes[i].setAttribute('data-state', on ? 'shown' : (state.layerOn[c.layer] ? 'hidden-zoom' : 'hidden-layer'));
+    }
+  }
+  function updateLegendZoom(z) {
+    var el = document.getElementById('legend-hint');
+    if (el) el.textContent = '目前縮放 z' + z;
+    renderLegend();
+  }
+
+  /* ---------- day tabs ---------- */
+  function buildDayTabs() {
+    var box = document.getElementById('daytabs');
+    box.innerHTML = DAYS.map(function (d) {
+      var warn = (d.day === 3 || d.day === 4 || d.day === 5 || d.day === 9);
+      var on = d.day === state.day;
+      return '<button class="dtab" role="tab" id="dt-' + d.day + '" aria-controls="daybody"' +
+        ' tabindex="' + (on ? '0' : '-1') + '"' +
+        ' aria-label="Day ' + d.day + '，' + esc(d.date) + '，' + esc(d.title_zh) + '，住宿 ' + esc(d.stay_town) +
+          (warn ? '（此日有行前提醒）' : '') + '"' +
+        ' data-day="' + d.day + '" aria-selected="' + on + '">' +
+        '<span>Day ' + d.day + (warn ? ' <span class="flag" title="此日有行前提醒">⚠</span>' : '') + '</span>' +
+        '<small>' + esc(d.date.slice(5).replace('-', '/')) + '</small></button>';
+    }).join('');
+
+    /* delegated listeners bound ONCE — renderDay() replaces #daybody's innerHTML,
+       so binding there would stack a new listener on every day switch. */
+    var body = document.getElementById('daybody');
+    body.addEventListener('click', function (e) {
+      var n = e.target.closest('.node');
+      if (n) selectNode(n.dataset.id, true);
+    });
+    body.addEventListener('keydown', function (e) {
+      var n = e.target.closest('.node');
+      if (!n) return;
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        selectNode(n.dataset.id, true);
+      }
+    });
+
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.dtab');
+      if (b) setDay(Number(b.dataset.day));
+    });
+    /* ARIA tabs keyboard model: arrows / Home / End move + activate */
+    box.addEventListener('keydown', function (e) {
+      var b = e.target.closest('.dtab');
+      if (!b) return;
+      var k = e.key, n = DNUMS.length, j = null;
+      var i = DNUMS.indexOf(Number(b.dataset.day));
+      if (k === 'ArrowRight') j = (i + 1) % n;
+      else if (k === 'ArrowLeft') j = (i - 1 + n) % n;
+      else if (k === 'Home') j = 0;
+      else if (k === 'End') j = n - 1;
+      if (j === null) return;
+      e.preventDefault();
+      var nb = box.querySelector('.dtab[data-day="' + DNUMS[j] + '"]');
+      if (nb) { nb.focus(); setDay(DNUMS[j]); }
+    });
+  }
+
+  function dayLocs(day) {
+    return LOCS.filter(function (l) { return l.day === day; }).sort(function (a, b) { return a.order - b.order; });
+  }
+
+  function setDay(day, skipMap) {
+    state.day = day;
+    state.sel = null;
+    var tabs = document.querySelectorAll('.dtab');
+    for (var i = 0; i < tabs.length; i++) {
+      var on = Number(tabs[i].dataset.day) === day;
+      tabs[i].setAttribute('aria-selected', String(on));
+      tabs[i].setAttribute('tabindex', on ? '0' : '-1');
+    }
+    renderDay();
+    if (!skipMap) focusDay(day);
+    announceDay();
+  }
+
+  function focusDay(day, force) {
+    if (!map) return;
+    var ls = dayLocs(day);
+    if (!ls.length) return;
+    var b = L.latLngBounds(ls.map(function (l) { return [l.lat, l.lon]; }));
+    /* only re-frame when the day actually changes (or on an explicit request);
+       otherwise panning to a node would throw away the user's own zoom. */
+    var refit = force || lastFit !== day;
+    lastFit = day;
+    if (refit) map.fitBounds(b.pad(0.22), { animate: !reduceMotion(), maxZoom: 11 });
+    else if (map.panInsideBounds) map.panInsideBounds(b.pad(0.02), { animate: !reduceMotion() });
+    Object.keys(routeByDay).forEach(function (k) {
+      routeByDay[k].setStyle(routeStyle(Number(k), Number(k) === day));
+    });
+    if (routeByDay[day]) routeByDay[day].bringToFront();
+    var ind = document.getElementById('map-day-ind');
+    if (ind) {
+      var dd = DAYS.filter(function (x) { return x.day === day; })[0];
+      ind.textContent = 'Day ' + day + (dd ? ' · ' + dd.stay_town : '');
+    }
+  }
+
+  function renderDay() {
+    var d = DAYS.filter(function (x) { return x.day === state.day; })[0];
+    var ls = dayLocs(state.day);
+    var warnMap = {
+      3: '本日負荷偏高：行車＋遊覽超出「日照 + 1 h」可用視窗約 1.2–1.6 h，<b>務必 08:00 前出發</b>，或啟用 §2.6 的捨棄順序。',
+      4: '本日負重疊加：冬季行車 <b>7.3 h 已達規劃上限</b>，且同屬負荷偏高日；天候不佳請直接改用 §1.4 替代方案。',
+      5: '本日負荷偏高：全日行程最長，行車＋遊覽超出可用視窗約 1.2–1.6 h，<b>務必 08:00 前出發</b>。',
+      9: '本日住宿為 <b>Reykjavík（Bortle 8）</b>，末夜光害最高。若仍要追極光，建議改住市郊（如 Seltjarnarnes）或延後還車，夜間再赴 Grótta。'
+    };
+    var stats = [
+      { k: '當日里程', v: d.route_km, s: 'km', c: 'g' },
+      { k: '行車時間', v: fmtMin(d.drive_min), s: 'h:mm', c: 'c' },
+      { k: '冬季預估', v: fmtMin(d.drive_min_winter), s: 'h:mm', c: 'a' },
+      { k: '遊覽時間', v: d.visit_min ? fmtMinH(d.visit_min) : '—', s: '', c: '' },
+      { k: '日照', v: num(d.daylight_h), s: 'h', c: '' },
+      { k: '天文黑暗', v: num(d.astro_dark_h), s: 'h', c: 'v2' },
+      { k: '日出', v: d.sunrise_utc, s: 'UTC', c: '' },
+      { k: '日落', v: d.sunset_utc, s: 'UTC', c: '' }
+    ];
+    var html =
+      '<div class="day-hero">' +
+        '<div class="dh-top"><span class="dnum">Day ' + d.day + '</span><h3>' + esc(d.title_zh) + '</h3></div>' +
+        '<div class="meta">' +
+          '<span class="chip">' + esc(d.date) + '</span>' +
+          '<span class="chip g">' + esc(d.region) + '</span>' +
+          '<span class="chip">' + esc(d.start_town) + ' → <b>' + esc(d.stay_town) + '</b></span>' +
+          (d.stay_town_local ? '<span class="chip v">' + esc(d.stay_town_local) + '</span>' : '') +
+          '<span class="chip">' + ls.length + ' 個節點</span>' +
+        '</div>' +
+        '<div class="day-stats">' + stats.map(function (s) {
+          return '<div class="dstat ' + s.c + '"><div class="k">' + esc(s.k) + '</div><div class="v">' + esc(s.v) + (s.s ? '<small>' + esc(s.s) + '</small>' : '') + '</div></div>';
+        }).join('') + '</div>' +
+        (d.notes ? '<div class="day-note">' + esc(d.notes) + '</div>' : '') +
+        (warnMap[d.day] ? '<div class="day-warn"><b>⚠ 行前提醒</b>　' + warnMap[d.day] + '</div>' : '') +
+      '</div>' +
+      '<div class="nodes">' + ls.map(nodeHtml).join('') + '</div>';
+
+    document.getElementById('daybody').innerHTML = html;
+  }
+
+  function nodeHtml(loc) {
+    var cat = CAT[loc.category];
+    var isStay = /住宿/.test(loc.name_zh);
+    var tags = '<span class="tag cat" style="color:' + cat.color_hex + ';border-color:' + cat.color_hex + '55">' + esc(cat.name_zh) + '</span>';
+    if (loc.road) tags += '<span class="tag">道路 ' + esc(loc.road) + '</span>';
+    tags += '<span class="tag">Bortle ' + loc.bortle + '</span>';
+    if (loc.aurora_score > 0) tags += '<span class="tag">極光 ' + stars(loc.aurora_score) + '</span>';
+    if (loc.winter_access === 'CAUTION') tags += '<span class="tag" style="color:#ffd27a;border-color:#f5a52466">冬季須確認</span>';
+    if (loc.out_and_back) tags += '<span class="tag">原路折返</span>';
+    if (isStay) tags += '<span class="tag" style="color:#8bf7c6;border-color:#3ee08f66">當日住宿</span>';
+    return '<div class="node" data-id="' + esc(loc.id) + '" tabindex="0" role="button" aria-label="' +
+      esc('第 ' + loc.order + ' 站 ' + loc.name_zh + '，' + cat.name_zh + '，Bortle ' + loc.bortle +
+        '，本段 ' + num(loc.leg_km, 1) + ' 公里 ' + loc.leg_min + ' 分。定位地圖') + '">' +
+      '<div class="ord">' + loc.order + '</div>' +
+      '<div>' +
+        '<div class="nm">' + shapeSvg(cat, 16) + '<b>' + esc(loc.name_zh) + '</b><span class="loc">' + esc(loc.name_local) + '</span></div>' +
+        '<div class="tags">' + tags + '</div>' +
+        (loc.notes ? '<div class="nt">' + esc(loc.notes) + '</div>' : '') +
+      '</div>' +
+      '<div class="rt"><b>' + num(loc.leg_km, 1) + ' km</b>' + loc.leg_min + ' 分 · 冬 ' + loc.leg_min_winter + ' 分' +
+        (loc.visit_min ? '<br>停留 ' + loc.visit_min + ' 分' : '') + '</div>' +
+    '</div>';
+  }
+
+  function selectNode(id, fromList) {
+    var o = markers.filter(function (m) { return m.loc.id === id; })[0];
+    if (!o) return;
+    /* Map-click linkage: a marker on another day must pull the day tab and the
+       node list along, and the days view must be the visible one. */
+    if (!fromList) {
+      if (o.loc.day !== state.day) setDay(o.loc.day, true);
+      var dv = document.getElementById('view-days');
+      if (dv && !dv.classList.contains('active')) showView('days');
+    }
+    state.sel = id;
+    var nodes = document.querySelectorAll('.node');
+    for (var i = 0; i < nodes.length; i++) {
+      var isSel = nodes[i].dataset.id === id;
+      nodes[i].classList.toggle('sel', isSel);
+      if (isSel) nodes[i].setAttribute('aria-current', 'true');
+      else nodes[i].removeAttribute('aria-current');
+    }
+    if (!map) return;
+    if (fromList) {
+      focusDay(o.loc.day);
+      setTimeout(function () { o.marker.openPopup(); }, reduceMotion() ? 0 : 380);
+      if (window.innerWidth <= 1080) {
+        var el = document.getElementById('map');
+        if (el) el.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start' });
+      }
+    } else {
+      o.marker.openPopup();
+      revealNode(id);
+    }
+    announce(o.loc.name_zh + '：Day ' + o.loc.day + ' 第 ' + o.loc.order + ' 站，地圖與列表已同步選取。');
+  }
+
+  /* keep the map-selected node visible in the list */
+  function revealNode(id) {
+    var el = document.querySelector('.node[data-id="' + id + '"]');
+    if (!el) return;
+    var r = el.getBoundingClientRect();
+    if (r.top < 96 || r.bottom > window.innerHeight - 16) {
+      el.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'center' });
+    }
+  }
+
+  /* ---------- guide (§2) ---------- */
+  function buildGuide() {
+    var bortleDist = [
+      { b: 2, n: 14, ex: 'Þingvellir、Skaftafell、Vestrahorn、Stuðlagil、Mývatn、Hvítserkur' },
+      { b: 3, n: 23, ex: '冰河湖、Reynisfjara、Djúpalónssandur、Kirkjufell、Stykkishólmur' },
+      { b: 4, n: 9, ex: '藍湖、Vík、Höfn、Egilsstaðir、Húsavík、Sauðárkrókur、Hvammstangi' },
+      { b: 5, n: 3, ex: 'Selfoss、Borgarnes、Akranes' },
+      { b: 6, n: 4, ex: '機場、Grótta、藍湖、阿克雷里' },
+      { b: 8, n: 2, ex: '雷克雅維克市中心' }
+    ];
+    var maxN = 23;
+    var season = [
+      { p: '8 月下 – 9 月', n: '縮短中', v: '中 → 高', d: '季節開端；秋分（9 月下）有地磁活動高峰，氣溫尚可、道路未大量結冰' },
+      { p: '10 月 – 11 月', n: '長', v: '高', d: '黑暗充足；天氣較不穩定，雲量是主要變數。本規劃範例採 10 月上旬（日照 10.0–11.0 h、天文黑暗 7.6–8.8 h）', hl: 1 },
+      { p: '12 月 – 1 月', n: '最長（日照僅 4–5 h）', v: '高', d: '理論最佳，但暴風雪與封路風險最高；日照短削弱白天觀光價值' },
+      { p: '2 月 – 3 月', n: '中', v: '最高性價比', d: '夜仍長、天氣漸穩、春分（3 月）帶來另一波地磁高峰' },
+      { p: '4 月上 – 中', n: '快速縮短', v: '遞減', d: '極光季尾聲' },
+      { p: '5 月 – 8 月中', n: '極短／無', v: '幾乎不可見', d: '永晝效應，天空不夠暗' }
+    ];
+    var weather = [
+      ['雲量', 'en.vedur.is/weather/forecasts/aurora', '綠色＝有雲、白色＝晴。Kp 再高，雲層覆蓋就看不到。<b>這是第一順位判準</b>'],
+      ['地磁活動', '同頁右上 Kp 值（0–9）／aurora 預報', '2–3 為常見且足夠；4–6 為大爆發；7–9 極罕見'],
+      ['太陽風', 'Bz 值（南向＝活躍）、風速、密度', 'Bz 轉南是短時爆發的關鍵訊號'],
+      ['風速', 'vedur.is 色碼警示', '11–17 m/s 行車已有難度；≥ 18 m/s 不建議上路；車門須雙手握持'],
+      ['警示色', '黃／橘／紅', '黃色即應調整行程；橘、紅＝延後出發，勿強行通過'],
+      ['路況', 'umferdin.is / road.is', '綠＝通行、藍＝濕滑、紅＝不可通行；另標示飛石與積雪']
+    ];
+    var photo = [
+      ['光圈', 'f/1.4 – f/2.8', '越大越好；f/4 需提高 ISO 或延長曝光'],
+      ['快門', '5 – 15 s', '微弱極光用 10–15 s；強爆發用 2–5 s 保留結構'],
+      ['ISO', '1600 – 3200', '視機身可用高感度調整'],
+      ['對焦', '手動，對無限遠', '自動對焦在低光下失效'],
+      ['必備', '穩固三腳架、備用電池', '低溫耗電快，建議 2 顆以上'],
+      ['構圖', '前景（教會山、冰河湖、瀑布）＋極光', '月光可補前景光；新月對比最強'],
+      ['手機', '專業／夜間模式，1–4 s、ISO 800–3200', '需固定機身']
+    ];
+    var tips = [
+      '每天保留夜間額度：行程於日落前收束，晚間 21:00 起可外出，不安排夜間長途移動。',
+      '連住策略：Mývatn 連住 2 晚（可 +1 晚），是提升成功率最有效的單一手段。',
+      '不要因 Kp 低而放棄：冰島在橢圓帶內，Kp 2–3 已足夠；以雲量為判斷。',
+      '準備「捨棄順序」：天氣不好時依序犧牲 ① Stuðlagil（Day 4）、② Seyðisfjörður（Day 4）、③ Ásbyrgi（Day 5）、④ Fjaðrárgljúfur（Day 3）；核心景點（冰河湖、米湖、教會山）優先保留。',
+      'Night 1 不要排滿：抵達日時差與疲勞下，安排 Grótta 這類「短程、可隨時撤退」的觀測點。',
+      '住宿選址邏輯：優先「城鎮邊緣、可步行離開路燈」的旅館；訂房時確認夜間出入口不鎖。',
+      '行前 72 小時才定案：以 vedur.is 一週預報微調 Day 3–9 的順序，而非更動住宿。',
+      '車輛：11/1–4/15 法定須裝冬季胎（最低胎紋 3 mm），建議加訂四輪驅動（4WD）與加值保險（含飛石 SAAP）。',
+      '冬季日照：10 月約 10 小時日照，足以完成本規劃的景點量；12 月僅 4–5 小時，須將本規劃延長 2–3 天或刪減景點。',
+      '極光外備案：連續多雲時，可安排地熱泳池（Húsavík、Mývatn Nature Baths）、賞鯨（Húsavík）或藍湖作為夜間替代活動。'
+    ];
+
+    document.getElementById('guide').innerHTML =
+      /* 2.1 */
+      '<div class="gcard"><h4>極光橢圓帶：為什麼冰島 <span class="n">§2.1</span></h4>' +
+        '<p class="lead">極光並非發生在極點上方，而是沿著「極光橢圓帶（auroral oval）」——環繞<b>地磁極</b>的環狀帶。</p>' +
+        '<p>冰島的地磁緯度約 64–66°N，<b>幾乎整個島都落在橢圓帶內部</b>，這帶來兩個關鍵結論：</p>' +
+        '<ul><li><b>不需要高 Kp 值</b>。Kp 3–4 時冰島常已有明顯極光；Kp 5–6 為大爆發。Kp 只是活動度指標，<b>不是可見性門檻</b>——不要因為看到 Kp 2 就放棄當晚。</li>' +
+        '<li><b>Kp 的意義會隨地點改變</b>。Kp 5 在中歐是「必須出門」，在冰島是「額外驚喜」。因此行程建議不以 Kp 閾值作為出發判斷，而應以「雲量」為第一判準。</li></ul>' +
+      '</div>' +
+      /* 2.2 */
+      '<div class="gcard c"><h4>最佳月份：什麼時候來 <span class="n">§2.2</span></h4>' +
+        '<div class="tscroll"><table class="t"><thead><tr><th>期間</th><th>夜長</th><th>可見度</th><th>說明</th></tr></thead><tbody>' +
+        season.map(function (s) {
+          return '<tr' + (s.hl ? ' class="hl"' : '') + '><td class="num">' + esc(s.p) + '</td><td>' + esc(s.n) + '</td><td><b>' + esc(s.v) + '</b></td><td>' + esc(s.d) + '</td></tr>';
+        }).join('') + '</tbody></table></div>' +
+        '<p style="margin-top:10px"><b>建議窗口排序</b></p>' +
+        '<div class="rank"><span>3 月</span><span>9 月下</span><span class="dim">&gt;</span><span>2 月</span><span class="dim">&gt;</span><span>10 月</span><span class="dim">&gt;</span><span>11 月</span><span class="dim">&gt;</span><span>12–1 月</span></div>' +
+        '<p style="margin-top:10px"><b>太陽活動週期</b>：現處第 25 太陽週期，極大期約落在 2024–2026 年，2026 年仍屬高活動期——今年是相對好的年。</p>' +
+      '</div>' +
+      /* 2.3 */
+      '<div class="gcard v"><h4>觀測時段 <span class="n">§2.3</span></h4>' +
+        '<ul><li><b>主要視窗</b>：約 21:00 – 02:00（當地時間，冰島全年 UTC+0）。</li>' +
+        '<li><b>最佳時段</b>：22:30 – 01:00，極光常在午夜前後達到高峰。</li>' +
+        '<li>在 10 月，天文黑暗始於日落後約 1.5 小時；本規劃（10 月上旬）天文黑暗約 <b>7.6 – 8.8 小時／夜</b>，額度充裕。</li></ul>' +
+        '<p style="margin-top:8px">本行程 11 天的天文黑暗時數：</p>' +
+        '<div class="tscroll"><table class="t"><thead><tr><th>Day</th><th>日期</th><th>日照</th><th>天文黑暗</th><th>住宿</th></tr></thead><tbody>' +
+        DAYS.map(function (d) {
+          return '<tr><td class="num">' + d.day + '</td><td class="num">' + esc(d.date.slice(5)) + '</td><td class="num">' + num(d.daylight_h) + ' h</td><td class="num"><b>' + num(d.astro_dark_h) + ' h</b></td><td>' + esc(d.stay_town) + '</td></tr>';
+        }).join('') + '</tbody></table></div>' +
+      '</div>' +
+      /* 2.4 */
+      '<div class="gcard"><h4>光害：Bortle 暗空分類 <span class="n">§2.4</span></h4>' +
+        '<p class="lead">以 Bortle 暗空分類（1 = 最暗、9 = 市中心）標註，本規劃 55 個節點分布如下。</p>' +
+        '<div class="bortle-bar">' + bortleDist.map(function (b) {
+          return '<i style="width:' + (b.n / maxN * 100) + '%;background:' + bortleColor(b.b) + '" title="Bortle ' + b.b + '：' + b.n + ' 個節點"></i>';
+        }).join('') + '</div>' +
+        '<div class="tscroll"><table class="t"><thead><tr><th>Bortle</th><th>節點數</th><th>代表地點</th></tr></thead><tbody>' +
+        bortleDist.map(function (b) {
+          return '<tr><td class="num" style="color:' + bortleColor(b.b) + '"><b>' + b.b + (b.b === 2 ? '（極暗）' : b.b === 8 ? '（市區）' : '') + '</b></td><td class="num">' + b.n + '</td><td>' + esc(b.ex) + '</td></tr>';
+        }).join('') + '</tbody></table></div>' +
+        '<p style="margin-top:10px"><b>行程應用</b>：除起訖點雷克雅維克（Bortle 8）外，住宿城鎮皆 ≤ Bortle 5；其中 Mývatn 為 Bortle 2。首都圈另安排 Grótta（Bortle 6）作為「不必離開市區」的追光點。地圖標記的顏色深淺即對應 Bortle 值，一眼看出「今晚該往哪走」。</p>' +
+      '</div>' +
+      /* 2.5 */
+      '<div class="gcard c"><h4>天氣與雲量：真正的成敗關鍵 <span class="n">§2.5</span></h4>' +
+        '<div class="tscroll"><table class="t"><thead><tr><th>因子</th><th>工具／指標</th><th>判讀方式</th></tr></thead><tbody>' +
+        weather.map(function (w) {
+          return '<tr><td><b>' + esc(w[0]) + '</b></td><td class="num">' + esc(w[1]) + '</td><td>' + w[2] + '</td></tr>';
+        }).join('') + '</tbody></table></div>' +
+        '<p style="margin-top:10px"><b>雲量最小替代策略</b>：冰島天氣呈區域差異——北部（Mývatn／Akureyri）與東北部通常雲量最少，南岸（Vík–Höfn）最多。因此行程設計刻意在米湖連住，並允許「以雲圖決定當日景點順序」。</p>' +
+      '</div>' +
+      /* 2.6 */
+      '<div class="gcard a"><h4>行程安排上的建議 <span class="n">§2.6</span></h4>' +
+        '<ol style="padding-left:1.2em;margin:0">' + tips.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ol>' +
+      '</div>' +
+      /* 2.7 */
+      '<div class="gcard v"><h4>攝影設定建議 <span class="n">§2.7</span></h4>' +
+        '<div class="tscroll"><table class="t"><thead><tr><th>項目</th><th>建議值</th><th>說明</th></tr></thead><tbody>' +
+        photo.map(function (p) {
+          return '<tr><td><b>' + esc(p[0]) + '</b></td><td class="num">' + esc(p[1]) + '</td><td>' + esc(p[2]) + '</td></tr>';
+        }).join('') + '</tbody></table></div>' +
+      '</div>';
+  }
+
+  /* ---------- warnings (§6) ---------- */
+  function buildWarnings() {
+    var warns = [
+      {
+        cls: '', icon: '⚠', label: 'WARNING 1 · 負荷',
+        h: 'Day 3／4／5 負荷偏高',
+        body: '<p>行車＋遊覽時間高於「日照 + 1 h」的可用視窗約 <b>1.2–1.6 小時</b>。這代表這三天<b>必須 08:00 前出發</b>，或啟用 §2.6 的捨棄順序。</p>' +
+          '<div class="tscroll"><table class="t"><thead><tr><th>Day</th><th>里程</th><th>行車</th><th>冬季行車</th><th>遊覽</th><th>日照</th><th>超出</th></tr></thead><tbody>' +
+          [3, 4, 5].map(function (n) {
+            var d = DAYS[n];
+            var over = ((d.drive_min + d.visit_min) / 60) - (d.daylight_h + 1);
+            return '<tr><td class="num">Day ' + n + '</td><td class="num">' + d.route_km + ' km</td><td class="num">' + fmtMin(d.drive_min) + '</td><td class="num">' + fmtMin(d.drive_min_winter) + '</td><td class="num">' + fmtMinH(d.visit_min) + '</td><td class="num">' + num(d.daylight_h) + ' h</td><td class="num" style="color:#ffd27a"><b>+' + num(over) + ' h</b></td></tr>';
+          }).join('') + '</tbody></table></div>' +
+          '<p style="margin-top:9px">若偏好輕鬆節奏，可將 Day 4 拆為兩日（Höfn → Egilsstaðir 分兩段），或 Day 5 取消 Ásbyrgi。</p>',
+        act: '<b>行動</b>：08:00 前出發；或依 §2.6 捨棄順序 ① Stuðlagil ② Seyðisfjörður（Day 4）③ Ásbyrgi（Day 5）。'
+      },
+      {
+        cls: 'v', icon: '🌃', label: 'WARNING 2 · 光害',
+        h: 'Day 9 回到雷克雅維克（Bortle 8）',
+        body: '<p>末夜光害最高，這是還車與離境動線的必然結果。Day 9 住宿 <b>Reykjavík</b> 的 Bortle 值為 <b>8 / 9</b>，是全行程最亮的住宿點（其餘住宿城鎮皆 ≤ Bortle 5）。</p>' +
+          '<p>如需最後一晚再追極光，建議改住市郊（如 Seltjarnarnes）或延後還車時間，晚間再赴 Grótta（Bortle 6，首都圈最佳極光點，停車後步行約 10 分）。</p>',
+        act: '<b>行動</b>：改住市郊，或延後還車 → 夜間赴 Grótta。'
+      },
+      {
+        cls: 'r', icon: '🚗', label: 'WARNING 3 · 行車上限',
+        h: 'Day 4 冬季行車 7.3 小時，已達上限',
+        body: '<p>Day 4（Höfn → Egilsstaðir）冬季預估行車 <b>7.3 小時</b>（OSRM 理論 6:07 × 1.20 冬季係數），已達本規劃「單日冬季行車不超過 7 小時」的上限。</p>' +
+          '<p>東峽灣多彎道與單線橋；若 93 號或 Öxi（939）封閉，改走 1 號公路繞行 Breiðdalsheiði。若天候不佳請直接改用 §1.4 的替代方案。</p>',
+        act: '<b>行動</b>：天候不佳直接改用 §1.4 替代方案；或將 Day 4 拆為兩日。'
+      }
+    ];
+    document.getElementById('warns').innerHTML = warns.map(function (w) {
+      return '<div class="wcard ' + w.cls + '">' +
+        '<div class="wh"><span class="wi" aria-hidden="true">' + w.icon + '</span><div><div class="wl">' + esc(w.label) + '</div><h4>' + esc(w.h) + '</h4></div></div>' +
+        w.body + '<div class="act">' + w.act + '</div></div>';
+    }).join('');
+
+    var cont = [
+      ['南岸封路（Vík ↔ Höfn）', 'road.is 顯示紅色／路面封閉', '退回 Vík 或 Selfoss，改走金環加碼（Silfra、Kerið）並在首都圈待天氣好轉'],
+      ['東峽灣 93 號封閉', '塞濟斯菲厄澤山口結冰', '取消 Seyðisfjörður 支線，直接 Egilsstaðir 住宿'],
+      ['Öxi（939）封閉', '冬季常態封閉', '沿 1 號公路繞行 Breiðdalsheiði（已為本規劃主線）'],
+      ['Day 4／Day 5 負荷過重', '大風警示或起步延誤', '見 §2.6 的「捨棄順序」：先砍 Stuðlagil 與 Seyðisfjörður（Day 4）、再砍 Ásbyrgi（Day 5）'],
+      ['Day 9 山路不佳', '574 號結冰', '縮短為 Ólafsvík → Akranes → Reykjavík（省下 Djúpalónssandur、Arnarstapi）'],
+      ['全島惡劣天候', '橘色／紅色警示', '停留在 Mývatn 或 Reykjavík，不強行移動']
+    ];
+    document.getElementById('contingency').innerHTML =
+      '<div class="tscroll"><table class="t"><thead><tr><th>情境</th><th>觸發條件</th><th>替代方案</th></tr></thead><tbody>' +
+      cont.map(function (c) { return '<tr><td><b>' + esc(c[0]) + '</b></td><td>' + esc(c[1]) + '</td><td>' + esc(c[2]) + '</td></tr>'; }).join('') +
+      '</tbody></table></div>';
+  }
+
+  /* ---------- top-level view tabs ---------- */
+  function setWide(on) {
+    state.wide = !!on;
+    document.getElementById('shell').classList.toggle('map-wide', state.wide);
+    var b = document.getElementById('btn-wide');
+    b.setAttribute('aria-pressed', String(state.wide));
+    b.classList.toggle('on', state.wide);
+    b.textContent = state.wide ? '還原版面' : '放大地圖';
+    if (map) setTimeout(function () { map.invalidateSize(); }, 80);
+  }
+
+  function showView(name, quiet) {
+    /* Leaving the split layout: the content column is hidden in wide mode, so a
+       view tab would look clickable yet change nothing. Auto-restore first. */
+    if (state.wide) setWide(false);
+    Array.prototype.forEach.call(document.querySelectorAll('nav.tabs button'), function (x) {
+      x.setAttribute('aria-selected', String(x.dataset.view === name));
+      x.setAttribute('tabindex', x.dataset.view === name ? '0' : '-1');
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.view'), function (v) { v.classList.remove('active'); });
+    var v = document.getElementById('view-' + name);
+    if (v) v.classList.add('active');
+    if (name === 'days' && map) setTimeout(function () { map.invalidateSize(); }, 60);
+    var names = { days: '每日行程', guide: '極光指南', warn: '行前提醒' };
+    if (!quiet) announce('已切換至「' + (names[name] || name) + '」頁籤。');
+  }
+
+  function initViewTabs() {
+    var arr = Array.prototype.slice.call(document.querySelectorAll('nav.tabs button'));
+    arr.forEach(function (b, i) {
+      b.addEventListener('click', function () { showView(b.dataset.view); });
+      b.addEventListener('keydown', function (e) {
+        var k = e.key, n = arr.length, j = -1;
+        if (k === 'ArrowRight' || k === 'ArrowDown') j = (i + 1) % n;
+        else if (k === 'ArrowLeft' || k === 'ArrowUp') j = (i - 1 + n) % n;
+        else if (k === 'Home') j = 0;
+        else if (k === 'End') j = n - 1;
+        if (j < 0) return;
+        e.preventDefault();
+        arr[j].focus();
+        showView(arr[j].dataset.view);
+      });
+    });
+    showView('days', true);
+  }
+
+  /* ---------- map controls ---------- */
+  function initControls() {
+    document.getElementById('btn-fit').addEventListener('click', function () {
+      if (!map) return;
+      map.fitBounds(L.latLngBounds(LOCS.map(function (l) { return [l.lat, l.lon]; })).pad(0.08), { maxZoom: 8 });
+      Object.keys(routeByDay).forEach(function (k) { routeByDay[k].setStyle(routeStyle(Number(k), false)); });
+      lastFit = null;
+      var ind = document.getElementById('map-day-ind');
+      if (ind) ind.textContent = '全島視野';
+      announce('已重設為全島視野，路線高亮已清除。');
+    });
+    document.getElementById('btn-day').addEventListener('click', function () { focusDay(state.day, true); });
+    document.getElementById('btn-base').addEventListener('click', function () {
+      setBasemap(baseIdx + 1);
+      announce('底圖已切換為' + BASEMAPS[baseIdx].name + '。');
+    });
+    document.getElementById('btn-side').addEventListener('click', function () {
+      state.side = !state.side;
+      document.getElementById('map-side').classList.toggle('collapsed', !state.side);
+      this.setAttribute('aria-expanded', String(state.side));
+      this.classList.toggle('on', state.side);
+      if (map) setTimeout(function () { map.invalidateSize(); }, 60);
+    });
+    document.getElementById('btn-wide').addEventListener('click', function () { setWide(!state.wide); });
+    document.getElementById('lay-all').addEventListener('click', function () { setAllLayers(true); announce('已開啟全部 8 個圖層。'); });
+    document.getElementById('lay-none').addEventListener('click', function () { setAllLayers(false); announce('已關閉全部圖層。'); });
+    document.getElementById('lay-def').addEventListener('click', function () {
+      LAYER_ORDER.forEach(function (n) { state.layerOn[n] = LAYERS[n].on; });
+      syncLayerInputs(); refreshMarkers();
+      announce('已回復預設圖層組合。');
+    });
+    document.getElementById('btn-side').classList.add('on');
+  }
+  function setAllLayers(v) {
+    LAYER_ORDER.forEach(function (n) { state.layerOn[n] = v; });
+    syncLayerInputs(); refreshMarkers();
+  }
+  function syncLayerInputs() {
+    var ins = document.querySelectorAll('#layers input');
+    for (var i = 0; i < ins.length; i++) ins[i].checked = !!state.layerOn[ins[i].dataset.layer];
+  }
+
+  /* ---------- boot ---------- */
+  function boot() {
+    buildLayers();
+    buildDayTabs();
+    buildGuide();
+    buildWarnings();
+    initViewTabs();
+    initControls();
+    var ok = initMap();
+    renderDay();
+    if (ok) {
+      focusDay(0);
+      setTimeout(function () { map.invalidateSize(); }, 200);
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+</body>
+</html>
