@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Iansui&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Iansui", cursive;
+    background-color: var(--bg-body);
+}
+
+:root {
+    /* 您的原始色板
+    --drySage: #ccd5ae;
+    --Beige: #e9edc9;
+    --Cornsilk:#fefae0;
+    --PapayaWhip: #faedcd;
+    --LightBronze: #d4a373; */
+
+    /* 延伸搭配設計 (Semantic Colors) */
+    --primary-color: #d4a373;         * 主色調 */
+    --primary-hover: #b58250;           /* 主色調 Hover 加深 */
+    --secondary-color: #ccd5ae;       /* 次色調 */
+    --secondary-hover: #a3ae7e;       /* 次色調 Hover */
+    
+    --bg-body: #faf7f2;               /* 網頁外層大背景 (微暖灰白) */
+    --bg-wrapper: #fefae0;            /* 主要內容區背景 */
+    --bg-nav: #e9edc9;                /* 導覽列背景 */
+    --bg-footer: #faedcd;
+    --bg-black: #000000;              /* 頁尾背景 */
+    
+    --text-dark: #4a4036;             /* 主要深色文字 */
+    --text-title: #8c5b30;            /* 標題強調色 */
+    --text-light: #7b736a;
+    --text-white: #FFFFFF;            /* 次要文字 */
+
+    --shadow01: #f0efee;
+    --shadow02: #383838;
+    --shadow03: #747474;
+
+    /* 霸王茶姬 (Chagee) 當代品牌規範色彩體系 - 青瓷綠與現代幾何美學 */
+    --chagee-celadon: #3A8C6E;        /* 青瓷綠 - 品牌主識別色，傳遞溫潤自然 */
+    --chagee-celadon-dark: #2D6F57;   /* 深青瓷綠 */
+    --chagee-celadon-light: #EBF4F0;  /* 淺青瓷淡綠 */
+    --chagee-celadon-subtle: #F4F8F6; /* 溫潤青瓷底色 */
+    --chagee-glaze-white: #FAFBF9;    /* 釉白色 - 東方瓷器留白底色 */
+    --chagee-red: #C8102E;            /* 中國紅 - 象徵東方茶文明 */
+    --chagee-red-hover: #A50D25;      
+    --chagee-red-light: #FDE8EA;      /* 淡釉紅 */
+    --chagee-text-main: #1F2923;      /* 當代墨綠黑 - 無襯線主要深色 */
+    --chagee-text-muted: #62756A;     /* 灰綠輔助文字 */
+    --chagee-border: #D3E0DA;         /* 簡約幾何線條邊框 */
+    --chagee-border-light: #E6EFEA;   /* 極淡幾何線 */
+}
+
+.fw-100 {
+    font-weight: 100 !important;
+}
+
+.fw-200 {
+    font-weight: 200 !important;
+}
+
+.fw-300 {
+    font-weight: 300 !important;
+}
+
+.fw-400 {
+    font-weight: 400 !important;
+}
+
+.fw-500 {
+    font-weight: 500 !important;
+}
+
+.fw-600 {
+    font-weight: 600 !important;
+}
+
+.fw-700 {
+    font-weight: 700 !important;
+}
+
+.fw-800 {
+    font-weight: 800 !important;
+}
+
+.fw-900 {
+    font-weight: 900 !important;
+}

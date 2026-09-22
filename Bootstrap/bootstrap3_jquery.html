@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/myAll.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <ul id="mylist">
+            <li>****</li>
+        </ul>
+    </div>
+    <div id="myimg">
+        <img src="/images/i18_DUO2.jpg" class="img-thumbnail" alt="i18 DUO">
+    </div>
+
+    <div>
+        <ul id="mytea">
+            <li></li>
+        </ul>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-4.0.0.js"></script>
+    <script>
+        for (i = 1; i < 10; i++) {
+            for (j = 1; j <= i; j++) {
+                console.log(i + "x" + j + "=" + i * j);
+            }
+        }
+        //控制ul
+        // for(i = 1; i < 100; i++ ){
+        //         $("#mylist").append("<li>" +i + "**** </li>")
+
+        // }
+        for (i = 1; i < 100; i++) {
+            $("#myimg").append("第" + i + "張圖片 : " + '<img src="/images/i18_DUO2.jpg" class="img-thumbnail" alt="i18 DUO">')
+        }
+
+        
+        const product = [
+            // ----------------- 【原葉鮮奶茶系列】 -----------------
+            {
+                "ID": "1",
+                "name": "伯牙絕弦",
+                "en_name": "Jasmine Green Tea Latte",
+                "category": "原葉鮮奶茶",
+                "price": 65,
+                "weight": "500ml",
+                "tea_base": "茉莉雪芽",
+                "calories": 130,
+                "desc": "霸王茶姬銷量冠軍，七窨茉莉茶香交融濃醇優質鮮乳，清新淡雅。"
+            },
+            {
+                "ID": "2",
+                "name": "花田烏龍",
+                "en_name": "White Peach Oolong Latte",
+                "category": "原葉鮮奶茶",
+                "price": 65,
+                "weight": "500ml",
+                "tea_base": "白桃烏龍",
+                "calories": 142,
+                "desc": "清甜白桃香氣伴隨焙火烏龍茶韻，入口如漫步春日花田。"
+            },
+            {
+                "ID": "3",
+                "name": "萬里木蘭",
+                "en_name": "Ceylon Black Tea Latte",
+                "category": "原葉鮮奶茶",
+                "price": 60,
+                "weight": "500ml",
+                "tea_base": "錫蘭高地紅茶",
+                "calories": 155,
+                "desc": "茶香濃烈厚重，麥芽香與醇厚奶香完美融匯，回甘悠長。"
+            },
+            {
+                "ID": "4",
+                "name": "青沫觀音",
+                "en_name": "Tieguanyin Tea Latte",
+                "category": "原葉鮮奶茶",
+                "price": 65,
+                "weight": "500ml",
+                "tea_base": "安溪鐵觀音",
+                "calories": 138,
+                "desc": "傳統炭焙蘭花香型鐵觀音，茶韻深邃沉靜，奶味絲滑。"
+            },
+            {
+                "ID": "5",
+                "name": "桂馥蘭香",
+                "en_name": "Osmanthus Oolong Latte",
+                "category": "原葉鮮奶茶",
+                "price": 70,
+                "weight": "500ml",
+                "tea_base": "金桂烏龍",
+                "calories": 145,
+                "desc": "金秋金桂天然窨製，馥郁撲鼻的天然桂花香伴隨清爽奶茶香。"
+            },
+            {
+                "ID": "6",
+                "name": "尋香山茶",
+                "en_name": "Camellia Oolong Latte",
+                "category": "原葉鮮奶茶",
+                "price": 75,
+                "weight": "500ml",
+                "tea_base": "高山山茶烏龍",
+                "calories": 135,
+                "desc": "獨特山茶花芳香，微澀生津，尾韻帶有高山冷冽清甜感。"
+            },
+            {
+                "ID": "7",
+                "name": "春日桃桃",
+                "en_name": "Spring Peach Milk Tea",
+                "category": "原葉鮮奶茶",
+                "price": 70,
+                "weight": "500ml",
+                "tea_base": "蜜桃烏龍",
+                "calories": 160,
+                "desc": "雙重水蜜桃果香融入滑順鮮乳，溫柔香甜的春季限定風情。"
+            },
+            {
+                "ID": "8",
+                "name": "蘭亭序",
+                "en_name": "Qilan Oolong Latte",
+                "category": "原葉鮮奶茶",
+                "price": 70,
+                "weight": "500ml",
+                "tea_base": "武夷奇蘭茶",
+                "calories": 140,
+                "desc": "蘭香內斂，幽香甘冽，如品書法名帖般意境高遠。"
+            },
+            {
+                "ID": "9",
+                "name": "雲山初見",
+                "en_name": "Jasmine Pu-erh Latte",
+                "category": "原葉鮮奶茶",
+                "price": 65,
+                "weight": "500ml",
+                "tea_base": "雲南陳香普洱",
+                "calories": 128,
+                "desc": "普洱的沉穩溫潤遇上茉莉的清新花香，低咖啡因溫和養胃。"
+            },
+            {
+                "ID": "10",
+                "name": "去野",
+                "en_name": "Citrus Oolong Latte",
+                "category": "原葉鮮奶茶",
+                "price": 70,
+                "weight": "500ml",
+                "tea_base": "柑橘烏龍",
+                "calories": 146,
+                "desc": "新會柑皮揉合高山烏龍，果皮精油香氣與奶香交織，層次分明。"
+            },
+            {
+                "ID": "11",
+                "name": "木雲大紅袍",
+                "en_name": "Dahongpao Tea Latte",
+                "category": "原葉鮮奶茶",
+                "price": 75,
+                "weight": "500ml",
+                "tea_base": "武夷岩茶大紅袍",
+                "calories": 150,
+                "desc": "岩骨花香，烘焙香氣濃郁，沉厚奶香凸顯茶王風範。"
+            },
+            {
+                "ID": "12",
+                "name": "聲聲烏龍",
+                "en_name": "Golden Oolong Latte",
+                "category": "原葉鮮奶茶",
+                "price": 60,
+                "weight": "500ml",
+                "tea_base": "高山黃金烏龍",
+                "calories": 136,
+                "desc": "清澈金黃茶湯，口感乾淨純粹，回甘持久。"
+            },
+
+            // ----------------- 【原葉粹茶 / 東方純茶系列】 -----------------
+            {
+                "ID": "13",
+                "name": "青青糯山",
+                "en_name": "Glutinous Pu-erh Pure Tea",
+                "category": "東方純茶",
+                "price": 45,
+                "weight": "500ml",
+                "tea_base": "糯香生普洱",
+                "calories": 0,
+                "desc": "自帶天然糯米草香氣的雲南高山茶，零卡無負擔，生津止渴。"
+            },
+            {
+                "ID": "14",
+                "name": "鹿見普洱",
+                "en_name": "Aged Ripe Pu-erh Tea",
+                "category": "東方純茶",
+                "price": 45,
+                "weight": "500ml",
+                "tea_base": "陳年熟普洱",
+                "calories": 0,
+                "desc": "陳化十年熟普，茶湯紅濃透亮，木質陳香溫潤醇和。"
+            },
+            {
+                "ID": "15",
+                "name": "白霧紅塵",
+                "en_name": "Wuyi Rock Dahongpao",
+                "category": "東方純茶",
+                "price": 50,
+                "weight": "500ml",
+                "tea_base": "武夷大紅袍",
+                "calories": 0,
+                "desc": "經典岩茶氣韻，焦糖香與微堅果焙香繚繞，餘韻無窮。"
+            },
+            {
+                "ID": "16",
+                "name": "折枝佛手",
+                "en_name": "Foshou Oolong Tea",
+                "category": "東方純茶",
+                "price": 50,
+                "weight": "500ml",
+                "tea_base": "永春佛手烏龍",
+                "calories": 0,
+                "desc": "葉大如掌，自帶淡淡雪梨香與香櫞果香，甘滑潤喉。"
+            },
+            {
+                "ID": "17",
+                "name": "水月觀音",
+                "en_name": "Pure Tieguanyin",
+                "category": "東方純茶",
+                "price": 45,
+                "weight": "500ml",
+                "tea_base": "高山清香鐵觀音",
+                "calories": 0,
+                "desc": "七泡有餘香，天然蘭花冷香四溢，清爽怡人。"
+            },
+            {
+                "ID": "18",
+                "name": "醉月荷塘",
+                "en_name": "Silver Needle Jasmine",
+                "category": "東方純茶",
+                "price": 55,
+                "weight": "500ml",
+                "tea_base": "白毫銀針茉莉",
+                "calories": 0,
+                "desc": "選用特級單芽白茶，七次窨花，毫香蜜韻，清甜如荷露。"
+            },
+            {
+                "ID": "19",
+                "name": "暮雲松針",
+                "en_name": "Dianhong Golden Needle",
+                "category": "東方純茶",
+                "price": 50,
+                "weight": "500ml",
+                "tea_base": "雲南滇紅金針",
+                "calories": 0,
+                "desc": "金毫顯露，茶湯橙黃透亮，富含天然蜜糖甜香。"
+            },
+            {
+                "ID": "20",
+                "name": "空山新雨",
+                "en_name": "West Lake Longjing",
+                "category": "東方純茶",
+                "price": 55,
+                "weight": "500ml",
+                "tea_base": "雨前龍井綠茶",
+                "calories": 0,
+                "desc": "鮮嫩炒青豆香，入口鮮爽清冽，宛若雨後初晴山林。"
+            },
+            {
+                "ID": "21",
+                "name": "碧螺春曉",
+                "en_name": "Biluochun Green Tea",
+                "category": "東方純茶",
+                "price": 50,
+                "weight": "500ml",
+                "tea_base": "洞庭碧螺春",
+                "calories": 0,
+                "desc": "銀綠隱翠，花香果味兼備，口感柔和回甘生津。"
+            },
+            {
+                "ID": "22",
+                "name": "雲嶺白茶",
+                "en_name": "White Peony Tea",
+                "category": "東方純茶",
+                "price": 48,
+                "weight": "500ml",
+                "tea_base": "福鼎白牡丹",
+                "calories": 0,
+                "desc": "日曬萎凋古法製作，藥香與乾草香自然流露，清潤降火。"
+            },
+
+            // ----------------- 【微醺鮮果茶系列】 -----------------
+            {
+                "ID": "23",
+                "name": "桃妹烏龍",
+                "en_name": "Fresh Peach Oolong Tea",
+                "category": "微醺鮮果茶",
+                "price": 75,
+                "weight": "650ml",
+                "tea_base": "四季春烏龍",
+                "calories": 185,
+                "desc": "當季現剝水蜜桃鮮果泥，揉合烏龍茶香，滿口多汁果肉。"
+            },
+            {
+                "ID": "24",
+                "name": "檸檬去野",
+                "en_name": "Perfume Lemon Oolong",
+                "category": "微醺鮮果茶",
+                "price": 70,
+                "weight": "650ml",
+                "tea_base": "高山青心烏龍",
+                "calories": 160,
+                "desc": "手打廣東香水檸檬，香氣清冽酸爽，去油解膩第一選擇。"
+            },
+            {
+                "ID": "25",
+                "name": "芒芒雪芽",
+                "en_name": "Mango Jasmine Green Tea",
+                "category": "微醺鮮果茶",
+                "price": 80,
+                "weight": "650ml",
+                "tea_base": "茉莉雪芽綠茶",
+                "calories": 210,
+                "desc": "金黃芒果丁搭配茉莉茶凍，熱帶果香濃郁四溢，層次豐盈。"
+            },
+            {
+                "ID": "26",
+                "name": "柚見觀音",
+                "en_name": "Grapefruit Tieguanyin",
+                "category": "微醺鮮果茶",
+                "price": 75,
+                "weight": "650ml",
+                "tea_base": "清香鐵觀音",
+                "calories": 175,
+                "desc": "紅寶石西柚果粒爆汁微酸，鐵觀音深韻完美化解甜膩。"
+            },
+            {
+                "ID": "27",
+                "name": "芭樂醉雪",
+                "en_name": "Pink Guava Jasmine Tea",
+                "category": "微醺鮮果茶",
+                "price": 75,
+                "weight": "650ml",
+                "tea_base": "茉莉綠茶",
+                "calories": 168,
+                "desc": "紅心芭樂特殊芭樂甘甜，融合清香綠茶，色澤粉嫩夢幻。"
+            },
+            {
+                "ID": "28",
+                "name": "莓果初見",
+                "en_name": "Mixed Berries Black Tea",
+                "category": "微醺鮮果茶",
+                "price": 80,
+                "weight": "650ml",
+                "tea_base": "阿薩姆紅茶",
+                "calories": 195,
+                "desc": "覆盆莓、草莓與藍莓綜合熬煮果露，莓果果香酸甜開胃。"
+            },
+            {
+                "ID": "29",
+                "name": "金鳳梨韻",
+                "en_name": "Golden Pineapple Oolong",
+                "category": "微醺鮮果茶",
+                "price": 70,
+                "weight": "650ml",
+                "tea_base": "炭焙鳳凰單叢",
+                "calories": 180,
+                "desc": "台灣金鑽鳳梨微蜜熬釀，與焙火茶底共譜濃香交響曲。"
+            },
+            {
+                "ID": "30",
+                "name": "青提玉露",
+                "en_name": "Shine Muscat Jasmine Tea",
+                "category": "微醺鮮果茶",
+                "price": 85,
+                "weight": "650ml",
+                "tea_base": "頂級茉莉毛峰",
+                "calories": 170,
+                "desc": "去皮陽光玫瑰青提果肉粒，咬感清脆，綠意盎然如玉露滴落。"
+            },
+
+            // ----------------- 【雲頂雪頂茶系列】 -----------------
+            {
+                "ID": "31",
+                "name": "巫山煙雨",
+                "en_name": "Snow Cap Dahongpao",
+                "category": "雲頂雪頂茶",
+                "price": 85,
+                "weight": "500ml",
+                "tea_base": "武夷大紅袍",
+                "calories": 245,
+                "desc": "特製紐西蘭淡奶油雪頂撒上焙火無花果碎，岩茶微苦與奶甜交融。"
+            },
+            {
+                "ID": "32",
+                "name": "幽蘭拿鐵",
+                "en_name": "Pecan Cream Ceylon Latte",
+                "category": "雲頂雪頂茶",
+                "price": 85,
+                "weight": "500ml",
+                "tea_base": "錫蘭紅茶",
+                "calories": 260,
+                "desc": "雪頂覆蓋滿滿酥脆美洲碧根果碎，堅果香、乳脂香與紅茶一網打盡。"
+            },
+            {
+                "ID": "33",
+                "name": "煙雨朦朧",
+                "en_name": "Sea Salt Cheese Oolong",
+                "category": "雲頂雪頂茶",
+                "price": 80,
+                "weight": "500ml",
+                "tea_base": "白桃烏龍",
+                "calories": 230,
+                "desc": "特調微鹹海鹽芝士奶蓋厚敷，先抿一口奶霜，再吸一口清茶。"
+            },
+            {
+                "ID": "34",
+                "name": "浮雲沉香",
+                "en_name": "Coconut Hojicha Snow Cap",
+                "category": "雲頂雪頂茶",
+                "price": 90,
+                "weight": "500ml",
+                "tea_base": "京都焙茶",
+                "calories": 240,
+                "desc": "生椰乳與深煎焙茶碰撞，香脆烘烤椰子片點綴雪頂之上。"
+            },
+            {
+                "ID": "35",
+                "name": "晴空萬里",
+                "en_name": "Matcha Cloud Snow Cap",
+                "category": "雲頂雪頂茶",
+                "price": 85,
+                "weight": "500ml",
+                "tea_base": "宇治抹茶原液",
+                "calories": 220,
+                "desc": "石臼研磨抹茶粉融化於鮮奶，雪頂微苦回甘，抹茶控必備。"
+            },
+            {
+                "ID": "36",
+                "name": "踏雪尋梅",
+                "en_name": "Bayberry Cheese Snow Cap",
+                "category": "雲頂雪頂茶",
+                "price": 90,
+                "weight": "500ml",
+                "tea_base": "茉莉雪芽",
+                "calories": 250,
+                "desc": "高山東魁楊梅果肉冰沙，搭配濃郁芝士雪頂，酸甜冰爽如踏雪。"
+            },
+
+            // ----------------- 【輕負擔 / 特調周邊】 -----------------
+            {
+                "ID": "37",
+                "name": "輕芒白月",
+                "en_name": "Zero-Sugar White Tea",
+                "category": "特調輕養茶",
+                "price": 70,
+                "weight": "500ml",
+                "tea_base": "福鼎白茶",
+                "calories": 65,
+                "desc": "採用阿拉伯糖配方，低升糖指數，天然輕盈無熱量負擔。"
+            },
+            {
+                "ID": "38",
+                "name": "綠野仙蹤",
+                "en_name": "Luo Han Guo Herbal Tea",
+                "category": "特調輕養茶",
+                "price": 60,
+                "weight": "500ml",
+                "tea_base": "薄荷羅漢果草本",
+                "calories": 40,
+                "desc": "羅漢果自然甘甜配合微涼薄荷葉，護嗓潤喉清爽首選。"
+            },
+            {
+                "ID": "39",
+                "name": "桂花凍烏龍",
+                "en_name": "Osmanthus Jelly Oolong",
+                "category": "特調輕養茶",
+                "price": 70,
+                "weight": "500ml",
+                "tea_base": "高山黃金烏龍",
+                "calories": 110,
+                "desc": "手工慢熬金桂晶凍，滑溜順口，每一口都嚼得到桂花花瓣。"
+            },
+            {
+                "ID": "40",
+                "name": "茉莉雙皮奶茶",
+                "en_name": "Jasmine Milk Pudding Tea",
+                "category": "特調輕養茶",
+                "price": 75,
+                "weight": "500ml",
+                "tea_base": "茉莉雪芽",
+                "calories": 180,
+                "desc": "底部鋪滿順滑水牛乳奶凍，上層是鮮爽茉莉鮮奶，口感甜潤飽滿。"
+            }
+        ];
+        for (i = 0; i < product.length; i++) {
+            $("#mytea").append("<li>" + product[i].ID + ". " + product[i].name + " : " + product[i].price + " $NT" + "</li>")
+        }
+
+        for (i = 0; i < product.length; i++) {
+            console.log(product[i].name);
+            console.log(product[i].price);
+        }
+    </script>
+
+</body>
+
+</html>

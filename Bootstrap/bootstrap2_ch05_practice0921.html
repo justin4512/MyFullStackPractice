@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表格(table)練習</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../PageCut/css/myAll.css">
+    <style>
+        @media screen and (max-width: 768px){
+            .table-rwd thead{
+                display: none;
+            }
+            .table-rwd tbody tr{
+                display: block;
+                border: 5px solid var(--text-light);
+                margin-top: 15px;
+                border-radius: 10px;
+                box-shadow: 2px 2px 2px 2px var(--shadow03);
+            }
+            .table-rwd tbody tr td{
+                display: block;
+                overflow: hidden;
+            }
+            .table-rwd tbody tr td::before {
+                content: attr(data-th) " : ";
+                font-weight: bold;
+                width: 15%;
+                float: left;
+                text-align: right;
+                padding-right: 15px;
+            }
+            .table-rwd tbody tr td span.table-col{
+                width: 85%;
+                float: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="display-1 fw-900 text-center">CH5. 表格(table)練習 - RWD</div>
+        <table class="table table-bordered table-rwd">            
+            <thead class="table-success">
+                <tr>
+                    <th width="5%">項次</th>
+                    <th width="25%">產品圖片</th>
+                    <th width="10%">品項</th>
+                    <th width="10%">數量</th>
+                    <th width="10%">單價</th>
+                    <th width="40%">備註</th>
+                </tr>
+            </thead>        
+        
+        <tbody>
+            <tr>
+                <!-- /* data-th是偽元素，靠 CSS 顯示，網頁會選不到 */ -->
+                <td data-th="項次"><span class="table-col">01</span></td>
+                <td data-th="產品圖片"><span class="table-col"><img src="images/i18_3.avif" class="img-fluid"></span></td>
+                <td data-th="品項"><span class="table-col">iphione18 pro</span></td>
+                <td data-th="數量"><span class="table-col">20</span></td>
+                <td data-th="單價"><span class="table-col">50000</span></td>
+                <td data-th="備註"><span class="table-col">容量1TB 缺乏發行限制轎車團隊後悔就是注重圖象在這裡國家，留下工具廠家參觀品質一週說話透露，面積朋友還能可是哪裡成績下了行為編號動畫不必網絡並在，集團紛紛解釋包括成長做法，全市母親男女似乎桌面中文版配套法規新聞，為此很少我現在網域名稱事務戀愛一場大多答應，版本靈活。</span></td>
+            </tr>
+            <tr>
+                <td data-th="項次"><span class="table-col">02</span></td>
+                <td data-th="產品圖片"><span class="table-col"><img src="images/iphone18pro_1.jpg" class="img-fluid"></span></td>
+                <td data-th="品項"><span class="table-col">iphione18</span></td>
+                <td data-th="數量"><span class="table-col">20</span></td>
+                <td data-th="單價"><span class="table-col">40000</span></td>
+                <td data-th="備註"><span class="table-col">容量512GB</span></td>
+            </tr>
+            <tr>
+                <td data-th="項次"><span class="table-col">03</span></td>
+                <td data-th="產品圖片"><span class="table-col"><img src="images/i18_DUO.jpg" class="img-fluid"></span></td>
+                <td data-th="品項"><span class="table-col">iphione18 DUO</span></td>
+                <td data-th="數量"><span class="table-col">20</span></td>
+                <td data-th="單價"><span class="table-col">63000</span></td>
+                <td data-th="備註"><span class="table-col">容量512GB</span></td>
+            </tr>
+            <tr>
+                <td data-th="項次"><span class="table-col">04</span></td>
+                <td data-th="產品圖片"><span class="table-col"><img src="images/i18_DUO2.jpg" class="img-fluid"></span></td>
+                <td data-th="品項"><span class="table-col">iphione18 DUO</span></td>
+                <td data-th="數量"><span class="table-col">20</span></td>
+                <td data-th="單價"><span class="table-col">73000</span></td>
+                <td data-th="備註"><span class="table-col">容量1TB</span></td>
+            </tr>
+            <tr>
+                <td data-th="項次"><span class="table-col">05</span></td>
+                <td data-th="產品圖片"><span class="table-col"><img src="images/i18_DUO2.jpg" class="img-fluid"></span></td>
+                <td data-th="品項"><span class="table-col">iphione18 DUO</span></td>
+                <td data-th="數量"><span class="table-col">20</span></td>
+                <td data-th="單價"><span class="table-col">93000</span></td>
+                <td data-th="備註"><span class="table-col">容量2TB</span></td>
+            </tr>
+        </tbody>
+        </table>
+        
+    </div>
+</body>
+</html>

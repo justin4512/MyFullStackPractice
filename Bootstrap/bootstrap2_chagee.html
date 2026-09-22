@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAGEE 霸王茶姬 - 現代東方茶文明與幾何美學</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Google Fonts: Montserrat (西文無襯線) + Noto Sans TC (中文無襯線) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/myAll.css">
+    <style>
+        /* ===================================================
+           霸王茶姬 (CHAGEE) 2.0 現代幾何品牌視覺系統
+           - 青瓷綠（#3A8C6E）：品牌主識別色，溫潤自然
+           - 釉白（#FAFBF9）與中國紅（#C8102E）：茶文明紅 ✕ 現代咖啡綠
+           - 無襯線體與英文主導：當代簡約幾何美學
+           - 佛像氣韵、戲曲人物與西方幾何的單色線條符號
+           =================================================== */
+        :root {
+            --chagee-celadon: #3A8C6E;        /* 青瓷綠 主識別色 */
+            --chagee-celadon-dark: #27624C;   /* 深青瓷綠 */
+            --chagee-celadon-light: #F0F6F3;  /* 淺青瓷底 */
+            --chagee-celadon-subtle: #F6FAF8; /* 極淡青瓷 */
+            --chagee-glaze-white: #FAFBF9;    /* 釉白背景 */
+            --chagee-red: #C8102E;            /* 東方茶文明 中國紅 */
+            --chagee-red-light: #FDF1F2;      /* 釉紅淡底 */
+            --chagee-text-main: #1D2A24;      /* 當代深墨綠/無襯線主字 */
+            --chagee-text-muted: #5F746A;     /* 輔助低彩綠灰 */
+            --chagee-border: #D8E5DF;         /* 幾何微青細框線 */
+            --chagee-border-dark: #3A8C6E;    /* 識別邊框 */
+        }
+        
+        body {
+            background-color: var(--chagee-glaze-white);
+            color: var(--chagee-text-main);
+            font-family: 'Montserrat', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            /* 幾何西方美學極簡細點底紋 (取代傳統厚重水墨青花) */
+            background-image: radial-gradient(rgba(58, 140, 110, 0.08) 1px, transparent 1px);
+            background-size: 28px 28px;
+            letter-spacing: 0.2px;
+        }
+
+        /* 現代幾何展櫃外框 */
+        .chagee-wrapper {
+            position: relative;
+            padding: 48px 40px;
+            margin-top: 25px;
+            margin-bottom: 50px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid var(--chagee-border);
+            border-radius: 4px;
+            box-shadow: 0 15px 45px rgba(58, 140, 110, 0.06);
+            backdrop-filter: blur(10px);
+        }
+
+        /* 極簡西方幾何角標 (西方幾何美學 L-bracket) */
+        .chagee-wrapper::before,
+        .chagee-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-color: var(--chagee-celadon);
+            border-style: solid;
+            pointer-events: none;
+        }
+        .chagee-wrapper::before {
+            top: -1px;
+            left: -1px;
+            border-width: 2px 0 0 2px;
+        }
+        .chagee-wrapper::after {
+            bottom: -1px;
+            right: -1px;
+            border-width: 0 2px 2px 0;
+        }
+
+        .chagee-wrapper-decor {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+        }
+        .chagee-wrapper-decor::before,
+        .chagee-wrapper-decor::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-color: var(--chagee-celadon);
+            border-style: solid;
+            pointer-events: none;
+        }
+        .chagee-wrapper-decor::before {
+            top: -1px;
+            right: -1px;
+            border-width: 2px 2px 0 0;
+        }
+        .chagee-wrapper-decor::after {
+            bottom: -1px;
+            left: -1px;
+            border-width: 0 0 2px 2px;
+        }
+
+        /* 頂部品牌標識區：英文主導、佛像氣韵 ✕ 戲曲 ✕ 西方幾何單色線條 */
+        .brand-header-area {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        /* 幾何單色線條 Logo 容器 */
+        .brand-emblem-wrap {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
+            transition: transform 0.4s ease;
+        }
+        .brand-emblem-wrap:hover {
+            transform: scale(1.04);
+        }
+
+        .brand-en-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--chagee-celadon);
+            margin-bottom: 6px;
+        }
+
+        .chagee-header-title {
+            color: var(--chagee-text-main);
+            font-size: 2.3rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .chagee-header-title .brand-accent {
+            color: var(--chagee-celadon);
+            font-weight: 800;
+        }
+
+        /* 東方茶文明(紅) 對應 西方咖啡文化(綠) 對比標語 */
+        .brand-contrast-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 16px;
+            background-color: var(--chagee-celadon-light);
+            border: 1px solid rgba(58, 140, 110, 0.2);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+        .tag-red {
+            color: var(--chagee-red);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .tag-vs {
+            color: var(--chagee-text-muted);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .tag-green {
+            color: var(--chagee-celadon);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .brand-concept-sub {
+            font-size: 0.85rem;
+            color: var(--chagee-text-muted);
+            margin-top: 10px;
+            letter-spacing: 1.5px;
+        }
+
+        /* 現代幾何青瓷綠表格 */
+        .table-chagee {
+            background-color: #ffffff;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(58, 140, 110, 0.05);
+            border-collapse: collapse; 
+            border: 1px solid var(--chagee-border);
+            margin-bottom: 0;
+        }
+
+        /* 表頭：青瓷綠主色 + 英文主導微標籤 */
+        .table-chagee thead {
+            background-color: var(--chagee-celadon);
+            color: #ffffff;
+        }
+
+        .table-chagee thead th {
+            border: none;
+            padding: 16px 12px;
+            font-weight: 600;
+            text-align: center;
+            vertical-align: middle;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .table-chagee thead th:last-child {
+            border-right: none;
+        }
+
+        .th-main {
+            display: block;
+            font-size: 0.95rem;
+            letter-spacing: 1.5px;
+        }
+        .th-en {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        /* 表身列樣式 */
+        .table-chagee tbody tr {
+            border-bottom: 1px solid var(--chagee-border);
+            transition: all 0.25s ease;
+        }
+
+        .table-chagee tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .table-chagee tbody tr:hover {
+            background-color: var(--chagee-celadon-subtle);
+        }
+
+        .table-chagee tbody td {
+            vertical-align: middle;
+            padding: 16px 14px;
+            color: var(--chagee-text-main);
+            border: none;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        /* 序號 */
+        .item-index {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--chagee-celadon);
+            letter-spacing: 1px;
+        }
+
+        /* 品項名稱 */
+        .item-name {
+            font-weight: 600;
+            color: var(--chagee-text-main);
+            letter-spacing: 0.5px;
+        }
+
+        /* 單價：以東方茶文明的「中國紅」作為視覺焦點 */
+        .price-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--chagee-red);
+            letter-spacing: 0.5px;
+            font-size: 1.05rem;
+        }
+        .price-currency {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--chagee-red);
+            margin-right: 2px;
+        }
+
+        /* 備註欄文字 */
+        .table-chagee tbody td:nth-child(6) {
+            text-align: left;
+            color: var(--chagee-text-muted);
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        /* 產品圖片：簡約幾何微圓角與精緻陰影 */
+        .img-fluid {
+            border-radius: 6px;
+            border: 1px solid var(--chagee-border);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+            max-width: 100px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .img-fluid:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 14px rgba(58, 140, 110, 0.15);
+        }
+
+        /* ===================================================
+           手機版 RWD 響應式佈局 (保留原 float 結構與上下框線)
+           =================================================== */
+        @media screen and (max-width: 768px) {
+            .chagee-wrapper {
+                padding: 25px 16px;
+                margin-top: 15px;
+            }
+            .chagee-header-title {
+                font-size: 1.65rem;
+                letter-spacing: 2px;
+            }
+            .brand-contrast-tag {
+                font-size: 0.72rem;
+                padding: 4px 12px;
+            }
+
+            .table-chagee thead {
+                display: none;
+            }
+            .table-chagee {
+                background-color: transparent;
+                box-shadow: none;
+                border: none;
+            }
+            .table-chagee tbody tr {
+                display: block;
+                background-color: #ffffff;
+                border: 1.5px solid var(--chagee-border);
+                border-top: 3px solid var(--chagee-celadon); /* 頂部青瓷綠識別線 */
+                margin-top: 20px;
+                border-radius: 6px;
+                box-shadow: 0 6px 18px rgba(58, 140, 110, 0.07);
+                overflow: hidden;
+            }
+            .table-chagee tbody tr:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 22px rgba(58, 140, 110, 0.12);
+            }
+            .table-chagee tbody tr td {
+                display: block;
+                overflow: hidden;
+                border-bottom: 1px solid var(--chagee-celadon-light);
+                text-align: left;
+                padding: 12px 14px;
+            }
+            .table-chagee tbody tr td:last-child {
+                border-bottom: none;
+            }
+            .table-chagee tbody tr td::before {
+                content: attr(data-th) " : ";
+                font-weight: 600;
+                color: var(--chagee-celadon);
+                width: 25%;
+                float: left;
+                text-align: right;
+                padding-right: 12px;
+                font-size: 0.9rem;
+            }
+            /* 特別讓單價欄位標題與數值呼應中國紅 */
+            .table-chagee tbody tr td[data-th="單價"]::before {
+                color: var(--chagee-red);
+            }
+            .table-chagee tbody tr td span.table-col {
+                width: 75%;
+                float: left;
+            }
+            .table-chagee tbody td:nth-child(6) {
+                text-align: left;
+            }
+            .img-fluid {
+                max-width: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4 py-md-5">
+        <div class="chagee-wrapper">
+            <div class="chagee-wrapper-decor"></div>
+            
+            <!-- 品牌識別頭部：佛像氣韵 ✕ 戲曲 ✕ 西方幾何單色線條標誌 -->
+            <div class="brand-header-area">
+                <div class="brand-emblem-wrap">
+                    <!-- 簡約單色線條標誌（青瓷綠）：融合佛像平和慈悲、戲曲虞姬冠冕與西方幾何同心圓線條 -->
+                    <svg width="84" height="84" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="CHAGEE 品牌標誌">
+                        <!-- 西方幾何外圈同心圓 -->
+                        <circle cx="50" cy="50" r="47" stroke="#3A8C6E" stroke-width="1.2"/>
+                        <circle cx="50" cy="50" r="44" stroke="#3A8C6E" stroke-width="0.7" stroke-dasharray="2 3" opacity="0.6"/>
+                        
+                        <!-- 戲曲虞姬如意頭冠與幾何弧線翎羽 -->
+                        <path d="M 31 35 C 37 20, 63 20, 69 35" stroke="#3A8C6E" stroke-width="1.3" stroke-linecap="round"/>
+                        <path d="M 50 14 C 46 21, 46 27, 50 31 C 54 27, 54 21, 50 14 Z" stroke="#3A8C6E" stroke-width="1.2" fill="none"/>
+                        <!-- 左右幾何如意流線 -->
+                        <path d="M 35 28 C 24 18, 20 12, 16 10" stroke="#3A8C6E" stroke-width="1.1" stroke-linecap="round"/>
+                        <path d="M 65 28 C 76 18, 80 12, 84 10" stroke="#3A8C6E" stroke-width="1.1" stroke-linecap="round"/>
+                        <!-- 戲曲珠翠幾何飾點 -->
+                        <circle cx="34" cy="37" r="2" stroke="#3A8C6E" stroke-width="1"/>
+                        <circle cx="66" cy="37" r="2" stroke="#3A8C6E" stroke-width="1"/>
+
+                        <!-- 佛像氣韵面容輪廓：平和安詳、慈悲包容萬物 -->
+                        <path d="M 35 42 C 35 60, 43 71, 50 74 C 57 71, 65 60, 65 42" stroke="#3A8C6E" stroke-width="1.3" stroke-linecap="round"/>
+                        <!-- 額間禪意白毫水滴象徵 -->
+                        <circle cx="50" cy="43" r="1.3" fill="#3A8C6E"/>
+                        <!-- 慈悲安詳的舒展雙眉 -->
+                        <path d="M 39 47 Q 44 45 47 48" stroke="#3A8C6E" stroke-width="1.1" stroke-linecap="round"/>
+                        <path d="M 53 48 Q 56 45 61 47" stroke="#3A8C6E" stroke-width="1.1" stroke-linecap="round"/>
+                        <!-- 佛像垂眸閉目、慈悲平和神態（眾生平等、包容萬物） -->
+                        <path d="M 39 52 Q 43 55 47 52" stroke="#3A8C6E" stroke-width="1.4" stroke-linecap="round"/>
+                        <path d="M 53 52 Q 57 55 61 52" stroke="#3A8C6E" stroke-width="1.4" stroke-linecap="round"/>
+                        <!-- 幾何極簡鼻稜線 -->
+                        <path d="M 50 49 L 50 59 Q 48.5 60 50 61" stroke="#3A8C6E" stroke-width="1.1" stroke-linecap="round"/>
+                        <!-- 恬淡平和之微笑微弧 -->
+                        <path d="M 46 65 Q 50 68 54 65" stroke="#3A8C6E" stroke-width="1.3" stroke-linecap="round"/>
+
+                        <!-- 西方幾何雲肩衣領弧線 -->
+                        <path d="M 38 74 C 31 81, 22 86, 14 88" stroke="#3A8C6E" stroke-width="1.1" stroke-linecap="round"/>
+                        <path d="M 62 74 C 69 81, 78 86, 86 88" stroke="#3A8C6E" stroke-width="1.1" stroke-linecap="round"/>
+                        <path d="M 44 75 Q 50 81 56 75" stroke="#3A8C6E" stroke-width="1.1" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="brand-en-badge">CHAGEE TEA BAR · MODERN TEA CEREMONY</div>
+                <h1 class="chagee-header-title">CHAGEE <span class="brand-accent">霸王茶姬</span></h1>
+                
+                <!-- 東方茶文明(紅) vs 西方咖啡文化(綠) 全球化企圖理念 -->
+                <div>
+                    <div class="brand-contrast-tag">
+                        <span class="tag-red">東方茶文明 · 紅</span>
+                        <span class="tag-vs">VERSUS</span>
+                        <span class="tag-green">西方咖啡文化 · 綠</span>
+                    </div>
+                </div>
+                <p class="brand-concept-sub">佛像慈悲氣韵 · 戲曲虞姬意象 · 西方幾何極簡線條</p>
+            </div>
+            
+            <!-- 產品展示表格 -->
+            <table class="table table-chagee">            
+            <thead>
+                <tr>
+                    <th width="8%">
+                        <span class="th-main">項次</span>
+                        <span class="th-en">NO.</span>
+                    </th>
+                    <th width="18%">
+                        <span class="th-main">產品圖片</span>
+                        <span class="th-en">IMAGE</span>
+                    </th>
+                    <th width="16%">
+                        <span class="th-main">品項</span>
+                        <span class="th-en">ITEM</span>
+                    </th>
+                    <th width="10%">
+                        <span class="th-main">數量</span>
+                        <span class="th-en">QTY</span>
+                    </th>
+                    <th width="12%">
+                        <span class="th-main">單價</span>
+                        <span class="th-en">PRICE</span>
+                    </th>
+                    <th width="36%">
+                        <span class="th-main">備註</span>
+                        <span class="th-en">SPECIFICATION</span>
+                    </th>
+                </tr>
+            </thead>        
+        
+            <tbody>
+                <tr>
+                    <td data-th="項次"><span class="table-col item-index">01</span></td>
+                    <td data-th="產品圖片"><span class="table-col"><img src="images/i18_3.avif" class="img-fluid" alt="iphone18 pro"></span></td>
+                    <td data-th="品項"><span class="table-col item-name">iphione18 pro</span></td>
+                    <td data-th="數量"><span class="table-col">20</span></td>
+                    <td data-th="單價"><span class="table-col price-text"><span class="price-currency">NT$</span>50,000</span></td>
+                    <td data-th="備註"><span class="table-col">容量1TB 旗艦規格。打破傳統厚重感，以溫潤青瓷質感與西方幾何俐落線條呈現當代工藝。</span></td>
+                </tr>
+                <tr>
+                    <td data-th="項次"><span class="table-col item-index">02</span></td>
+                    <td data-th="產品圖片"><span class="table-col"><img src="images/iphone18pro_1.jpg" class="img-fluid" alt="iphone18"></span></td>
+                    <td data-th="品項"><span class="table-col item-name">iphione18</span></td>
+                    <td data-th="數量"><span class="table-col">20</span></td>
+                    <td data-th="單價"><span class="table-col price-text"><span class="price-currency">NT$</span>40,000</span></td>
+                    <td data-th="備註"><span class="table-col">容量512GB 經典款式。展現東方茶文明的包容沈靜與現代簡約科技美學的交融。</span></td>
+                </tr>
+                <tr>
+                    <td data-th="項次"><span class="table-col item-index">03</span></td>
+                    <td data-th="產品圖片"><span class="table-col"><img src="images/i18_DUO.jpg" class="img-fluid" alt="iphone18 DUO"></span></td>
+                    <td data-th="品項"><span class="table-col item-name">iphione18 DUO</span></td>
+                    <td data-th="數量"><span class="table-col">20</span></td>
+                    <td data-th="單價"><span class="table-col price-text"><span class="price-currency">NT$</span>63,000</span></td>
+                    <td data-th="備註"><span class="table-col">容量512GB 雙螢幕極致體驗。秉持佛像平和包容氣度，兼具洗鍊幾何視覺感。</span></td>
+                </tr>
+                <tr>
+                    <td data-th="項次"><span class="table-col item-index">04</span></td>
+                    <td data-th="產品圖片"><span class="table-col"><img src="images/i18_DUO2.jpg" class="img-fluid" alt="iphone18 DUO 1TB"></span></td>
+                    <td data-th="品項"><span class="table-col item-name">iphione18 DUO</span></td>
+                    <td data-th="數量"><span class="table-col">20</span></td>
+                    <td data-th="單價"><span class="table-col price-text"><span class="price-currency">NT$</span>73,000</span></td>
+                    <td data-th="備註"><span class="table-col">容量1TB 大容量設計。以東方茶文明之紅點綴其間，彰顯從容不凡的文化自信。</span></td>
+                </tr>
+                <tr>
+                    <td data-th="項次"><span class="table-col item-index">05</span></td>
+                    <td data-th="產品圖片"><span class="table-col"><img src="images/i18_3.avif" class="img-fluid" alt="iphone18 DUO 2TB"></span></td>
+                    <td data-th="品項"><span class="table-col item-name">iphione18 DUO</span></td>
+                    <td data-th="數量"><span class="table-col">20</span></td>
+                    <td data-th="單價"><span class="table-col price-text"><span class="price-currency">NT$</span>93,000</span></td>
+                    <td data-th="備註"><span class="table-col">容量2TB 頂配旗艦款。氣場開闊，融匯東西方美學，體現眾生平等的平和寧靜之境。</span></td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
