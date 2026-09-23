@@ -1,0 +1,22 @@
+void sayHello(String name) {
+  print('Hello $name');
+}
+
+void main() {
+  print('========帶參數function==========');
+  sayHello('Justin');
+  
+  
+  int add(int a, int b) {
+    return a + b;
+  }
+  
+  
+  print('========帶參數function==========');
+  int resualt = add(10,20);
+  print(resualt);
+}
+  print('========箭頭函示function========');
+  int add2(int c, int d) => c * d;
+  print(add2(3,5));
+  

@@ -1,0 +1,10 @@
+//登入提示訊息練習
+void printUserName(String? name) {
+  String displayName = name ?? '訪客';
+  print('歡迎 $displayName');
+}
+
+void main() {
+  printUserName(null);
+  printUserName('Justin');
+}

@@ -1,0 +1,29 @@
+void main() {
+  List<Map<String, dynamic>> students = [
+    {'name':'Emily', 'score': 95},
+    {'name':'Darren', 'score': 100},
+    {'name':'Irene', 'score': 93},
+    {'name':'Justin', 'score': 59},
+  ];
+  for (var student in students) {
+    print(
+      '${student['name']}：'
+      '${student['score']}分'
+      '${student['score'] >= 60 ? '  ==>判定:合格':'  ==>判定:不合格'}'
+     );
+  }
+  int totalScore = 0;
+  int hightestSco = 0;
+  for(var student in students) {
+    //從 Map<String, dynamic> 取出值時，student['score'] 的靜態型別被視為     dynamic，所以totalScore計算結果要轉換成int(as int)，如果不加as int，totalScore型別要變成'num'
+    totalScore += student['score'] as int;
+    
+    if (student['score'] > hightestSco) {
+      hightestSco = student['score'];
+    };
+  }  
+  
+  double avg = totalScore / students.length;  
+  print('班平均:$avg ，最高分: $hightestSco');
+}  
+

@@ -1,0 +1,32 @@
+
+  class Person{
+    String name;
+    int age;
+    
+    Person(this.name, this.age);
+    
+//   void introduce(){
+//       print('我是 $name，今年 $age 歲');
+//     }
+//   }
+    //新寫法
+    void introduce() => print('我是 $name，今年 $age 歲');
+    
+  
+  void main(){ 
+    Person p1 = Person('Justin', 42);
+    p1.introduce();
+  }
+    
+  
+  
+
+
+  
+  
+
+
+
+
+
+

@@ -1,0 +1,142 @@
+void main() {
+  String name = 'Justin';
+  int age = 42;
+  double height = 70.1;
+  bool inStudent = true;
+  print('============這是分隔線============');
+  
+  var score = 100;
+  final DateTime today = DateTime.now();
+  const double pi =3.1415926;
+  print('============if練習============');
+  score = 59;  
+  if (score >= 90){
+    print('A');
+  }else if(score >= 80){
+    print('B');
+  }else if(score >= 70){
+    print('C');
+  }else if(score >= 60){
+    print('D');
+  }else{print('不及格');
+  }  
+  print(score);  
+  print(today);
+  print(pi);
+  print("Student's name is $name");
+  print("年齡是 $age歲，工程師一枚 ");
+  print("身高是 $height 公分");
+  print("是否具有程式經驗 : $inStudent"); 
+  
+  print('============運算元練習============');
+  int a =10;
+  int b = 3;
+  int c = 5;
+  int d = 3;
+  
+  print("a + b = ${a + b}");
+  print(a - b);
+  print(a * b);
+  print(a / b);
+  print(a % b);
+  print(a < b);
+  
+  print(a >= b && c == 5);
+  print(a >= b && c <= d);
+  
+  
+  print('============運算子||練習============');
+  //運算子'||'代表有一個條件即觸發
+  print(a >= b || c <= d);
+  
+  bool isLogin = false;
+  if(!isLogin){
+    print('登入');
+  } 
+  
+  print('============if_else練習============');
+  int age2 = 18;
+  if (age2 >= 18){
+    print('成年');
+  }else{
+    print('未成年');
+  }
+  print('============三元運算子用法============');
+  //三元運算子用法
+  String ageresult = age >= 18 ? '成年':'未成年';
+  print(ageresult);
+  
+  print('============Switch用法============');
+  //Switch用法
+  
+  String drink = '奶茶';
+  switch (drink) {
+    case '紅茶':
+      print('紅茶');
+      break;
+    case '綠茶':
+      print('綠茶');
+      break;
+    case '奶茶':
+      print('奶茶');
+      break;
+    default:
+      print('沒有這選項');  
+  }
+   print('============新版Switch用法============');
+  
+  int statusCode = 200;
+  String statusMessage = switch (statusCode) {
+  200 => '成功',
+  404 => '找不到頁面',
+  _   => '未知錯誤', // _ 代表 default
+};
+   print(statusMessage);
+  
+  print('============while迴圈============');
+  
+  int i = 1;
+  while(i <=5) {
+    print(i);
+    i++;
+  }
+  
+  print('============for迴圈============');
+  
+  int l,j = 1;
+  for(l=1; l < 10; l++) {
+    for(j=1; j < 10; j++) {
+      print('$l x $j = ${l*j}');
+    }
+  }
+  print('============1+2+3++...+100============');
+  int k = 1;
+  int sum = 0;
+  for(k=1; k < 100; k++) {
+    sum += k;
+  }  
+  print('$sum');
+  
+  print('============List用法============');
+  List <String> fruits =[
+    'Apple',
+    'Banana',
+    'Orange',
+  ];
+  
+  print('$fruits <==帶有[]');
+  print('============List.add(remove)============');
+  
+  fruits.add('Watermelon');
+  
+  print('現在有List中有 ${fruits.length} 個水果');
+  
+  print('============印出List內容不加[]============');
+  
+  for (String fruit in fruits) {
+    print('$fruit <== 沒有[]');
+  }
+
+
+}
+

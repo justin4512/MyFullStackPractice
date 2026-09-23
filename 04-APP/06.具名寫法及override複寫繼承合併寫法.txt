@@ -1,0 +1,15 @@
+//override複寫:繼承後順便改寫
+class Products{
+  String product_name;
+  int product_price;
+  
+  Products({required this.product_name, 
+            required this.product_price});
+    
+  void showInfo() => print('$product_name:$product_price元'); 
+  
+}
+void main(){
+  Products keyboard = Products(product_name:'機械鍵盤',product_price:2500); 
+  keyboard.showInfo();
+}  

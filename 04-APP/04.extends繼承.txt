@@ -1,0 +1,21 @@
+//extends繼承
+class Animal{
+  void eat(){
+    print('吃東西');
+  }
+}
+
+class Dog extends Animal{
+  void bark(){
+    print('汪汪');
+  }
+}
+  
+  
+void main(){ 
+  //呼叫dog也等同呼叫Animal
+  Dog dog = Dog();
+  
+  dog.eat();
+  dog.bark();
+}

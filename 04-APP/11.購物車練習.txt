@@ -1,0 +1,28 @@
+//購物車練習
+void main() {
+  List<Map<String, dynamic>> products = [
+    {'name':'鍵盤', 'price': 1200, 'quantity':150},
+    {'name':'銀幕', 'price': 5200, 'quantity':20},
+    {'name':'Mouse', 'price': 700, 'quantity':300},
+  ];
+  
+  for (var product in products) {
+    print(
+      '${product['name']}'
+      '${product['price']} 元 '
+      '${product['quantity']} 件 ',
+    );
+  }
+  int total = calculateTotal(products);
+
+  print('--------------');
+  print('總金額：$total 元');
+}
+
+int calculateTotal(List<Map<String, dynamic>> products) {
+  int total = 0;
+  for (var product in products) {
+    total += (product['price'] * product['quantity']) as int;
+  }
+  return total;
+}

@@ -1,0 +1,15 @@
+//非同步訊息等待練習
+Future <String> getUser() async{
+  await Future.delayed(
+    Duration(seconds: 2),
+  );
+  
+  return '王小明';
+}
+
+void main() async {
+  print('開始讀取資料...');
+  String user = await getUser();
+  print('使用者:$user');
+  print('完成');
+}

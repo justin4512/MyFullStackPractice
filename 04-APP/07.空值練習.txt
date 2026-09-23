@@ -1,0 +1,19 @@
+// String name = null;
+// String? name;
+
+
+// void main(){
+//   print(name?? 'Guest');
+// }
+
+//計算非空值長度
+// String? name = 'Justin';
+// void main(){
+//   print(name!.length);
+// }
+
+//計算空值長度
+String? name;
+void main(){
+  print(name?.length);
+}

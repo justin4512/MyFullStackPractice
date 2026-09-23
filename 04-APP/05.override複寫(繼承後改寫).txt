@@ -1,0 +1,19 @@
+//override複寫:繼承後順便改寫
+class Animal{
+  void sound(){
+    print('Woo Woo');
+  }
+}
+
+class Dog extends Animal{
+  void sound(){
+    print('汪汪override');
+  }
+}  
+  
+void main(){ 
+  //呼叫dog也等同呼叫Animal，但同一個呼叫sound()會以後面繼承的為主
+  Dog dog = Dog();
+  
+  dog.sound();
+}
