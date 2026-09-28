@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>冰島追極光之旅｜互動地圖與每日行程</title>
-<meta name="description" content="冰島環島追極光 11 日行程：互動地圖、每日行程、極光觀測指南與行前提醒。55 個節點、2,601 km、41.4 h 行車。">
+<meta name="description" content="冰島環島追極光 15 天 14 晚（2027/3/1 - 3/15）：互動地圖、每日行程、住宿一覽、極光觀測指南與行前提醒。">
 <meta name="theme-color" content="#cfd9d6">
 <!-- 主題在首次繪製前決定，避免深淺閃爍；其餘邏輯在 js/app.js -->
 <script>
@@ -38,7 +38,7 @@
     <span class="brand-mark" aria-hidden="true"><i class="ph ph-sparkle"></i></span>
     <div>
       <h1 class="brand-title">冰島追極光之旅</h1>
-      <p class="brand-sub">2026/10/02 - 10/12，順時針環島</p>
+      <p class="brand-sub">2027/03/01 - 3/15，順時針環島</p>
     </div>
   </div>
   <div class="top-actions">
@@ -58,9 +58,10 @@
 
     <div class="panel-head" id="panel-head">
       <nav class="seg" role="tablist" aria-label="主要檢視">
-        <button role="tab" id="tab-days" aria-selected="true" aria-controls="view-days" data-view="days"><i class="ph ph-map-trifold" aria-hidden="true"></i>每日行程</button>
-        <button role="tab" id="tab-guide" aria-selected="false" aria-controls="view-guide" data-view="guide"><i class="ph ph-moon-stars" aria-hidden="true"></i>極光指南</button>
-        <button role="tab" id="tab-warn" class="warn-tab" aria-selected="false" aria-controls="view-warn" data-view="warn"><i class="ph ph-warning" aria-hidden="true"></i>行前提醒</button>
+        <button role="tab" id="tab-days" aria-selected="true" aria-controls="view-days" data-view="days" aria-label="每日行程"><i class="ph ph-map-trifold" aria-hidden="true"></i>行程</button>
+        <button role="tab" id="tab-hotels" aria-selected="false" aria-controls="view-hotels" data-view="hotels" aria-label="住宿一覽"><i class="ph ph-bed" aria-hidden="true"></i>住宿</button>
+        <button role="tab" id="tab-guide" aria-selected="false" aria-controls="view-guide" data-view="guide" aria-label="極光指南"><i class="ph ph-moon-stars" aria-hidden="true"></i>指南</button>
+        <button role="tab" id="tab-warn" class="warn-tab" aria-selected="false" aria-controls="view-warn" data-view="warn" aria-label="行前提醒"><i class="ph ph-warning" aria-hidden="true"></i>提醒</button>
       </nav>
       <div class="daytabs" id="daytabs" role="tablist" aria-label="選擇日期"></div>
     </div>
@@ -88,6 +89,19 @@
           </article>
         </div>
         <div id="daybody" role="tabpanel" aria-label="當日行程"></div>
+      </section>
+
+      <!-- HOTELS -->
+      <section class="view" id="view-hotels" role="tabpanel" aria-labelledby="tab-hotels">
+        <header class="view-head">
+          <h2>住宿一覽</h2>
+          <p>每晚的住宿、入住退房日期、訂房與導航連結，資料來自住宿試算表。</p>
+          <div class="feed-row" id="hotel-status" role="status" aria-live="polite"></div>
+        </header>
+        <div class="view-body">
+          <p class="hotel-note" id="hotel-note" hidden></p>
+          <div class="hotel-list" id="hotels"></div>
+        </div>
       </section>
 
       <!-- GUIDE -->
@@ -122,7 +136,7 @@
       </section>
 
       <footer class="foot">
-        <p><b>資料來源</b>：座標取自 OpenStreetMap／Nominatim 地理編碼（55 個節點，2026-09-22 查詢）；里程與行車時間由 OSRM 路網引擎逐段計算；日照與天文黑暗以太陽赤緯近似式估算（誤差約 ±15 分鐘）。</p>
+        <p><b>資料來源</b>：住宿取自住宿試算表 API（頁面載入時即時同步）；景點座標取自 OpenStreetMap／Nominatim；里程、行車時間與路線由 OSRM 路網引擎逐段計算；日照與天文黑暗以 NOAA 太陽位置近似式、依當晚住宿座標估算。住宿的 Bortle 值依周邊環境推估。</p>
         <p><b>冬季行車係數</b> <span class="src">×1.20</span>。實際路況、封路與天候請以出發當日 <span class="src">vedur.is</span> 與 <span class="src">umferdin.is</span> 公告為準；本頁為行程規劃參考，非即時路況。</p>
       </footer>
     </div>

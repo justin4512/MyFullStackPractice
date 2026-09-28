@@ -1,6 +1,7 @@
 /* ============================================================
    冰島追極光之旅: 前端應用邏輯
-   資料：js/data.js（window.DATA）
+   資料：js/data.js（window.DATA，由 tools/build_itinerary.py 產生）
+         住宿另於執行時向 Google Sheets 住宿 API 即時讀取，失敗時沿用 data.js 快照
    版面：桌機 = 面板 + 地圖；手機（< 900px）= 全螢幕地圖 + 底部抽屜
    ============================================================ */
 (function () {
@@ -11,9 +12,16 @@
   var LOCS = DATA.locations;
   var DAYS = DATA.days;
   var ROUTES = DATA.routes;
+  var META = DATA.meta || {};
+  var HOTELS = (DATA.hotels || []).map(function (h) { return Object.assign({}, h); });
+  var SNAP_DATES = {};
+  HOTELS.forEach(function (h) { SNAP_DATES[h.id] = h.checkin + '|' + h.checkout; });
+  var hotelFeed = { state: 'snapshot', at: null };
 
   var CAT = {};
   CATS.forEach(function (c) { CAT[c.code] = c; });
+  var LOC = {};
+  LOCS.forEach(function (l) { LOC[l.id] = l; });
 
   var $ = function (id) { return document.getElementById(id); };
   var root = document.documentElement;
@@ -57,6 +65,69 @@
   }
   function dayOf(n) { return DAYS.filter(function (x) { return x.day === n; })[0]; }
   function stayLabel(d) { return d.stay_town || '離境'; }
+  function isStay(loc) { return loc.category === 'STAY'; }
+  function hotelById(id) { return HOTELS.filter(function (h) { return h.id === id; })[0]; }
+  /* 當晚住宿的地圖站點（連住日的「返回」節點指向同一間） */
+  function stayLocOf(d) {
+    return d && d.hotel_id ? LOCS.filter(function (l) { return isStay(l) && l.hotel_id === d.hotel_id && !l.same_as; })[0] : null;
+  }
+  function dayOfLoc(id) { return LOC[id] ? LOC[id].day : '?'; }
+  function md(iso) { return iso ? Number(iso.slice(5, 7)) + '/' + Number(iso.slice(8, 10)) : ''; }
+  /* 只允許 http(s) 外部連結 */
+  function safeUrl(u) {
+    u = String(u || '').trim();
+    if (!u) return '';
+    if (!/^https?:\/\//i.test(u)) u = 'https://' + u.replace(/^\/+/, '');
+    try { var x = new URL(u); return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : ''; } catch (e) { return ''; }
+  }
+  /* 圖片：接受完整網址，或專案內的相對路徑（images/xxx.jpg）；中文、空白自動編碼 */
+  function safeImg(u) {
+    u = String(u || '').trim();
+    if (u.normalize) u = u.normalize('NFC');
+    if (!u) return '';
+    var rel = u.replace(/^\.?\//, '');
+    if (/^images\/[^?#]+\.(jpe?g|png|webp|gif|avif)$/i.test(rel) && rel.indexOf('..') < 0) {
+      return rel.split('/').map(function (seg) { return encodeURIComponent(decodeURIComponentSafe(seg)); }).join('/');
+    }
+    return /^https?:\/\//i.test(u) ? safeUrl(u) : '';
+  }
+  function decodeURIComponentSafe(x) { try { return decodeURIComponent(x); } catch (e) { return x; } }
+  function extLink(url, label, ic, cls) {
+    url = safeUrl(url);
+    if (!url) return '';
+    return '<a class="' + (cls || 'hbtn') + '" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + icon(ic) + '<span>' + esc(label) + '</span></a>';
+  }
+  /* Booking 連結上的 checkin 參數若和實際入住日不同，提醒使用者訂房前修改 */
+  function bookingDateMismatch(h) {
+    try {
+      var u = new URL(safeUrl(h.booking));
+      var ci = u.searchParams.get('checkin');
+      return ci && ci !== h.checkin ? ci : '';
+    } catch (e) { return ''; }
+  }
+  function isoLocalDate(s) {
+    var t = Date.parse(s);
+    if (isNaN(t)) return /^\d{4}-\d{2}-\d{2}/.test(String(s)) ? String(s).slice(0, 10) : '';
+    return new Date(t + 12 * 3600e3).toISOString().slice(0, 10);
+  }
+  function splitName(raw) {
+    var parts = String(raw || '').split(/／| \/ /).map(function (p) { return p.trim(); }).filter(Boolean);
+    var cjk = parts.filter(function (p) { return /[\u4e00-\u9fff]/.test(p); });
+    var latin = parts.filter(function (p) { return cjk.indexOf(p) < 0; });
+    return cjk.length && latin.length ? [cjk[0], latin[0]] : [parts[0] || '', ''];
+  }
+
+  /* 風險：可用日照餘裕 < 1.5 h、冬季行車逼近 7 h、住宿光害高 */
+  var WINTER_CAP = 420;
+  function daySlack(d) { return (d.daylight_h + 1) - (d.drive_min + d.visit_min) / 60; }
+  function dayRisks(d) {
+    var r = [];
+    if (daySlack(d) < 1.5) r.push('load');
+    if (d.drive_min_winter >= WINTER_CAP - 30) r.push('drive');
+    var st = stayLocOf(d);
+    if (st && st.bortle >= 6) r.push('light');
+    return r;
+  }
 
   /* ---------- marker shapes (categories.shape) ---------- */
   var SHAPES = {
@@ -71,7 +142,9 @@
     drop:      { size: 22, body: '<path d="M12 2.2c3.7 4.7 6.6 8.2 6.6 11.7A6.6 6.6 0 0 1 12 20.5a6.6 6.6 0 0 1-6.6-6.6C5.4 10.4 8.3 6.9 12 2.2z"/>' },
     ring:      { size: 20, body: '<circle cx="12" cy="12" r="7.3"/>' },
     ellipse:   { size: 24, body: '<ellipse cx="12" cy="12" rx="9.5" ry="6.2"/>' },
-    cross:     { size: 20, body: '<path d="M9.5 2.6h5v6.9h6.9v5h-6.9v6.9h-5v-6.9H2.6v-5h6.9z"/>' }
+    cross:     { size: 20, body: '<path d="M9.5 2.6h5v6.9h6.9v5h-6.9v6.9h-5v-6.9H2.6v-5h6.9z"/>' },
+    /* 小房屋：斜屋頂＋屋身，門以 evenodd 挖空 */
+    house:     { size: 26, body: '<path fill-rule="evenodd" stroke-linejoin="round" d="M12 2.6 21.8 11.2H19.2v9.6H4.8v-9.6H2.2z M10.1 20.8v-5.3h3.8v5.3z"/>' }
   };
   function shapeSize(cat) { return SHAPES[cat.shape] ? SHAPES[cat.shape].size : 20; }
   function shapeSvg(cat, px) {
@@ -100,7 +173,8 @@
   LOCS.forEach(function (l) { if (LAYERS[CAT[l.category].layer]) LAYERS[CAT[l.category].layer].count++; });
 
   var NON_CLUSTER = { AURORA_SPOT: 1, CITY: 1, TOWN: 1, STAY: 1 };
-  var WARN_DAYS = { 3: 1, 4: 1, 5: 1, 9: 1 };
+  var WARN_DAYS = {};
+  DAYS.forEach(function (d) { if (dayRisks(d).length) WARN_DAYS[d.day] = 1; });
 
   /* ---------- state ---------- */
   var state = { day: 0, sel: null, view: 'days', wide: false, side: false, layerOn: {} };
@@ -134,11 +208,14 @@
     var half = Math.round(window.innerHeight * 0.5);
     return { h: h, full: 0, half: Math.max(0, h - Math.max(half, peek)), peek: Math.max(0, h - peek) };
   }
+  var leafBottoms = [];
   function applySheetY(y) {
     sheet.y = y;
     sheet.h = panel.offsetHeight;
-    panel.style.setProperty('--sheet-y', y + 'px');
-    root.style.setProperty('--sheet-visible', Math.max(0, sheet.h - y) + 'px');
+    /* 直接寫在會動的元素上；不在 :root 設變數，避免拖曳時整頁 style recalc */
+    panel.style.transform = 'translate3d(0,' + y + 'px,0)';
+    var lift = 'translate3d(0,' + (-Math.max(0, sheet.h - y)) + 'px,0)';
+    for (var i = 0; i < leafBottoms.length; i++) leafBottoms[i].style.transform = lift;
   }
   function setSheet(name) {
     if (!isSheet()) return;
@@ -192,8 +269,9 @@
       var s = sheetSnaps();
       var order = ['full', 'half', 'peek'];
       var target;
-      if (d.v < -0.45) target = order[Math.max(0, order.indexOf(nearest(s)) - 1)];
-      else if (d.v > 0.45) target = order[Math.min(2, order.indexOf(nearest(s)) + 1)];
+      /* 輕甩即可換段（速度門檻，不必拖過距離） */
+      if (d.v < -0.2) target = order[Math.max(0, order.indexOf(nearest(s)) - 1)];
+      else if (d.v > 0.2) target = order[Math.min(2, order.indexOf(nearest(s)) + 1)];
       else target = nearest(s);
       setSheet(target);
     }
@@ -231,8 +309,8 @@
     var onMq = function () {
       if (isSheet()) { setSheet('peek'); setWide(false); }
       else {
-        panel.style.removeProperty('--sheet-y');
-        root.style.removeProperty('--sheet-visible');
+        panel.style.transform = '';
+        leafBottoms.forEach(function (el) { el.style.transform = ''; });
         root.style.removeProperty('--sheet-rest');
         root.removeAttribute('data-sheet');
       }
@@ -254,9 +332,19 @@
     if (meta) meta.setAttribute('content', cssVar('--bg'));
   }
   function setTheme(t) {
+    /* 少用的動作：用 View Transitions 交叉淡化，避免整頁瞬間反白 */
+    if (document.startViewTransition && !reduceMotion()) {
+      document.startViewTransition(function () { applyTheme(t); });
+    } else {
+      applyTheme(t);
+    }
+  }
+  function applyTheme(t) {
     root.setAttribute('data-theme', t);
     try { localStorage.setItem('iceland-theme', t); } catch (e) {}
     syncThemeUi();
+    var b = $('btn-theme');
+    b.classList.remove('spin'); void b.offsetWidth; b.classList.add('spin');
     if (map) {
       if (BASEMAPS[baseIdx].id === 'canvas') setBasemap(baseIdx);
       restyleRoutes();
@@ -301,7 +389,7 @@
           '<linearGradient id="wg-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--chart-a);stop-opacity:.85"/><stop offset="1" style="stop-color:var(--chart-a);stop-opacity:.25"/></linearGradient>' +
           '<linearGradient id="wg-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--chart-b);stop-opacity:.9"/><stop offset="1" style="stop-color:var(--chart-b);stop-opacity:.3"/></linearGradient>' +
         '</defs>' + area('drive_min_winter', 'b', 'wg-b') + area('drive_min', 'a', 'wg-a') + '</svg>' +
-        '<div class="wave-mark" aria-hidden="true"></div><div class="wave-dot" aria-hidden="true"></div><div class="wave-tip" aria-hidden="true"></div>' +
+        '<div class="wave-x" aria-hidden="true"><div class="wave-mark"></div><div class="wave-y"><div class="wave-dot"></div><div class="wave-tip"></div></div></div>' +
       '</div>' +
       '<div class="wave-axis" aria-hidden="true">' + DAYS.map(function (d) { return '<span data-day="' + d.day + '">' + d.day + '</span>'; }).join('') + '</div>';
     $('wave').addEventListener('click', function (e) {
@@ -318,10 +406,11 @@
     var i = DNUMS.indexOf(state.day), d = DAYS[i];
     var x = i / (WAVE.n - 1) * 100;
     var y = (200 - d.drive_min / WAVE.max * 192) / 200 * 100;
-    el.querySelector('.wave-mark').style.left = x + '%';
-    var dot = el.querySelector('.wave-dot'), tip = el.querySelector('.wave-tip');
-    dot.style.left = x + '%'; dot.style.top = y + '%';
-    tip.style.left = Math.min(92, Math.max(8, x)) + '%'; tip.style.top = y + '%';
+    el.querySelector('.wave-x').style.transform = 'translateX(' + x + '%)';
+    el.querySelector('.wave-y').style.transform = 'translateY(' + y + '%)';
+    var tip = el.querySelector('.wave-tip');
+    /* 兩端時讓標籤往內靠，避免超出卡片 */
+    tip.style.setProperty('--tip-x', x < 12 ? '-12%' : x > 88 ? '-88%' : '-50%');
     tip.textContent = 'Day ' + d.day + '  ' + fmtMin(d.drive_min);
     Array.prototype.forEach.call(el.querySelectorAll('.wave-axis span'), function (s) {
       s.classList.toggle('on', Number(s.dataset.day) === state.day);
@@ -332,19 +421,23 @@
     var totalKm = DAYS.reduce(function (a, d) { return a + d.route_km; }, 0);
     var totalMin = DAYS.reduce(function (a, d) { return a + d.drive_min; }, 0);
     var totalWin = DAYS.reduce(function (a, d) { return a + d.drive_min_winter; }, 0);
-    var auroraNights = LOCS.filter(function (l) { return l.bortle <= 4 && /住宿/.test(l.name_zh); }).length;
+    var nights = DAYS.filter(function (d) { return d.hotel_id; }).length;
+    var auroraNights = DAYS.filter(function (d) { var st = stayLocOf(d); return st && st.bortle <= 4; }).length;
     var kmTxt = totalKm.toLocaleString('en-US');
+    var spots = LOCS.filter(function (l) { return !l.same_as; }).length;
 
-    $('ov-title').innerHTML = '環島 <em>' + kmTxt + ' km</em>，' + DAYS.length + ' 天、9 個極光夜';
+    $('ov-title').innerHTML = '環島 <em>' + kmTxt + ' km</em>，' + DAYS.length + ' 天 ' + nights + ' 晚';
     $('top-km').insertAdjacentHTML('beforeend', kmTxt + ' km');
-    $('top-nights').insertAdjacentHTML('beforeend', LOCS.length + ' 個站點');
+    $('top-nights').insertAdjacentHTML('beforeend', spots + ' 個站點');
+    var sub = document.querySelector('.brand-sub');
+    if (sub && META.trip_start) sub.textContent = META.trip_start.replace(/-/g, '/') + ' - ' + md(META.trip_end) + '，順時針環島';
 
     var items = [
       { k: '總里程', v: kmTxt, s: 'km' },
       { k: '總行車', v: num(totalMin / 60), s: 'h' },
       { k: '冬季預估', v: num(totalWin / 60), s: 'h' },
       { k: '行程天數', v: String(DAYS.length), s: '天' },
-      { k: '地圖站點', v: String(LOCS.length), s: '個' },
+      { k: '住宿', v: String(nights), s: '晚' },
       { k: '暗空住宿', v: String(auroraNights), s: '晚 B≤4' }
     ];
     $('kpis').innerHTML = items.map(function (i) {
@@ -427,16 +520,17 @@
     }).addTo(map);
 
     LOCS.forEach(function (loc) {
+      if (loc.same_as) return;                 /* 連住日的「返回住宿」共用同一個標記 */
       var cat = CAT[loc.category];
       var sz = shapeSize(cat);
       var m = L.marker([loc.lat, loc.lon], {
-        icon: L.divIcon({ html: shapeSvg(cat), className: 'mkr', iconSize: L.point(sz, sz), iconAnchor: L.point(sz / 2, sz / 2) }),
+        icon: L.divIcon({ html: shapeSvg(cat), className: 'mkr' + (loc.optional ? ' opt' : ''), iconSize: L.point(sz, sz), iconAnchor: L.point(sz / 2, sz / 2) }),
         title: loc.name_zh + '（' + loc.name_local + '）',
         alt: loc.name_zh + '（' + loc.name_local + '）｜' + cat.name_zh + '｜Day ' + loc.day + ' 第 ' + loc.order + ' 站',
         keyboard: true, riseOnHover: true,
         zIndexOffset: cat.code === 'AURORA_SPOT' ? 900 : (NON_CLUSTER[cat.code] ? 500 : 0)
       });
-      m.bindPopup(popupHtml(loc), { maxWidth: 300, autoPan: true });
+      m.bindPopup(popupHtml(loc), { maxWidth: 300, autoPan: true, className: isStay(loc) ? 'pop-hotel' : '' });
       m.on('click', function () { selectNode(loc.id, false); });
       markers.push({ loc: loc, cat: cat, marker: m, cluster: !NON_CLUSTER[cat.code] });
     });
@@ -465,6 +559,21 @@
       lineJoin: 'round', lineCap: 'round',
       dashArray: active ? null : '4,7'
     };
+  }
+  /* 當日路線沿行進方向畫出來（說明行車方向），WAAPI 跑在合成層 */
+  function drawRoute(day) {
+    var lyr = routeByDay[day];
+    if (!lyr || reduceMotion() || lastFit !== day) return;
+    var path = lyr.getElement ? lyr.getElement() : null;
+    if (!path && lyr.getLayers) { var l0 = lyr.getLayers()[0]; path = l0 && l0.getElement && l0.getElement(); }
+    if (!path || !path.getTotalLength) return;
+    var len = path.getTotalLength();
+    if (!len) return;
+    path.style.strokeDasharray = len + ' ' + len;
+    var a = path.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
+      { duration: Math.min(900, 300 + len / 3), easing: 'cubic-bezier(.77,0,.175,1)' });
+    a.onfinish = a.oncancel = function () { path.style.strokeDasharray = ''; };
+    map.once('zoomstart', function () { a.cancel(); });
   }
   function restyleRoutes() {
     Object.keys(routeByDay).forEach(function (k) {
@@ -495,7 +604,24 @@
     renderLegend();
   }
 
+  function hotelPopupHtml(loc) {
+    var h = hotelById(loc.hotel_id) || {};
+    var img = safeImg(h.image);
+    var days = DAYS.filter(function (d) { return d.hotel_id === loc.hotel_id; }).map(function (d) { return d.day; });
+    return (img ? '<img class="pop-img" src="' + esc(img) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">' : '') +
+      '<div class="pop-h">' + shapeSvg(CAT.STAY, 22) + '<b>' + esc(h.name_zh || loc.name_zh) + '</b></div>' +
+      '<div class="pop-loc">' + esc(h.name_local || loc.name_local) + '</div>' +
+      '<dl class="pop-grid">' +
+        '<dt>入住</dt><dd>' + esc(md(h.checkin)) + '（Day ' + esc(days.join('、')) + '）</dd>' +
+        '<dt>退房</dt><dd>' + esc(md(h.checkout)) + '</dd>' +
+        '<dt>晚數</dt><dd>' + esc(h.nights) + ' 晚</dd>' +
+        '<dt>Bortle</dt><dd>' + esc(loc.bortle) + ' / 9（推估）</dd>' +
+      '</dl>' +
+      '<div class="pop-actions">' + extLink(h.booking, 'Booking', 'bed') + extLink(h.gmaps, '導航', 'navigation-arrow') + '</div>';
+  }
+
   function popupHtml(loc) {
+    if (isStay(loc)) return hotelPopupHtml(loc);
     var cat = CAT[loc.category];
     var rows = [
       ['順序', 'Day ' + loc.day + '，第 ' + loc.order + ' 站'],
@@ -515,6 +641,7 @@
       '<dl class="pop-grid">' +
       rows.map(function (r) { return '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('') +
       '<dt>冬季通行</dt><dd>' + wa + '</dd></dl>' +
+      (loc.optional ? '<div class="pop-note"><b>備選景點</b>：時間與天氣允許再去，不計入當日里程。</div>' : '') +
       (loc.notes ? '<div class="pop-note">' + esc(loc.notes) + '</div>' : '');
   }
 
@@ -527,13 +654,24 @@
     p.options.maxWidth = isSheet() ? 264 : 300;
     o.marker.openPopup();
   }
+  /* 一次性的漣漪：從清單跳到地圖時，標出標記位置 */
+  function pingMarker(o) {
+    var el = o.marker._icon;
+    if (!el || reduceMotion()) return;
+    var old = el.querySelector('.mkr-ping');
+    if (old) old.remove();
+    var r = document.createElement('span');
+    r.className = 'mkr-ping';
+    r.addEventListener('animationend', function () { r.remove(); });
+    el.appendChild(r);
+  }
 
   /* 定位到標記並開啟資訊卡：處理圖層關閉、min_zoom 未達、被聚合等情況 */
   function afterMove(fn) {
     var done = false;
     var run = function () { if (!done) { done = true; fn(); } };
     map.once('moveend', run);
-    setTimeout(run, reduceMotion() ? 50 : 900);
+    setTimeout(run, reduceMotion() ? 50 : 1500);
   }
   function revealMarker(o) {
     if (!state.layerOn[o.cat.layer]) {
@@ -543,7 +681,7 @@
     var ll = L.latLng(o.loc.lat, o.loc.lon);
     var anim = !reduceMotion();
     var tryOpen = function (retry) {
-      if (o.marker._icon) openPopupFor(o);
+      if (o.marker._icon) { openPopupFor(o); pingMarker(o); }
       else if (retry) setTimeout(function () { tryOpen(false); }, 260);
     };
     /* 第二步：若仍被聚合，直接拉到不聚合的縮放層級 */
@@ -663,16 +801,21 @@
       if (j === null) return;
       e.preventDefault();
       var nb = box.querySelector('.dtab[data-day="' + DNUMS[j] + '"]');
-      if (nb) { nb.focus(); setDay(DNUMS[j], false, true); }
+      if (nb) { nb.focus(); setDay(DNUMS[j], false, true, true); }
     });
   }
 
+  /* 當日主線站點（不含備選） */
   function dayLocs(day) {
-    return LOCS.filter(function (l) { return l.day === day; }).sort(function (a, b) { return a.order - b.order; });
+    return LOCS.filter(function (l) { return l.day === day && !l.optional; }).sort(function (a, b) { return a.order - b.order; });
+  }
+  function optLocs(day) {
+    return LOCS.filter(function (l) { return l.day === day && l.optional; }).sort(function (a, b) { return a.order - b.order; });
   }
 
-  function setDay(day, skipMap, fromUser) {
+  function setDay(day, skipMap, fromUser, viaKeyboard) {
     var changed = state.day !== day;
+    $('daybody').classList.toggle('no-anim', !!viaKeyboard);
     state.day = day;
     state.sel = null;
     var tabs = document.querySelectorAll('.dtab');
@@ -680,7 +823,7 @@
       var on = Number(tabs[i].dataset.day) === day;
       tabs[i].setAttribute('aria-selected', String(on));
       tabs[i].setAttribute('tabindex', on ? '0' : '-1');
-      if (on) tabs[i].scrollIntoView({ inline: 'center', block: 'nearest', behavior: reduceMotion() ? 'auto' : 'smooth' });
+      if (on) tabs[i].scrollIntoView({ inline: 'center', block: 'nearest', behavior: reduceMotion() || viaKeyboard ? 'auto' : 'smooth' });
     }
     if (changed || !$('daybody').firstChild) renderDay();
     updateWave();
@@ -691,7 +834,7 @@
       else if (scroller.scrollTop > top) scroller.scrollTop = top;
       if (isSheet() && sheet.state === 'peek') setSheet('half');
     }
-    if (!skipMap) focusDay(day);
+    if (!skipMap) focusDay(day, false, !!viaKeyboard);
     announceDay();
   }
 
@@ -709,8 +852,16 @@
     var refit = force || lastFit !== day;
     lastFit = day;
     var pad = mapPad();
+    var animate = !instant && !reduceMotion();
     if (refit) {
-      map.fitBounds(b, { paddingTopLeft: pad.tl, paddingBottomRight: pad.br, animate: !instant && !reduceMotion(), maxZoom: 11 });
+      var opts = { paddingTopLeft: pad.tl, paddingBottomRight: pad.br, maxZoom: 11 };
+      if (animate) {
+        /* 換日：拉遠再飛入，讓使用者看見「今天在島上的哪裡」 */
+        afterMove(function () { drawRoute(day); });
+        map.flyToBounds(b, Object.assign(opts, { duration: 0.9, easeLinearity: 0.2 }));
+      } else {
+        map.fitBounds(b, Object.assign(opts, { animate: false }));
+      }
     }
     restyleRoutes();
     var dd = dayOf(day);
@@ -718,14 +869,19 @@
   }
 
   function renderDay() {
+    /* 記住上一天的環形圖，換日時從舊比例變形到新比例（說明光照的變化） */
+    var prevArcs = Array.prototype.map.call(document.querySelectorAll('.day-hero .donut circle'), function (c) {
+      return { da: c.getAttribute('stroke-dasharray'), off: c.getAttribute('stroke-dashoffset') };
+    });
     var d = dayOf(state.day);
     var ls = dayLocs(state.day);
-    var warnMap = {
-      3: '本日負荷偏高：行車加遊覽超出「日照 + 1 h」可用視窗約 1.2-1.6 h，<b>務必 08:00 前出發</b>，或啟用 §2.6 的捨棄順序。',
-      4: '冬季行車 <b>7.3 h 已達規劃上限</b>，且同屬負荷偏高日；天候不佳請直接改用 §1.4 替代方案。',
-      5: '全行程最長的一日：行車加遊覽超出可用視窗約 1.2-1.6 h，<b>務必 08:00 前出發</b>。',
-      9: '本日住宿為 <b>Reykjavík（Bortle 8）</b>，末夜光害最高。若仍要追極光，建議改住市郊（如 Seltjarnarnes）或延後還車，夜間再赴 Grótta。'
-    };
+    var opts = optLocs(state.day);
+    var warnHtml = dayRisks(d).map(function (r) {
+      if (r === 'load') return '本日行車加遊覽約 <b>' + num((d.drive_min + d.visit_min) / 60) + ' h</b>，距「日照 + 1 h」只剩 ' + num(daySlack(d)) + ' h 餘裕，<b>建議 08:00 前出發</b>。';
+      if (r === 'drive') return '冬季預估行車 <b>' + fmtMin(d.drive_min_winter) + '</b>，' + (d.drive_min_winter > WINTER_CAP ? '已超過' : '逼近') + '單日 7 小時上限；天候不佳請改用「行前提醒」的替代方案。';
+      if (r === 'light') return '今晚住宿 Bortle 推估 ' + stayLocOf(d).bortle + '，光害較高；想追極光請開往較暗的郊外或海岸。';
+      return '';
+    }).join('<br>');
     var twilight = Math.max(0, 24 - d.daylight_h - d.astro_dark_h);
     var tiles = [
       { k: '當日里程', v: d.route_km, s: 'km', c: '' },
@@ -763,37 +919,75 @@
         '</div>' +
       '</article>' +
       (d.notes ? '<div class="callout">' + icon('info') + '<div>' + esc(d.notes) + '</div></div>' : '') +
-      (warnMap[d.day] ? '<div class="callout warn">' + icon('warning', 'ph-fill') + '<div><b>行前提醒</b>　' + warnMap[d.day] + '</div></div>' : '') +
+      (warnHtml ? '<div class="callout warn">' + icon('warning', 'ph-fill') + '<div><b>行前提醒</b>　' + warnHtml + '</div></div>' : '') +
+      stayCardHtml(d) +
       '<article class="card timeline-card">' +
         '<div class="card-h"><h3>當日站點</h3><span class="aside">' + ls.length + ' 站，' + d.route_km + ' km</span></div>' +
         '<div class="timeline" aria-label="Day ' + d.day + ' 站點">' +
           ls.map(function (l, i) { return nodeHtml(l, i); }).join('') +
         '</div>' +
+        (opts.length ? '<div class="opt-h">' + icon('plus-circle') + '備選景點<span>時間允許再去，不計入當日里程</span></div>' +
+          '<div class="timeline opt-list" aria-label="Day ' + d.day + ' 備選景點">' +
+            opts.map(function (l, i) { return nodeHtml(l, ls.length + i); }).join('') +
+          '</div>' : '') +
       '</article>';
     $('daybody').innerHTML = html;
+    var arcs = document.querySelectorAll('.day-hero .donut circle');
+    if (prevArcs.length === arcs.length && !reduceMotion() && !$('daybody').classList.contains('no-anim')) {
+      for (var k = 1; k < arcs.length; k++) {
+        if (!prevArcs[k].da) continue;
+        arcs[k].animate([
+          { strokeDasharray: prevArcs[k].da.replace(' ', 'px ') + 'px', strokeDashoffset: prevArcs[k].off + 'px' },
+          { strokeDasharray: arcs[k].getAttribute('stroke-dasharray').replace(' ', 'px ') + 'px', strokeDashoffset: arcs[k].getAttribute('stroke-dashoffset') + 'px' }
+        ], { duration: 280, easing: 'cubic-bezier(.77,0,.175,1)' });
+      }
+    }
+  }
+
+  /* 今晚住宿卡：圖片、入住退房、訂房與導航連結（資料來自住宿 API） */
+  function stayCardHtml(d) {
+    var st = stayLocOf(d);
+    var h = st && hotelById(st.hotel_id);
+    if (!h) return '';
+    var img = safeImg(h.image);
+    var nightNo = DAYS.filter(function (x) { return x.hotel_id === h.id && x.day <= d.day; }).length;
+    var mism = bookingDateMismatch(h);
+    return '<article class="card stay-card">' +
+      (img ? '<img class="stay-img" src="' + esc(img) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">' : '<div class="stay-img empty">' + icon('bed') + '</div>') +
+      '<div class="stay-body">' +
+        '<div class="stay-k">' + icon('moon-stars') + '今晚住宿' + (h.nights > 1 ? '，第 ' + nightNo + ' / ' + h.nights + ' 晚' : '') + '</div>' +
+        '<h3 class="stay-name">' + esc(h.name_zh) + '</h3>' +
+        '<div class="stay-meta">' + esc(h.name_local || d.stay_town_local) + '　' + esc(md(h.checkin)) + ' 入住，' + esc(md(h.checkout)) + ' 退房</div>' +
+        (mism ? '<div class="stay-flag">' + icon('warning') + 'Booking 連結的日期是 ' + esc(mism) + '，訂房前請改成 ' + esc(h.checkin) + '</div>' : '') +
+      '</div>' +
+      '<div class="stay-actions">' + extLink(h.booking, 'Booking 訂房', 'bed') + extLink(h.gmaps, 'Google 導航', 'navigation-arrow') +
+        '<button type="button" class="hbtn ghost" data-locate="' + esc(st.id) + '">' + icon('crosshair-simple') + '<span>地圖定位</span></button></div>' +
+    '</article>';
   }
 
   function nodeHtml(loc, i) {
     var cat = CAT[loc.category];
-    var isStay = /住宿/.test(loc.name_zh);
+    var stay = isStay(loc);
     var tags = '<span class="tag">' + esc(cat.name_zh) + '</span>';
     if (loc.road) tags += '<span class="tag">' + icon('path') + esc(loc.road) + ' 號</span>';
     tags += '<span class="tag">Bortle ' + loc.bortle + '</span>';
     if (loc.aurora_score > 0) tags += '<span class="tag">極光 ' + stars(loc.aurora_score) + '</span>';
     if (loc.winter_access === 'CAUTION') tags += '<span class="tag caution">' + icon('snowflake') + '冬季須確認</span>';
     if (loc.out_and_back) tags += '<span class="tag">原路折返</span>';
-    if (isStay) tags += '<span class="tag stay">' + icon('bed') + '當日住宿</span>';
+    if (stay) tags += '<span class="tag stay">' + icon('bed') + '今晚住宿</span>';
 
-    var legs = '<span>' + icon('path') + num(loc.leg_km, 1) + ' km</span>' +
-      '<span>' + icon('clock') + loc.leg_min + ' 分</span>' +
-      '<span>' + icon('snowflake') + '冬 ' + loc.leg_min_winter + ' 分</span>' +
-      (loc.visit_min ? '<span>' + icon('hourglass-medium') + '停留 ' + loc.visit_min + ' 分</span>' : '');
+    var legs = loc.optional
+      ? (loc.visit_min ? '<span>' + icon('hourglass-medium') + '停留 ' + loc.visit_min + ' 分</span>' : '')
+      : '<span>' + icon('path') + num(loc.leg_km, 1) + ' km</span>' +
+        '<span>' + icon('clock') + loc.leg_min + ' 分</span>' +
+        '<span>' + icon('snowflake') + '冬 ' + loc.leg_min_winter + ' 分</span>' +
+        (loc.visit_min ? '<span>' + icon('hourglass-medium') + '停留 ' + loc.visit_min + ' 分</span>' : '');
 
-    return '<div class="node' + (isStay ? ' stay' : '') + (state.sel === loc.id ? ' sel' : '') + '" style="--i:' + (i + 1) + '"' +
+    return '<div class="node' + (stay ? ' stay' : '') + (loc.optional ? ' opt' : '') + (state.sel === loc.id ? ' sel' : '') + '" style="--i:' + (i + 1) + '"' +
       ' data-id="' + esc(loc.id) + '" tabindex="0" role="button" aria-label="' +
-      esc('第 ' + loc.order + ' 站 ' + loc.name_zh + '，' + cat.name_zh + '，Bortle ' + loc.bortle +
-        '，本段 ' + num(loc.leg_km, 1) + ' 公里 ' + loc.leg_min + ' 分。在地圖上定位') + '">' +
-      '<div class="ord" aria-hidden="true">' + loc.order + '</div>' +
+      esc((loc.optional ? '備選 ' : '第 ' + loc.order + ' 站 ') + loc.name_zh + '，' + cat.name_zh + '，Bortle ' + loc.bortle +
+        (loc.optional ? '' : '，本段 ' + num(loc.leg_km, 1) + ' 公里 ' + loc.leg_min + ' 分') + '。在地圖上定位') + '">' +
+      '<div class="ord" aria-hidden="true">' + (loc.optional ? icon('plus') : loc.order) + '</div>' +
       '<div>' +
         '<div class="nm">' + shapeSvg(cat, 16) + '<b>' + esc(loc.name_zh) + '</b><span class="loc">' + esc(loc.name_local) + '</span></div>' +
         '<div class="legs">' + legs + '</div>' +
@@ -804,8 +998,17 @@
   }
 
   function selectNode(id, fromList) {
-    var o = markers.filter(function (m) { return m.loc.id === id; })[0];
-    if (!o) return;
+    var loc = LOC[id];
+    if (!loc) return;
+    /* 地圖上點連住飯店：若當天清單有「返回」節點，就留在當天 */
+    if (!fromList) {
+      var alt = LOCS.filter(function (l) { return l.same_as === id && l.day === state.day; })[0];
+      if (alt) { id = alt.id; loc = alt; }
+    }
+    var mid = loc.same_as || loc.id;
+    var o0 = markers.filter(function (m) { return m.loc.id === mid; })[0];
+    if (!o0) return;
+    var o = { loc: loc, cat: o0.cat, marker: o0.marker, cluster: o0.cluster };
     /* 點地圖上別天的標記：日期頁籤與清單一起切換，並確保在每日行程頁 */
     if (!fromList) {
       if (o.loc.day !== state.day) setDay(o.loc.day, true);
@@ -866,23 +1069,36 @@
   }
 
   function buildGuide() {
-    var bortleDist = [
-      { b: 2, n: 14, ex: 'Þingvellir、Skaftafell、Vestrahorn、Stuðlagil、Mývatn、Hvítserkur' },
-      { b: 3, n: 23, ex: '冰河湖、Reynisfjara、Djúpalónssandur、Kirkjufell、Stykkishólmur' },
-      { b: 4, n: 9, ex: '藍湖、Vík、Höfn、Egilsstaðir、Húsavík、Sauðárkrókur、Hvammstangi' },
-      { b: 5, n: 3, ex: 'Selfoss、Borgarnes、Akranes' },
-      { b: 6, n: 4, ex: '機場、Grótta、藍湖、阿克雷里' },
-      { b: 8, n: 2, ex: '雷克雅維克市中心' }
-    ];
-    var totalN = bortleDist.reduce(function (a, b) { return a + b.n; }, 0);
+    /* Bortle 分布：由實際站點計算（不含連住的重複節點） */
+    var spots = LOCS.filter(function (l) { return !l.same_as; });
+    var groups = {};
+    spots.forEach(function (l) { (groups[l.bortle] = groups[l.bortle] || []).push(l); });
+    var bortleDist = Object.keys(groups).map(Number).sort(function (a, b) { return a - b; }).map(function (b) {
+      return { b: b, n: groups[b].length, ex: groups[b].slice(0, 6).map(function (l) { return l.name_local || l.name_zh; }).join('、') };
+    });
+    var totalN = spots.length;
+    var dark = bortleDist.filter(function (x) { return x.b <= 3; }).reduce(function (a, x) { return a + x.n; }, 0);
+    var minMax = function (key) {
+      var v = DAYS.filter(function (d) { return d.hotel_id; }).map(function (d) { return d[key]; });
+      return num(Math.min.apply(null, v)) + ' - ' + num(Math.max.apply(null, v));
+    };
+    var stays = DAYS.filter(function (d) { return d.hotel_id; }).map(stayLocOf);
+    var darkestStays = stays.filter(function (l) { return l.bortle <= 2; }).map(function (l) { return l.name_zh; })
+      .filter(function (n, i, a) { return a.indexOf(n) === i; });
+    var brightest = stays.slice().sort(function (a, b) { return b.bortle - a.bortle; })[0];
+    var brightDay = DAYS.filter(function (d) { return d.hotel_id === brightest.hotel_id; })[0];
+    var tripMonth = Number((META.trip_start || '2027-03').slice(5, 7));
     var season = [
-      { p: '8 月下 - 9 月', n: '縮短中', v: '中至高', d: '季節開端；秋分（9 月下）有地磁活動高峰，氣溫尚可、道路未大量結冰' },
-      { p: '10 月 - 11 月', n: '長', v: '高', d: '黑暗充足；天氣較不穩定，雲量是主要變數。本規劃採 10 月上旬（日照 10.0-11.0 h、天文黑暗 7.6-8.8 h）', hl: 1 },
-      { p: '12 月 - 1 月', n: '最長（日照僅 4-5 h）', v: '高', d: '理論最佳，但暴風雪與封路風險最高；日照短削弱白天觀光價值' },
-      { p: '2 月 - 3 月', n: '中', v: '最高性價比', d: '夜仍長、天氣漸穩、春分（3 月）帶來另一波地磁高峰' },
-      { p: '4 月上 - 中', n: '快速縮短', v: '遞減', d: '極光季尾聲' },
-      { p: '5 月 - 8 月中', n: '極短／無', v: '幾乎不可見', d: '永晝效應，天空不夠暗' }
-    ];
+      { p: '8 月下 - 9 月', n: '縮短中', v: '中至高', d: '季節開端；秋分（9 月下）有地磁活動高峰，氣溫尚可、道路未大量結冰', m: [8, 9] },
+      { p: '10 月 - 11 月', n: '長', v: '高', d: '黑暗充足；天氣較不穩定，雲量是主要變數', m: [10, 11] },
+      { p: '12 月 - 1 月', n: '最長（日照僅 4-5 h）', v: '高', d: '理論最佳，但暴風雪與封路風險最高；日照短削弱白天觀光價值', m: [12, 1] },
+      { p: '2 月 - 3 月', n: '中', v: '最高性價比', d: '夜仍長、天氣漸穩、春分（3 月）帶來另一波地磁高峰', m: [2, 3] },
+      { p: '4 月上 - 中', n: '快速縮短', v: '遞減', d: '極光季尾聲', m: [4] },
+      { p: '5 月 - 8 月中', n: '極短／無', v: '幾乎不可見', d: '永晝效應，天空不夠暗', m: [5, 6, 7] }
+    ].map(function (x) {
+      if (x.m.indexOf(tripMonth) >= 0) { x.hl = 1; x.d += '。本行程在此區間（日照 ' + minMax('daylight_h') + ' h、天文黑暗 ' + minMax('astro_dark_h') + ' h）'; }
+      return x;
+    });
     var weather = [
       ['雲量', 'en.vedur.is/weather/forecasts/aurora', '綠色＝有雲、白色＝晴。Kp 再高，雲層覆蓋就看不到。<b>這是第一順位判準</b>'],
       ['地磁活動', '同頁右上 Kp 值（0-9）', '2-3 為常見且足夠；4-6 為大爆發；7-9 極罕見'],
@@ -902,14 +1118,14 @@
     ];
     var tips = [
       '每天保留夜間額度：行程於日落前收束，晚間 21:00 起可外出，不安排夜間長途移動。',
-      '連住策略：Mývatn 連住 2 晚（可 +1 晚），是提升成功率最有效的單一手段。',
+      '連住策略：Day ' + dayOfLoc('hotel_9') + '-' + dayOfLoc('hotel_9_back') + ' 在阿克雷里東岸連住 2 晚，中間一天整天留給米湖（Bortle 2），是提升成功率最有效的一手。',
       '不要因 Kp 低而放棄：冰島在橢圓帶內，Kp 2-3 已足夠；以雲量為判斷。',
-      '準備「捨棄順序」：天氣不好時依序犧牲 ① Stuðlagil（Day 4）、② Seyðisfjörður（Day 4）、③ Ásbyrgi（Day 5）、④ Fjaðrárgljúfur（Day 3）；冰河湖、米湖、教會山優先保留。',
-      'Night 1 不要排滿：抵達日有時差與疲勞，安排 Grótta 這類短程、可隨時撤退的觀測點。',
+      '準備「捨棄順序」：天氣不好時先放掉備選景點，再依序犧牲 ① Stuðlagil（Day ' + dayOfLoc('studlagil') + '）、② Dettifoss（Day ' + dayOfLoc('dettifoss') + '）、③ Ásbyrgi（Day ' + dayOfLoc('asbyrgi') + '）、④ 羽毛河峽谷（Day ' + dayOfLoc('fjadrargljufur') + '）；冰河湖、米湖、教會山優先保留。',
+      'Night 1 不要排滿：抵達日有時差與疲勞，住宿旁的海岸就是短程、可隨時撤退的觀測點。',
       '住宿選址：優先「城鎮邊緣、可步行離開路燈」的旅館；訂房時確認夜間出入口不鎖。',
-      '行前 72 小時才定案：以 vedur.is 一週預報微調 Day 3-9 的順序，而非更動住宿。',
+      '行前 72 小時才定案：住宿已訂好，以 vedur.is 一週預報微調每天景點的先後，而非更動住宿。',
       '車輛：11/1-4/15 法定須裝冬季胎（最低胎紋 3 mm），建議加訂四輪驅動與含飛石的加值保險（SAAP）。',
-      '冬季日照：10 月約 10 小時日照足以完成本規劃；12 月僅 4-5 小時，須延長 2-3 天或刪減景點。',
+      '日照：本行程每天約 ' + minMax('daylight_h') + ' 小時日照，足以完成每日行程；若改到 12 月（僅 4-5 小時）須延長天數或刪減景點。',
       '極光外備案：連續多雲時，可安排地熱泳池（Húsavík、Mývatn Nature Baths）、賞鯨（Húsavík）或藍湖。'
     ];
 
@@ -925,11 +1141,11 @@
         })) +
         '<p class="sub"><b>建議窗口排序</b></p>' +
         '<div class="rank"><span>3 月</span><span>9 月下</span><span class="gt">&gt;</span><span>2 月</span><span class="gt">&gt;</span><span>10 月</span><span class="gt">&gt;</span><span>11 月</span><span class="gt">&gt;</span><span>12-1 月</span></div>' +
-        '<p class="sub"><b>太陽活動週期</b>：第 25 太陽週期極大期約在 2024-2026 年，2026 年仍屬高活動期。</p>', 'span-2') +
+        '<p class="sub"><b>太陽活動週期</b>：第 25 太陽週期極大期約在 2024-2026 年，出發的 2027 年處於極大期後的下降段，活動度仍高於週期低谷。</p>', 'span-2') +
       gcard('moon-stars', '觀測時段', '§2.3',
         '<ul><li><b>主要視窗</b>：約 21:00 - 02:00（冰島全年 UTC+0）。</li>' +
         '<li><b>最佳時段</b>：22:30 - 01:00，極光常在午夜前後達到高峰。</li>' +
-        '<li>10 月天文黑暗始於日落後約 1.5 小時；本規劃每夜約 <b>7.6 - 8.8 小時</b>。</li></ul>' +
+        '<li>' + tripMonth + ' 月天文黑暗始於日落後約 1.5-2 小時；本行程每夜約 <b>' + minMax('astro_dark_h') + ' 小時</b>（以當晚住宿座標計算）。</li></ul>' +
         table(['Day', '日期', '日照', '天文黑暗', '住宿'], DAYS.map(function (d) {
           return '<tr><td class="num">' + d.day + '</td><td class="num">' + esc(d.date.slice(5).replace('-', '/')) + '</td><td class="num">' + num(d.daylight_h) + ' h</td><td class="num"><b>' + num(d.astro_dark_h) + ' h</b></td><td>' + esc(stayLabel(d)) + '</td></tr>';
         }))) +
@@ -938,7 +1154,7 @@
         '<div class="bortle-viz">' +
           '<div class="donut" role="img" aria-label="Bortle 分布：' + bortleDist.map(function (b) { return 'Bortle ' + b.b + ' 有 ' + b.n + ' 個'; }).join('、') + '">' +
             donutSvg(bortleDist.map(function (b) { return { v: b.n, color: bortleColor(b.b) }; }), totalN, 'var(--surface-2)') +
-            '<div class="c" aria-hidden="true"><b>' + (bortleDist[0].n + bortleDist[1].n) + '</b><span>Bortle 3 以下</span></div>' +
+            '<div class="c" aria-hidden="true"><b>' + dark + '</b><span>Bortle 3 以下</span></div>' +
           '</div>' +
           '<div class="bortle-keys" aria-hidden="true">' + bortleDist.map(function (b) {
             return '<span class="key"><span class="swatch" style="background:' + bortleColor(b.b) + '"></span><b>' + b.b + '</b>' + b.n + ' 個' + (b.b === 2 ? '，極暗' : b.b === 8 ? '，市區' : '') + '</span>';
@@ -947,12 +1163,12 @@
         table(['Bortle', '站點', '代表地點'], bortleDist.map(function (b) {
           return '<tr><td class="num"><span class="key"><span class="swatch" style="background:' + bortleColor(b.b) + '"></span><b>' + b.b + '</b></span></td><td class="num">' + b.n + '</td><td>' + esc(b.ex) + '</td></tr>';
         })) +
-        '<p class="sub"><b>行程應用</b>：除起訖點雷克雅維克（Bortle 8）外，住宿城鎮皆在 Bortle 5 以下，Mývatn 為 Bortle 2。首都圈另安排 Grótta（Bortle 6）作為不必離開市區的追光點。</p>') +
+        '<p class="sub"><b>行程應用</b>：住宿多在城鎮外圍（Bortle 依周邊推估）；最暗的是 ' + esc(darkestStays.join('、')) + '（Bortle 2）。最亮的一晚是 Day ' + brightDay.day + ' 的' + esc(brightDay.stay_town) + '（Bortle ' + brightest.bortle + '），當晚可改到 Grótta 或往 Þingvellir 方向追光。</p>') +
       gcard('cloud', '天氣與雲量：真正的成敗關鍵', '§2.5',
         table(['因子', '工具／指標', '判讀方式'], weather.map(function (w) {
           return '<tr><td><b>' + esc(w[0]) + '</b></td><td>' + esc(w[1]) + '</td><td>' + w[2] + '</td></tr>';
         })) +
-        '<p class="sub"><b>找晴空的策略</b>：北部（Mývatn／Akureyri）與東北部通常雲量最少，南岸（Vík 至 Höfn）最多。因此行程在米湖連住，並允許以雲圖決定當日景點順序。</p>', 'span-2') +
+        '<p class="sub"><b>找晴空的策略</b>：北部（Mývatn／Akureyri）與東北部通常雲量最少，南岸（Vík 至 Höfn）最多。因此行程在阿克雷里東岸連住兩晚，並允許以雲圖決定當日景點順序。</p>', 'span-2') +
       gcard('list-checks', '行程安排建議', '§2.6',
         '<ol>' + tips.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ol>') +
       gcard('camera', '攝影設定建議', '§2.7',
@@ -965,52 +1181,177 @@
      Warnings (§6)
      ========================================================== */
   function buildWarnings() {
-    var warns = [
-      {
-        cls: 'card-sand', ic: 'warning', label: '負荷',
-        h: 'Day 3、4、5 負荷偏高',
-        body: '<p>行車加遊覽時間比「日照 + 1 h」的可用視窗多出約 <b>1.2-1.6 小時</b>，這三天<b>必須 08:00 前出發</b>，或啟用 §2.6 的捨棄順序。</p>' +
-          table(['Day', '里程', '行車', '冬季', '遊覽', '日照', '超出'], [3, 4, 5].map(function (n) {
-            var d = dayOf(n);
-            var over = ((d.drive_min + d.visit_min) / 60) - (d.daylight_h + 1);
-            return '<tr><td class="num">' + n + '</td><td class="num">' + d.route_km + ' km</td><td class="num">' + fmtMin(d.drive_min) + '</td><td class="num">' + fmtMin(d.drive_min_winter) + '</td><td class="num">' + fmtMinH(d.visit_min) + ' h</td><td class="num">' + num(d.daylight_h) + ' h</td><td class="num over">+' + num(over) + ' h</td></tr>';
-          })) +
-          '<p class="sub">偏好輕鬆節奏的話，可將 Day 4 拆為兩日（Höfn 至 Egilsstaðir 分兩段），或 Day 5 取消 Ásbyrgi。</p>',
-        act: '08:00 前出發；或依序捨棄 ① Stuðlagil ② Seyðisfjörður（Day 4）③ Ásbyrgi（Day 5）。'
-      },
-      {
-        cls: 'card-ink', ic: 'moon-stars', label: '光害',
-        h: 'Day 9 回到雷克雅維克（Bortle 8）',
-        body: '<p>還車與離境動線使末夜光害最高：Day 9 住宿 <b>Reykjavík</b> 的 Bortle 值為 <b>8 / 9</b>，其餘住宿城鎮皆在 Bortle 5 以下。</p>' +
-          '<p>若最後一晚仍想追極光，建議改住市郊（如 Seltjarnarnes）或延後還車，晚間再赴 Grótta（Bortle 6，首都圈最佳極光點，停車後步行約 10 分）。</p>',
-        act: '改住市郊，或延後還車，夜間赴 Grótta。'
-      },
-      {
-        cls: 'danger', ic: 'steering-wheel', label: '行車上限',
-        h: 'Day 4 冬季行車 7.3 小時，已達上限',
-        body: '<p>Day 4（Höfn 至 Egilsstaðir）冬季預估行車 <b>7.3 小時</b>（OSRM 理論 6:07 × 1.20 冬季係數），已達「單日冬季行車不超過 7 小時」的上限。</p>' +
-          '<p>東峽灣多彎道與單線橋；若 93 號或 Öxi（939）封閉，改走 1 號公路繞行 Breiðdalsheiði。</p>',
-        act: '天候不佳直接改用 §1.4 替代方案；或將 Day 4 拆為兩日。'
-      }
-    ];
+    var row = function (d, last) {
+      return '<tr><td class="num">' + d.day + '</td><td class="num">' + md(d.date) + '</td><td class="num">' + d.route_km + ' km</td><td class="num">' + fmtMin(d.drive_min) +
+        '</td><td class="num">' + fmtMin(d.drive_min_winter) + '</td><td class="num">' + fmtMinH(d.visit_min) + ' h</td><td class="num">' + num(d.daylight_h) + ' h</td>' + last + '</tr>';
+    };
+    var loadDays = DAYS.filter(function (d) { return dayRisks(d).indexOf('load') >= 0; });
+    var driveDays = DAYS.filter(function (d) { return dayRisks(d).indexOf('drive') >= 0; });
+    var lightDays = DAYS.filter(function (d) { return dayRisks(d).indexOf('light') >= 0; });
+    var list = function (ds) { return ds.map(function (d) { return d.day; }).join('、'); };
+    var warns = [];
+    if (loadDays.length) warns.push({
+      cls: 'card-sand', ic: 'warning', label: '負荷',
+      h: 'Day ' + list(loadDays) + ' 日照餘裕不足 1.5 小時',
+      body: '<p>以「日照 + 1 h」為每日可用時間，這幾天的行車加遊覽已接近上限，<b>建議 08:00 前出發</b>，或先放掉備選景點。</p>' +
+        table(['Day', '日期', '里程', '行車', '冬季', '遊覽', '日照', '餘裕'], loadDays.map(function (d) { return row(d, '<td class="num over">' + num(daySlack(d)) + ' h</td>'); })),
+      act: '08:00 前出發；依「行程安排建議」的捨棄順序刪減。'
+    });
+    if (driveDays.length) warns.push({
+      cls: 'danger', ic: 'steering-wheel', label: '行車上限',
+      h: 'Day ' + list(driveDays) + ' 冬季行車逼近 7 小時',
+      body: '<p>冬季預估 = OSRM 理論時間 × ' + (META.winter_factor || 1.2) + '。本規劃以「單日冬季行車不超過 7 小時」為上限，以下幾天已逼近或超過：</p>' +
+        table(['Day', '日期', '里程', '行車', '冬季', '遊覽', '日照', '距上限'], driveDays.map(function (d) {
+          var gap = WINTER_CAP - d.drive_min_winter;
+          return row(d, '<td class="num over">' + (gap < 0 ? '超過 ' : '剩 ') + Math.abs(gap) + ' 分</td>');
+        })),
+      act: 'Day ' + dayOfLoc('dettifoss') + ' 可略過 Stuðlagil 或 Dettifoss；Day ' + dayOfLoc('kirkjufell') + ' 天氣不佳時只走斯奈山南岸再返回首都圈。'
+    });
+    if (lightDays.length) warns.push({
+      cls: 'card-ink', ic: 'moon-stars', label: '光害',
+      h: 'Day ' + list(lightDays) + ' 住宿光害較高',
+      body: lightDays.map(function (d) {
+        var st = stayLocOf(d);
+        return '<p>Day ' + d.day + ' 住宿 <b>' + esc(st.name_zh) + '</b>（' + esc(d.stay_town) + '），Bortle 推估 <b>' + st.bortle + ' / 9</b>，是全行程最亮的住宿。</p>';
+      }).join('') + '<p>若當晚仍想追極光，可往東開約 30 分鐘到 Þingvellir 方向，或到 Grótta 燈塔（Bortle 6，首都圈最佳極光點）。</p>',
+      act: '晚上開往較暗的郊外；隔天行程輕鬆，可晚睡。'
+    });
+    var mism = HOTELS.filter(function (h) { return bookingDateMismatch(h); });
+    if (mism.length) warns.push({
+      cls: '', ic: 'calendar-x', label: '訂房連結',
+      h: mism.length + ' 間住宿的 Booking 連結日期與行程不符',
+      body: '<p>試算表裡的 Booking 連結帶著舊的查詢日期，直接點進去會看到錯的房價與空房。訂房前請在頁面上改成實際入住日：</p>' +
+        table(['住宿', '實際入住', '連結上的日期'], mism.map(function (h) {
+          return '<tr><td><b>' + esc(h.name_zh) + '</b></td><td class="num">' + esc(h.checkin) + '</td><td class="num over">' + esc(bookingDateMismatch(h)) + '</td></tr>';
+        })),
+      act: '在 Booking 頁面重新選擇入住與退房日期，或更新試算表的連結。'
+    });
     $('warns').innerHTML = warns.map(function (w) {
-      return '<article class="card wcard ' + w.cls + '">' +
+      return '<article class="card wcard' + (w.cls ? ' ' + w.cls : '') + '">' +
         '<div class="wcard-h"><span class="ic" aria-hidden="true">' + icon(w.ic, 'ph-fill') + '</span>' +
         '<div><div class="wl">' + esc(w.label) + '</div><h3>' + esc(w.h) + '</h3></div></div>' +
         w.body + '<div class="act">' + icon('arrow-bend-down-right') + '<div><b>行動</b>　' + esc(w.act) + '</div></div></article>';
     }).join('');
 
     var cont = [
-      ['南岸封路（Vík 至 Höfn）', 'road.is 顯示紅色／路面封閉', '退回 Vík 或 Selfoss，改走金環加碼（Silfra、Kerið），在首都圈等天氣好轉'],
-      ['東峽灣 93 號封閉', '塞濟斯菲厄澤山口結冰', '取消 Seyðisfjörður 支線，直接在 Egilsstaðir 住宿'],
-      ['Öxi（939）封閉', '冬季常態封閉', '沿 1 號公路繞行 Breiðdalsheiði（已為本規劃主線）'],
-      ['Day 4、5 負荷過重', '大風警示或起步延誤', '依 §2.6 捨棄順序：先砍 Stuðlagil 與 Seyðisfjörður（Day 4），再砍 Ásbyrgi（Day 5）'],
-      ['Day 9 山路不佳', '574 號結冰', '縮短為 Ólafsvík、Akranes、Reykjavík（省下 Djúpalónssandur、Arnarstapi）'],
-      ['全島惡劣天候', '橘色／紅色警示', '留在 Mývatn 或 Reykjavík，不強行移動']
+      ['南岸封路（Vík 至 Höfn）', 'road.is 顯示紅色／路面封閉', '在當晚住宿多等半天，放掉 Day ' + dayOfLoc('fjadrargljufur') + ' 的羽毛河峽谷，把時間留給冰河湖'],
+      ['東峽灣 1 號公路結冰', '峽灣段濕滑或短暫封閉', '峽灣線通常優先除雪，延後出發等除雪車；不要改走 Öxi（939）'],
+      ['Öxi（939）封閉', '冬季常態封閉', '本規劃 Day ' + dayOfLoc('djupivogur') + ' 已走峽灣線，不經 Öxi'],
+      ['Day ' + dayOfLoc('dettifoss') + ' 負荷過重', '大風警示或起步延誤', '先砍 Stuðlagil，再砍 Dettifoss，直接沿 1 號公路到胡薩維克南郊'],
+      ['Day ' + dayOfLoc('kirkjufell') + ' 山路不佳', '574 號結冰', '只走斯奈山南岸 Arnarstapi 後原路返回，省下 Djúpalónssandur 與北岸'],
+      ['全島惡劣天候', '橘色／紅色警示', '留在當晚住宿不移動；Day ' + dayOfLoc('hotel_9') + '-' + dayOfLoc('hotel_9_back') + ' 的連住可吸收一天延誤']
     ];
     $('contingency').innerHTML = table(['情境', '觸發條件', '替代方案'], cont.map(function (c) {
       return '<tr><td><b>' + esc(c[0]) + '</b></td><td>' + esc(c[1]) + '</td><td>' + esc(c[2]) + '</td></tr>';
     }));
+  }
+
+  /* ==========================================================
+     Hotels（住宿 API）
+     ========================================================== */
+  function hotelDays(h) {
+    return DAYS.filter(function (d) { return d.hotel_id === h.id; }).map(function (d) { return d.day; });
+  }
+  function feedStatusHtml() {
+    if (hotelFeed.state === 'loading') return '<span class="feed loading">' + icon('arrows-clockwise') + '正在讀取住宿試算表</span>';
+    if (hotelFeed.state === 'live') return '<span class="feed live">' + icon('cloud-check') + '已同步住宿試算表（' + hotelFeed.at + '）</span>';
+    return '<span class="feed off">' + icon('cloud-slash') + '離線備份（資料版本 ' + esc(META.version || '') + '）</span>';
+  }
+  function buildHotels() {
+    var changed = HOTELS.filter(function (h) { return h.dates_changed || h.unplanned || h.removed; });
+    $('hotel-status').innerHTML = feedStatusHtml();
+    $('hotel-note').innerHTML = changed.length
+      ? icon('warning') + '<span>試算表的住宿日期與目前行程不同（' + changed.map(function (h) { return esc(h.name_zh); }).join('、') + '）。每日路線需重新產生：執行 <code>python3 tools/build_itinerary.py</code>。</span>'
+      : '';
+    $('hotel-note').hidden = !changed.length;
+    $('hotels').innerHTML = HOTELS.map(function (h, i) {
+      var days = hotelDays(h);
+      var img = safeImg(h.image);
+      var st = LOCS.filter(function (l) { return isStay(l) && l.hotel_id === h.id && !l.same_as; })[0];
+      var mism = bookingDateMismatch(h);
+      var flags = (h.removed ? '<span class="tag caution">試算表已移除</span>' : '') +
+        (h.unplanned ? '<span class="tag caution">尚未排入行程</span>' : '') +
+        (h.dates_changed ? '<span class="tag caution">日期已變更</span>' : '') +
+        (mism ? '<span class="tag caution">' + icon('calendar-x') + '連結日期 ' + esc(md(mism)) + '</span>' : '') +
+        (st ? '<span class="tag">Bortle ' + st.bortle + '</span>' : '');
+      return '<article class="card hcard" style="--i:' + (i + 1) + '">' +
+        '<div class="hcard-media">' + (img ? '<img src="' + esc(img) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">' : '') + icon('bed') + '</div>' +
+        '<div class="hcard-body">' +
+          '<div class="hcard-k">' + (days.length ? 'Day ' + days.join('、') : '未排入') + '　' + esc(md(h.checkin)) + ' → ' + esc(md(h.checkout)) + '，' + h.nights + ' 晚</div>' +
+          '<h3>' + esc(h.name_zh) + '</h3>' +
+          '<div class="hcard-sub">' + esc(h.name_local || (st && st.name_local) || '') + (days.length ? '，' + esc(dayOf(days[0]).stay_town) : '') + '</div>' +
+          (flags ? '<div class="tags">' + flags + '</div>' : '') +
+          '<div class="stay-actions">' + extLink(h.booking, 'Booking', 'bed') + extLink(h.gmaps, '導航', 'navigation-arrow') +
+            (st ? '<button type="button" class="hbtn ghost" data-locate="' + esc(st.id) + '">' + icon('crosshair-simple') + '<span>看行程</span></button>' : '') +
+            extLink(h.source, '資料來源', 'arrow-square-out', 'hbtn link') + '</div>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+  }
+
+  /* 執行時讀取住宿 API；成功就合併進行程，失敗就沿用 data.js 的快照 */
+  function loadLiveHotels() {
+    if (!META.hotel_api || !window.fetch) return;
+    hotelFeed.state = 'loading';
+    buildHotels();
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 20000);   /* Apps Script 冷啟動可能超過 10 秒 */
+    fetch(META.hotel_api + '?action=read', { signal: ctrl ? ctrl.signal : undefined, cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (json) {
+        clearTimeout(timer);
+        if (!json || json.status !== 'success' || !Array.isArray(json.data)) throw new Error('bad payload');
+        mergeHotels(json.data);
+        hotelFeed.state = 'live';
+        hotelFeed.at = new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
+        afterHotelUpdate();
+        announce('已同步住宿試算表。');
+      })
+      .catch(function (err) {
+        clearTimeout(timer);
+        if (window.console) console.warn('[住宿] 改用離線備份：', err);
+        hotelFeed.state = 'offline';
+        buildHotels();
+      });
+  }
+  function mergeHotels(rows) {
+    var seen = {};
+    rows.forEach(function (r) {
+      var id = Number(r.id);
+      var lat = Number(r.latitude), lon = Number(r.longitude);
+      if (!id || isNaN(lat) || isNaN(lon)) return;
+      seen[id] = 1;
+      var names = splitName(r['住宿名稱定位點']);
+      var h = hotelById(id);
+      if (!h) { h = { id: id, unplanned: true }; HOTELS.push(h); }
+      Object.assign(h, {
+        name: r['住宿名稱定位點'], name_zh: names[0], name_local: names[1] || h.name_local || '',
+        checkin: isoLocalDate(r['入住日期']), checkout: isoLocalDate(r['退房日期']), nights: Number(r['晚數']) || h.nights,
+        lat: lat, lon: lon, gmaps: safeUrl(r.googlemaps), booking: safeUrl(r.bookinglink),
+        image: safeImg(r.imageurl), source: safeUrl(r['網站來源'])
+      });
+      h.dates_changed = SNAP_DATES[id] !== undefined && SNAP_DATES[id] !== h.checkin + '|' + h.checkout;
+      /* 同步地圖與清單上的住宿站點（名稱、座標） */
+      LOCS.forEach(function (l) {
+        if (!isStay(l) || l.hotel_id !== id) return;
+        l.name_zh = (l.same_as ? '返回 ' : '') + h.name_zh;
+        if (h.name_local) l.name_local = h.name_local;
+        l.lat = lat; l.lon = lon;
+      });
+    });
+    HOTELS.forEach(function (h) { h.removed = !seen[h.id]; });
+    HOTELS.sort(function (a, b) { return a.checkin < b.checkin ? -1 : a.checkin > b.checkin ? 1 : a.id - b.id; });
+  }
+  function afterHotelUpdate() {
+    markers.forEach(function (o) {
+      if (!isStay(o.loc)) return;
+      o.marker.setLatLng([o.loc.lat, o.loc.lon]);
+      o.marker.setPopupContent(popupHtml(o.loc));
+    });
+    buildHotels();
+    buildWarnings();
+    $('daybody').classList.add('no-anim');
+    renderDay();
   }
 
   /* ==========================================================
@@ -1030,6 +1371,8 @@
     if (state.wide) setWide(false);
     state.view = name;
     $('app').setAttribute('data-view', name);
+    var segEl = document.querySelector('.seg');
+    if (segEl) segEl.style.setProperty('--seg-i', ['days', 'hotels', 'guide', 'warn'].indexOf(name));
     Array.prototype.forEach.call(document.querySelectorAll('.seg button'), function (x) {
       var on = x.dataset.view === name;
       x.setAttribute('aria-selected', String(on));
@@ -1041,7 +1384,7 @@
     scroller.scrollTop = 0;
     /* 手機閱讀指南／提醒時直接展開成全高 */
     if (isSheet() && !quiet) setSheet(name === 'days' ? (sheet.state === 'full' ? 'full' : 'half') : 'full');
-    var names = { days: '每日行程', guide: '極光指南', warn: '行前提醒' };
+    var names = { days: '每日行程', hotels: '住宿', guide: '極光指南', warn: '行前提醒' };
     if (!quiet) announce('已切換至「' + (names[name] || name) + '」。');
   }
 
@@ -1065,6 +1408,20 @@
   }
 
   function initControls() {
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-locate]');
+      if (!b) return;
+      var loc = LOC[b.dataset.locate];
+      if (!loc) return;
+      if (state.view !== 'days') showView('days', true);
+      if (loc.day !== state.day) setDay(loc.day, true, true);
+      selectNode(loc.id, true);
+    });
+    /* 圖片載入失敗就收起來，不顯示破圖 */
+    document.addEventListener('error', function (e) {
+      var t = e.target;
+      if (t && t.tagName === 'IMG' && t.closest('.stay-card, .hcard, .leaflet-popup')) t.classList.add('broken');
+    }, true);
     $('btn-theme').addEventListener('click', function () { setTheme(currentTheme() === 'dark' ? 'light' : 'dark'); });
     $('btn-fit').addEventListener('click', function () {
       if (!map) return;
@@ -1112,12 +1469,19 @@
     buildDayTabs();
     buildGuide();
     buildWarnings();
+    buildHotels();
     initSheet();
     initViewTabs();
     initControls();
     var ok = initMap();
     renderDay();
-    if (ok) { map.invalidateSize(false); focusDay(0, true, true); }
+    if (ok) {
+      leafBottoms = Array.prototype.slice.call(document.querySelectorAll('.leaflet-bottom'));
+      if (isSheet()) setSheet(sheet.state);
+      map.invalidateSize(false);
+      focusDay(0, true, true);
+    }
+    loadLiveHotels();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();

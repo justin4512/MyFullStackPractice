@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>動態新增與刪除卡片</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        #add-card-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-bottom: 20px;
+        }
+
+        #add-card-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #a71d2a;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>動態卡片管理系統</h2>
+    
+    <button id="add-card-btn">新增卡片</button>
+
+    <div id="container">
+        </div>
+
+    <script>
+        const addCardBtn = document.getElementById('add-card-btn');
+        const container = document.getElementById('container');
+        
+        let counter = 1; // 用來區分不同卡片的流水號
+
+        // 1. 點擊「新增卡片」按鈕時建立安全且結構化的 DOM 元素
+        addCardBtn.addEventListener('click', function() {
+            // 建立卡片外層 div
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            // 建立 h3 標題
+            const title = document.createElement('h3');
+            title.textContent = `卡片標題 #${counter}`;
+
+            // 建立 p 描述文字
+            const description = document.createElement('p');
+            description.textContent = `這是安全防範 XSS 攻擊產生的描述文字內容 #${counter}。`;
+
+            // 建立刪除按鈕
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = '刪除';
+
+            // 將子元素組合到 card 之中 (使用 textContent 賦值，避免 XSS 隱患)
+            card.appendChild(title);
+            card.appendChild(description);
+            card.appendChild(deleteBtn);
+
+            // 將組裝好的 card 放到 container 內
+            container.appendChild(card);
+
+            counter++;
+        });
+
+        // 2. 利用「事件委派」機制監聽容器內的點擊事件，精確移除對應卡片
+        container.addEventListener('click', function(event) {
+            // 檢查被點擊的目標是否為刪除按鈕
+            if (event.target.classList.contains('delete-btn')) {
+                // 尋找最近的 .card 元素並將其從 DOM 中安全移除
+                const card = event.target.closest('.card');
+                if (card) {
+                    card.remove();
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

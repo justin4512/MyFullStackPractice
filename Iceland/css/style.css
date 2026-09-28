@@ -96,9 +96,15 @@
   --safe-b: env(safe-area-inset-bottom, 0px);
   --sheet-top: calc(var(--safe-t) + 74px);
 
-  /* ---- motion ---- */
-  --ease: cubic-bezier(.16, 1, .3, 1);
-  --dur: .45s;
+  /* ---- motion（曲線與時長取自動畫規範；UI 動畫一律 < 300ms） ---- */
+  --ease-out: cubic-bezier(.23, 1, .32, 1);        /* 進場／回饋 */
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);    /* 畫面上的位移、變形 */
+  --ease-drawer: cubic-bezier(.32, .72, 0, 1);     /* iOS 式抽屜 */
+  --ease: var(--ease-out);
+  --dur-press: 160ms;
+  --dur-ui: 200ms;
+  --dur-move: 280ms;
+  --dur-sheet: 420ms;
 
   /* ---- z-index scale ---- */
   --z-map-ui: 10;
@@ -203,7 +209,6 @@ b, strong { font-weight: 650; color: inherit; }
   position: fixed; left: 12px; top: -80px; z-index: var(--z-skip);
   background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 14px;
   padding: 10px 18px; border-radius: var(--r-pill); text-decoration: none;
-  transition: top .2s var(--ease);
 }
 .skip:focus { top: calc(var(--safe-t) + 12px); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -261,10 +266,12 @@ b, strong { font-weight: 650; color: inherit; }
   background: var(--disc-grad); color: var(--text-2);
   box-shadow: var(--sh-disc-sm);
   font-size: 18px; cursor: pointer;
-  transition: color .2s, transform .15s var(--ease), box-shadow .2s;
+  transition: color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out), box-shadow var(--dur-press) var(--ease-out);
 }
-.icon-btn:hover { color: var(--accent-text); }
-.icon-btn:active { transform: scale(.94); box-shadow: var(--sh-inset); }
+.icon-btn:active { transform: scale(.96); box-shadow: var(--sh-inset); }
+@media (hover: hover) and (pointer: fine) { .icon-btn:hover { color: var(--accent-text); } }
+.icon-btn .ph { display: block; transition: transform var(--dur-move) var(--ease-out), opacity var(--dur-ui) ease; }
+.icon-btn.spin .ph { animation: icon-swap var(--dur-move) var(--ease-out); }
 
 /* ==========================================================================
    App shell
@@ -274,7 +281,6 @@ b, strong { font-weight: 650; color: inherit; }
   grid-template-columns: var(--panel-w) minmax(0, 1fr);
   height: calc(100dvh - var(--topbar-h));
   padding: 0 14px 14px 0;
-  transition: grid-template-columns var(--dur) var(--ease);
 }
 .app[data-view="guide"], .app[data-view="warn"] { grid-template-columns: var(--panel-w-wide) minmax(0, 1fr); }
 .app.panel-hidden { grid-template-columns: 0 minmax(0, 1fr); padding-left: 14px; }
@@ -300,21 +306,32 @@ b, strong { font-weight: 650; color: inherit; }
 
 /* ---------- segmented view tabs（凹槽 + 凸起滑塊） ---------- */
 .seg {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
   padding: 5px; margin-bottom: 14px;
   background: var(--canvas); border-radius: var(--r-pill);
   box-shadow: var(--sh-inset);
+  position: relative; isolation: isolate;
+}
+/* 滑動的凸起滑塊：切換分頁時從舊位置滑到新位置（空間連續性） */
+.seg::before {
+  content: ""; position: absolute; z-index: -1;
+  top: 5px; bottom: 5px; left: 5px;
+  width: calc((100% - 22px) / 4);
+  border-radius: var(--r-pill);
+  background: var(--raise); box-shadow: var(--sh-disc-sm);
+  transform: translateX(calc(var(--seg-i, 0) * (100% + 4px)));
+  transition: transform var(--dur-move) var(--ease-out);
 }
 .seg button {
   height: 40px; border: 0; background: transparent; cursor: pointer;
   border-radius: var(--r-pill);
   display: inline-flex; align-items: center; justify-content: center; gap: 7px;
   font-size: 14px; font-weight: 600; color: var(--text-2); white-space: nowrap;
-  transition: color .2s, background .25s var(--ease), box-shadow .25s;
+  transition: color var(--dur-ui) ease;
 }
-.seg button .ph { font-size: 17px; }
-.seg button:hover { color: var(--text); }
-.seg button[aria-selected="true"] { background: var(--raise); color: var(--text); box-shadow: var(--sh-disc-sm); }
+.seg button .ph { font-size: 17px; transition: color var(--dur-ui) ease; }
+@media (hover: hover) and (pointer: fine) { .seg button:hover { color: var(--text); } }
+.seg button[aria-selected="true"] { color: var(--text); }
 .seg button[aria-selected="true"] .ph { color: var(--accent-text); }
 .seg button.warn-tab[aria-selected="true"] .ph { color: var(--warn); }
 
@@ -336,7 +353,7 @@ b, strong { font-weight: 650; color: inherit; }
   border-radius: 50%;
   background: var(--disc-grad); box-shadow: var(--sh-disc-sm);
   color: var(--text);
-  transition: transform .2s var(--ease), box-shadow .2s, background .25s, color .2s;
+  transition: transform var(--dur-press) var(--ease-out), box-shadow var(--dur-press) var(--ease-out), background-color var(--dur-ui) ease, color var(--dur-ui) ease;
 }
 .dtab .n { font-size: 18px; font-weight: 700; line-height: 1.05; font-variant-numeric: tabular-nums; }
 .dtab .dt { font-size: 10.5px; color: var(--text-3); font-variant-numeric: tabular-nums; }
@@ -346,8 +363,8 @@ b, strong { font-weight: 650; color: inherit; }
   display: grid; place-items: center; font-size: 10.5px;
   background: var(--sand); color: #2b1d08; border: 2px solid var(--bg);
 }
-.dtab:hover { color: var(--accent-text); }
-.dtab:active { transform: scale(.94); box-shadow: var(--sh-inset); }
+@media (hover: hover) and (pointer: fine) { .dtab:hover { color: var(--accent-text); } }
+.dtab:active { transform: scale(.95); box-shadow: var(--sh-inset); }
 .dtab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); box-shadow: 0 8px 18px -6px var(--accent-line), var(--sh-disc-sm); }
 .dtab[aria-selected="true"] .dt { color: var(--accent-ink); opacity: .8; }
 .dtab:focus-visible { outline-offset: 3px; }
@@ -356,7 +373,7 @@ b, strong { font-weight: 650; color: inherit; }
    Views
    ========================================================================== */
 .view { display: none; }
-.view.active { display: grid; gap: 14px; animation: view-in .4s var(--ease) both; }
+.view.active { display: grid; gap: 14px; animation: view-in var(--dur-ui) var(--ease-out) both; }
 .trip-summary, #daybody { display: grid; gap: 14px; }
 
 /* ---------- overview（沙色卡 + 白色數據圓盤） ---------- */
@@ -378,21 +395,23 @@ b, strong { font-weight: 650; color: inherit; }
 
 /* ---------- wave chart ---------- */
 .wave { position: relative; cursor: pointer; user-select: none; }
+.card.rhythm { overflow-x: clip; }   /* 游標以 transform 平移，避免撐出橫向捲軸 */
 .wave-plot { position: relative; height: 128px; margin-top: 26px; }
 .wave-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.wave-mark { position: absolute; top: -6px; bottom: 0; width: 0; border-left: 1.5px dashed var(--accent-line); transition: left .5s var(--ease); }
+/* 游標：外層 translateX（% = 圖寬）、內層 translateY（% = 圖高），只動 transform */
+.wave-x, .wave-y { position: absolute; inset: 0; pointer-events: none; transition: transform var(--dur-move) var(--ease-in-out); }
+.wave-mark { position: absolute; top: -6px; bottom: 0; left: 0; width: 0; border-left: 1.5px dashed var(--accent-line); }
 .wave-dot {
-  position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%;
+  position: absolute; left: 0; top: 0; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%;
   background: var(--surface); border: 3px solid var(--chart-a);
   box-shadow: 0 2px 6px rgba(20, 50, 50, .25);
-  transition: left .5s var(--ease), top .5s var(--ease);
 }
 .wave-tip {
-  position: absolute; transform: translate(-50%, calc(-100% - 12px));
+  position: absolute; left: 0; top: 0; transform: translate(var(--tip-x, -50%), calc(-100% - 12px));
   padding: 3px 10px; border-radius: var(--r-pill);
   background: var(--ink); color: var(--on-ink);
   font-size: 12px; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums;
-  transition: left .5s var(--ease), top .5s var(--ease);
+  transition: transform var(--dur-move) var(--ease-in-out);
 }
 .wave-axis { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11.5px; color: var(--text-3); font-variant-numeric: tabular-nums; }
 .wave-axis span { width: 18px; text-align: center; }
@@ -418,7 +437,6 @@ b, strong { font-weight: 650; color: inherit; }
 .hero-viz { display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 18px; }
 .donut { position: relative; width: 124px; aspect-ratio: 1; }
 .donut svg { width: 100%; height: 100%; transform: rotate(-90deg); display: block; }
-.donut circle { transition: stroke-dasharray .6s var(--ease), stroke-dashoffset .6s var(--ease); }
 .donut .c {
   position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; line-height: 1.15;
@@ -461,13 +479,14 @@ b, strong { font-weight: 650; color: inherit; }
   display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px;
   padding: 12px 10px; border-radius: 18px;
   cursor: pointer; outline: none;
-  transition: background .2s;
+  transition: background-color var(--dur-ui) ease;
 }
 .node::before { content: ""; position: absolute; left: 29px; top: 0; bottom: 0; width: 2px; background: var(--line-2); }
 .node:first-child::before { top: 28px; }
 .node:last-child::before { bottom: calc(100% - 28px); }
 .node:only-child::before { display: none; }
-.node:hover { background: var(--surface-2); }
+@media (hover: hover) and (pointer: fine) { .node:hover { background: var(--surface-2); } }
+.node:active { background: var(--surface-2); }
 .node:focus-visible { background: var(--surface-2); box-shadow: inset 0 0 0 2px var(--accent); }
 .node.sel { background: var(--mint-soft); }
 .ord {
@@ -476,7 +495,7 @@ b, strong { font-weight: 650; color: inherit; }
   display: grid; place-items: center;
   border-radius: 50%; background: var(--disc-grad); box-shadow: var(--sh-disc-sm);
   font: 600 13px/1 var(--mono); color: var(--text-2);
-  transition: background .25s var(--ease), color .2s, transform .25s var(--ease);
+  transition: background-color var(--dur-ui) ease, color var(--dur-ui) ease, transform var(--dur-ui) var(--ease-out);
 }
 .node.stay .ord { background: var(--sand); color: #2b1d08; }
 .node.sel .ord { background: var(--accent); color: var(--accent-ink); transform: scale(1.08); }
@@ -502,6 +521,87 @@ b, strong { font-weight: 650; color: inherit; }
 .stars { color: var(--aurora); letter-spacing: 1px; font-size: 11px; }
 .stars .off { color: var(--line-2); }
 .nt { margin-top: 7px; font-size: 13px; color: var(--text-2); line-height: 1.55; }
+
+/* ---------- 今晚住宿卡 ---------- */
+.stay-card { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; align-items: start; }
+.stay-img {
+  width: 96px; aspect-ratio: 1; object-fit: cover; display: block;
+  border-radius: 18px; background: var(--mint-soft); box-shadow: var(--sh-disc-sm);
+}
+.stay-img.empty { display: grid; place-items: center; font-size: 30px; color: var(--accent-text); }
+img.broken { display: none; }
+.stay-k { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--accent-text); }
+.stay-name { margin-top: 4px; font-size: 16.5px; }
+.stay-meta { margin-top: 2px; font-size: 13px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.stay-flag {
+  display: flex; align-items: flex-start; gap: 6px; margin-top: 8px;
+  font-size: 12.5px; color: var(--warn-text); line-height: 1.5;
+}
+.stay-flag .ph { margin-top: 2px; }
+.stay-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.stay-card > .stay-actions { grid-column: 1 / -1; margin-top: 0; }
+.hbtn {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 36px; padding: 0 14px; border: 0; cursor: pointer;
+  border-radius: var(--r-pill); background: var(--surface-2); color: var(--text);
+  font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap;
+  transition: background-color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out);
+}
+.hbtn .ph { font-size: 16px; }
+.hbtn:first-child { background: var(--accent); color: var(--accent-ink); }
+.hbtn.ghost { background: transparent; box-shadow: inset 0 0 0 1.5px var(--line-2); }
+.hbtn.link { background: none; padding: 0 4px; color: var(--text-3); font-weight: 500; }
+.hbtn:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) {
+  .hbtn:not(:first-child):hover { background: var(--surface-3); }
+  .hbtn.link:hover { background: none; color: var(--accent-text); }
+}
+
+/* ---------- 備選景點 ---------- */
+.opt-h {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px;
+  margin: 8px 10px 0; padding-top: 14px; border-top: 1px dashed var(--line-2);
+  font-size: 14px; font-weight: 650;
+}
+.opt-h .ph { color: var(--accent-text); align-self: center; }
+.opt-h span { font-size: 12px; font-weight: 500; color: var(--text-3); }
+.node.opt .ord { background: transparent; box-shadow: inset 0 0 0 1.5px var(--line-2); color: var(--text-3); }
+.opt-list .node::before { display: none; }
+.mkr.opt svg { opacity: .72; }
+
+/* ---------- 住宿一覽 ---------- */
+.feed-row { margin-top: 10px; }
+.feed {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 28px; padding: 0 12px; border-radius: var(--r-pill);
+  font-size: 12.5px; font-weight: 600;
+}
+.feed.live { background: var(--mint-soft); color: var(--accent-text); }
+.feed.off { background: var(--warn-soft); color: var(--warn-text); }
+.feed.loading { background: var(--surface-2); color: var(--text-3); }
+.feed.loading .ph { animation: spin 900ms linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hotel-note {
+  display: flex; gap: 8px; margin: 0; padding: 12px 14px; border-radius: var(--r-md);
+  background: var(--warn-soft); color: var(--warn-text); font-size: 13px; line-height: 1.55;
+}
+.hotel-note[hidden] { display: none; }
+.hotel-list { display: grid; gap: 14px; }
+.hcard { display: grid; grid-template-columns: 128px minmax(0, 1fr); padding: 0; overflow: hidden; }
+.hcard-media { position: relative; min-height: 100%; background: linear-gradient(160deg, var(--mint-soft), var(--surface-3)); }
+.hcard-media > .ph { position: absolute; inset: 0; margin: auto; width: 1em; height: 1em; font-size: 30px; color: var(--accent-text); opacity: .5; }
+.hcard-media img { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
+.hcard-body { padding: 16px 18px; min-width: 0; }
+.hcard-k { font-size: 12.5px; font-weight: 600; color: var(--accent-text); font-variant-numeric: tabular-nums; }
+.hcard h3 { margin-top: 4px; font-size: 16px; }
+.hcard-sub { font-size: 13px; color: var(--text-3); }
+.hcard .tags { margin-top: 8px; }
+
+/* ---------- 飯店資訊卡（地圖） ---------- */
+.pop-img { display: block; width: 100%; height: 120px; object-fit: cover; border-radius: 14px; margin-bottom: 12px; background: var(--mint-soft); }
+.pop-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.leaflet-container .pop-actions a.hbtn { color: var(--text); }
+.leaflet-container .pop-actions a.hbtn:first-child { color: var(--accent-ink); }
 
 /* ==========================================================================
    Guide / warnings
@@ -632,11 +732,11 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   border: 0; border-radius: var(--r-pill); background: transparent; cursor: pointer;
   font-size: 13px; font-weight: 600; color: var(--text-2); white-space: nowrap;
-  transition: background .2s, color .2s, transform .15s var(--ease);
+  transition: background-color var(--dur-ui) ease, color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out);
 }
 .tool .ph { font-size: 17px; }
-.tool:hover { background: var(--surface-2); color: var(--text); }
-.tool:active { transform: scale(.94); }
+@media (hover: hover) and (pointer: fine) { .tool:hover { background: var(--surface-2); color: var(--text); } }
+.tool:active { transform: scale(.96); }
 .tool[aria-pressed="true"], .tool[aria-expanded="true"] { background: var(--accent); color: var(--accent-ink); }
 @container map (max-width: 760px) {
   .tool .lbl { display: none; }
@@ -648,9 +748,17 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
   position: absolute; top: 70px; right: 16px; z-index: var(--z-popover);
   width: 340px; max-height: calc(100% - 94px); overflow: auto; overscroll-behavior: contain;
   background: var(--surface); border-radius: var(--r-card); box-shadow: var(--sh-float);
-  transform-origin: top right;
+  transform-origin: top right;            /* 從右上的「圖層」按鈕長出來 */
+  display: block; opacity: 1; transform: none;
+  transition: opacity var(--dur-ui) var(--ease-out), transform var(--dur-ui) var(--ease-out), display var(--dur-ui) allow-discrete;
 }
-.map-side:not([hidden]) { animation: pop-in .3s var(--ease) both; }
+.map-side[hidden] {
+  display: none; opacity: 0; transform: scale(.96) translateY(-4px);
+  transition-duration: 140ms;             /* 關閉比開啟快 */
+}
+@starting-style {
+  .map-side:not([hidden]) { opacity: 0; transform: scale(.96) translateY(-4px); }
+}
 .side-head { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 8px; padding: 14px 14px 10px 18px; background: var(--surface); }
 .side-head h2 { font-size: 15px; }
 .side-head .icon-btn { margin-left: auto; width: 34px; height: 34px; flex-basis: 34px; font-size: 16px; }
@@ -658,14 +766,14 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
 .side-sec h3 { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; font-weight: 600; color: var(--text-3); }
 .side-sec h3 .sp { margin-left: auto; display: flex; gap: 4px; }
 .link-btn { border: 0; background: none; cursor: pointer; padding: 3px 8px; border-radius: var(--r-pill); font-size: 12.5px; font-weight: 600; color: var(--accent-text); }
-.link-btn:hover { background: var(--accent-soft); }
+@media (hover: hover) and (pointer: fine) { .link-btn:hover { background: var(--accent-soft); } }
 .zoom-now { font: 500 12px/1 var(--mono); color: var(--text-3); }
 
 .layers { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .lay {
   display: flex; align-items: center; gap: 9px; min-height: 42px;
   padding: 0 12px; border-radius: var(--r-pill); cursor: pointer; user-select: none;
-  background: var(--surface-2); transition: background .2s, box-shadow .2s;
+  background: var(--surface-2); transition: background-color var(--dur-ui) ease, box-shadow var(--dur-ui) ease;
 }
 .lay:has(input:checked) { background: var(--raise); box-shadow: var(--sh-disc-sm); }
 .lay:focus-within { outline: 2px solid var(--accent); outline-offset: 1px; }
@@ -685,7 +793,7 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
 .lay .ct { margin-left: auto; font: 500 11.5px/1 var(--mono); color: var(--text-3); }
 
 .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }
-.lg { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 12.5px; color: var(--text-2); transition: opacity .2s; }
+.lg { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 12.5px; color: var(--text-2); transition: opacity var(--dur-ui) ease; }
 .lg svg { flex: 0 0 auto; }
 .lg .z { margin-left: auto; font: 500 10.5px/1 var(--mono); color: var(--text-3); }
 .lg.off { opacity: .42; }
@@ -702,6 +810,9 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
 
 .leaflet-popup-content-wrapper { background: var(--surface); color: var(--text); border-radius: var(--r-card); box-shadow: var(--sh-float); }
 .leaflet-popup-tip { background: var(--surface); box-shadow: none; }
+/* Leaflet 以 transform 定位 .leaflet-popup，所以動畫放在內層：從指向標記的尖角長出 */
+.leaflet-popup-content-wrapper, .leaflet-popup-tip-container { transform-origin: 50% 100%; animation: popup-in var(--dur-ui) var(--ease-out); }
+.leaflet-fade-anim .leaflet-popup { transition: opacity 120ms ease; }
 .leaflet-popup-content { margin: 16px 18px; font-size: 13px; line-height: 1.55; min-width: 220px; }
 .leaflet-container a.leaflet-popup-close-button { color: var(--text-3); top: 8px; right: 8px; width: 28px; height: 28px; font-size: 20px; line-height: 26px; }
 .leaflet-container a.leaflet-popup-close-button:hover { color: var(--text); }
@@ -716,6 +827,14 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
 .badge.caution { background: var(--warn-soft); color: var(--warn-text); }
 
 .mkr { background: none; border: 0; }
+.mkr svg { transition: transform var(--dur-ui) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .mkr:hover svg { transform: scale(1.18); } }
+/* 從清單選站點時，地圖標記送出一圈漣漪，告訴使用者「在這裡」 */
+.mkr-ping {
+  position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px;
+  border-radius: 50%; border: 2px solid var(--accent); pointer-events: none;
+  animation: ping 700ms var(--ease-out) forwards;
+}
 .mc { background: transparent !important; }
 .mc div {
   width: 100%; height: 100%; border-radius: 50%;
@@ -729,17 +848,40 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
 
 /* ==========================================================================
    Motion
+   原則：每個動畫都要有目的（空間連續、狀態、回饋、說明）；只動 transform／opacity；
+   鍵盤觸發的切換不播動畫（.no-anim）；reduced-motion = 保留淡入、移除位移
    ========================================================================== */
-@keyframes view-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-@keyframes pop-in { from { opacity: 0; transform: scale(.96) translateY(-4px); } to { opacity: 1; transform: none; } }
-@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes view-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes swap { from { opacity: .35; filter: blur(3px); } to { opacity: 1; filter: none; } }
+@keyframes popup-in { from { opacity: 0; transform: scale(.96) translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes ping { from { opacity: .7; transform: scale(.4); } to { opacity: 0; transform: scale(1.6); } }
+@keyframes icon-swap { from { opacity: 0; transform: rotate(-90deg) scale(.8); } to { opacity: 1; transform: none; } }
 @keyframes wave-in { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-.node, .day-hero { animation: rise .5s var(--ease) both; animation-delay: calc(var(--i, 0) * 32ms); }
-.wave-area { transform-origin: 50% 100%; transform-box: fill-box; animation: wave-in .9s var(--ease) both; }
-.wave-area.b { animation-delay: .1s; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* 站點清單：換日時依序進場，30ms 間隔、最多延遲 240ms，不阻擋點擊 */
+.node { animation: rise 260ms var(--ease-out) both; animation-delay: min(calc(var(--i, 0) * 30ms), 240ms); }
+/* 當日卡片是「同一張卡換內容」：不整張重進場，只用輕微模糊把文字換過去 */
+.day-hero > :not(.hero-viz), .hero-tiles, .donut .c { animation: swap var(--dur-ui) var(--ease-out); }
+/* 波形圖只在首次載入時長出來（一次性的說明動畫） */
+.wave-area { transform-origin: 50% 100%; transform-box: fill-box; animation: wave-in 700ms var(--ease-out) both; }
+.wave-area.b { animation-delay: 80ms; }
+
+/* 鍵盤連續切換：直接換，不播任何進場 */
+.no-anim .node, .no-anim .day-hero > :not(.hero-viz), .no-anim .hero-tiles, .no-anim .donut .c { animation: none; }
+
+/* 主題切換：View Transitions 交叉淡化，避免整頁瞬間反白 */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 260ms; animation-timing-function: var(--ease-out); }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .view.active, .node, .leaflet-popup-content-wrapper, .leaflet-popup-tip-container { animation: fade var(--dur-ui) ease both; animation-delay: 0s; }
+  .day-hero > :not(.hero-viz), .hero-tiles, .donut .c { animation: fade var(--dur-ui) ease; }
+  .wave-area, .mkr-ping, .icon-btn.spin .ph, .feed.loading .ph { animation: none; }
+  .seg::before, .wave-x, .wave-y, .wave-tip, .mkr svg, .map-side, .map-side[hidden] { transition-property: opacity; }
+  .dtab:active, .tool:active, .icon-btn:active { transform: none; }
+  .panel, .leaflet-bottom { transition: none !important; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
 }
 
 /* ==========================================================================
@@ -774,7 +916,7 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
   .map-side { position: fixed; top: calc(var(--sheet-top) + 4px); left: 12px; right: 70px; width: auto; max-height: 58dvh; }
 
   .leaflet-control-zoom { display: none; }
-  .leaflet-bottom { transform: translate3d(0, calc(-1 * var(--sheet-visible, 0px)), 0); transition: transform var(--dur) var(--ease); }
+  .leaflet-bottom { transition: transform var(--dur-sheet) var(--ease-drawer); }
   html.sheet-dragging .leaflet-bottom { transition: none; }
   html[data-sheet="full"] .leaflet-bottom { opacity: 0; pointer-events: none; }
   .leaflet-popup-content { min-width: 200px; margin: 14px 16px; }
@@ -786,8 +928,8 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
     background: var(--bg);
     border-radius: var(--r-sheet) var(--r-sheet) 0 0;
     box-shadow: var(--sh-sheet);
-    transform: translate3d(0, var(--sheet-y, calc(100% - 200px)), 0);
-    transition: transform var(--dur) var(--ease);
+    transform: translate3d(0, calc(100% - 200px), 0);   /* JS 接手前的初始位置 */
+    transition: transform var(--dur-sheet) var(--ease-drawer);
     will-change: transform;
   }
   .panel.dragging { transition: none; }
@@ -820,5 +962,10 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
   .bortle-viz { grid-template-columns: 108px minmax(0, 1fr); gap: 14px; }
   .bortle-viz .donut { width: 108px; }
   .guide-grid { grid-template-columns: minmax(0, 1fr); }
+  .stay-card { grid-template-columns: 76px minmax(0, 1fr); gap: 12px; }
+  .stay-img { width: 76px; border-radius: 16px; }
+  .hcard { grid-template-columns: 96px minmax(0, 1fr); }
+  .hcard-body { padding: 14px; }
+  .seg button { gap: 5px; font-size: 13.5px; }
   table.t th, table.t td { padding: 7px 8px; }
 }
