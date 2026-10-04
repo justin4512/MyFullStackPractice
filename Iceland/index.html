@@ -9,11 +9,14 @@
 <!-- 主題在首次繪製前決定，避免深淺閃爍；其餘邏輯在 js/app.js -->
 <script>
   (function () {
+    /* 依裝置時間：06:00-17:59 白天模式，18:00-05:59 黑夜模式。
+       手動切換只維持到下一個切換點（06:00 或 18:00），之後回到自動 */
     var t = null;
-    try { t = localStorage.getItem('iceland-theme'); } catch (e) {}
-    if (t !== 'light' && t !== 'dark') {
-      t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    }
+    try {
+      var s = JSON.parse(localStorage.getItem('iceland-theme') || 'null');
+      if (s && (s.t === 'light' || s.t === 'dark') && Date.now() < s.until) t = s.t;
+    } catch (e) {}
+    if (!t) { var h = new Date().getHours(); t = h >= 6 && h < 18 ? 'light' : 'dark'; }
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
@@ -63,7 +66,11 @@
         <button role="tab" id="tab-guide" aria-selected="false" aria-controls="view-guide" data-view="guide" aria-label="極光指南"><i class="ph ph-moon-stars" aria-hidden="true"></i>指南</button>
         <button role="tab" id="tab-warn" class="warn-tab" aria-selected="false" aria-controls="view-warn" data-view="warn" aria-label="行前提醒"><i class="ph ph-warning" aria-hidden="true"></i>提醒</button>
       </nav>
-      <div class="daytabs" id="daytabs" role="tablist" aria-label="選擇日期"></div>
+      <div class="daystrip">
+        <button type="button" class="dnav prev" data-step="-1" aria-label="前一天"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+        <div class="daytabs" id="daytabs" role="tablist" aria-label="選擇日期"></div>
+        <button type="button" class="dnav next" data-step="1" aria-label="後一天"><i class="ph ph-caret-right" aria-hidden="true"></i></button>
+      </div>
     </div>
 
     <div class="panel-scroll" id="panel-scroll">
@@ -144,6 +151,7 @@
 
   <!-- ============ 地圖 ============ -->
   <div class="map-wrap" id="map-wrap">
+    <button class="panel-toggle only-desktop" id="panel-toggle" type="button" aria-controls="panel" aria-expanded="true" aria-label="收合側邊欄"><i class="ph ph-caret-left" aria-hidden="true"></i><span class="pt-lbl">行程</span></button>
     <div id="map" role="region" aria-label="冰島行程互動地圖：點選標記可查看站點資訊"></div>
     <p class="sr-only">地圖標記可逐一以 Tab 聚焦；也可改用「每日行程」清單操作，功能相同。</p>
 
@@ -153,14 +161,28 @@
       <button class="tool" id="btn-fit" type="button" aria-label="全島視野"><i class="ph ph-globe-hemisphere-west" aria-hidden="true"></i><span class="lbl">全島</span></button>
       <button class="tool" id="btn-day" type="button" aria-label="回到當日範圍"><i class="ph ph-crosshair-simple" aria-hidden="true"></i><span class="lbl">當日</span></button>
       <button class="tool" id="btn-base" type="button" aria-label="切換底圖，目前：簡約"><i class="ph ph-mountains" aria-hidden="true"></i><span class="lbl" id="base-lbl">簡約</span></button>
+      <button class="tool" id="btn-kp" type="button" aria-label="GFZ 地磁指數 Kp 套疊" aria-pressed="false" aria-controls="kp-panel"><i class="ph ph-lightning" aria-hidden="true"></i><span class="lbl">Kp</span></button>
       <button class="tool" id="btn-side" type="button" aria-label="圖層與圖例" aria-expanded="false" aria-controls="map-side"><i class="ph ph-stack" aria-hidden="true"></i><span class="lbl">圖層</span></button>
       <button class="tool only-desktop" id="btn-wide" type="button" aria-label="放大地圖" aria-pressed="false"><i class="ph ph-arrows-out-simple" aria-hidden="true"></i><span class="lbl">放大</span></button>
     </div>
+
+    <section class="kp-panel" id="kp-panel" aria-label="GFZ Kp 地磁擾動指數" hidden></section>
 
     <div class="map-side" id="map-side" role="dialog" aria-label="圖層與圖例" hidden>
       <div class="side-head">
         <h2>圖層與圖例</h2>
         <button class="icon-btn" id="side-close" type="button" aria-label="關閉圖層面板"><i class="ph ph-x" aria-hidden="true"></i></button>
+      </div>
+      <div class="side-sec">
+        <h3>GFZ 地磁指數 Kp</h3>
+        <label class="lay kp-switch"><input type="checkbox" id="kp-on" aria-describedby="kp-side-now"><span class="nm2">顯示 Kp 色階套疊</span><span class="ct" id="kp-side-now"></span></label>
+        <label class="kp-range" for="kp-opacity"><span>透明度</span>
+          <input type="range" id="kp-opacity" min="5" max="80" step="5" value="30">
+          <output id="kp-opacity-out" for="kp-opacity">30%</output></label>
+      </div>
+      <div class="side-sec">
+        <h3>每日路線顏色</h3>
+        <div class="day-legend" id="day-legend"></div>
       </div>
       <div class="side-sec">
         <h3>圖層 <span class="sp"><button class="link-btn" type="button" id="lay-all">全開</button><button class="link-btn" type="button" id="lay-none">全關</button><button class="link-btn" type="button" id="lay-def">預設</button></span></h3>
@@ -180,6 +202,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="js/data.js"></script>
+<script src="js/kp.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

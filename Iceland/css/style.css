@@ -969,3 +969,229 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
   .seg button { gap: 5px; font-size: 13.5px; }
   table.t th, table.t td { padding: 7px 8px; }
 }
+
+/* ==========================================================================
+   每日路線：顏色、順序編號、方向箭頭、路段資訊
+   ========================================================================== */
+/* 選定日的編號標記（「起」＝前一晚住宿） */
+.mkr-pin { background: none; border: 0; }
+.pin {
+  display: grid; place-items: center; width: 30px; height: 30px;
+  border-radius: 50%; background: var(--c); color: #fff;
+  border: 2.5px solid #fff; box-shadow: 0 4px 10px -2px rgba(10, 30, 30, .45);
+  font: 700 13px/1 var(--font); font-variant-numeric: tabular-nums;
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+.pin-stay { border-radius: 9px; }
+.pin-start { background: #fff; color: var(--c); border-color: var(--c); font-size: 12px; }
+@media (hover: hover) and (pointer: fine) { .mkr-pin:hover .pin { transform: scale(1.12); } }
+
+/* 行進方向箭頭 */
+.leg-arrow { background: none; border: 0; }
+.leg-arrow span {
+  display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; color: var(--c); font-size: 13px;
+  box-shadow: 0 1px 4px rgba(10, 30, 30, .35);
+}
+/* 被選取路段：白色虛線往行進方向流動 */
+.leg-flow { animation: leg-march 900ms linear infinite; }
+@keyframes leg-march { to { stroke-dashoffset: -14; } }
+
+.leg-tip { font: 500 12.5px/1.5 var(--font); border-radius: 10px; padding: 6px 10px; box-shadow: var(--sh-float); }
+
+/* 資訊卡：日期標籤、上一段、下一站 */
+.pop-day {
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px;
+  font-size: 12px; font-weight: 600; color: var(--text-2);
+}
+.pop-day span { padding: 1px 8px; border-radius: var(--r-pill); background: var(--c); color: #fff; }
+.pop-prev { display: flex; gap: 6px; align-items: flex-start; margin-top: 10px; font-size: 12px; color: var(--text-3); }
+.pop-next {
+  margin-top: 10px; padding: 10px 12px; border-radius: 14px;
+  background: color-mix(in srgb, var(--c) 10%, var(--surface));
+  box-shadow: inset 3px 0 0 var(--c);
+}
+.pop-next.end { --c: var(--text-3); }
+.pn-h { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 6px; font-size: 12.5px; color: var(--text-2); }
+.pn-h .ph { color: var(--c); font-size: 15px; }
+.pn-h b { font-size: 14px; color: var(--text); }
+.pn-stats { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 6px; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.pn-stats span { display: inline-flex; align-items: center; gap: 4px; }
+.pn-stats .ph { color: var(--text-3); }
+.pn-stats .w { color: var(--text-2); font-weight: 500; }
+.pn-roads { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 8px; }
+.pn-roads .rd {
+  display: inline-flex; align-items: baseline; gap: 4px; padding: 2px 8px; border-radius: var(--r-pill);
+  background: var(--surface); font-size: 12px; font-weight: 600; box-shadow: inset 0 0 0 1px var(--line-2);
+}
+.pn-roads .rd small { font-weight: 500; color: var(--text-3); font-size: 11px; }
+.pn-roads .ph { font-size: 11px; color: var(--text-3); }
+.pop-next .pop-actions { margin-top: 10px; }
+.pop-note.warn { display: flex; gap: 6px; color: var(--warn-text); }
+
+/* 日期磚與清單的當日顏色 */
+.dtab .dcol { position: absolute; left: 50%; bottom: -7px; width: 16px; height: 4px; border-radius: var(--r-pill); transform: translateX(-50%); }
+.timeline .node:not(.opt)::before { background: color-mix(in srgb, var(--dc, var(--line-2)) 55%, transparent); }
+.timeline .node:not(.opt):not(.sel) .ord { box-shadow: var(--sh-disc-sm), inset 0 0 0 2px var(--dc, transparent); color: var(--text); }
+.map-day .ph { background: var(--c, var(--accent)); }
+
+/* 圖層面板：每日路線顏色 */
+.day-legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.day-legend .dl {
+  display: flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 8px;
+  border: 0; border-radius: 10px; background: transparent; cursor: pointer; text-align: left;
+  font-size: 12px; color: var(--text-2); font-variant-numeric: tabular-nums;
+}
+.day-legend .dl b { color: var(--text); font-weight: 600; }
+.day-legend .sw { width: 14px; height: 4px; border-radius: var(--r-pill); flex: 0 0 14px; }
+@media (hover: hover) and (pointer: fine) { .day-legend .dl:hover { background: var(--surface-2); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .leg-flow { animation: none; }
+  .pin { transition: none; }
+}
+.leaflet-container .pop-next .pop-actions a.hbtn.ghost { color: var(--text); background: var(--surface); }
+/* 手機：資訊卡限高可捲動，避免被底部抽屜蓋住 */
+@media (max-width: 899px) {
+  .leaflet-popup-content { max-height: min(52dvh, 440px); overflow-y: auto; overscroll-behavior: contain; }
+}
+/* 資訊卡順序：標題 → 下一站 → 細節（下一站最常被查看） */
+.pop-body { display: flex; flex-direction: column; }
+.pop-body > * { order: 4; }
+.pop-body > .pop-day { order: 0; align-self: flex-start; }
+.pop-body > .pop-img, .pop-body > .pop-h, .pop-body > .pop-loc { order: 1; }
+.pop-body > .pop-next { order: 2; margin: 2px 0 10px; }
+.pop-body > .pop-prev { order: 3; margin: 0 0 8px; }
+
+/* ==========================================================================
+   GFZ 地磁指數 Kp：面板與控制
+   ========================================================================== */
+.kp-panel {
+  position: absolute; left: 16px; bottom: 16px; z-index: var(--z-map-ui);
+  width: 320px; padding: 14px 16px 12px;
+  background: var(--surface); border-radius: var(--r-card); box-shadow: var(--sh-float);
+  font-size: 12.5px; color: var(--text-2);
+}
+.kp-panel:not([hidden]) { animation: pop-in var(--dur-ui) var(--ease-out) both; transform-origin: bottom left; }
+.kp-h { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.kp-h b { font-size: 14px; color: var(--text); }
+.kp-h .kp-x { margin-left: auto; width: 30px; height: 30px; flex-basis: 30px; font-size: 15px; }
+.kp-now { display: flex; align-items: center; gap: 12px; }
+.kp-num {
+  display: grid; place-items: center; min-width: 54px; height: 54px; padding: 0 8px; border-radius: 16px;
+  background: var(--c); color: var(--ink, #fff); font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.kp-now b { display: block; font-size: 14px; color: var(--text); }
+.kp-now span { font-size: 12px; color: var(--text-3); }
+.kp-chart { display: block; width: 100%; height: auto; margin: 10px 0 4px; }
+.kp-chart text { font: 500 9px var(--font); fill: var(--text-3); }
+.kp-chart .g5 { stroke: #e8730c; stroke-width: 1; stroke-dasharray: 3 3; opacity: .7; }
+.kp-chart .g5t { fill: #e8730c; }
+.kp-chart .now { stroke: var(--text-3); stroke-width: 1; stroke-dasharray: 2 2; }
+.kp-keys { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 11px; color: var(--text-3); }
+.kp-keys i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+.kp-fc, .kp-tip, .kp-stale, .kp-src, .kp-empty { margin: 8px 0 0; line-height: 1.5; }
+.kp-fc { color: var(--text); }
+.kp-fc .ph { margin-right: 4px; vertical-align: -2px; }
+.kp-stale { display: flex; gap: 6px; color: var(--warn-text); }
+.kp-src { font-size: 11px; color: var(--text-3); }
+.kp-src a { color: var(--text-2); }
+
+.kp-switch { margin-bottom: 8px; }
+.kp-range { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; font-size: 12.5px; color: var(--text-2); }
+.kp-range input { width: 100%; accent-color: var(--accent); }
+.kp-range output { min-width: 36px; text-align: right; font-variant-numeric: tabular-nums; color: var(--text); }
+
+@media (max-width: 899px) {
+  .kp-panel { position: fixed; top: calc(var(--sheet-top) + 4px); left: 12px; right: 70px; bottom: auto; width: auto; padding: 12px 14px 10px; }
+  .kp-panel:not([hidden]) { transform-origin: top left; }
+  .map-wrap:has(.map-side:not([hidden])) .kp-panel { display: none; }
+  .kp-tip, .kp-keys { display: none; }
+}
+.kp-now .kp-num { color: var(--ink, #fff); font-size: 24px; }
+.day-legend .dl { white-space: nowrap; gap: 5px; padding: 0 6px; font-size: 11.5px; }
+
+/* ==========================================================================
+   側邊欄收合鈕（桌機）：貼在地圖左緣，收合後變成「行程」拉片
+   ========================================================================== */
+.panel-toggle {
+  position: absolute; left: 0; top: 50%; z-index: var(--z-map-ui);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  width: 26px; height: 64px; padding: 0; border: 0; cursor: pointer;
+  border-radius: 0 14px 14px 0;
+  background: var(--surface); color: var(--text-2);
+  box-shadow: var(--sh-float);
+  transform: translateY(-50%);
+  transition: color var(--dur-ui) ease, background-color var(--dur-ui) ease;
+}
+.panel-toggle .ph { font-size: 16px; }
+.panel-toggle .pt-lbl { display: none; font-size: 12px; font-weight: 600; writing-mode: vertical-rl; letter-spacing: .1em; }
+.panel-toggle:active { transform: translateY(-50%) scale(.96); }
+@media (hover: hover) and (pointer: fine) { .panel-toggle:hover { color: var(--accent-text); } }
+/* 收合後：拉片加寬並顯示「行程」字樣，更容易找到 */
+.app.panel-hidden .panel-toggle { width: 34px; height: 96px; background: var(--accent); color: var(--accent-ink); }
+.app.panel-hidden .panel-toggle .pt-lbl { display: block; }
+
+/* ==========================================================================
+   日期選擇：桌機兩排（全部 15 天一次看完），手機單排滑動＋兩端跳日按鈕
+   ========================================================================== */
+.daystrip { position: relative; }
+.app:not([data-view="days"]) .daystrip { display: none; }
+.dnav { display: none; }
+
+@media (min-width: 900px) {
+  .daytabs {
+    display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 14px 6px;
+    margin: -4px 0 0; padding: 4px 2px 18px;
+    overflow: visible; -webkit-mask-image: none; mask-image: none;
+  }
+  .dtab { width: 100%; max-width: 48px; height: auto; aspect-ratio: 1; justify-self: center; }
+  .dtab .n { font-size: 15px; }
+  .dtab .dt { font-size: 9.5px; }
+  .dtab .flag { width: 16px; height: 16px; font-size: 9.5px; top: -4px; right: -4px; }
+  .dtab .dcol { bottom: -8px; width: 14px; }
+}
+
+@media (max-width: 899px) {
+  .dnav {
+    display: grid; place-items: center; position: absolute; top: 50%; z-index: 2;
+    width: 32px; height: 32px; margin-top: -12px; padding: 0; border: 0; border-radius: 50%;
+    background: var(--surface); color: var(--text); box-shadow: var(--sh-disc-sm); cursor: pointer;
+    font-size: 15px;
+  }
+  .dnav.prev { left: -6px; }
+  .dnav.next { right: -6px; }
+  .dnav:disabled { opacity: .35; cursor: default; }
+  .dnav:active:not(:disabled) { transform: scale(.94); }
+  .panel-head .daytabs { padding-left: 42px; padding-right: 42px; }
+}
+
+/* ==========================================================================
+   每日行車節奏：時間縱座標
+   ========================================================================== */
+.wave-plot, .wave-axis { margin-left: 30px; }
+.wave-grid { stroke: var(--line-2); stroke-width: 1; }
+.wave-cap { stroke: var(--danger); stroke-width: 1.2; stroke-dasharray: 5 4; opacity: .8; }
+.wave-yaxis { position: absolute; inset: 0; pointer-events: none; }
+.wave-yaxis span {
+  position: absolute; right: calc(100% + 6px); transform: translateY(-50%);
+  font-size: 10.5px; color: var(--text-3); font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.wave-yaxis span.cap { right: 2px; transform: translateY(-115%); color: var(--danger-text); font-weight: 600; }
+
+/* ==========================================================================
+   全程總覽 Dashboard：縮小比例
+   ========================================================================== */
+.card.overview { padding: 16px 16px 18px; }
+.ov-title { font-size: 17px; line-height: 1.4; }
+.card-sand .ov-title em { text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.ov-lede { margin: 6px 0 12px; font-size: 12.5px; }
+.kpi-discs { gap: 10px 6px; }
+.kpi-discs > div { gap: 5px; }
+.kpi-discs dd { max-width: 62px; }
+.kpi-discs .v { font-size: 15px; }
+.kpi-discs .u { font-size: 10px; }
+.kpi-discs dt { font-size: 11.5px; }
+@media (max-width: 480px) {
+  .ov-title { font-size: 16px; }
+}
