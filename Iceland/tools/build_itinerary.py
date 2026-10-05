@@ -134,9 +134,9 @@ PLAN = [
     dict(title="抵達日｜KEF → 桑德格迪", region="雷克雅內斯",
          nodes=["kef_terminal", "hotel:1"],
          notes="取車後先確認冬季胎與除冰工具。住宿就在機場北側的海邊小鎮，夜裡往海岸走幾分鐘即可避開路燈。"),
-    dict(title="首都日｜Sky Lagoon、博物館、補給", region="首都圈",
-         nodes=["sky_lagoon", "phallological", "bonus_rvk", "hotel:2"],
-         notes="方案 A（最短）：先泡 Sky Lagoon，再進市區看博物館、在 Bónus 補給，最後往東約 75 km 到 Myrarkot。方案 B（最後泡湯）只多 1.4 km。"),
+    dict(title="首都日｜博物館、補給、Sky Lagoon", region="首都圈",
+         nodes=["phallological", "bonus_rvk", "sky_lagoon", "hotel:2"],
+         notes="先在市區看陰莖博物館、到 Bónus 補給，最後泡 Sky Lagoon，泡完往東約 75 km 到 Myrarkot。超市買的冷藏食物要在車上放 2-3 小時，3 月氣溫通常沒問題。"),
     dict(title="黃金圈｜Silfra 是主角", region="金環",
          nodes=["kerid", "thingvellir", "haukadalur", "gullfoss", "hotel:3"],
          notes="凱瑞斯離住宿最近，先看完再往北繞一圈，最後從黃金瀑布南下 Midgard，不走回頭路。Silfra 在辛格韋德利國家公園內。"),
@@ -144,8 +144,8 @@ PLAN = [
          nodes=["seljalandsfoss", "bru_base", "skogafoss", "dyrholaey", "kronan_vik", "vik_church", "reynisfjara", "hotel:4"],
          notes="南岸是全島雲量最多的路段，以 vedur.is 雲圖微調順序；雷尼斯黑沙灘有瘋狗浪，不要排到天黑後。"),
     dict(title="Katla 冰洞、Vík 海岸、教堂鎮", region="南岸／東南",
-         nodes=["skogafoss", "seljalandsfoss", "solheimajokull", "katla_cave", "kirkjubaejarklaustur", "fjadrargljufur", "hotel:5"],
-         notes="暫定 6 點全排，現場依狀況排優先序，來不及的刪除；彩虹瀑布與塞里雅蘭 3/4 已去過，可優先捨棄。卡特拉冰洞團的集合點待團主回覆。"),
+         nodes=["solheimajokull", "katla_cave", "kirkjubaejarklaustur", "fjadrargljufur", "hotel:5"],
+         notes="斯科加瀑布與塞里雅蘭瀑布 3/4 已去過，這天不再安排。先往西到索爾黑馬冰川，再回維克參加卡特拉冰洞團（集合點待團主回覆），之後往東到教堂鎮與羽毛峽谷。"),
     dict(title="冰河湖與藍冰洞：東進前決策日", region="東南／瓦特納",
          nodes=["diamond_beach", "jokulsarlon", "hotel:6"],
          optional=["skaftafell"],
@@ -157,8 +157,8 @@ PLAN = [
          nodes=["egilsstadir", "viti", "hverir", "grjotagja", "myvatn", "dimmuborgir", "pseudocraters", "hotel:8"],
          notes="08:00 到埃伊爾斯塔濟，07:00 前從 Mjóeyri 出發。火山區走 863 號路到 Krafla，冬季通常有除雪，出發前確認。"),
     dict(title="眾神瀑布與阿克雷里：向西走、不折返", region="北部",
-         nodes=["grjotagja", "godafoss", "vaglaskogur", "akureyri", "hotel:9"],
-         notes="Grjótagjá 3/8 已排過，若不再去可省往返米湖約 55 km（待確認）。今晚起在阿克雷里東岸連住 2 晚。"),
+         nodes=["godafoss", "vaglaskogur", "akureyri", "hotel:9"],
+         notes="Grjótagjá 3/8 已去過，這天不再折返米湖，直接往西經眾神瀑布、瓦拉森林到阿克雷里。今晚起在阿克雷里東岸連住 2 晚。"),
     dict(title="北境體驗：雪橇犬優先、騎馬次之", region="阿克雷里",
          nodes=["akureyri", "go_husky", "forest_lagoon", "polar_hestar", "hotel:9:back"],
          notes="四個點都在阿克雷里附近，順序影響不大；Go Husky 位置待確認。"),
@@ -406,7 +406,7 @@ def main():
     used = set()
     days, locations, features = [], [], []
     prev_stay, prev_stay_loc = None, None
-    for di, p in enumerate(PLAN):
+    for di, p in enumerate(PLAN):            # di 從 0 起算；資料上的 day 一律 = di + 1（3/1 為 Day 1）
         d_iso = (trip_start + timedelta(days=di)).isoformat()
         tonight = next((h for h in hotels if h["checkin"] <= d_iso < h["checkout"]), None)
         stops, points = [], []
@@ -416,6 +416,10 @@ def main():
             if isinstance(n, tuple):
                 points.append((n[1], n[2]))
                 continue
+            override = {}
+            if isinstance(n, dict):                     # dict(id=..., name_zh=...)：只改這一天的顯示
+                override = {k: v for k, v in n.items() if k != "id"}
+                n = n["id"]
             key = n
             if key.startswith("hotel:"):
                 parts = key.split(":")
@@ -425,6 +429,7 @@ def main():
                 if key in used:                 # 同一地點第二次出現：共用同一個地圖標記
                     loc["same_as"] = key
                     loc["id"] = "%s__d%d" % (key, di)
+                loc.update(override)
             used.add(loc["id"])
             loc["out_and_back"] = 0
             points.append((loc["lat"], loc["lon"]))
@@ -440,7 +445,7 @@ def main():
             km = sum(x[0] for x in seg)
             mins = sum(x[1] for x in seg)
             cum += km
-            loc.update(day=di, order=order, stay_town=HOTEL_AREA.get(tonight["id"], ("",))[0] if tonight else "",
+            loc.update(day=di + 1, order=order, stay_town=HOTEL_AREA.get(tonight["id"], ("",))[0] if tonight else "",
                        leg_km=round(km, 1), leg_min=round(mins), leg_min_winter=round(mins * WINTER),
                        cum_km_day=round(cum, 1), optional=0)
             loc.setdefault("same_as", None)
@@ -451,14 +456,14 @@ def main():
                 roads = _merge_roads([r for x in seg for r in x[3]])
                 loc["leg_roads"] = roads
                 features.append(dict(type="Feature", properties=dict(
-                    day=di, seq=order, **{"from": prev_id, "to": loc["id"]},
+                    day=di + 1, seq=order, **{"from": prev_id, "to": loc["id"]},
                     km=round(km, 1), min=round(mins), min_winter=round(mins * WINTER), roads=roads),
                     geometry=dict(type="LineString", coordinates=_simplify(line))))
             prev_id = loc["id"]
             locations.append(loc)
         for k, key in enumerate(p.get("optional", []), 1):
             loc = point(key)
-            loc.update(day=di, order=len(stops) + k, stay_town="", leg_km=0, leg_min=0, leg_min_winter=0,
+            loc.update(day=di + 1, order=len(stops) + k, stay_town="", leg_km=0, leg_min=0, leg_min_winter=0,
                        cum_km_day=0, out_and_back=0, optional=1, same_as=None)
             locations.append(loc)
 
@@ -468,7 +473,7 @@ def main():
         visit = sum(s_[0]["visit_min"] or 0 for s_ in stops if s_[0]["category"] != "STAY")
         start_area = p.get("start") or (HOTEL_AREA[prev_stay["id"]][0] if prev_stay else "凱夫拉維克機場")
         days.append(dict(
-            day=di, date=d_iso, title_zh=p["title"], region=p["region"],
+            day=di + 1, date=d_iso, title_zh=p["title"], region=p["region"],
             start_town=start_area, stay_town=area[0] if area else "", stay_town_local=area[1] if area else "",
             hotel_id=tonight["id"] if tonight else None,
             route_km=round(sum(l[0] for l in legs), 1), drive_min=round(sum(l[1] for l in legs)),
@@ -476,7 +481,7 @@ def main():
             stay_lat=round(sun_lat, 4), notes=p["notes"], **sun_facts(d_iso, sun_lat, sun_lon)))
         prev_stay = stay or prev_stay
         prev_stay_loc = stops[-1][0] if stops else prev_stay_loc
-        print("Day %2d %s %-26s %6.1f km %4d min (冬 %3d)" % (di, d_iso, p["title"][:13], days[-1]["route_km"],
+        print("Day %2d %s %-26s %6.1f km %4d min (冬 %3d)" % (di + 1, d_iso, p["title"][:13], days[-1]["route_km"],
                                                             days[-1]["drive_min"], days[-1]["drive_min_winter"]))
 
     for l in locations:

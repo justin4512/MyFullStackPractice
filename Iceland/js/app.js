@@ -26,7 +26,9 @@
   /* 每日路線色票：15 天各一色（在淺色與深色底圖上都可辨識） */
   var DAY_COLORS = ['#e4572e', '#f08c2e', '#c99a06', '#7cb342', '#2e9e5b', '#169c8f', '#1b8bb8', '#3a6fe0',
                     '#5e5ad6', '#8e44ad', '#c2185b', '#e0609a', '#8d6e63', '#546e7a', '#d35400'];
-  function dayColor(d) { return DAY_COLORS[((d % DAY_COLORS.length) + DAY_COLORS.length) % DAY_COLORS.length]; }
+  /* 天數從 Day 1（3/1）起算；色票依「第幾天」排序 */
+  var FIRST_DAY = DAYS.length ? DAYS[0].day : 1;
+  function dayColor(d) { var i = d - FIRST_DAY; return DAY_COLORS[((i % DAY_COLORS.length) + DAY_COLORS.length) % DAY_COLORS.length]; }
 
   /* 路段（leg）：每段 from → to，含距離、時間與經過道路 */
   var LEGS = (ROUTES.features || []).filter(function (f) { return f.properties && f.properties.from; });
@@ -187,7 +189,7 @@
   DAYS.forEach(function (d) { if (dayRisks(d).length) WARN_DAYS[d.day] = 1; });
 
   /* ---------- state ---------- */
-  var state = { day: 0, sel: null, view: 'days', wide: false, side: false, layerOn: {} };
+  var state = { day: FIRST_DAY, sel: null, view: 'days', wide: false, side: false, layerOn: {} };
   LAYER_ORDER.forEach(function (n) { state.layerOn[n] = LAYERS[n].on; });
   var DNUMS = DAYS.map(function (d) { return d.day; });
   var lastFit = null;
@@ -1889,11 +1891,13 @@
     initControls();
     var ok = initMap();
     renderDay();
+    var pv0 = document.querySelector('.dnav.prev');
+    if (pv0) pv0.disabled = DNUMS.indexOf(state.day) <= 0;   /* 首日（Day 1）時停用「前一天」 */
     if (ok) {
       leafBottoms = Array.prototype.slice.call(document.querySelectorAll('.leaflet-bottom'));
       if (isSheet()) setSheet(sheet.state);
       map.invalidateSize(false);
-      focusDay(0, true, true);
+      focusDay(FIRST_DAY, true, true);
     }
     initKp();
     loadLiveHotels();
