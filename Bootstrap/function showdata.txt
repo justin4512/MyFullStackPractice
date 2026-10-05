@@ -1,0 +1,17 @@
+function showdata(data) {
+    const hotels = data?.Hotels ?? [];
+    const $tbody = $("#mytbody").empty();
+
+    for (const hotel of hotels) {
+        const address = `${hotel.PostalAddress?.City ?? ""}${hotel.PostalAddress?.StreetAddress ?? ""}`;
+        const phone = hotel.Telephones?.[0]?.Tel ?? "目前無資訊";
+        const description = hotel.Description?.trim() || "目前無資訊";
+        const strHTML = `<tr>
+            <td data-th="民宿編號"><span class="table-col">${hotel.HotelID ?? "目前無資訊"}</span></td>
+            <td data-th="民宿名稱"><span class="table-col">${hotel.HotelName ?? "目前無資訊"}</span></td>
+            <td data-th="民宿地址"><span class="table-col">${address || "目前無資訊"}</span></td>
+            <td data-th="民宿電話"><span class="table-col">${phone}</span></td>
+            <td data-th="民宿描述"><span class="table-col scroll-box">${description}</span></td>
+        </tr>`;
+        $tbody.append(strHTML);
+    }
