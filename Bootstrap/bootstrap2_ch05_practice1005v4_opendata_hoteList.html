@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>觀光民宿清單</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/myAll.css">
+</head>
+<body>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-4.0.0.js"></script>
+    <!-- <script src="js/hotelsloop.js"></script> -->
+    <table class="table table-bordered table-rwd">
+            <thead>
+                <tr>
+                    <th width="5%">民宿編號</th>
+                    <th width="10%">景點名稱</th>
+                    <th width="12%">景點地址</th>
+                    <th width="3%">電話</th>
+                    <th width="20%">景點圖示</th>                    
+                    <th width="50%">景點描述</th>
+                </tr>
+            </thead>
+            <tbody id="mytbody">
+                <tr>
+                    <td data-th="編號"><span class="table-col">XX</span></td>
+                    <td data-th="景點名稱"><span class="table-col">XX</span></td>
+                    <td data-th="景點地址"><span class="table-col">XX</span></td>
+                    <td data-th="電話"><span class="table-col">XX</span></td>
+                    <td data-th="景點圖示"><span class="table-col">XX</span></td>
+                    <td data-th="景點描述"><span class="table-col">XX</span></td>
+                </tr>
+            </tbody>
+        </table>
+   <!-- //串接 -->
+    <script>
+        $.ajax({
+            type: "GET",
+            url: "js/HotelList.json",
+            dataType: "json",
+            success: showdata,
+            error: function() {
+                console.log("資料介接失敗!");
+            }
+        });
+
+        function showdata(data) {
+            console.log(data);
+        }
+    </script>
+</body>
+</html>
