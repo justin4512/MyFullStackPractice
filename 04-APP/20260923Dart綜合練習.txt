@@ -1,0 +1,76 @@
+void main() {
+  // 建立學生資料
+  List<Map<String, dynamic>> students = [
+    {
+      'name': '小明',
+      'score': 85,
+    },
+    {
+      'name': '小華',
+      'score': 58,
+    },
+    {
+      'name': '小美',
+      'score': 92,
+    },
+  ];
+
+  // 顯示所有學生資料
+  showStudents(students);
+
+  // 計算平均分數
+  double average = calculateAverage(students);
+
+  // 找出最高分
+  int highestScore = findHighestScore(students);
+
+  print('');
+  print('平均分數：$average');
+  print('最高分：$highestScore');
+}
+
+// 顯示學生資料與及格狀態
+void showStudents(List<Map<String, dynamic>> students) {
+  for (var student in students) {
+    String name = student['name'];
+    int score = student['score'];
+
+    String result;
+
+    if (score >= 60) {
+      result = '及格';
+    } else {
+      result = '不及格';
+    }
+
+    print('$name：$score 分，$result');
+  }
+}
+
+// 計算平均分數
+double calculateAverage(List<Map<String, dynamic>> students) {
+  int total = 0;
+
+  for (var student in students) {
+    int score = student['score'];
+
+    total += score;
+  }
+
+  return total / students.length;
+}
+
+// 找出最高分
+int findHighestScore(List<Map<String, dynamic>> students) {
+  int highestScore = 0;
+
+  for (var student in students) {
+    int score = student['score'];
+
+    if (score > highestScore) {
+      highestScore = score;
+    }
+  }
+
+  return highestScore;
+}
