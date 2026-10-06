@@ -33,7 +33,7 @@ class MyHomePage extends StatelessWidget {
         height: 300,
         width: 300,
         transform: Matrix4.translationValues(50, 50, 0),
-        child: Row(
+        child: Column(  //也可以改成Row
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
