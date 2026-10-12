@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CH6.切版 - Row & Column</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/myAll.css">
+    <style>
+        .box01 {
+            height: 120px;
+            margin-top: 10px;
+            line-height: 120px;
+        }
+        .box02 {
+            height: 120px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Boostraps把網頁分成12等份，稱為column，要以12的因數或倍數來分配設計
+    row是用來設計橫向的排列，column是用來設計縱向的排列，並且要放在row裡面 -->
+    <div class="container">
+        <div class="display-3 fw-900 my-4 text-center">CH6.Row & Column Teble</div>
+        <div class="display-5 fw-900 my-4 ">1.基本切版練習</div>
+
+        <div class="row">
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col-1">
+                <div class="box01 bg-danger"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <div class="box01 bg-success"></div>
+            </div>
+            <div class="col-2">
+                <div class="box01 bg-success"></div>
+            </div>
+            <div class="col-2">
+                <div class="box01 bg-success"></div>
+            </div>
+            <div class="col-2">
+                <div class="box01 bg-success"></div>
+            </div>
+            <div class="col-2">
+                <div class="box01 bg-success"></div>
+            </div>
+            <div class="col-2">
+                <div class="box01 bg-success"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div class="box01 bg-secondary"></div>
+            </div>
+            <div class="col-3">
+                <div class="box01 bg-secondary"></div>
+            </div>
+            <div class="col-3">
+                <div class="box01 bg-secondary"></div>
+            </div>
+            <div class="col-3">
+                <div class="box01 bg-secondary"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="box01 bg-warning"></div>
+            </div>
+            <div class="col-4">
+                <div class="box01 bg-warning"></div>
+            </div>
+            <div class="col-4">
+                <div class="box01 bg-warning"></div>
+            </div>
+        </div>
+
+        <div class="display-5 fw-900 my-4 ">2.RWD切版練習(sm,md,lg,xl,xxl)</div>
+        <div class="display-6 fw-300 my-4 ">放大縮小版面感受切版變化</div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="box01 bg-danger text-white">sm</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box01 bg-danger text-white">md</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="box01 bg-danger text-white">lg</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="box01 bg-danger text-white">xl</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xxl-6">
+                <div class="box01 bg-danger text-white">xxl</div>
+            </div>
+        </div>
+        <div class="display-5 fw-900 my-4 ">2-1.RWD動態切版練習(sm,md,lg,xl,xxl)</div>
+        <div class="display-6 fw-900 my-4 ">放大縮小版面感受切版變化</div>
+
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">1</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">2</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">3</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">4</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">5</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">6</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">7</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">8</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">9</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">10</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">11</div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1">
+                <div class="box01 bg-secondary display-4 text-center text-white">12</div>
+            </div>
+        </div>
+        c<div class="row">
+            <div class="col-3 offset-lg-9">
+                <div class="box01 bg-success"></div>
+            </div>
+        </div>
+        <div class="display-5 fw-900 my-4 ">3-1.切版練習(Offset)-左右格子位移</div>
+        <div class="row">
+            <!-- 第1種位移方式：透過offset-數字去設定位置 -->
+            <div class="col-3 offset-lg-9">
+                <div class="box01 bg-warning"></div>
+            </div>
+        </div>
+        <hr>
+        
+        <!-- 第2種位移方式:透過col-md-4先設定好格子及位置，再使用d-none d-md-block去開關格子 -->
+        <div class="row">
+            <!-- col-md-4代表在md(768px)銀幕尺寸以下時，佔4格-->
+            <div class="col-md-4"> 
+                <div class="box01 bg-primary"></div>
+            </div>
+            <!-- d-none d-md-block代表在md(768px)銀幕尺寸以下時，預設隱藏，在md(768px)銀幕尺寸以上時，顯示-->
+            <div class="col-md-4 d-none d-md-block">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <!-- d-none d-md-block代表在md(768px)銀幕尺寸以下時，預設隱藏，在md(768px)銀幕尺寸以上時，才顯示-->
+            <div class="col-md-4 d-none d-md-block">
+                <div class="box01 bg-danger"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="box01 bg-primary"></div>
+            </div>
+            <div class="col-md-4 d-none d-md-block">
+                <div class="box01 bg-danger"></div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-8"> 
+                <div class="box01 bg-primary"></div>
+            </div>
+        </div>
+
+        <div class="display-5 fw-900 my-4 ">4.切版練習(Gutter)</div>
+        <!-- gx-1 水平間距為1，gy-4 垂直間距為4 -->
+        <div class="row gx-1 gy-4">
+            <div class="col-3">
+                <div class="box02 bg-info"></div>
+            </div>
+            <div class="col-3">
+                <div class="box02 bg-info"></div>
+            </div>
+            <div class="col-3">
+                <div class="box02 bg-info"></div>
+            </div>
+            <div class="col-3">
+                <div class="box02 bg-info"></div>
+            </div>
+            <div class="col-3">
+                <div class="box02 bg-info"></div>
+            </div>
+            <div class="col-3">
+                <div class="box02 bg-info"></div>
+            </div>
+            <div class="col-3">
+                <div class="box02 bg-info"></div>
+            </div>
+            <div class="col-3">
+                <div class="box02 bg-info"></div>
+            </div>
+        </div>
+        <div class="display-5 fw-900 my-4 ">5.斷點練習 row-cols-{銀幕尺寸斷點}-{橫向欄數}</div>
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+            <div class="col">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col">
+                <div class="box01 bg-danger"></div>
+            </div>
+            <div class="col">
+                <div class="box01 bg-danger"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

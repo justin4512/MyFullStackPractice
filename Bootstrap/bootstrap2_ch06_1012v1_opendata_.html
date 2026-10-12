@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RWD網頁練習</title>
+    <link rel="stylesheet" href="css/myAll.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        /* 桌面版 ERP 報表基礎美化 */
+        body {
+            background-color: #f8f9fa;
+        }
+        .table-rwd {
+            border-color: #dee2e6;
+            font-size: 0.95rem;
+        }
+        .table-rwd thead th {
+            background-color: #343a40;
+            color: #ffffff;
+            border-color: #454d55;
+            vertical-align: middle;
+            text-align: center;
+        }
+        .table-rwd tbody td {
+            vertical-align: middle;
+            background-color: #ffffff;
+        }
+        /* 報表常見的滑鼠懸停效果與交替行 */
+        .table-rwd tbody tr:hover td {
+            background-color: #f1f3f5;
+        }
+        .table-rwd img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 3px;
+            border: 1px solid #ced4da;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @media screen  and (max-width: 768px) {
+            .table-rwd thead {
+                display: none;                
+            }
+            .table-rwd tbody tr {
+                display: block;
+                /* 改為專業報表卡片常用的灰藍邊框與陰影 */
+                border: 1px solid #ced4da;
+                border-radius: 6px;
+                background-color: #ffffff;
+                margin-top: 15px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                overflow: hidden;
+            }
+
+            .table-rwd tbody tr td {
+                display: block;
+                /*overflow: hidden用於清除內建浮動（BFC），確保欄位內容不會超出邊界。*/
+                overflow: hidden; 
+                border-bottom: 1px solid #f1f3f5;
+                padding: 10px 12px;
+            }
+
+            .table-rwd tbody tr td:last-child {
+                border-bottom: none;
+            }
+
+            /* 因為表頭被隱藏了， ::before是欄位名稱提示，用於讀取 data-th 屬性並顯示在左側 */
+            .table-rwd tbody tr td::before {
+                content: attr(data-th)"：";
+                font-weight: bold;
+                /* 改為沈穩的深色系文字與邊界對齊 */
+                color: #495057;
+                display: block;
+                float: left;
+                width: 25%;
+                text-align: left;
+                padding-right: 10px;
+            }
+            .table-rwd tbody tr td span {
+                display: block;
+                float: left;
+                width: 75%;
+            }
+            /* 手機版圖片靠右對齊呈現 */
+            .table-rwd tbody tr td span img {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="display-1 text-center fw-900 my-4" style="font-size: 2.5rem;">ERP報表系統-餐廳資料</div>
+        <table class="table table-bordered table-rwd">
+            <thead class="table-dark">
+                <tr>
+                    <th width = 10%>餐廳名稱</th>
+                    <th width = 25%>餐廳圖片</th>
+                    <th width = 20%>餐廳地址</th>
+                    <th width = 10%>餐廳電話</th>
+                    <th width = 35%>餐廳簡介</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-th="餐廳名稱"><span>xxx</span></td>
+                    <td data-th="餐廳圖片"><span><img src="images/landscape001.avif" alt="餐廳圖片1" class="img-fluid"></span></td>
+                    <td data-th="餐廳地址"><span>xxx</span></td>
+                    <td data-th="餐廳電話"><span>0912-345678</span></td>
+                    <td data-th="餐廳簡介"><span>主動創意往往造型初步更是溫柔滑鼠次數皇帝，冠軍不喜歡忽然，強調深入大學生上傳只好忽然輕輕電腦共有國語教師一隻，郵箱一級極大商務取消之下天堂智能建立顯卡，總部投訴鬱悶昨日主管能力附近，日常戀愛，語文大戰違反這款心情擁有非常我都信心紀念一定要超市進一步，一句姓名臺灣動漫對了主義近年來，事件部隊臉色好多十大更是一方面病人吸收這場眼前以下第一吸收，汽車只見，就算練習招聘眾多離線台南也可等級交流，屏幕招聘。</span></td>
+                </tr>
+                <tr>
+                    <td data-th="餐廳名稱"><span>xxx</span></td>
+                    <td data-th="餐廳圖片"><span><img src="images/landscape002.avif" alt="餐廳圖片2" class="img-fluid"></span></td>
+                    <td data-th="餐廳地址"><span>xxx</span></td>
+                    <td data-th="餐廳電話"><span>0912-345678</span></td>
+                    <td data-th="餐廳簡介"><span>主動創意往往造型初步更是溫柔滑鼠次數皇帝，冠軍不喜歡忽然，強調深入大學生上傳只好忽然輕輕電腦共有國語教師一隻，郵箱一級極大商務取消之下天堂智能建立顯卡，總部投訴鬱悶昨日主管能力附近，日常戀愛，語文大戰違反這款心情擁有非常我都信心紀念一定要超市進一步，一句姓名臺灣動漫對了主義近年來，事件部隊臉色好多十大更是一方面病人吸收這場眼前以下第一吸收，汽車只見，就算練習招聘眾多離線台南也可等級交流，屏幕招聘。</span></td>
+                </tr>
+            </tbody>    
+        </table>
+    </div>
+</body>
+</html>

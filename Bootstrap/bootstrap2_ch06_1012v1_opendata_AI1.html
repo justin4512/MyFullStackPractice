@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f7fb">
+
+    <title>ERP 報表系統 - 餐廳資料管理</title>
+
+    <link rel="stylesheet" href="css/myAll.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <style>
+        /* ========================================
+           01. 全域設計變數：集中管理配色與尺寸
+        ======================================== */
+        :root {
+            /* 品牌與介面配色 */
+            --erp-primary: #2563eb;
+            --erp-primary-dark: #1d4ed8;
+            --erp-primary-light: #eff6ff;
+
+            /* 表頭 */
+            --erp-th-bg: #1e3a5f;
+            --erp-th-text: #ffffff;
+
+            /* 背景與文字 */
+            --erp-page-bg: #f4f7fb;
+            --erp-surface: #ffffff;
+            --erp-text: #334155;
+            --erp-text-muted: #64748b;
+            --erp-heading: #172b4d;
+
+            /* 表格 */
+            --erp-border: #e2e8f0;
+            --erp-row-odd: #ffffff;
+            --erp-row-even: #f8fafc;
+            --erp-bg-hover: #eff6ff;
+
+            /* 圓角 */
+            --erp-radius-sm: 6px;
+            --erp-radius-md: 10px;
+            --erp-radius-lg: 14px;
+
+            /* 陰影 */
+            --erp-shadow:
+                0 4px 18px rgba(15, 23, 42, 0.05);
+        }
+
+        /* ========================================
+           02. 基礎版面
+        ======================================== */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--erp-page-bg);
+            color: var(--erp-text);
+            font-family:
+                -apple-system, BlinkMacSystemFont,
+                "Segoe UI", "Microsoft JhengHei",
+                "Noto Sans TC", sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .erp-container {
+            max-width: 1500px;
+        }
+
+        /* ========================================
+           03. 頁面標題
+        ======================================== */
+        .erp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding: 8px 0 20px;
+            border-bottom: 1px solid var(--erp-border);
+        }
+
+        .erp-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .erp-title-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            background: var(--erp-primary-light);
+            border-radius: var(--erp-radius-md);
+            color: var(--erp-primary);
+            font-size: 24px;
+        }
+
+        .erp-title {
+            margin: 0;
+            color: var(--erp-heading);
+            font-size: 25px;
+            font-weight: 750;
+            letter-spacing: 0.3px;
+        }
+
+        .erp-subtitle {
+            margin: 4px 0 0;
+            color: var(--erp-text-muted);
+            font-size: 13px;
+        }
+
+        .erp-system-time {
+            color: var(--erp-text-muted);
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        /* ========================================
+           04. 資料概況區塊
+        ======================================== */
+        .erp-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 18px;
+            padding: 18px 22px;
+            background: var(--erp-surface);
+            border: 1px solid var(--erp-border);
+            border-radius: var(--erp-radius-lg);
+            box-shadow: var(--erp-shadow);
+        }
+
+        .erp-summary-label {
+            margin: 0 0 3px;
+            color: var(--erp-text-muted);
+            font-size: 13px;
+        }
+
+        .erp-summary-number {
+            color: var(--erp-heading);
+            font-size: 26px;
+            font-weight: 750;
+            line-height: 1.3;
+        }
+
+        .erp-summary-unit {
+            margin-left: 5px;
+            color: var(--erp-text-muted);
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .erp-summary-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 999px;
+            color: #166534;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .erp-status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        /* ========================================
+           05. 表格外框與四角圓角
+        ======================================== */
+        .erp-table-card {
+            overflow: hidden;
+            background: var(--erp-surface);
+            border: 1px solid var(--erp-border);
+            border-radius: var(--erp-radius-lg);
+            box-shadow: var(--erp-shadow);
+        }
+
+        .erp-table-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--erp-border);
+        }
+
+        .erp-table-heading h2 {
+            margin: 0;
+            color: var(--erp-heading);
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .erp-table-hint {
+            color: var(--erp-text-muted);
+            font-size: 12px;
+        }
+
+        .erp-table-scroll {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        /* 關鍵：獨立邊框，避免 Bootstrap 表格框線破壞圓角 */
+        .table-erp {
+            width: 100%;
+            min-width: 1000px;
+            margin: 0 !important;
+            border: 0 !important;
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+            color: var(--erp-text);
+            font-size: 14px;
+        }
+
+        /* 表頭 */
+        .table-erp thead th {
+            padding: 16px 14px;
+            background-color: var(--erp-th-bg) !important;
+            color: var(--erp-th-text) !important;
+            border: 0 !important;
+            border-right: 1px solid rgba(255,255,255,0.12) !important;
+            border-bottom: 1px solid var(--erp-th-bg) !important;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 13px;
+            font-weight: 650;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        .table-erp thead th:last-child {
+            border-right: 0 !important;
+        }
+
+        /* 資料儲存格 */
+        .table-erp tbody td {
+            padding: 18px 14px;
+            background-color: var(--erp-row-odd);
+            border: 0 !important;
+            border-right: 1px solid var(--erp-border) !important;
+            border-bottom: 1px solid var(--erp-border) !important;
+            vertical-align: middle;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+            transition: background-color 0.18s ease;
+        }
+
+        .table-erp tbody td:last-child {
+            border-right: 0 !important;
+        }
+
+        .table-erp tbody tr:last-child td {
+            border-bottom: 0 !important;
+        }
+
+        /* 斑馬紋：協助視線追蹤同一筆資料 */
+        .table-erp tbody tr:nth-child(even) td {
+            background-color: var(--erp-row-even);
+        }
+
+        /* 滑鼠移入時整列高亮 */
+        .table-erp tbody tr:hover td {
+            background-color: var(--erp-bg-hover) !important;
+        }
+
+        /* 餐廳名稱 */
+        .erp-restaurant-name {
+            color: var(--erp-heading);
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .erp-record-tag {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 2px 8px;
+            background: var(--erp-primary-light);
+            border-radius: 4px;
+            color: var(--erp-primary-dark);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* 餐廳圖片 */
+        .erp-image-cell {
+            text-align: center;
+        }
+
+        .table-erp .erp-restaurant-image {
+            display: block;
+            width: 120px;
+            height: 82px;
+            margin: 0 auto;
+            border: 1px solid var(--erp-border);
+            border-radius: var(--erp-radius-sm);
+            object-fit: cover;
+            background: #f1f5f9;
+        }
+
+        /* 地址 */
+        .erp-address {
+            color: #475569;
+        }
+
+        /* 電話：使用清楚的數字樣式 */
+        .erp-phone {
+            color: var(--erp-primary-dark);
+            font-weight: 650;
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* 簡介：控制閱讀寬度 */
+        .erp-description {
+            min-width: 260px;
+            max-width: 430px;
+            color: #475569;
+            line-height: 1.9;
+        }
+
+        /* 表格底部 */
+        .erp-table-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 14px 22px;
+            background: #ffffff;
+            border-top: 1px solid var(--erp-border);
+            color: var(--erp-text-muted);
+            font-size: 12px;
+        }
+
+        .erp-footer-highlight {
+            color: var(--erp-heading);
+            font-weight: 650;
+        }
+
+        /* ========================================
+           06. 平板與手機版
+        ======================================== */
+        @media screen and (max-width: 768px) {
+            .erp-container {
+                padding-right: 14px;
+                padding-left: 14px;
+            }
+
+            .erp-header {
+                align-items: flex-start;
+                margin-bottom: 18px;
+            }
+
+            .erp-title {
+                font-size: 20px;
+            }
+
+            .erp-title-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 21px;
+            }
+
+            .erp-system-time {
+                width: 100%;
+                padding-left: 56px;
+            }
+
+            .erp-summary {
+                padding: 16px;
+            }
+
+            .erp-table-heading {
+                padding: 16px;
+            }
+
+            /* 手機版改用逐筆卡片呈現 */
+            .erp-table-scroll {
+                overflow: visible;
+            }
+
+            .table-erp {
+                display: block;
+                min-width: 0;
+                border: 0 !important;
+            }
+
+            .table-erp thead {
+                display: none;
+            }
+
+            .table-erp tbody {
+                display: block;
+                padding: 12px;
+                background: #f8fafc;
+            }
+
+            .table-erp tbody tr {
+                display: block;
+                overflow: hidden;
+                margin-bottom: 14px;
+                background: #ffffff;
+                border: 1px solid var(--erp-border);
+                border-radius: var(--erp-radius-md);
+                box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+            }
+
+            .table-erp tbody tr:last-child {
+                margin-bottom: 0;
+            }
+
+            .table-erp tbody td,
+            .table-erp tbody tr:nth-child(even) td {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 14px;
+                padding: 13px 14px;
+                background: #ffffff;
+                border: 0 !important;
+                border-bottom: 1px solid #eef2f7 !important;
+            }
+
+            .table-erp tbody tr td:last-child {
+                border-bottom: 0 !important;
+            }
+
+            /* 由 data-th 自動產生欄位名稱 */
+            .table-erp tbody td::before {
+                content: attr(data-th);
+                flex: 0 0 86px;
+                color: var(--erp-text-muted);
+                font-size: 12px;
+                font-weight: 700;
+                text-align: left;
+            }
+
+            .table-erp tbody td > span {
+                flex: 1 1 auto;
+                min-width: 0;
+                text-align: right;
+            }
+
+            .table-erp tbody td.erp-image-cell > span {
+                display: flex;
+                justify-content: flex-end;
+            }
+
+            .table-erp .erp-restaurant-image {
+                width: 130px;
+                height: 88px;
+                margin: 0;
+            }
+
+            .erp-description {
+                min-width: 0;
+                max-width: none;
+                text-align: right;
+            }
+
+            .erp-table-footer {
+                padding: 14px 16px;
+            }
+        }
+
+        /* 減少動畫偏好 */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+            }
+        }        
+    </style>
+</head>
+
+<body>
+    <main class="container-fluid erp-container py-4">
+
+        <!-- 頁面標題 -->
+        <header class="erp-header">
+            <div class="erp-title-group">
+                <div class="erp-title-icon" aria-hidden="true">▤</div>
+
+                <div>
+                    <h1 class="erp-title">餐廳基本資料管理</h1>
+                    <p class="erp-subtitle">
+                        ERP 報表系統 ／ 餐廳資料總覽與管理
+                    </p>
+                </div>
+            </div>
+
+            <div class="erp-system-time">
+                系統日期：<time id="system-date">2026-10-12</time>
+            </div>
+        </header>
+
+        <!-- 資料統計 -->
+        <section class="erp-summary" aria-label="資料統計">
+            <div>
+                <p class="erp-summary-label">餐廳資料總筆數</p>
+                <div class="erp-summary-number">
+                    <span id="record-count">2</span>
+                    <span class="erp-summary-unit">筆資料</span>
+                </div>
+            </div>
+
+            <div class="erp-summary-status">
+                <span class="erp-status-dot" aria-hidden="true"></span>
+                資料清單已載入
+            </div>
+        </section>
+
+        <!-- 資料表格 -->
+        <section class="erp-table-card" aria-labelledby="table-title">
+
+            <div class="erp-table-heading">
+                <h2 id="table-title">餐廳資料清單</h2>
+                <span class="erp-table-hint">
+                    可依列查看各餐廳詳細資料
+                </span>
+            </div>
+
+            <div class="erp-table-scroll">
+                <table class="table table-erp">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 15%;">
+                                餐廳名稱
+                            </th>
+                            <th scope="col" style="width: 15%;">
+                                餐廳圖片
+                            </th>
+                            <th scope="col" style="width: 22%;">
+                                餐廳地址
+                            </th>
+                            <th scope="col" style="width: 15%;">
+                                餐廳電話
+                            </th>
+                            <th scope="col" style="width: 33%;">
+                                餐廳簡介
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="mytbody">
+                        <tr>
+                            <td data-th="餐廳名稱">
+                                <span>
+                                    <span class="erp-restaurant-name">
+                                        王品牛排－台中店
+                                    </span>
+                                    <br>
+                                    <span class="erp-record-tag">
+                                        餐廳資料
+                                    </span>
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳圖片" class="erp-image-cell">
+                                <span>
+                                    <img
+                                        class="erp-restaurant-image"
+                                        src="images/landscape001.avif"
+                                        alt="王品牛排台中店圖片"
+                                        loading="lazy"
+                                    >
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳地址">
+                                <span class="erp-address">
+                                    台中市西屯區台灣大道三段300號
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳電話">
+                                <span class="erp-phone">
+                                    04-2255-6578
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳簡介">
+                                <span class="erp-description">
+                                    主動創意往往造型初步更是溫柔滑鼠次數皇帝，
+                                    冠軍不喜歡忽然，強調深入大學生上傳只好忽然
+                                    輕輕電腦共有國語教師一隻。
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td data-th="餐廳名稱">
+                                <span>
+                                    <span class="erp-restaurant-name">
+                                        鼎泰豐－台中店
+                                    </span>
+                                    <br>
+                                    <span class="erp-record-tag">
+                                        餐廳資料
+                                    </span>
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳圖片" class="erp-image-cell">
+                                <span>
+                                    <img
+                                        class="erp-restaurant-image"
+                                        src="images/landscape002.avif"
+                                        alt="鼎泰豐台中店圖片"
+                                        loading="lazy"
+                                    >
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳地址">
+                                <span class="erp-address">
+                                    台中市西屯區台灣大道三段251號
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳電話">
+                                <span class="erp-phone">
+                                    04-2259-9595
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳簡介">
+                                <span class="erp-description">
+                                    事件部隊臉色好多十大更是一方面病人吸收
+                                    這場眼前以下第一吸收，汽車只見，就算練習
+                                    招聘眾多離線台南也可等級交流。
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 表格底部 -->
+            <footer class="erp-table-footer">
+                <span>
+                    目前顯示
+                    <span class="erp-footer-highlight" id="footer-count">
+                        2
+                    </span>
+                    筆餐廳資料
+                </span>
+
+                <span>ERP 餐廳資料管理系統</span>
+            </footer>
+        </section>
+
+    </main>
+
+    <script src="js/jquery-4.0.0.js"></script>
+    <script>
+        // 自動更新系統日期
+        const dateElement = document.querySelector("#system-date");
+
+        if (dateElement) {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, "0");
+            const day = String(now.getDate()).padStart(2, "0");
+
+            dateElement.textContent = `${year}-${month}-${day}`;
+            dateElement.dateTime = `${year}-${month}-${day}`;
+        }
+
+        // 根據表格實際資料列數更新統計
+        const tableRows = document.querySelectorAll(
+            ".table-erp tbody tr"
+        );
+
+        const recordCount = tableRows.length;
+
+        document.querySelector("#record-count").textContent = recordCount;
+        document.querySelector("#footer-count").textContent = recordCount;
+
+        $(function () {
+            $.ajax({
+                url: "https://data.moa.gov.tw/Service/OpenData/ODwsv/ODwsvTravelFood.aspx?IsTransData=1&UnitId=193",
+                dataType: "json",
+                success: showData,
+                error:  function() {
+                    alert("資料載入失敗-error");
+                    console.log("資料錯誤-error");
+                }
+            });
+        });
+
+        $("#mytbody").empty();
+        function showData(data) {
+            console.log(data);
+            data.forEach(function (item) {
+                // console.log(item);
+                // console.log(item.Name); 
+                // console.log(item.City & item.Town);
+                // console.log(item.Tel);
+                // console.log(item.HostWords);
+
+                const strHTML = `<tr>
+                            <td data-th="餐廳名稱">
+                                <span>
+                                    <span class="erp-restaurant-name">
+                                        ${item.Name}
+                                    </span>
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳圖片" class="erp-image-cell">
+                                <span>
+                                    <img
+                                        class="erp-restaurant-image"
+                                        src="${item.PicURL}"
+                                        alt=""
+                                        loading="lazy"
+                                    >
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳地址">
+                                <span class="erp-address">
+                                    ${item.City} ${item.Town} ${item.Address}
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳電話">
+                                <span class="erp-phone">
+                                    ${item.Tel}
+                                </span>
+                            </td>
+
+                            <td data-th="餐廳簡介">
+                                <span class="erp-description">
+                                    ${item.HostWords}
+                                </span>
+                            </td>
+                        </tr>`;
+                    $("#mytbody").append(strHTML);
+                
+
+            })
+        }
+    </script>
+</body>
+</html>
