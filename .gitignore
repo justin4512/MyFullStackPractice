@@ -9,3 +9,6 @@ config.env
 # 部署輔助腳本含內網 IP 與 SSH 帳號，不放上公開 repo
 publish.sh
 deploy.sh
+
+# macOS 在 FAT 隨身碟產生的附屬檔
+._*
