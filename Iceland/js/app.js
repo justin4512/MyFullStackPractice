@@ -550,7 +550,7 @@
       tap: true
     });
     L.control.zoom({ position: 'bottomright', zoomInTitle: '放大', zoomOutTitle: '縮小' }).addTo(map);
-    setBasemap(1);   /* 預設衛星底圖（BASEMAPS[1]）；工具列「底圖」可切換 */
+    setBasemap(2);   /* 預設地形底圖（BASEMAPS[2]）；0＝簡約、1＝衛星；工具列「底圖」可切換 */
 
     clusterGroup = L.markerClusterGroup({
       showCoverageOnHover: false, maxClusterRadius: 46, spiderfyOnMaxZoom: true,
@@ -1876,6 +1876,259 @@
   }
 
   /* ---------- boot ---------- */
+  /* ==========================================================
+     地標搜尋：OpenStreetMap Nominatim
+     - 任何語言輸入皆可（Nominatim 會比對 name、name:zh、name:en、name:is…）
+     - 依使用政策：只在按 Enter／搜尋鍵時查詢（不做逐字自動完成）、每秒最多 1 次、結果快取
+     ========================================================== */
+  var NOMINATIM = 'https://nominatim.openstreetmap.org/search';
+  var srch = { scope: 'is', lang: 'zh-TW', items: [], active: -1, marker: null, last: 0, ctl: null, cache: {} };
+  var SRCH_ICON = {
+    natural: 'mountains', waterway: 'waves', water: 'waves', place: 'map-pin-area', boundary: 'map-pin-area',
+    tourism: 'camera', historic: 'bank', amenity: 'storefront', shop: 'shopping-cart', leisure: 'tree',
+    building: 'buildings', highway: 'road-horizon', aeroway: 'airplane-tilt', railway: 'train', man_made: 'lighthouse'
+  };
+  var SRCH_TYPE = {
+    waterfall: '瀑布', glacier: '冰川', volcano: '火山', peak: '山峰', beach: '海灘', bay: '海灣', cave_entrance: '洞穴',
+    hot_spring: '溫泉', geyser: '間歇泉', lake: '湖泊', water: '水域', river: '河流', canyon: '峽谷', cliff: '懸崖',
+    city: '城市', town: '城鎮', village: '村莊', hamlet: '聚落', farm: '農場', island: '島嶼', peninsula: '半島',
+    viewpoint: '觀景點', attraction: '景點', museum: '博物館', hotel: '飯店', guest_house: '民宿', hostel: '青年旅館',
+    camp_site: '營地', church: '教堂', place_of_worship: '教堂', restaurant: '餐廳', cafe: '咖啡館', fuel: '加油站',
+    supermarket: '超市', parking: '停車場', aerodrome: '機場', lighthouse: '燈塔', information: '遊客中心',
+    swimming_pool: '泳池', resort: '度假村', fast_food: '速食', bar: '酒吧', pub: '酒吧', bakery: '麵包店', convenience: '便利商店',
+    toilets: '廁所', picnic_site: '野餐區', ferry_terminal: '渡輪碼頭', harbour: '港口', administrative: '行政區', suburb: '市區', locality: '地點',
+    hospital: '醫院', pharmacy: '藥局', car_rental: '租車', charging_station: '充電站', spring: '泉', fjord: '峽灣', valley: '山谷', crater: '火山口', park: '公園', nature_reserve: '自然保護區', national_park: '國家公園', bus_station: '巴士站'
+  };
+
+  function haversineKm(a1, o1, a2, o2) {
+    var R = 6371, r = Math.PI / 180;
+    var dA = (a2 - a1) * r, dO = (o2 - o1) * r;
+    var h = Math.sin(dA / 2) * Math.sin(dA / 2) + Math.cos(a1 * r) * Math.cos(a2 * r) * Math.sin(dO / 2) * Math.sin(dO / 2);
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+  /* 最近的行程站點（不含同點重複造訪的節點） */
+  function nearestStop(lat, lon) {
+    var best = null, bd = Infinity;
+    LOCS.forEach(function (l) {
+      if (l.same_as || l.lat == null) return;
+      var d = haversineKm(lat, lon, l.lat, l.lon);
+      if (d < bd) { bd = d; best = l; }
+    });
+    return best ? { loc: best, km: bd } : null;
+  }
+
+  function srchName(r) {
+    var nd = r.namedetails || {};
+    var local = nd.name || r.name || '';
+    var shown = srch.lang === 'local' ? local : (r.name || local || (r.display_name || '').split(',')[0]);
+    return { shown: shown, local: local && local !== shown ? local : '' };
+  }
+  function srchAddr(r) {
+    var parts = (r.display_name || '').split(',').map(function (s) { return s.trim(); });
+    return parts.slice(1).join('，');
+  }
+  function srchTypeLabel(r) {
+    return SRCH_TYPE[r.type] || SRCH_TYPE[r.category] || (r.type ? r.type.replace(/_/g, ' ') : '');
+  }
+
+  function srchSetStatus(msg, err) {
+    var s = $('ms-status');
+    s.textContent = msg || '';
+    s.classList.toggle('err', !!err);
+  }
+  function srchOpen(on) {
+    $('ms-panel').hidden = !on;
+    $('ms-q').setAttribute('aria-expanded', String(on && srch.items.length > 0));
+  }
+  function srchBusy(on) {
+    $('map-search').classList.toggle('busy', on);
+    var i = document.querySelector('.ms-go .ph');
+    i.className = 'ph ' + (on ? 'ph-circle-notch' : 'ph-arrow-right');
+  }
+
+  function srchRender() {
+    var ul = $('ms-list');
+    ul.innerHTML = srch.items.map(function (r, i) {
+      var n = srchName(r), t = srchTypeLabel(r);
+      return '<li class="ms-item" role="option" id="ms-opt-' + i + '" data-i="' + i + '" aria-selected="' + (i === srch.active) + '">' +
+        icon(SRCH_ICON[r.category] || 'map-pin') +
+        '<span class="ms-name">' + esc(n.shown) + (n.local ? '<small>' + esc(n.local) + '</small>' : '') + '</span>' +
+        '<span class="ms-sub">' + (t ? esc(t) + '｜' : '') + esc(srchAddr(r)) + '</span></li>';
+    }).join('');
+    var q = $('ms-q');
+    q.setAttribute('aria-expanded', String(srch.items.length > 0));
+    if (srch.active >= 0) {
+      q.setAttribute('aria-activedescendant', 'ms-opt-' + srch.active);
+      var el = $('ms-opt-' + srch.active);
+      if (el) el.scrollIntoView({ block: 'nearest' });
+    } else q.removeAttribute('aria-activedescendant');
+  }
+
+  function srchRun() {
+    var q = $('ms-q').value.trim();
+    if (!q) { $('ms-q').focus(); return; }
+    var key = [srch.scope, srch.lang, q.toLowerCase()].join('|');
+    srchOpen(true);
+    if (srch.cache[key]) { srchShow(srch.cache[key], q); return; }
+    /* 每秒最多 1 次（Nominatim 使用政策） */
+    var wait = Math.max(0, srch.last + 1100 - Date.now());
+    if (srch.ctl) srch.ctl.abort();
+    var ctl = srch.ctl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    srchBusy(true);
+    srchSetStatus('搜尋中…');
+    setTimeout(function () {
+      if (ctl && ctl.signal.aborted) return;
+      srch.last = Date.now();
+      var p = new URLSearchParams({ q: q, format: 'jsonv2', limit: '8', addressdetails: '0', namedetails: '1' });
+      p.set('accept-language', srch.lang === 'local' ? 'is,en' : srch.lang + ',en');
+      if (srch.scope === 'is') p.set('countrycodes', 'is');
+      else if (map) {
+        /* 全球搜尋時偏好目前視野附近，但不限制 */
+        var b = map.getBounds();
+        p.set('viewbox', [b.getWest(), b.getNorth(), b.getEast(), b.getSouth()].map(function (v) { return v.toFixed(4); }).join(','));
+      }
+      var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 12000);
+      fetch(NOMINATIM + '?' + p.toString(), { signal: ctl ? ctl.signal : undefined, headers: { 'Accept': 'application/json' } })
+        .then(function (r) {
+          if (r.status === 429) throw new Error('rate');
+          if (!r.ok) throw new Error('http ' + r.status);
+          return r.json();
+        })
+        .then(function (rows) {
+          clearTimeout(timer);
+          srch.cache[key] = rows || [];
+          srchShow(srch.cache[key], q);
+        })
+        .catch(function (e) {
+          clearTimeout(timer);
+          if (ctl && ctl.signal.aborted && e.name === 'AbortError' && srch.ctl !== ctl) return;   /* 被新的搜尋取代 */
+          srchBusy(false);
+          srch.items = []; srch.active = -1; srchRender();
+          srchSetStatus(e.message === 'rate' ? '搜尋太頻繁，請稍候幾秒再試。' :
+            e.name === 'AbortError' ? '搜尋逾時，請確認網路後再試。' : '目前連不到 Nominatim 搜尋服務，請稍後再試。', true);
+        });
+    }, wait);
+  }
+  function srchShow(rows, q) {
+    srchBusy(false);
+    srch.items = rows;
+    srch.active = rows.length ? 0 : -1;
+    srchRender();
+    if (rows.length) srchSetStatus('');
+    else srchSetStatus('找不到「' + q + '」' + (srch.scope === 'is' ? '。可切換到「全球」，或改用英文／冰島文拼法再試。' : '。可改用其他語言或拼法再試。'), false);
+    announce(rows.length ? '找到 ' + rows.length + ' 筆結果，用上下鍵選擇，Enter 前往。' : '找不到結果。');
+  }
+
+  function srchPopupHtml(r) {
+    var n = srchName(r), t = srchTypeLabel(r);
+    var lat = Number(r.lat), lon = Number(r.lon);
+    var near = nearestStop(lat, lon), nearHtml = '';
+    if (near) {
+      var L0 = near.loc;
+      nearHtml = '<button type="button" class="ps-near" data-locate="' + esc(L0.id) + '" style="--c:' + dayColor(L0.day) + '">' +
+        '<i class="sw" aria-hidden="true"></i><span>最近行程點：<b>' + esc(L0.name_zh) + '</b>（Day ' + L0.day + '）<br>' +
+        (near.km < 0.3 ? '就是這個行程點' : '直線約 ' + (near.km < 10 ? num(near.km, 1) : Math.round(near.km)) + ' km') + '</span></button>';
+    }
+    var g = 'https://www.google.com/maps/search/?api=1&query=' + lat.toFixed(6) + '%2C' + lon.toFixed(6);
+    var osm = 'https://www.openstreetmap.org/' + esc(r.osm_type) + '/' + esc(r.osm_id);
+    return '<div class="pop-srch">' +
+      '<div class="pop-h">' + icon('magnifying-glass') + '<b>' + esc(n.shown) + '</b></div>' +
+      (n.local ? '<div class="ps-local">' + esc(n.local) + '</div>' : '') +
+      (t ? '<span class="ps-type">' + esc(t) + '</span>' : '') +
+      '<div class="ps-addr">' + esc(srchAddr(r)) + '</div>' +
+      nearHtml +
+      '<div class="ps-links"><a href="' + g + '" target="_blank" rel="noopener">Google 地圖</a><a href="' + osm + '" target="_blank" rel="noopener">OSM 頁面</a></div>' +
+      '<div class="ps-coord">' + lat.toFixed(5) + ', ' + lon.toFixed(5) + '</div></div>';
+  }
+
+  function srchPick(i) {
+    var r = srch.items[i];
+    if (!r || !map) return;
+    var lat = Number(r.lat), lon = Number(r.lon);
+    if (srch.marker) map.removeLayer(srch.marker);
+    srch.marker = L.marker([lat, lon], {
+      icon: L.divIcon({ className: 'srch-pin', html: '<span>' + icon('magnifying-glass') + '</span>', iconSize: [34, 34], iconAnchor: [17, 40], popupAnchor: [0, -38] }),
+      keyboard: true, title: srchName(r).shown, zIndexOffset: 1000
+    }).addTo(map).bindPopup(srchPopupHtml(r), { maxWidth: 300, autoPanPadding: [24, 24] });
+    var bb = r.boundingbox && r.boundingbox.map(Number);   /* [南, 北, 西, 東] */
+    var pad = mapPad();
+    var big = bb && (bb[1] - bb[0] > 0.05 || bb[3] - bb[2] > 0.1);
+    var mk = srch.marker, opened = false;
+    var done = function () { if (!opened && srch.marker === mk) { opened = true; mk.openPopup(); } };
+    map.once('moveend', done);
+    setTimeout(done, 1300);                 /* 保險：動畫被中斷或分頁在背景時也會開啟 */
+    if (big) map.flyToBounds([[bb[0], bb[2]], [bb[1], bb[3]]], { paddingTopLeft: pad.tl, paddingBottomRight: pad.br, maxZoom: 13, duration: reduceMotion() ? 0 : 0.9 });
+    else map.flyTo([lat, lon], Math.max(map.getZoom(), 13), { duration: reduceMotion() ? 0 : 0.9 });
+    srchOpen(false);
+    $('ms-q').value = srchName(r).shown;
+    $('ms-clear').hidden = false;
+    if (isSheet() && sheet.state !== 'peek') setSheet('peek');
+    announce('已移到 ' + srchName(r).shown);
+  }
+  function srchClear() {
+    $('ms-q').value = '';
+    $('ms-clear').hidden = true;
+    srch.items = []; srch.active = -1; srchRender();
+    srchSetStatus('輸入地名後按 Enter。中文、英文、冰島文、日文都可以。');
+    if (srch.marker && map) { map.removeLayer(srch.marker); srch.marker = null; }
+    $('ms-q').focus();
+  }
+
+  function initSearch() {
+    var box = $('map-search');
+    if (!box) return;
+    try {
+      var saved = JSON.parse(localStorage.getItem('iceland-search') || 'null');
+      if (saved) { if (saved.scope) srch.scope = saved.scope; if (saved.lang) srch.lang = saved.lang; }
+    } catch (e) {}
+    var save = function () { try { localStorage.setItem('iceland-search', JSON.stringify({ scope: srch.scope, lang: srch.lang })); } catch (e) {} };
+    var syncScope = function () {
+      Array.prototype.forEach.call(box.querySelectorAll('[data-scope]'), function (b) {
+        b.setAttribute('aria-pressed', String(b.dataset.scope === srch.scope));
+      });
+    };
+    syncScope();
+    $('ms-lang').value = srch.lang;
+    if ($('ms-lang').value !== srch.lang) { srch.lang = 'zh-TW'; $('ms-lang').value = 'zh-TW'; }
+
+    var q = $('ms-q');
+    $('ms-form').addEventListener('submit', function (e) { e.preventDefault(); srchRun(); });
+    q.addEventListener('focus', function () { srchOpen(true); });
+    q.addEventListener('input', function () { $('ms-clear').hidden = !q.value; });
+    q.addEventListener('keydown', function (e) {
+      var n = srch.items.length;
+      if (e.key === 'ArrowDown' && n) { e.preventDefault(); srchOpen(true); srch.active = (srch.active + 1) % n; srchRender(); }
+      else if (e.key === 'ArrowUp' && n) { e.preventDefault(); srch.active = (srch.active - 1 + n) % n; srchRender(); }
+      else if (e.key === 'Enter' && n && srch.active >= 0 && !$('ms-panel').hidden &&
+               q.value.trim() === q.dataset.lastQ) { e.preventDefault(); srchPick(srch.active); }
+      else if (e.key === 'Escape') {
+        if (!$('ms-panel').hidden) { e.preventDefault(); srchOpen(false); }
+        else if (q.value) { e.preventDefault(); srchClear(); }
+      }
+    });
+    /* 記住最後一次查詢的字串：同一字串再按 Enter = 前往選取的結果；改字後 Enter = 重新搜尋 */
+    $('ms-form').addEventListener('submit', function () { q.dataset.lastQ = q.value.trim(); });
+    $('ms-clear').addEventListener('click', srchClear);
+    $('ms-list').addEventListener('click', function (e) {
+      var li = e.target.closest('.ms-item');
+      if (li) srchPick(Number(li.dataset.i));
+    });
+    box.querySelector('.ms-scope').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-scope]');
+      if (!b || b.dataset.scope === srch.scope) return;
+      srch.scope = b.dataset.scope; syncScope(); save();
+      if (q.value.trim()) srchRun();
+    });
+    $('ms-lang').addEventListener('change', function () {
+      srch.lang = this.value; save();
+      if (q.value.trim() && srch.items.length) srchRun();
+    });
+    /* 點地圖或面板外部時收起結果 */
+    document.addEventListener('pointerdown', function (e) {
+      if (!$('ms-panel').hidden && !box.contains(e.target)) srchOpen(false);
+    });
+  }
+
   function boot() {
     syncThemeUi();
     syncAutoTheme();
@@ -1900,6 +2153,7 @@
       focusDay(FIRST_DAY, true, true);
     }
     initKp();
+    initSearch();
     loadLiveHotels();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
