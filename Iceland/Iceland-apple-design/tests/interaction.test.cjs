@@ -1,0 +1,14 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const ctx={window:{}};
+const path=require('node:path').join(__dirname,'../js/interaction.js');
+if(fs.existsSync(path)) vm.runInNewContext(fs.readFileSync(path,'utf8'),ctx);
+const ui=ctx.window.IcelandInteraction;
+test('Given a released flick, projected destination follows velocity',()=>{assert.ok(ui,'interaction helper available');assert.equal(ui.snap(100,900,[0,300,600]),600);});
+test('Given a paused drag, release has no stale momentum',()=>{assert.ok(ui);assert.equal(ui.velocity([{y:0,t:0},{y:100,t:50}],200),0);});
+test('Given motion in flight, reversing the target preserves position and velocity continuously',()=>{assert.ok(ui);const next=ui.step(160,400,0,.001);assert.ok(Math.abs(next.y-160)<1);assert.ok(next.v>0);let s={y:160,v:400};for(let i=0;i<240;i++)s=ui.step(s.y,s.v,0,1/120);assert.ok(Math.abs(s.y)<.1);});
+test('Given overscroll, increasing distance produces progressively less travel',()=>{assert.ok(ui);const a=ui.rubber(100,600),b=ui.rubber(200,600);assert.ok(a>0&&b>a&&b<2*a);});
+test('Given a persisted manual preference, system changes cannot override it',()=>{assert.ok(ui);assert.equal(ui.theme('light',true),'light');assert.equal(ui.theme('dark',false),'dark');assert.equal(ui.theme('system',true),'dark');});
+test('Given a sheet expanding, map fitting reserves the destination height',()=>{assert.ok(ui);assert.equal(ui.visible(770,550,350),420);});

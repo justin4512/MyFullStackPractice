@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "iceland-apple-8767",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["tools/plan_api.py", "--port", "8767", "--bind", "127.0.0.1", "--static", ".", "--data", "/private/tmp/claude-501/-Volumes-SP-UFD-U3-APP---code-Website-Iceland-Iceland-apple-design/be9b18eb-bc4a-484b-94c4-d72a527b40d9/scratchpad/plan-data"],
+      "port": 8767
+    }
+  ]
+}

@@ -916,8 +916,7 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
   .map-side { position: fixed; top: calc(var(--sheet-top) + 4px); left: 12px; right: 70px; width: auto; max-height: 58dvh; }
 
   .leaflet-control-zoom { display: none; }
-  .leaflet-bottom { transition: transform var(--dur-sheet) var(--ease-drawer); }
-  html.sheet-dragging .leaflet-bottom { transition: none; }
+  /* 抽屜與地圖底部控制項由 JS 彈簧逐格驅動（可中途抓住、承接手指速度），不用 CSS transition */
   html[data-sheet="full"] .leaflet-bottom { opacity: 0; pointer-events: none; }
   .leaflet-popup-content { min-width: 200px; margin: 14px 16px; }
 
@@ -929,10 +928,8 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
     border-radius: var(--r-sheet) var(--r-sheet) 0 0;
     box-shadow: var(--sh-sheet);
     transform: translate3d(0, calc(100% - 200px), 0);   /* JS 接手前的初始位置 */
-    transition: transform var(--dur-sheet) var(--ease-drawer);
     will-change: transform;
   }
-  .panel.dragging { transition: none; }
   .sheet-grip {
     display: flex; justify-content: center; align-items: center; flex: 0 0 auto;
     width: 100%; height: 26px; padding: 0; border: 0; background: transparent;
@@ -1317,4 +1314,66 @@ table.t tr.hl td { background: var(--mint-soft) !important; color: var(--text); 
 }
 @media (prefers-reduced-motion: reduce) {
   .srch-pin span, .map-search.busy .ms-go .ph { animation: none; }
+}
+
+/* ==========================================================================
+   Apple 式細節（2026-10-19 檢視）
+   ========================================================================== */
+
+/* ---- 材質：浮在地圖上的工具改為半透明毛玻璃，地圖在下方仍看得到 ---- */
+:root { --glass: color-mix(in srgb, var(--surface) 74%, transparent); --glass-edge: rgb(255 255 255 / .55); }
+:root[data-theme="dark"] { --glass: color-mix(in srgb, var(--surface) 70%, transparent); --glass-edge: rgb(255 255 255 / .09); }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .map-tools, .ms-bar, .map-day, .leaflet-bar a {
+    background: var(--glass) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(170%);
+    backdrop-filter: blur(18px) saturate(170%);
+  }
+  .map-tools, .ms-bar, .map-day { box-shadow: var(--sh-float), inset 0 1px 0 var(--glass-edge); }
+  .ms-bar:focus-within { box-shadow: var(--sh-float), inset 0 1px 0 var(--glass-edge), 0 0 0 2px var(--accent-line); }
+  .leaflet-bar { -webkit-backdrop-filter: blur(18px) saturate(170%); backdrop-filter: blur(18px) saturate(170%); }
+  /* 毛玻璃上的文字：用主文字色，不用淡灰（vibrancy） */
+  .tool, .ms-ico { color: var(--text); }
+  .ms-bar input::placeholder { color: var(--text-2); }
+  .tool[aria-pressed="true"], .tool[aria-expanded="true"] { color: var(--accent-ink); }
+  @media (max-width: 899px) {
+    .topbar {
+      background: var(--glass);
+      -webkit-backdrop-filter: blur(20px) saturate(170%);
+      backdrop-filter: blur(20px) saturate(170%);
+      box-shadow: var(--sh-float), inset 0 1px 0 var(--glass-edge);
+    }
+  }
+}
+/* 降低透明度／高對比：改回實色，高對比再加清楚外框 */
+@media (prefers-reduced-transparency: reduce) {
+  .map-tools, .ms-bar, .map-day, .leaflet-bar a, .topbar {
+    background: var(--surface) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+  }
+}
+@media (prefers-contrast: more) {
+  .map-tools, .ms-bar, .map-day, .leaflet-bar a, .topbar, .ms-panel, .map-side, .kp-panel {
+    background: var(--surface) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+    outline: 1.5px solid var(--text-2); outline-offset: -1.5px;
+  }
+}
+
+/* ---- 回饋在按下的瞬間（pointer-down）就出現 ---- */
+.seg button { transition: color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out); }
+.seg button:active { transform: scale(.96); }
+.ms-item { transition: background-color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out); }
+.ms-item:active { background: var(--accent-soft); transform: scale(.985); }
+.day-legend .dl { transition: background-color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out); }
+.day-legend .dl:active { background: var(--surface-2); transform: scale(.97); }
+.pop-srch .ps-near { transition: transform var(--dur-press) var(--ease-out), background-color var(--dur-ui) ease; }
+.pop-srch .ps-near:active { transform: scale(.98); background: var(--accent-soft); }
+.leaflet-bar a { transition: background-color var(--dur-ui) ease; }
+.leaflet-bar a:active { background: var(--surface-2) !important; }
+@media (prefers-reduced-motion: reduce) {
+  .seg button:active, .ms-item:active, .day-legend .dl:active, .pop-srch .ps-near:active { transform: none; }
+}
+
+/* ---- 手機：抽屜全開時，地圖底部控制項淡出（不是瞬間消失） ---- */
+@media (max-width: 899px) {
+  .leaflet-bottom { transition: opacity var(--dur-ui) ease; }
 }

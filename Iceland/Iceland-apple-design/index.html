@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>冰島追極光之旅｜互動地圖與每日行程</title>
+<meta name="description" content="冰島環島追極光 15 天 14 晚（2027/3/1 - 3/15）：互動地圖、每日行程、住宿一覽、極光觀測指南與行前提醒。">
+<meta name="theme-color" content="#cfd9d6">
+<!-- 主題在首次繪製前決定，避免深淺閃爍；其餘邏輯在 js/app.js -->
+<script>
+  (function () {
+    var preference = 'system';
+    try {
+      var saved = localStorage.getItem('iceland-appearance');
+      if (saved === 'light' || saved === 'dark') preference = saved;
+    } catch (e) {}
+    var t = preference === 'system'
+      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : preference;
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="preconnect" href="https://server.arcgisonline.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@400..600&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="css/style.css?v=20261021c">
+</head>
+<body>
+
+<a class="skip" href="#panel">跳至行程內容</a>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"><i class="ph ph-sparkle"></i></span>
+    <div>
+      <h1 class="brand-title">冰島追極光之旅</h1>
+      <p class="brand-sub">2027/03/01 - 3/15，順時針環島</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <div class="map-tools" role="toolbar" aria-label="地圖工具">
+      <button class="tool" id="btn-fit" type="button" title="全島視野" aria-label="全島視野"><i class="ph ph-globe-hemisphere-west" aria-hidden="true"></i><span class="lbl">全島</span></button>
+      <button class="tool" id="btn-day" type="button" title="回到當日範圍" aria-label="回到當日範圍"><i class="ph ph-crosshair-simple" aria-hidden="true"></i><span class="lbl">當日</span></button>
+      <button class="tool" id="btn-base" type="button" title="切換底圖" aria-label="切換底圖，目前：簡約"><i class="ph ph-mountains" aria-hidden="true"></i><span class="lbl" id="base-lbl">簡約</span></button>
+      <button class="tool" id="btn-kp" type="button" title="GFZ 地磁指數 Kp" aria-label="GFZ 地磁指數 Kp 套疊" aria-pressed="false" aria-controls="kp-panel"><i class="ph ph-lightning" aria-hidden="true"></i><span class="lbl">Kp</span></button>
+      <button class="tool" id="btn-side" type="button" title="圖層與圖例" aria-label="圖層與圖例" aria-expanded="false" aria-controls="map-side"><i class="ph ph-stack" aria-hidden="true"></i><span class="lbl">圖層</span></button>
+      <button class="tool only-desktop" id="btn-wide" type="button" title="放大地圖" aria-label="放大地圖" aria-pressed="false"><i class="ph ph-arrows-out-simple" aria-hidden="true"></i><span class="lbl">放大</span></button>
+    </div>
+    <span class="top-stat" id="top-km"><i class="ph ph-path" aria-hidden="true"></i></span>
+    <span class="top-stat" id="top-nights"><i class="ph ph-map-pin-simple" aria-hidden="true"></i></span>
+    <label class="theme-control" for="theme-preference">
+      <span class="sr-only">外觀主題</span>
+      <i class="ph ph-circle-half theme-ico" aria-hidden="true"></i>
+      <select id="theme-preference" aria-label="外觀主題">
+        <option value="system">跟隨系統</option>
+        <option value="light">淺色</option>
+        <option value="dark">深色</option>
+      </select>
+    </label>
+  </div>
+</header>
+
+<main class="app" id="app" data-view="days">
+
+  <!-- ============ 行程面板（手機為底部抽屜） ============ -->
+  <section class="panel" id="panel" tabindex="-1" aria-label="行程內容">
+    <button class="sheet-grip" id="sheet-grip" type="button" aria-label="展開行程面板" aria-expanded="false" aria-controls="panel-scroll"><span></span></button>
+
+    <div class="panel-head" id="panel-head">
+      <nav class="seg" role="tablist" aria-label="主要檢視">
+        <button role="tab" id="tab-days" aria-selected="true" aria-controls="view-days" data-view="days" aria-label="每日行程"><i class="ph ph-map-trifold" aria-hidden="true"></i>行程</button>
+        <button role="tab" id="tab-hotels" aria-selected="false" aria-controls="view-hotels" data-view="hotels" aria-label="住宿一覽"><i class="ph ph-bed" aria-hidden="true"></i>住宿</button>
+        <button role="tab" id="tab-guide" aria-selected="false" aria-controls="view-guide" data-view="guide" aria-label="極光指南"><i class="ph ph-moon-stars" aria-hidden="true"></i>指南</button>
+        <button role="tab" id="tab-warn" class="warn-tab" aria-selected="false" aria-controls="view-warn" data-view="warn" aria-label="行前提醒"><i class="ph ph-warning" aria-hidden="true"></i>提醒</button>
+      </nav>
+      <div class="daystrip">
+        <button type="button" class="dnav prev" data-step="-1" aria-label="前一天"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+        <div class="daytabs" id="daytabs" role="tablist" aria-label="選擇日期"></div>
+        <button type="button" class="dnav next" data-step="1" aria-label="後一天"><i class="ph ph-caret-right" aria-hidden="true"></i></button>
+      </div>
+    </div>
+
+    <div class="panel-scroll" id="panel-scroll">
+      <p id="sr-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <!-- DAYS -->
+      <section class="view active" id="view-days" role="tabpanel" aria-labelledby="tab-days">
+        <div id="daybody" role="tabpanel" aria-label="當日行程"></div>
+        <div class="trip-summary">
+          <article class="card card-sand overview">
+            <h2 class="ov-title" id="ov-title">冰島環島追極光</h2>
+            <p class="ov-lede">每天在日落前抵達住宿，把整個夜晚留給極光。點地圖標記或站點，兩邊會同步定位。</p>
+            <dl class="kpi-discs" id="kpis"></dl>
+          </article>
+          <article class="card rhythm">
+            <div class="card-h">
+              <h3>每日行車節奏</h3>
+              <span class="aside" aria-hidden="true">
+                <span class="key"><span class="swatch" style="background:var(--chart-a)"></span>一般</span>
+                <span class="key"><span class="swatch" style="background:var(--chart-b)"></span>冬季預估</span>
+              </span>
+            </div>
+            <div class="wave" id="wave"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- HOTELS -->
+      <section class="view" id="view-hotels" role="tabpanel" aria-labelledby="tab-hotels">
+        <header class="view-head">
+          <h2>住宿一覽</h2>
+          <p>每晚的住宿、入住退房日期、訂房與導航連結，資料來自住宿試算表。</p>
+          <div class="feed-row" id="hotel-status" role="status" aria-live="polite"></div>
+        </header>
+        <div class="view-body">
+          <p class="hotel-note" id="hotel-note" hidden></p>
+          <div class="hotel-list" id="hotels"></div>
+        </div>
+      </section>
+
+      <!-- GUIDE -->
+      <section class="view" id="view-guide" role="tabpanel" aria-labelledby="tab-guide">
+        <header class="view-head">
+          <h2>極光觀測指南</h2>
+          <p>冰島整座島都在極光橢圓帶內。決定當晚成敗的是雲量，不是 Kp 值。</p>
+        </header>
+        <div class="view-body">
+          <div class="guide-grid" id="guide"></div>
+        </div>
+      </section>
+
+      <!-- WARNINGS -->
+      <section class="view" id="view-warn" role="tabpanel" aria-labelledby="tab-warn">
+        <header class="view-head">
+          <h2>行前提醒與風險</h2>
+          <p>三個需要事先決定的風險點，以及天候不佳時的替代路線。</p>
+        </header>
+        <div class="view-body">
+          <div class="warn-list" id="warns"></div>
+          <article class="card gcard contingency">
+            <div class="gcard-h">
+              <span class="ic" aria-hidden="true"><i class="ph ph-signpost"></i></span>
+              <h3>天候不佳時的替代與縮短路線</h3>
+              <span class="ref">§1.4</span>
+            </div>
+            <p class="lead">觸發條件成立時直接改用替代方案，不強行通過。</p>
+            <div id="contingency"></div>
+          </article>
+        </div>
+      </section>
+
+      <footer class="foot">
+        <p><b>資料來源</b>：住宿取自住宿試算表 API（頁面載入時即時同步）；景點座標取自 OpenStreetMap／Nominatim；里程、行車時間與路線由 OSRM 路網引擎逐段計算；日照與天文黑暗以 NOAA 太陽位置近似式、依當晚住宿座標估算。住宿的 Bortle 值依周邊環境推估。</p>
+        <p><b>冬季行車係數</b> <span class="src">×1.20</span>。實際路況、封路與天候請以出發當日 <span class="src">vedur.is</span> 與 <span class="src">umferdin.is</span> 公告為準；本頁為行程規劃參考，非即時路況。</p>
+      </footer>
+    </div>
+  </section>
+
+  <!-- ============ 地圖 ============ -->
+  <div class="map-wrap" id="map-wrap">
+    <button class="panel-toggle only-desktop" id="panel-toggle" type="button" aria-controls="panel" aria-expanded="true" aria-label="收合側邊欄"><i class="ph ph-caret-left" aria-hidden="true"></i><span class="pt-lbl">行程</span></button>
+    <div id="map" role="region" aria-label="冰島行程互動地圖：點選標記可查看站點資訊"></div>
+    <p class="sr-only">地圖標記可逐一以 Tab 聚焦；也可改用「每日行程」清單操作，功能相同。</p>
+
+    <!-- 地標搜尋（OSM Nominatim）：可用中文、英文、冰島文、日文等任何語言輸入 -->
+    <div class="map-search" id="map-search">
+      <form class="ms-bar" id="ms-form" role="search" autocomplete="off">
+        <i class="ph ph-magnifying-glass ms-ico" aria-hidden="true"></i>
+        <input id="ms-q" type="search" enterkeyhint="search" spellcheck="false"
+               placeholder="搜尋地標（任何語言）" aria-label="搜尋地標，可輸入任何語言，按 Enter 搜尋"
+               role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ms-panel">
+        <button class="ms-btn ms-clear" id="ms-clear" type="button" aria-label="清除搜尋" hidden><i class="ph ph-x" aria-hidden="true"></i></button>
+        <button class="ms-btn ms-go" type="submit" aria-label="搜尋"><i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+      </form>
+      <div class="ms-panel" id="ms-panel" hidden>
+        <div class="ms-opts">
+          <div class="ms-scope" role="group" aria-label="搜尋範圍">
+            <button type="button" data-scope="is" aria-pressed="true">冰島</button>
+            <button type="button" data-scope="all" aria-pressed="false">全球</button>
+          </div>
+          <label class="ms-lang"><span>結果語言</span>
+            <select id="ms-lang" aria-label="搜尋結果的顯示語言">
+              <option value="zh-TW">繁體中文</option>
+              <option value="en">English</option>
+              <option value="is">Íslenska</option>
+              <option value="ja">日本語</option>
+              <option value="ko">한국어</option>
+              <option value="de">Deutsch</option>
+              <option value="fr">Français</option>
+              <option value="local">當地名稱</option>
+            </select>
+          </label>
+        </div>
+        <ul class="ms-list" id="ms-list" role="listbox" aria-label="搜尋結果"></ul>
+        <p class="ms-status" id="ms-status" aria-live="polite">輸入地名後按 Enter。中文、英文、冰島文、日文都可以。</p>
+        <p class="ms-credit">搜尋：Nominatim｜資料 © OpenStreetMap 貢獻者</p>
+      </div>
+    </div>
+
+    <div class="map-day" id="map-day-ind" aria-live="off"><i class="ph ph-map-pin-simple" aria-hidden="true"></i><span>全部路線</span></div>
+
+    <section class="kp-panel" id="kp-panel" aria-label="GFZ Kp 地磁擾動指數" hidden></section>
+
+    <div class="map-side" id="map-side" role="dialog" aria-label="圖層與圖例" hidden>
+      <div class="side-head">
+        <h2>圖層與圖例</h2>
+        <button class="icon-btn" id="side-close" type="button" aria-label="關閉圖層面板"><i class="ph ph-x" aria-hidden="true"></i></button>
+      </div>
+      <div class="side-sec">
+        <h3>GFZ 地磁指數 Kp</h3>
+        <label class="lay kp-switch"><input type="checkbox" id="kp-on" aria-describedby="kp-side-now"><span class="nm2">顯示 Kp 色階套疊</span><span class="ct" id="kp-side-now"></span></label>
+        <label class="kp-range" for="kp-opacity"><span>透明度</span>
+          <input type="range" id="kp-opacity" min="5" max="80" step="5" value="30">
+          <output id="kp-opacity-out" for="kp-opacity">30%</output></label>
+      </div>
+      <div class="side-sec">
+        <h3>每日路線顏色</h3>
+        <div class="day-legend" id="day-legend"></div>
+      </div>
+      <div class="side-sec">
+        <h3>圖層 <span class="sp"><button class="link-btn" type="button" id="lay-all">全開</button><button class="link-btn" type="button" id="lay-none">全關</button><button class="link-btn" type="button" id="lay-def">預設</button></span></h3>
+        <div class="layers" id="layers"></div>
+      </div>
+      <div class="side-sec">
+        <h3>圖例 <span class="sp"><span class="zoom-now" id="legend-hint"></span></span></h3>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="side-sec">
+        <p class="hint" id="map-hint"></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="js/data.js?v=20261021c"></script>
+<script src="js/kp.js"></script>
+<script src="js/interaction.js?v=20261021c"></script>
+<!-- plan.js 先讀取 NAS 上的行程調整（api/plan）並套用，再載入 app.js -->
+<script src="js/plan.js?v=20261021c" data-app="js/app.js?v=20261021c"></script>
+</body>
+</html>

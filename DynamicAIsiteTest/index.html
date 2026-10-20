@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05070c" />
+    <title>SELENE — Watch the Earth rise</title>
+    <meta name="description" content="SELENE is a concept for lunar expeditions: six to twenty-eight days, one view nobody forgets — the Earth rising over the Moon." />
+    <meta property="og:title" content="SELENE — Watch the Earth rise" />
+    <meta property="og:description" content="A concept for lunar expeditions." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/media/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Display: Michroma (wide, engineered caps). Text: Manrope. Telemetry: IBM Plex Mono. -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Michroma&family=Manrope:wght@300..700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" as="image" href="/layers/d/sky.webp" media="(min-width: 768px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/layers/m/sky.webp" media="(max-width: 767px)" fetchpriority="high" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

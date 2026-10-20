@@ -211,7 +211,7 @@
      ========================================================== */
   var mqSheet = window.matchMedia('(max-width: 899px)');
   var panel = $('panel'), grip = $('sheet-grip'), head = $('panel-head'), scroller = $('panel-scroll');
-  var sheet = { state: 'peek', y: 0, h: 0 };
+  var sheet = { state: 'peek', y: 0, h: 0, target: null, anim: 0, ready: false };
 
   function isSheet() { return mqSheet.matches; }
   function sheetSnaps() {
@@ -229,11 +229,52 @@
     var lift = 'translate3d(0,' + (-Math.max(0, sheet.h - y)) + 'px,0)';
     for (var i = 0; i < leafBottoms.length; i++) leafBottoms[i].style.transform = lift;
   }
-  function setSheet(name) {
+  /* ----------------------------------------------------------
+     彈簧（Apple 的 damping ratio + response 參數）
+     - 由「目前畫面上的位置」出發，可隨時被手指抓住、反向
+     - 放手時沿用手指速度（velocity handoff），沒有接縫
+     ---------------------------------------------------------- */
+  function stopSheetSpring() { if (sheet.anim) { cancelAnimationFrame(sheet.anim); sheet.anim = 0; } }
+  function springSheetTo(target, v0, damping, response) {
+    stopSheetSpring();
+    if (reduceMotion() || !sheet.ready) { applySheetY(target); return; }
+    var k = Math.pow(2 * Math.PI / response, 2);      /* 剛性（質量 = 1） */
+    var c = 4 * Math.PI * damping / response;         /* 阻尼 */
+    var x = sheet.y, v = v0 || 0, last = performance.now(), ticked = false;
+    var step = function (now) {
+      ticked = true;
+      var dt = Math.min(0.064, (now - last) / 1000); last = now;
+      /* 固定小步長積分，低幀率時也穩定 */
+      for (var n = Math.ceil(dt / (1 / 240)), h = dt / Math.max(1, n), i = 0; i < n; i++) {
+        var a = -k * (x - target) - c * v;
+        v += a * h; x += v * h;
+      }
+      if (Math.abs(x - target) < 0.5 && Math.abs(v) < 12) { sheet.anim = 0; applySheetY(target); return; }
+      applySheetY(x);
+      sheet.anim = requestAnimationFrame(step);
+    };
+    sheet.anim = requestAnimationFrame(step);
+    /* 保險：瀏覽器若暫停畫格（背景分頁、省電模式），直接停到目標 */
+    var id = sheet.anim;
+    setTimeout(function () { if (!ticked && sheet.anim === id) { stopSheetSpring(); applySheetY(target); } }, 400);
+  }
+  /* 放開時依速度推算「會停在哪」（Apple 的捲動減速公式），再選最近的停靠點 */
+  function projectFling(vPxPerSec, rate) { return (vPxPerSec / 1000) * rate / (1 - rate); }
+  /* 越界越難拉：橡皮筋阻力 */
+  function rubberband(over, dim) { var c = 0.55; return (over * dim * c) / (dim + c * Math.abs(over)); }
+
+  function setSheet(name, opt) {
     if (!isSheet()) return;
+    opt = opt || {};
     var s = sheetSnaps();
     sheet.state = name;
-    applySheetY(s[name]);
+    sheet.target = s[name];
+    if (opt.instant) { stopSheetSpring(); applySheetY(s[name]); }
+    else {
+      var fling = Math.abs(opt.v || 0) > 300;      /* 只有帶著動量時才給一點回彈 */
+      springSheetTo(s[name], opt.v || 0, fling ? 0.86 : 1, fling ? 0.34 : 0.32);
+    }
+    sheet.ready = true;
     panel.dataset.sheet = name;
     root.setAttribute('data-sheet', name);
     /* 讓面板內容在任何停靠高度都能捲到底 */
@@ -241,14 +282,24 @@
     grip.setAttribute('aria-expanded', String(name !== 'peek'));
     grip.setAttribute('aria-label', name === 'peek' ? '展開行程面板' : '收合行程面板');
   }
-  function sheetVisible() { return isSheet() ? Math.max(0, sheet.h - sheet.y) : 0; }
+  /* 地圖留白以「要停的位置」計算，動畫途中呼叫也不會算錯 */
+  function sheetVisible() { return isSheet() ? Math.max(0, sheet.h - (sheet.target == null ? sheet.y : sheet.target)) : 0; }
 
   function initSheet() {
     var drag = null, suppressClick = false;
 
     function onDown(e) {
       if (!isSheet() || (e.pointerType === 'mouse' && e.button !== 0)) return;
-      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, y0: sheet.y, t: performance.now(), active: false, lastY: e.clientY, lastT: performance.now(), v: 0 };
+      /* 動畫中被抓住：停在目前畫面上的位置，從那裡接手 */
+      var wasMoving = !!sheet.anim;
+      stopSheetSpring();
+      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, y0: sheet.y, active: false, hist: [{ y: e.clientY, t: performance.now() }] };
+      if (wasMoving) { drag.active = true; startDrag(e); }
+    }
+    function startDrag(e) {
+      panel.classList.add('dragging');
+      root.classList.add('sheet-dragging');
+      try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
     }
     function onMove(e) {
       if (!drag || e.pointerId !== drag.id) return;
@@ -256,17 +307,17 @@
       if (!drag.active) {
         if (Math.abs(dy) < 6 || Math.abs(dy) < Math.abs(dx)) return;
         drag.active = true;
-        panel.classList.add('dragging');
-        root.classList.add('sheet-dragging');
-        try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+        startDrag(e);
+        drag.y = e.clientY;                         /* 過門檻後才開始 1:1 跟手，不跳 6px */
       }
       var s = sheetSnaps();
-      var y = drag.y0 + dy;
-      if (y < 0) y = y / 4;                         /* 頂端阻尼 */
-      if (y > s.peek) y = s.peek + (y - s.peek) / 4; /* 底端阻尼 */
+      var y = drag.y0 + (e.clientY - drag.y);
+      if (y < 0) y = rubberband(y, s.h);                          /* 頂端：橡皮筋 */
+      if (y > s.peek) y = s.peek + rubberband(y - s.peek, s.h);   /* 底端：橡皮筋 */
       var now = performance.now();
-      drag.v = (e.clientY - drag.lastY) / Math.max(1, now - drag.lastT);
-      drag.lastY = e.clientY; drag.lastT = now;
+      drag.hist.push({ y: e.clientY, t: now });
+      while (drag.hist.length > 2 && now - drag.hist[0].t > 100) drag.hist.shift();
+      sheet.target = null;
       applySheetY(y);
       e.preventDefault();
     }
@@ -279,18 +330,17 @@
       suppressClick = true;
       setTimeout(function () { suppressClick = false; }, 0);
       var s = sheetSnaps();
-      var order = ['full', 'half', 'peek'];
-      var target;
-      /* 輕甩即可換段（速度門檻，不必拖過距離） */
-      if (d.v < -0.2) target = order[Math.max(0, order.indexOf(nearest(s)) - 1)];
-      else if (d.v > 0.2) target = order[Math.min(2, order.indexOf(nearest(s)) + 1)];
-      else target = nearest(s);
-      setSheet(target);
+      /* 最近 100ms 的平均速度（px/s），比單一事件穩定 */
+      var h0 = d.hist[0], h1 = d.hist[d.hist.length - 1];
+      var v = h1.t - h0.t > 0 ? (h1.y - h0.y) / (h1.t - h0.t) * 1000 : 0;
+      if (performance.now() - h1.t > 80) v = 0;    /* 停住後才放手 = 沒有甩動 */
+      var target = nearest(s, sheet.y + projectFling(v, 0.996));
+      setSheet(target, { v: v });
     }
-    function nearest(s) {
+    function nearest(s, y) {
       var best = 'peek', dist = Infinity;
       ['full', 'half', 'peek'].forEach(function (k) {
-        var dd = Math.abs(s[k] - sheet.y);
+        var dd = Math.abs(s[k] - y);
         if (dd < dist) { dist = dd; best = k; }
       });
       return best;
@@ -316,11 +366,13 @@
     var raf = 0;
     window.addEventListener('resize', function () {
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(function () { if (isSheet()) setSheet(sheet.state); });
+      raf = requestAnimationFrame(function () { if (isSheet()) setSheet(sheet.state, { instant: true }); });
     });
     var onMq = function () {
       if (isSheet()) { setSheet('peek'); setWide(false, true); }
       else {
+        stopSheetSpring();
+        sheet.target = null;
         panel.style.transform = '';
         leafBottoms.forEach(function (el) { el.style.transform = ''; });
         root.style.removeProperty('--sheet-rest');
