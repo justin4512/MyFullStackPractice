@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOLDEN STATE WARRIORS｜Golden Blood 精品形象站</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/my.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+    <style>
+        /* ---------- 顏色架構：全站顏色只在這裡定義 ---------- */
+        :root {
+            --midnight: #02132b;      /* 頁面底色，深海藍黑 */
+            --navy: #041e42;          /* 勇士藍（深） */
+            --royal: #1d428a;         /* 勇士藍（亮） */
+            --gold: #ffc72c;          /* 勇士金 */
+            --gold-deep: #b8860b;     /* 燙金暗部 */
+            --gold-light: #fff1b8;    /* 燙金亮部 */
+            --ivory: #f4efe4;         /* 象牙白內文 */
+            --muted: #b8c0d2;         /* 次要文字 */
+            --leather: rgba(255, 255, 255, 0.035);  /* 皮革紋理亮線 */
+            --foil: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 45%, var(--gold-deep) 100%);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--midnight);
+            background-image:
+                radial-gradient(ellipse at 50% 0%, rgba(29, 66, 138, 0.55), transparent 55%),
+                repeating-linear-gradient(0deg, transparent 0 3px, var(--leather) 3px 4px);
+            color: var(--ivory);
+            font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .fw-900 { font-weight: 900 !important; }
+
+        /* 燙金字：只用在 hero 與區塊大標 */
+        .foil {
+            margin: 0;
+            font-family: "Cormorant Garamond", "Times New Roman", serif;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: 0.04em;
+            background: var(--foil);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* ---------- 沿用原本的 .box01 切版，只換內容 ---------- */
+        .box01 {
+            height: 150px;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--navy);
+            border: 1px solid var(--gold-deep);
+            outline: 1px solid var(--gold-deep);
+            outline-offset: -5px;            /* 雙線金框，精品吊牌感 */
+            padding: 16px 20px;
+            color: var(--ivory);
+        }
+
+        .box01 .display-3 {
+            line-height: 150px;
+        }
+
+        /* 右下角斜向金光 */
+        .box01::after {
+            content: "";
+            position: absolute;
+            right: -40px;
+            bottom: -60px;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(255, 199, 44, 0.16), transparent 65%);
+            pointer-events: none;
+        }
+
+        .box01 h3 {
+            margin: 0;
+            font-family: "Cormorant Garamond", "Times New Roman", serif;
+            font-size: 1.45rem;
+            font-weight: 600;
+            line-height: 1.1;
+            color: var(--gold);
+        }
+
+        .box01 p {
+            margin: 6px 0 0;
+            font-size: 0.86rem;
+            color: var(--muted);
+        }
+
+        /* 序號：精品編號，右上角 */
+        .box01 .serial {
+            position: absolute;
+            right: 16px;
+            top: 12px;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
+            color: var(--gold-deep);
+        }
+
+        /* header：hero 深藍金橋 */
+        .hero.box01 {
+            height: 420px;
+            background-color: var(--navy);
+            background-image:
+                linear-gradient(180deg, rgba(4, 30, 66, 0) 40%, rgba(2, 19, 43, 0.85) 100%),
+                url("images_ai/gsw-bridge-gold.svg");
+            background-size: cover, 100% auto;
+            background-position: center, center bottom;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 28px 32px;
+        }
+
+        .hero .ring {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 10px;
+        }
+
+        .hero .foil {
+            font-size: clamp(2.4rem, 7vw, 5.6rem);
+        }
+
+        .hero .sub {
+            margin: 14px 0 0;
+            max-width: 40rem;
+            font-size: 1rem;
+            color: var(--ivory);
+        }
+
+        .hero .sub em {
+            font-family: "Cormorant Garamond", serif;
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--gold);
+        }
+
+        /* 第二排：歷史數據，金色大數字 */
+        .legacy .big {
+            font-family: "Cormorant Garamond", "Times New Roman", serif;
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1;
+            background: var(--foil);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* 第三排：球星名人堂，背號在左，皇家藍底 */
+        .star.box01 {
+            background-color: var(--royal);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .star .no {
+            flex: 0 0 auto;
+            min-width: 64px;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 3.4rem;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            background: var(--foil);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .star h3 {
+            font-size: 1.4rem;
+            color: var(--ivory);
+        }
+
+        .star h3 small {
+            display: block;
+            margin-top: 2px;
+            font-family: "Noto Sans TC", sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            color: var(--gold);
+        }
+
+        .star p {
+            color: var(--ivory);
+            opacity: 0.85;
+        }
+
+        /* footer：精品周邊導覽 */
+        .foot.box01 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            background-image: linear-gradient(90deg, var(--navy), var(--royal));
+        }
+
+        .foot .foil {
+            font-size: 2rem;
+        }
+
+        .foot .brand small {
+            display: block;
+            font-size: 0.78rem;
+            letter-spacing: 0.2em;
+            color: var(--gold-deep);
+        }
+
+        .foot a {
+            margin-left: 22px;
+            color: var(--ivory);
+            text-decoration: none;
+            font-size: 0.92rem;
+            letter-spacing: 0.08em;
+            border-bottom: 1px solid var(--gold-deep);
+            padding-bottom: 2px;
+        }
+
+        .foot a:hover,
+        .foot a:focus-visible {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+            outline: none;
+        }
+
+        /* 排與排之間的細金線 */
+        .rule {
+            height: 1px;
+            margin-top: 15px;
+            background-image: linear-gradient(90deg, transparent, var(--gold-deep) 30%, var(--gold) 50%, var(--gold-deep) 70%, transparent);
+        }
+
+        .container { padding-bottom: 40px; }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="row">
+            <div class="col-12 d-md-none d-lg-block">
+                <div class="box01 hero">
+                    <img class="ring" src="images_ai/gsw-ring-gold.svg" alt="勇士總冠軍戒指圖樣">
+                    <h1 class="foil">GOLDEN STATE WARRIORS</h1>
+                    <p class="sub"><em>Golden Blood</em>　自 1946 年起，金與藍流在灣區的血液裡。七座總冠軍、一場小球革命，以及一座為投籃而生的城市。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第一排：球隊文化六格 -->
+        <div class="row">
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01">
+                    <span class="serial">No. 01</span>
+                    <h3>Strength in Numbers</h3>
+                    <p>眾志成城。沒有人大過球隊，板凳與主力同等重要。</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01">
+                    <span class="serial">No. 02</span>
+                    <h3>小球革命</h3>
+                    <p>五小陣容、無限換防與三分雨，改寫整個聯盟的打法。</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01">
+                    <span class="serial">No. 03</span>
+                    <h3>Dub Nation</h3>
+                    <p>從奧克蘭到舊金山，球迷是這支球隊最忠誠的第六人。</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01">
+                    <span class="serial">No. 04</span>
+                    <h3>The Bay</h3>
+                    <p>金門與海灣大橋是隊徽，也是這座城市的身分證。</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01">
+                    <span class="serial">No. 05</span>
+                    <h3>Chase Center</h3>
+                    <p>2019 年啟用的新主場，坐落舊金山 Mission Bay 海濱。</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01">
+                    <span class="serial">No. 06</span>
+                    <h3>Joy &amp; Flow</h3>
+                    <p>傳導、跑位、快樂籃球。Kerr 體系的核心是分享。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="rule"></div>
+
+        <!-- 第二排：球隊歷史六格 -->
+        <div class="row">
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <div class="box01 legacy">
+                    <div class="big">7</div>
+                    <p>總冠軍：1947、1956、1975、2015、2017、2018、2022</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <div class="box01 legacy">
+                    <div class="big">1946</div>
+                    <p>創隊於費城，1962 年西遷灣區</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <div class="box01 legacy">
+                    <div class="big">73–9</div>
+                    <p>2015–16 球季，NBA 史上最佳例行賽戰績</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <div class="box01 legacy">
+                    <div class="big">2015</div>
+                    <p>睽違 40 年再奪冠，王朝起點</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2 d-none d-xxl-block">
+                <div class="box01 legacy">
+                    <div class="big">2022</div>
+                    <p>第七冠，核心三人第四度登頂</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2 d-none d-xxl-block">
+                <div class="box01 legacy ">
+                    <div class="big">18,064</div>
+                    <p>Chase Center 座位數</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="rule"></div>
+
+        <!-- 第三排：當家球星與名人堂八格 -->
+        <div class="row">
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 star">
+                    <div class="no">30</div>
+                    <h3>Stephen Curry<small>控球後衛 · 史上三分王</small></h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 star">
+                    <div class="no">11</div>
+                    <h3>Klay Thompson<small>得分後衛 · 浪花兄弟（2011–2024）</small></h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 star">
+                    <div class="no">23</div>
+                    <h3>Draymond Green<small>前鋒 · 年度最佳防守球員</small></h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 star">
+                    <div class="no">35</div>
+                    <h3>Kevin Durant<small>前鋒 · 兩屆總冠軍賽 MVP（2016–2019）</small></h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 star">
+                    <div class="no">9</div>
+                    <h3>Andre Iguodala<small>側翼 · 2015 總冠軍賽 MVP</small></h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 star">
+                    <div class="no">17</div>
+                    <h3>Chris Mullin<small>Run TMC · 名人堂（1985–1997）</small></h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 star">
+                    <div class="no">24</div>
+                    <h3>Rick Barry<small>1975 總冠軍賽 MVP · 名人堂</small></h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 star">
+                    <div class="no">HC</div>
+                    <h3>Steve Kerr<small>總教練 · 四冠教頭（2014 至今）</small></h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div class="row">
+            <div class="col-12 d-none d-md-block">
+                <div class="box01 foot">
+                    <div class="brand">
+                        <div class="foil">Golden Blood</div>
+                        <small>OFFICIAL COLLECTION</small>
+                    </div>
+                    <div>
+                        <a href="#">精品周邊</a>
+                        <a href="#">冠軍典藏</a>
+                        <a href="#">賽程購票</a>
+                        <a href="#">會員專區</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

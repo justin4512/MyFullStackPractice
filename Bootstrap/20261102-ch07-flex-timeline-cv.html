@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiu, Yu-Tang｜個人經歷</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/myAll.css">
+    <style>
+        :root {
+            --ui-bg: #f3f5f2;
+            --ui-surface: #f7fffe;
+            --ui-card: #ffffff;
+            --ui-ink: #1c2422;
+            --ui-muted: #5c6562;
+            --ui-primary: #9be6d8;
+            --ui-primary-hover: #7ed9c8;
+            --ui-border: #e6e8e0;
+            --ui-line: #d9ddd4;
+            --ui-focus: #7dcec0;
+            --ui-shadow: 0 10px 24px rgba(28, 36, 34, 0.08);
+            --ui-shadow-btn: 0 8px 16px rgba(125, 206, 192, 0.45);
+        }
+
+        .page-ui {
+            background-color: var(--ui-bg);
+            color: var(--ui-ink);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .profile-intro {
+            padding: 2.25rem 0 0.5rem;
+        }
+
+        .profile-kicker,
+        .section-note,
+        .when {
+            margin: 0 0 0.35rem;
+            color: var(--ui-muted);
+        }
+
+        .profile-intro h1,
+        .section-title,
+        .text-box h2 {
+            margin: 0 0 0.45rem;
+            color: var(--ui-ink);
+            font-weight: 900;
+            line-height: 1.25;
+        }
+
+        .profile-intro h1 {
+            font-size: 2.4rem;
+        }
+
+        .section-title {
+            margin-top: 2.5rem;
+            font-size: 1.75rem;
+        }
+
+        .profile-lead,
+        .text-box p {
+            max-width: 40rem;
+            margin: 0;
+        }
+
+        .contact-line {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .contact-line a {
+            color: var(--ui-ink);
+            font-weight: 700;
+            text-underline-offset: 3px;
+        }
+
+        .contact-line a:focus-visible,
+        .ui-btn:focus-visible {
+            outline: 3px solid var(--ui-focus);
+            outline-offset: 3px;
+        }
+
+        .text-box,
+        .img-box {
+            border: 1px solid var(--ui-border);
+            border-radius: 18px;
+            background-color: var(--ui-card);
+            box-shadow: var(--ui-shadow);
+        }
+
+        .text-box {
+            height: 100%;
+            padding: 1.25rem 1.4rem;
+        }
+
+        .img-box {
+            height: 250px;
+        }
+
+        .text-box h2 {
+            font-size: 1.45rem;
+        }
+
+        .timeline-section {
+            position: relative;
+        }
+
+        .timeline-section::before {
+            position: absolute;
+            content: "";
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 8px;
+            border-radius: 999px;
+            background-color: var(--ui-line);
+            transform: translateX(-50%);
+        }
+
+        .timeline-section-pointer {
+            position: relative;
+        }
+
+        .timeline-section-pointer::before {
+            position: absolute;
+            content: "";
+            top: 50%;
+            left: 50%;
+            z-index: 2;
+            width: 18px;
+            height: 18px;
+            border: 4px solid var(--ui-primary);
+            border-radius: 50%;
+            background-color: var(--ui-card);
+            box-shadow: 0 0 0 6px rgba(155, 230, 216, 0.45);
+            transform: translate(-50%, -50%);
+        }
+
+        .ui-btn {
+            min-height: 44px;
+            padding: 0.55rem 1.2rem;
+            border: 0;
+            border-radius: 999px;
+            background-color: var(--ui-primary);
+            color: var(--ui-ink);
+            font-weight: 700;
+            box-shadow: var(--ui-shadow-btn);
+        }
+
+        .ui-btn:hover {
+            background-color: var(--ui-primary-hover);
+        }
+
+        .chip-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.5rem 0 3rem;
+            padding: 0;
+            list-style: none;
+        }
+
+        .chip-list li {
+            padding: 0.45rem 0.9rem;
+            border: 1px solid var(--ui-border);
+            border-radius: 999px;
+            background-color: var(--ui-card);
+            box-shadow: var(--ui-shadow);
+        }
+
+        .page-ui .roller-r:focus-within .roller-r-box,
+        .page-ui .roller-l:focus-within .roller-l-box,
+        .page-ui .roller-down:focus-within .roller-down-box,
+        .page-ui .roller-up:focus-within .roller-up-box {
+            transform: translate(0);
+        }
+
+        @media (max-width: 767.98px) {
+            .timeline-section::before {
+                left: 15px;
+            }
+
+            .timeline-section-pointer::before {
+                top: 36px;
+                left: 15px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .page-ui .roller-r-box,
+            .page-ui .roller-l-box,
+            .page-ui .roller-down-box,
+            .page-ui .roller-up-box {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body class="page-ui">
+    <div class="container">
+        <header class="profile-intro">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="img-box bg-img" style="background-image: url(images/landscape001.avif);" role="img" aria-label="待替換的個人照片，目前為風景圖"></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-box">
+                        <p class="profile-kicker">個人簡介</p>
+                        <h1>Chiu, Yu-Tang</h1>
+                        <p class="profile-lead">Justin Chiu。情研發團隊負責人，做系統整合與 GIS。熟悉 Python、Linux、Docker 與虛擬化，也做過戰術系統、本地與邊緣 AI 的整合部署。流程自動化用 n8n，系統可以從規劃做到上線，支援需要離線、穩定運作的任務。</p>
+                        <div class="contact-line">
+                            <a href="tel:+886910730521">(+886) 910730521</a>
+                            <a href="mailto:justin4512@gmail.com">justin4512@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section aria-labelledby="work-title">
+            <h2 id="work-title" class="section-title">工作經歷</h2>
+            <p class="section-note">由近到遠。圖片上的按鈕滑入後，標的是該段工作的地點。</p>
+            <div class="timeline-section">
+                <div class="row mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box bg-img roller-r" style="background-image: url(images/landscape002.avif);">
+                            <div class="roller-r-box">
+                                <button type="button" class="ui-btn">工作地點：臺中</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">2024.01 – 迄今 · 國防部軍備局生產製造中心第401廠</p>
+                            <h2>情研發組組長</h2>
+                            <p>主持 ARTOS 砲兵定位與目標觀測、AI 船艦辨識與 ATAK 整合，以及可在隔離環境運作的 401GPT。把 n8n、AI 與戰術平台接在同一條工作流裡，讓系統留在任務現場就能用。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row flex-md-row-reverse mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box bg-img roller-l" style="background-image: url(images/landscape003.avif);">
+                            <div class="roller-l-box">
+                                <button type="button" class="ui-btn">工作地點：臺北</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">2022.09 – 2024.01 · 生產製造中心</p>
+                            <h2>軍技聯絡官</h2>
+                            <p>協調與美方夥伴（含 NGA）的國防與地理空間技術交流。工作涵蓋 ATAK、高解析向量資料、FalconView、電子海圖與 GeoNames 的測試和資料交換。參加 2022 臺北與 2023 華盛頓的 GI&amp;S 會議。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box bg-img roller-down" style="background-image: url(images/landscape004.avif);">
+                            <div class="roller-down-box">
+                                <button type="button" class="ui-btn">工作地點：臺中</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">2010.08 – 2022.09 · 第401廠</p>
+                            <h2>研發技術官</h2>
+                            <p>擔任共同作戰圖 MiCOP 計畫主持人。V1 以 Skyline Globe 為架構，V2 改到 ArcGIS Enterprise。另把 JTLS 兵棋與 MiCOP 接上，支援演訓同步，並做過作戰輔助的 AI 助理，以及測試、評估、驗證系統。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row flex-md-row-reverse mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box bg-img roller-up" style="background-image: url(images/landscape005.avif);">
+                            <div class="roller-up-box">
+                                <button type="button" class="ui-btn">工作地點：花蓮</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">2006.08 – 2010.08 · 空軍第五聯隊</p>
+                            <h2>影像情報官</h2>
+                            <p>做衛星影像判讀與 GEOINT，支援情研判和任務規劃。工作包含影像判釋、目標識別，以及把地理空間分析接到指揮管制流程。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section aria-labelledby="study-title" class="pb-4">
+            <h2 id="study-title" class="section-title">學歷</h2>
+            <div class="timeline-section">
+                <div class="row mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box bg-img" style="background-image: url(images/i18_2.webp);" role="img" aria-label="待替換的學歷配圖"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">2010.09 – 2013.08 · 逢甲大學</p>
+                            <h2>資訊工程碩士</h2>
+                            <p>論文是「應用於彩色點雲的浮水印保護機制」，把保護機制做進彩色點雲資料。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row flex-md-row-reverse mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box bg-img" style="background-image: url(images/i18_3.avif);" role="img" aria-label="待替換的學歷配圖"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">2002.08 – 2006.06 · 國防大學理工學院</p>
+                            <h2>測繪工程學士</h2>
+                            <p>中正理工學院測繪工程學系。後來的影像判讀、GIS 與系統整合，都從這段測繪訓練接出去。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2 class="section-title">證照</h2>
+            <ul class="chip-list">
+                <li>RHCE</li>
+                <li>RHCSA</li>
+                <li>IBM IT Support</li>
+                <li>Google Project Management</li>
+                <li>Google Cybersecurity</li>
+                <li>Google IT Automation with Python</li>
+                <li>Google Advanced Data Analytics</li>
+                <li>Google Prompting Essentials</li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

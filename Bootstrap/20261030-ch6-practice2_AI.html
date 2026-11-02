@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市就是主場｜多隊形象</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/my.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&family=Rubik+Spray+Paint&display=swap">
+    <style>
+        :root {
+            --ink: #141210;
+            --brick: #1c1613;
+            --paper: #f6f1e6;
+            --scrim: rgba(20, 18, 16, 0.92);
+            --nyc-orange: #f58426;
+            --nyc-blue: #9ad4ff;
+            --la-gold: #f5c451;
+            --la-purple: #b794f6;
+            --chi-red: #ff6b5a;
+            --bos-green: #8dff9a;
+            --mia-pink: #ff4fa3;
+            --mia-teal: #5ce1e6;
+            --bay-blue: #9ad4ff;
+            --bay-yellow: #ffe14a;
+            --bk-silver: #e8e8ea;
+            --philly-blue: #8eb6ff;
+            --det-steel: #d5dee8;
+            --sa-silver: #f0ebe3;
+            --dal-blue: #8ec5ff;
+            --mil-green: #c6f25a;
+            --den-gold: #f0c14a;
+            --atl-red: #ff7a7a;
+            --glow-nyc: rgba(245, 132, 38, 0.18);
+            --glow-la: rgba(183, 148, 246, 0.2);
+            --glow-mia: rgba(255, 79, 163, 0.16);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--brick);
+            background-image:
+                radial-gradient(circle at 10% 8%, var(--glow-nyc), transparent 28%),
+                radial-gradient(circle at 88% 16%, var(--glow-la), transparent 26%),
+                radial-gradient(circle at 70% 90%, var(--glow-mia), transparent 24%);
+            color: var(--paper);
+            font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .spray {
+            margin: 0;
+            color: var(--bay-yellow);
+            font-family: "Rubik Spray Paint", "Arial Black", sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.2;
+        }
+
+        .box01 {
+            position: relative;
+            height: 150px;
+            margin-top: 15px;
+            overflow: hidden;
+            border: 3px solid var(--ink);
+            background-color: var(--ink);
+            box-shadow: 5px 5px 0 var(--nyc-orange);
+        }
+
+        .box01 img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tile-copy {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 10px 12px 12px;
+            background: linear-gradient(to top, var(--scrim) 0%, rgba(20, 18, 16, 0.72) 46%, rgba(20, 18, 16, 0.12) 100%);
+        }
+
+        .tile-copy h1,
+        .tile-copy h2,
+        .tile-copy p {
+            margin: 0;
+        }
+
+        .tile-copy h1,
+        .tile-copy h2 {
+            color: var(--paper);
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .tile-copy h1 {
+            font-size: 2rem;
+        }
+
+        .tile-copy h2 {
+            font-size: 1.35rem;
+        }
+
+        .tile-note {
+            color: var(--paper);
+            font-size: 0.95rem;
+            font-weight: 500;
+            line-height: 1.35;
+        }
+
+        .city-nyc { box-shadow: 5px 5px 0 var(--nyc-orange); }
+        .city-nyc .spray { color: var(--nyc-orange); }
+        .city-la { box-shadow: 5px 5px 0 var(--la-purple); }
+        .city-la .spray { color: var(--la-gold); }
+        .city-chi { box-shadow: 5px 5px 0 var(--chi-red); }
+        .city-chi .spray { color: var(--chi-red); }
+        .city-bos { box-shadow: 5px 5px 0 var(--bos-green); }
+        .city-bos .spray { color: var(--bos-green); }
+        .city-mia { box-shadow: 5px 5px 0 var(--mia-pink); }
+        .city-mia .spray { color: var(--mia-pink); }
+        .city-bay { box-shadow: 5px 5px 0 var(--bay-blue); }
+        .city-bay .spray { color: var(--bay-yellow); }
+        .city-bk { box-shadow: 5px 5px 0 var(--bk-silver); }
+        .city-bk .spray { color: var(--bk-silver); }
+        .city-philly { box-shadow: 5px 5px 0 var(--philly-blue); }
+        .city-philly .spray { color: var(--philly-blue); }
+        .city-det { box-shadow: 5px 5px 0 var(--det-steel); }
+        .city-det .spray { color: var(--det-steel); }
+        .city-sa { box-shadow: 5px 5px 0 var(--sa-silver); }
+        .city-sa .spray { color: var(--sa-silver); }
+        .city-dal { box-shadow: 5px 5px 0 var(--dal-blue); }
+        .city-dal .spray { color: var(--dal-blue); }
+        .city-mil { box-shadow: 5px 5px 0 var(--mil-green); }
+        .city-mil .spray { color: var(--mil-green); }
+        .city-den { box-shadow: 5px 5px 0 var(--den-gold); }
+        .city-den .spray { color: var(--den-gold); }
+        .city-atl { box-shadow: 5px 5px 0 var(--atl-red); }
+        .city-atl .spray { color: var(--atl-red); }
+
+        .hero .tile-copy {
+            justify-content: center;
+        }
+
+        .site-footer .tile-copy {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .site-footer .tile-note {
+            color: var(--bay-yellow);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-md-none d-lg-block">
+                <header class="box01 hero city-bay">
+                    <img src="images_ai/league-hero-mural.jpg" alt="同一面磚牆上並排著橙藍、紫金、紅色與霓虹粉的城市塗鴉，畫面中有籃框">
+                    <div class="tile-copy">
+                        <p class="spray">CITIES</p>
+                        <h1>城市就是主場</h1>
+                        <p class="tile-note">一支球隊，一種城市脾氣</p>
+                    </div>
+                </header>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-lg-4 col-xl-2">
+                <article class="box01 city-nyc">
+                    <img src="images_ai/knicks-subway.jpg" alt="紐約地鐵車廂上的橙藍噴漆">
+                    <div class="tile-copy">
+                        <p class="spray">NYC</p>
+                        <h2>尼克</h2>
+                        <p class="tile-note">橙藍在車廂上</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xl-2">
+                <article class="box01 city-la">
+                    <img src="images_ai/city-la.jpg" alt="洛杉磯黃昏的戶外球場，棕櫚與紫金噴漆">
+                    <div class="tile-copy">
+                        <p class="spray">LA</p>
+                        <h2>湖人</h2>
+                        <p class="tile-note">紫金與棕櫚</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xl-2">
+                <article class="box01 city-chi">
+                    <img src="images_ai/city-chicago.jpg" alt="芝加哥高架鐵軌下的紅黑塗鴉巷弄">
+                    <div class="tile-copy">
+                        <p class="spray">CHI</p>
+                        <h2>公牛</h2>
+                        <p class="tile-note">紅漆跟著風</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xl-2">
+                <article class="box01 city-bos">
+                    <img src="images_ai/city-boston.jpg" alt="波士頓老紅磚牆上的綠色噴漆與籃框">
+                    <div class="tile-copy">
+                        <p class="spray">BOS</p>
+                        <h2>綠衫軍</h2>
+                        <p class="tile-note">綠長在老磚</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xl-2">
+                <article class="box01 city-mia">
+                    <img src="images_ai/city-miami.jpg" alt="邁阿密夜裡的粉黃青色霓虹，地面反著光">
+                    <div class="tile-copy">
+                        <p class="spray">MIA</p>
+                        <h2>熱火</h2>
+                        <p class="tile-note">霓虹先於海</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xl-2">
+                <article class="box01 city-bay">
+                    <img src="images_ai/city-bay.jpg" alt="灣區夜霧中的橋燈，牆上有藍黃噴漆">
+                    <div class="tile-copy">
+                        <p class="spray">BAY</p>
+                        <h2>勇士</h2>
+                        <p class="tile-note">霧裡的藍金</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <article class="box01 city-nyc">
+                    <img src="images_ai/knicks-hero-mural.jpg" alt="紐約磚牆塗鴉裡的籃框與橙藍漆滴">
+                    <div class="tile-copy">
+                        <p class="spray">SUBWAY</p>
+                        <h2>紐約</h2>
+                        <p class="tile-note">車廂是球衣</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <article class="box01 city-la">
+                    <img src="images_ai/city-la.jpg" alt="洛杉磯球場上空的橙色日落">
+                    <div class="tile-copy">
+                        <p class="spray">SUNSET</p>
+                        <h2>洛杉磯</h2>
+                        <p class="tile-note">日落先到場</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <article class="box01 city-chi">
+                    <img src="images_ai/city-chicago.jpg" alt="芝加哥高架鐵軌壓過巷口的籃框">
+                    <div class="tile-copy">
+                        <p class="spray">EL</p>
+                        <h2>芝加哥</h2>
+                        <p class="tile-note">鐵軌打拍子</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <article class="box01 city-bos">
+                    <img src="images_ai/city-boston.jpg" alt="波士頓陰天裡的舊磚牆與綠色漆">
+                    <div class="tile-copy">
+                        <p class="spray">BRICK</p>
+                        <h2>波士頓</h2>
+                        <p class="tile-note">老牆不讓分</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2 d-none d-xxl-block">
+                <article class="box01 city-mia">
+                    <img src="images_ai/city-miami.jpg" alt="邁阿密濕地上的霓虹倒影與籃球">
+                    <div class="tile-copy">
+                        <p class="spray">TIDE</p>
+                        <h2>邁阿密</h2>
+                        <p class="tile-note">潮聲進球場</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2 d-none d-xxl-block">
+                <article class="box01 city-bay">
+                    <img src="images_ai/city-bay.jpg" alt="舊金山灣夜霧蓋過橋與塗鴉牆">
+                    <div class="tile-copy">
+                        <p class="spray">FOG</p>
+                        <h2>灣區</h2>
+                        <p class="tile-note">霧比燈先到</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-xl-3">
+                <article class="box01 city-bk">
+                    <img src="images_ai/city-brooklyn.jpg" alt="布魯克林倉庫牆下的夜間街頭球場">
+                    <div class="tile-copy">
+                        <p class="spray">BK</p>
+                        <h2>籃網</h2>
+                        <p class="tile-note">黑白不裝腔</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <article class="box01 city-philly">
+                    <img src="images_ai/city-philly.jpg" alt="費城排屋門階，藍紅噴漆旁有一顆籃球">
+                    <div class="tile-copy">
+                        <p class="spray">PHILLY</p>
+                        <h2>七六人</h2>
+                        <p class="tile-note">先對抗再說</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <article class="box01 city-det">
+                    <img src="images_ai/city-detroit.jpg" alt="底特律廠房磚牆與鋼藍色噴漆">
+                    <div class="tile-copy">
+                        <p class="spray">MOTOR</p>
+                        <h2>活塞</h2>
+                        <p class="tile-note">鋼鐵還在熱</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <article class="box01 city-sa">
+                    <img src="images_ai/city-sanantonio.jpg" alt="聖安東尼奧河岸石牆與銀黑噴漆">
+                    <div class="tile-copy">
+                        <p class="spray">RIVER</p>
+                        <h2>馬刺</h2>
+                        <p class="tile-note">河岸比較靜</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <article class="box01 city-dal">
+                    <img src="images_ai/city-dallas.jpg" alt="達拉斯草原盡頭的城市燈火與藍色噴漆">
+                    <div class="tile-copy">
+                        <p class="spray">PRAIRIE</p>
+                        <h2>獨行俠</h2>
+                        <p class="tile-note">草原先亮燈</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <article class="box01 city-mil">
+                    <img src="images_ai/city-milwaukee.jpg" alt="密爾瓦基冷湖邊的綠色噴漆磚牆">
+                    <div class="tile-copy">
+                        <p class="spray">LAKE</p>
+                        <h2>公鹿</h2>
+                        <p class="tile-note">湖風比哨冷</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <article class="box01 city-den">
+                    <img src="images_ai/city-denver.jpg" alt="丹佛山影前的球場與金藍噴漆">
+                    <div class="tile-copy">
+                        <p class="spray">MILE</p>
+                        <h2>金塊</h2>
+                        <p class="tile-note">空氣比較薄</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <article class="box01 city-atl">
+                    <img src="images_ai/city-atlanta.jpg" alt="亞特蘭大夜色磚牆與紅色噴漆">
+                    <div class="tile-copy">
+                        <p class="spray">PEACH</p>
+                        <h2>老鷹</h2>
+                        <p class="tile-note">夜色比較黏</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-none d-md-block">
+                <footer class="box01 site-footer city-bay">
+                    <img src="images_ai/league-hero-mural.jpg" alt="">
+                    <div class="tile-copy">
+                        <p class="spray">FOURTEEN CITIES</p>
+                        <p>十四座城市，同一面牆</p>
+                        <p class="tile-note">課程練習頁，不是 NBA 官方網站</p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

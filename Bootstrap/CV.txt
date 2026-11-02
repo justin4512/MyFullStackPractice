@@ -1,0 +1,52 @@
+CHIU, YU-TANG (Justin Chiu)
+Head of the Intelligence Research and Development Team | System Integrator | GIS Engineer 
+Mobile Phone/WhatsApp/Signal/Line : (+886) 910730521   |   justin4512@gmail.com
+Proficient in Information Technology, Geographic Information Systems (GIS) development, and DevOps practices. Skilled in Python development, Linux system administration, containerization (Docker), and virtualization technologies. Experienced in the integration and deployment of tactical systems and on-premises / edge AI solutions. Familiar with workflow automation and system integration using tools such as n8n. Capable of end-to-end system planning and implementation to support mission-critical applications for military operations.
+
+PROFESSIONAL EXPERIENCE – IMAGERY INTELLIGENCE
+Imagery Intelligence Officer (GEOINT / Satellite Imagery Analysis)  
+ROC AF, 5th Tactical Fighter Wing – Hualien, TW  |  Aug 2006 – Aug 2010
+Conducted satellite imagery analysis and geospatial intelligence (GEOINT) to support military intelligence and mission-critical operations.
+Performed image interpretation, target identification, and situational awareness analysis for operational planning.
+Supported command and control (C2) and intelligence workflows through geospatial data analysis.
+
+PROFESSIONAL EXPERIENCE – INFORMATION SYSTEM DEVELOPMENT & INTERGRATION
+R&D Technical Officer (Military Common Operational Picture / GIS Systems) 
+401st Arsenal, Materiel Production Center, Armaments Bureau, MND– Taichung, TW  |  Aug 2010 – Sep 2022
+Principal Investigator (PI) – Military Common Operational Picture (MiCOP) V1.0 (Skyline Globe-based architecture) & V2.0 (ArcGIS Enterprise-based GIS platform).
+Principal Investigator (PI) – JTLS (Joint Theater Level Simulation) with MiCOP for war-gaming, simulation, and operational synchronization.
+Designed and deployed AI-powered intelligent assistant system for operational support and decision-making. 
+Developed training, testing, evaluation, and validation (T&E) systems to support system lifecycle and operational readiness.
+Military Technology Liaison Officer (Geospatial / Defense Technology)
+Materiel Production Center, Armaments Bureau, MND (MPC) – Taipei, TW  |  Sep 2022 – Jan 2024
+Key Responsibilities & Achievements:
+Coordinated international defense and geospatial technology collaboration with U.S. partners (including NGA) 
+Facilitated technical exchanges on GIS, military mapping, and geospatial intelligence systems. 
+Promoted and implemented advanced geospatial applications: 
+ATAK (Android Tactical Awareness Kit) integration and deployment. 
+High Resolution Vector Data (HRVD) production and processing. 
+FalconView (military mission planning system) data test and exchange.
+Electronic Nautical Charts (ENC) and maritime data test and exchange.
+GeoNames System (GNS) database integration data exchange.
+Participated in international conferences: 
+Geospatial Intelligence & Services Conference(GI&S) 2022 (AIT, Taipei).
+Geospatial Intelligence & Services Conference(GI&S) 2023 (NGA, Washington, D.C., USA).
+Head of Intelligence R&D Division (AI / Tactical Systems / DevOps)
+401st Arsenal, Materiel Production Center, Armaments Bureau, MND – Taichung, TW  |  Jan 2024 – Present
+Principal Investigator (PI) – Artillery Orientation & Targeting Observation System (ARTOS) for Fire Direction Support in Mission-Critical Operations.
+Principal Investigator (PI) – AI Vessel Recognition & ATAK Integration System for Mission-Critical Operations.
+Principal Investigator (PI) – On-Premises LLM-Based AI System (401GPT) for Secure and Air-Gapped Mission-Critical Environments.
+Integrated workflow automation (n8n), AI systems, and tactical platforms to enhance operational efficiency.
+
+EDUCATION
+Chung Cheng Institute of Technology, National Defense University – Taoyuan City, TW  |  Aug 2002 – June 2006
+Bachelor of Engineering, Dept. of Surveying and Mapping Engineering
+Feng Chia University – Taichung, TW  |  Sep 2010 – Aug 2013
+Master of Science in Information Engineering and computer science
+Thesis: "A Watermarking Protection Mechanism Applied to the Color Point Cloud"
+
+PERSONAL PROFESSIONAL CERTIFICATION
+Red Hat Certified Engineer (RHCE) | Red Hat Certified System Administrator (RHCSA)
+IBM IT Support
+Google Project Management  |  Google Cybersecurity  |  Google IT Automation with Python | 
+Google Advanced Data Analytics  | Google Prompting Essentials

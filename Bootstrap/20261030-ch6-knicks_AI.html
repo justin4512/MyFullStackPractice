@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW YORK KNICKS｜街頭塗鴉形象站</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/my.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&family=Rubik+Spray+Paint&display=swap">
+    <style>
+        /* ---------- 顏色架構：全站顏色只在這裡定義 ---------- */
+        :root {
+            --ink: #0e0d12;          /* 深夜牆面 */
+            --brick: #19161c;        /* 區塊底色 */
+            --orange: #f58426;       /* Knicks 橘 */
+            --blue: #1d5fd1;         /* Knicks 藍 */
+            --pink: #e63e9a;         /* 噴漆桃紅 */
+            --chalk: #f1ece2;        /* 粉筆白（內文） */
+            --silver: #c9c9cf;       /* 銀灰（次要文字） */
+            --scrim: rgba(14, 13, 18, 0.72);   /* 圖片上的壓暗層 */
+            --glow: rgba(245, 132, 38, 0.22);  /* 橘色噴霧光暈 */
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--ink);
+            background-image:
+                radial-gradient(circle at 12% 10%, var(--glow), transparent 30%),
+                radial-gradient(circle at 85% 80%, rgba(29, 95, 209, 0.25), transparent 28%);
+            color: var(--chalk);
+            font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+            line-height: 1.6;
+        }
+
+        .fw-900 { font-weight: 900 !important; }
+
+        /* 噴漆字：只用在 hero 標題與區塊標題 */
+        .spray {
+            margin: 0;
+            font-family: "Rubik Spray Paint", "Arial Black", sans-serif;
+            line-height: 1.05;
+            color: var(--orange);
+            text-shadow:
+                3px 3px 0 var(--blue),
+                6px 6px 0 var(--pink);
+        }
+
+        /* ---------- 沿用原本的 .box01 切版，只換內容 ---------- */
+        .box01 {
+            height: 150px;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--brick);
+            background-size: cover;
+            background-position: center;
+            border: 3px solid var(--chalk);
+            box-shadow: 6px 6px 0 var(--orange);
+            padding: 14px 16px;
+            color: var(--chalk);
+        }
+
+        .box01 .display-3 {
+            line-height: 150px;
+        }
+
+        /* 圖片卡片：壓暗層讓文字清楚 */
+        .box01.has-img::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 20%, var(--scrim) 100%);
+        }
+
+        .box01 > * { position: relative; }
+
+        .box01 h3 {
+            margin: 0;
+            font-family: "Rubik Spray Paint", "Arial Black", sans-serif;
+            font-size: 1.5rem;
+            line-height: 1.1;
+            color: var(--orange);
+            text-shadow: 2px 2px 0 var(--blue);
+        }
+
+        .box01 p {
+            margin: 6px 0 0;
+            font-size: 0.9rem;
+            color: var(--silver);
+        }
+
+        .box01 .num {
+            position: absolute;
+            right: 10px;
+            top: 4px;
+            font-family: "Rubik Spray Paint", "Arial Black", sans-serif;
+            font-size: 3.2rem;
+            line-height: 1;
+            color: var(--pink);
+            opacity: 0.55;
+        }
+
+        /* header：hero 牆面，高度拉高但 class 不變 */
+        .hero.box01 {
+            height: 420px;
+            background-image: url("images_ai/knicks-hero-mural.jpg");
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 28px 32px;
+            border-color: var(--orange);
+            box-shadow: 10px 10px 0 var(--blue);
+        }
+
+        .hero .spray {
+            font-size: clamp(2.6rem, 8vw, 6.5rem);
+        }
+
+        .hero p {
+            max-width: 38rem;
+            font-size: 1.05rem;
+            color: var(--chalk);
+        }
+
+        /* 單色塗鴉卡片：第二排（主場、數據類） */
+        .tag.box01 {
+            border-color: var(--blue);
+            box-shadow: 6px 6px 0 var(--pink);
+        }
+
+        .tag .big {
+            font-family: "Rubik Spray Paint", "Arial Black", sans-serif;
+            font-size: 3rem;
+            line-height: 1;
+            color: var(--chalk);
+            text-shadow: 3px 3px 0 var(--orange);
+        }
+
+        /* 第三排：球員卡 */
+        .player.box01 {
+            border-color: var(--pink);
+            box-shadow: 6px 6px 0 var(--blue);
+        }
+
+        .player .pos {
+            display: inline-block;
+            margin-bottom: 6px;
+            padding: 1px 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink);
+            background-color: var(--orange);
+            transform: rotate(-2deg);
+        }
+
+        /* 滴漆分隔線：兩排之間的塗鴉感 */
+        .drip {
+            height: 28px;
+            margin-top: 15px;
+            background-image: url("images_ai/knicks-drips.jpg");
+            background-size: cover;
+            background-position: center top;
+        }
+
+        /* footer */
+        .foot.box01 {
+            background-image: url("images_ai/knicks-skyline.jpg");
+            border-color: var(--chalk);
+            box-shadow: 6px 6px 0 var(--pink);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .foot .spray {
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 0 var(--blue);
+        }
+
+        .foot a {
+            color: var(--chalk);
+            text-decoration: none;
+            margin-left: 18px;
+            border-bottom: 2px solid var(--orange);
+        }
+
+        .foot a:hover,
+        .foot a:focus-visible {
+            color: var(--orange);
+            outline: none;
+        }
+
+        /* 頁面底部留白 */
+        .container { padding-bottom: 40px; }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="row">
+            <div class="col-12 d-md-none d-lg-block">
+                <div class="box01 hero has-img">
+                    <h1 class="spray">NEW YORK<br>KNICKS</h1>
+                    <p>從哈林區的鐵絲網球場到麥迪遜花園廣場，橘與藍噴在每一面牆上。這裡不只是球隊，是整座城市的脾氣。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第一排：球隊形象六格 -->
+        <div class="row">
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01 has-img" style="background-image:url('images_ai/knicks-court.jpg')">
+                    <span class="num">01</span>
+                    <h3>街頭主場</h3>
+                    <p>橘藍噴漆球場，天黑才開打。</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01 has-img" style="background-image:url('images_ai/knicks-arena.jpg')">
+                    <span class="num">02</span>
+                    <h3>花園廣場</h3>
+                    <p>世界最有名的球館，兩萬人同聲。</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01 has-img" style="background-image:url('images_ai/knicks-subway.jpg')">
+                    <span class="num">03</span>
+                    <h3>地鐵塗鴉</h3>
+                    <p>車廂是畫布，球隊顏色跟著跑遍五區。</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01 has-img" style="background-image:url('images_ai/knicks-ball.jpg')">
+                    <span class="num">04</span>
+                    <h3>噴罐與球</h3>
+                    <p>街頭兩樣工具，缺一不可。</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01 has-img" style="background-image:url('images_ai/knicks-skyline.jpg')">
+                    <span class="num">05</span>
+                    <h3>曼哈頓天際</h3>
+                    <p>帝國大廈橘藍點燈，就是贏球的夜晚。</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2">
+                <div class="box01 has-img" style="background-image:url('images_ai/knicks-hero-mural.jpg')">
+                    <span class="num">06</span>
+                    <h3>牆上的隊徽</h3>
+                    <p>不用登記，紐約人自己噴上去。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="drip"></div>
+
+        <!-- 第二排：球隊數據六格 -->
+        <div class="row">
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <div class="box01 tag">
+                    <div class="big">1946</div>
+                    <p>創隊年份，NBA 創始球隊之一</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <div class="box01 tag">
+                    <div class="big">2</div>
+                    <p>總冠軍（1970、1973）</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <div class="box01 tag">
+                    <div class="big">MSG</div>
+                    <p>麥迪遜花園廣場，主場球館</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2">
+                <div class="box01 tag">
+                    <div class="big">19,812</div>
+                    <p>球館容納人數</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2 d-none d-xxl-block">
+                <div class="box01 tag">
+                    <div class="big">8</div>
+                    <p>分區冠軍次數</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2 d-none d-xxl-block">
+                <div class="box01 tag ">
+                    <div class="big">NYC</div>
+                    <p>五個行政區，一個主場</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="drip"></div>
+
+        <!-- 第三排：陣容八格 -->
+        <div class="row">
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 player">
+                    <span class="pos">控球後衛</span>
+                    <h3>01 ｜ 隊長</h3>
+                    <p>節奏掌控者，最後一擊交給他。</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 player">
+                    <span class="pos">得分後衛</span>
+                    <h3>02 ｜ 射手</h3>
+                    <p>底角三分，花園廣場的燈都為他亮。</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 player">
+                    <span class="pos">小前鋒</span>
+                    <h3>03 ｜ 側翼</h3>
+                    <p>攻守兩端都能撕開對手。</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 player">
+                    <span class="pos">大前鋒</span>
+                    <h3>04 ｜ 籃板王</h3>
+                    <p>禁區硬碰硬，紐約最愛的那種人。</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 player">
+                    <span class="pos">中鋒</span>
+                    <h3>05 ｜ 守門員</h3>
+                    <p>籃下一夫當關，蓋鍋後全場起立。</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 player">
+                    <span class="pos">第六人</span>
+                    <h3>06 ｜ 火力</h3>
+                    <p>板凳出來就是加速器。</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 player">
+                    <span class="pos">總教練</span>
+                    <h3>07 ｜ 指揮官</h3>
+                    <p>防守優先，這是紐約籃球的傳統。</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="box01 player">
+                    <span class="pos">球迷</span>
+                    <h3>08 ｜ 第十二人</h3>
+                    <p>你，和整座城市。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div class="row">
+            <div class="col-12 d-none d-md-block">
+                <div class="box01 foot has-img">
+                    <div class="spray">KNICKS</div>
+                    <div>
+                        <a href="#">購票</a>
+                        <a href="#">賽程</a>
+                        <a href="#">商品</a>
+                        <a href="#">聯絡我們</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

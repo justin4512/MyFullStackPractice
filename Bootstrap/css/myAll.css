@@ -20,7 +20,7 @@ body {
     --LightBronze: #d4a373; */
 
     /* 延伸搭配設計 (Semantic Colors) */
-    --primary-color: #d4a373;         * 主色調 */
+    --primary-color: #d4a373;         /* 主色調 */
     --primary-hover: #b58250;           /* 主色調 Hover 加深 */
     --secondary-color: #ccd5ae;       /* 次色調 */
     --secondary-hover: #a3ae7e;       /* 次色調 Hover */
@@ -53,6 +53,27 @@ body {
     --chagee-text-muted: #62756A;     /* 灰綠輔助文字 */
     --chagee-border: #D3E0DA;         /* 簡約幾何線條邊框 */
     --chagee-border-light: #E6EFEA;   /* 極淡幾何線 */
+
+    /* 莫蘭迪：灰調、低飽和。個人經歷頁使用，不取代上面的課程色 */
+    --morandi-bg: #f3efe8;
+    --morandi-paper: #f7f4ef;
+    --morandi-sage: #a8b2a3;
+    --morandi-sage-deep: #5f6b5d;
+    --morandi-rose: #c9b1aa;
+    --morandi-clay: #b7a394;
+    --morandi-sand: #e6dcd0;
+    --morandi-ink: #3f3934;
+    --morandi-muted: #5c554e;
+    --morandi-line: #cfc6bb;
+    --morandi-dot: #8d7f76;
+    --morandi-dot-active: #6a5b62;
+}
+
+.page-morandi {
+    background-color: var(--morandi-bg);
+    color: var(--morandi-ink);
+    font-size: 16px;
+    line-height: 1.75;
 }
 
 .fw-100 {
@@ -89,4 +110,110 @@ body {
 
 .fw-900 {
     font-weight: 900 !important;
+}
+.bg-img {
+    background-position: center center;
+    background-size: cover;
+}
+
+/*捲軸效果--------------------------------*/
+/* 1.右到左 */
+.roller-r {
+    position: relative;
+    overflow: hidden; /*超出容器外的部分隱藏*/
+}       
+
+.roller-r .roller-r-box {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateX(100%);
+    transition: transform 2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.roller-r:hover .roller-r-box {
+    transform: translateX(0);
+}
+/* 2.左到右 */
+.roller-l {
+    position: relative;
+    overflow: hidden; /*超出容器外的部分隱藏*/
+}
+.roller-l:hover .roller-l-box {
+    transform: translateX(0);
+}
+.roller-l .roller-l-box {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateX(-100%);
+    transition: transform 2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;            
+    
+}
+.roller-l:hover .roller-l-box {
+    transform: translateX(0);
+}
+/* 3.下到上 */
+.roller-down {
+    position: relative;
+    overflow: hidden; /*超出容器外的部分隱藏 */
+}
+.roller-down .roller-down-box {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    transition: transform 2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;            
+    
+}
+.roller-down:hover .roller-down-box {
+    transform: translateY(0);
+}
+/* 4.上到下 */
+.roller-up {
+    position: relative;
+    overflow: hidden; /*超出容器外的部分隱藏 */
+}
+.roller-up .roller-up-box {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(-100%);
+    transition: transform 2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;            
+    
+}
+.roller-up:hover .roller-up-box {
+    transform: translateY(0);
 }

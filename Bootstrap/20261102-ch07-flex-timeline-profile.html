@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人工作經歷</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/myAll.css">
+    <style>
+        .profile-intro {
+            padding: 2.5rem 0 1rem;
+        }
+
+        .profile-kicker {
+            margin: 0 0 0.35rem;
+            color: var(--morandi-sage-deep);
+            font-size: 1rem;
+        }
+
+        .profile-intro h1 {
+            margin: 0 0 0.75rem;
+            color: var(--morandi-ink);
+            font-size: 2.25rem;
+            font-weight: 900;
+            line-height: 1.25;
+        }
+
+        .profile-lead,
+        .text-box p {
+            max-width: 40rem;
+            margin: 0;
+            color: var(--morandi-muted);
+        }
+
+        .section-title {
+            margin: 2.5rem 0 0.35rem;
+            color: var(--morandi-ink);
+            font-size: 1.75rem;
+            font-weight: 900;
+        }
+
+        .section-note {
+            margin: 0 0 0.5rem;
+            color: var(--morandi-sage-deep);
+        }
+
+        .timeline-section {
+            position: relative;
+        }
+
+        .timeline-section::before {
+            position: absolute;
+            content: "";
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 10px;
+            background-color: var(--morandi-line);
+            transform: translateX(-50%);
+        }
+
+        .timeline-section-pointer {
+            position: relative;
+        }
+
+        .timeline-section-pointer::before {
+            position: absolute;
+            content: "";
+            top: 50%;
+            left: 50%;
+            width: 22px;
+            height: 22px;
+            border: 8px solid var(--morandi-dot);
+            border-radius: 50%;
+            background-color: var(--morandi-paper);
+            transform: translate(-50%, -50%);
+        }
+
+        .timeline-section-pointer:hover::before {
+            border-color: var(--morandi-dot-active);
+        }
+
+        .img-box {
+            height: 250px;
+            overflow: hidden;
+            background-color: var(--morandi-sand);
+        }
+
+        .img-box img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .text-box {
+            padding: 1.25rem 1.5rem;
+            background-color: var(--morandi-paper);
+        }
+
+        .text-box .when {
+            margin: 0 0 0.35rem;
+            color: var(--morandi-sage-deep);
+            font-size: 0.95rem;
+        }
+
+        .text-box h3 {
+            margin: 0 0 0.6rem;
+            color: var(--morandi-ink);
+            font-size: 1.5rem;
+            font-weight: 900;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 767.98px) {
+            .timeline-section::before {
+                left: 8px;
+            }
+
+            .timeline-section-pointer::before {
+                top: 28px;
+                left: 8px;
+            }
+
+            .text-box,
+            .img-box {
+                margin-top: 0.75rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .timeline-section-pointer:hover::before {
+                border-color: var(--morandi-dot);
+            }
+        }
+    </style>
+</head>
+<body class="page-morandi">
+    <div class="container">
+        <header class="profile-intro">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="img-box">
+                        <!-- 圖片之後可自行換成個人照片 -->
+                        <img src="images/landscape001.avif" alt="待替換的個人照片，目前先用風景圖占位">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-box">
+                        <p class="profile-kicker">個人簡介</p>
+                        <h1>切版練習中的工作紀錄</h1>
+                        <p class="profile-lead">我把網頁切版當成一件可以慢慢做完的工作。這段時間從表格、開放資料，練到 Row、Column，再練到 Flex 時間軸。我在意的是同一套欄位在手機和桌面都站得住，文字讀得完，顏色不要搶走內容。這頁不換頁，從上往下就是我目前的簡介、做過的頁面，以及怎麼學會這些排法。</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section aria-labelledby="work-title">
+            <h2 id="work-title" class="section-title">工作經驗</h2>
+            <p class="section-note">三件實際做完的頁面，由近到遠。</p>
+            <div class="timeline-section">
+                <div class="row mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box">
+                            <img src="images/landscape002.avif" alt="待替換的工作照片，目前為風景占位">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">2026.10 · 報表頁</p>
+                            <h3>餐廳基本資料</h3>
+                            <p>桌面用表格把名稱、圖片、地址、電話和簡介排在同一列。螢幕變窄時，表頭收起來，每一格靠自己的欄名還能讀。我先把兩筆範例站穩，再讓統計數字跟著實際列數走，不讓畫面上的「筆數」跟表格對不起來。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row flex-row-reverse mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box">
+                            <img src="images/landscape003.avif" alt="待替換的開放資料頁照片，目前為風景占位">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">2026.10 · 資料頁</p>
+                            <h3>農業部開放資料</h3>
+                            <p>這一頁要先把資料請進來。請求寫在樣式表裡不會執行，頁面沒有載入 jQuery 時，$ 也不存在。這兩件事補上之後，旅遊食品資料才進得了主控台。我把「看得到資料」放在「排進表格」前面，避免畫面先做好、來源卻是空的。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box">
+                            <img src="images/landscape004.avif" alt="待替換的切版練習照片，目前為風景占位">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">2026.10 · 切版頁</p>
+                            <h3>保留欄位，只換內容</h3>
+                            <p>多欄練習的 Row 和 Column 不改，內容從色塊換成可讀的介紹。offset 是從上一格後面再往右推，不是從整列最左邊重算；推超過十二格，下一個區塊就會掉到下一列。後來同一套切版也拿來並排多座城市，每格用自己的顏色，欄位結構維持原樣。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section aria-labelledby="study-title" class="pb-5">
+            <h2 id="study-title" class="section-title">學習歷程</h2>
+            <p class="section-note">排版觀念按學會的順序往下看。</p>
+            <div class="timeline-section">
+                <div class="row mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box">
+                            <img src="images/landscape005.avif" alt="待替換的學習照片，目前為風景占位">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">表格與 RWD</p>
+                            <h3>窄螢幕仍要知道這一格是什麼</h3>
+                            <p>寬螢幕靠表頭說明欄位。表頭藏起來之後，每一格用 data-th 把欄名留在內容旁邊。我在這裡學會：響應式不是把欄位刪掉，而是換一種還讀得懂的排法。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row flex-row-reverse mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box">
+                            <img src="images/i18_2.webp" alt="待替換的欄位練習照片，目前為課程圖片占位">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">十二欄</p>
+                            <h3>先算完一列，再談好不好看</h3>
+                            <p>Bootstrap 一列十二格。col 決定寬度，offset 決定這格前面還要空幾格。兩個區塊想並排，寬度加空白不能超過十二。這個算法後來變成我改切版時的第一個檢查。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box">
+                            <img src="images/i18_3.avif" alt="待替換的時間軸練習照片，目前為課程圖片占位">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <p class="when">Flex 時間軸</p>
+                            <h3>左右交錯，窄了就改靠左</h3>
+                            <p>中間那條軸用定位拉在列的中央，圓點再對準軸線。flex-row-reverse 讓下一則圖文對調，閱讀還是由上往下。寬度小於 md 時，軸線改到左側，圖和文字改成直向，不讓中線把句子切成兩半。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

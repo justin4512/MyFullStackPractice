@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Golden State Warriors 球隊文化、當家球星、冠軍歷史與 Golden Blood 精品典藏形象介紹。">
+    <title>GOLDEN BLOOD｜Golden State Warriors 形象介紹</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/my.css">
+    <style>
+        :root {
+            --color-bg: #020817;
+            --color-surface: #061a36;
+            --color-surface-soft: #0b2851;
+            --color-warriors-blue: #1d428a;
+            --color-warriors-gold: #ffc72c;
+            --color-gold-deep: #a86f13;
+            --color-gold-pale: #f6dfa0;
+            --color-ivory: #f8f4e8;
+            --color-muted: #c5ccda;
+            --color-line: rgba(255, 199, 44, .38);
+            --color-overlay: rgba(2, 8, 23, .76);
+            --gradient-gold: linear-gradient(120deg, #8b5b0c 0%, #f8dc8b 30%, #ffc72c 58%, #9a640e 100%);
+            --shadow-gold: 0 18px 48px rgba(0, 0, 0, .34), inset 0 0 0 1px rgba(255, 224, 135, .12);
+            --radius-card: 2px;
+            --motion-fast: 180ms ease;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            min-width: 320px;
+            background:
+                radial-gradient(circle at 50% -10%, rgba(29, 66, 138, .6), transparent 36rem),
+                repeating-linear-gradient(135deg, transparent 0 18px, rgba(255, 255, 255, .012) 18px 19px),
+                var(--color-bg);
+            color: var(--color-ivory);
+            font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        img { max-width: 100%; }
+        a { color: inherit; }
+        a:focus-visible { outline: 3px solid var(--color-warriors-gold); outline-offset: 4px; }
+        .skip-link {
+            position: fixed; left: 1rem; top: -5rem; z-index: 1000;
+            padding: .75rem 1rem; background: var(--color-warriors-gold); color: var(--color-bg);
+        }
+        .skip-link:focus { top: 1rem; }
+        .container { padding-bottom: 40px; }
+
+        /* 保留原作 box01 尺寸與間距 */
+        .box01 {
+            height: 150px;
+            margin-top: 15px;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            border: 1px solid var(--color-line);
+            border-radius: var(--radius-card);
+            background: var(--color-surface);
+            box-shadow: var(--shadow-gold);
+        }
+        .box01 .display-3 { line-height: 150px; }
+        .box01::after {
+            content: ""; position: absolute; inset: 6px; z-index: 3;
+            border: 1px solid rgba(255, 199, 44, .17); pointer-events: none;
+        }
+        .box01 h2, .box01 h3, .box01 p { margin-top: 0; }
+        .eyebrow {
+            color: var(--color-warriors-gold); font-size: .68rem; font-weight: 700;
+            letter-spacing: .22em; text-transform: uppercase;
+        }
+        .foil-text {
+            background: var(--gradient-gold); background-clip: text; -webkit-background-clip: text;
+            color: transparent; font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .hero.box01 {
+            height: 560px;
+            display: flex; align-items: end;
+            background: var(--color-surface);
+        }
+        .hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 29%; }
+        .hero-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(2, 8, 23, .96) 0%, rgba(2, 8, 23, .66) 48%, rgba(2, 8, 23, .12) 100%), linear-gradient(0deg, rgba(2, 8, 23, .9), transparent 58%); }
+        .hero-copy { position: relative; z-index: 2; max-width: 650px; padding: clamp(2rem, 5vw, 4.5rem); }
+        .hero-mark { display: flex; align-items: center; gap: .65rem; margin-bottom: 1rem; color: var(--color-warriors-gold); font-weight: 700; letter-spacing: .17em; }
+        .hero-mark::before { content: ""; width: 42px; height: 1px; background: var(--color-warriors-gold); }
+        .hero h1 { margin: 0; font-size: clamp(3rem, 7.5vw, 7rem); line-height: .82; letter-spacing: -.035em; }
+        .hero h1 span { display: block; color: var(--color-ivory); font-family: Arial, sans-serif; font-size: .36em; letter-spacing: .24em; line-height: 1.9; }
+        .hero-lead { max-width: 520px; margin: 1.4rem 0 0; color: var(--color-muted); font-size: 1rem; }
+        .hero-meta { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-top: 1.5rem; color: var(--color-ivory); font-size: .75rem; letter-spacing: .1em; }
+
+        .culture { padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between; transition: border-color var(--motion-fast), background var(--motion-fast); }
+        .culture:hover { border-color: var(--color-warriors-gold); background: var(--color-surface-soft); }
+        .culture .index { color: var(--color-gold-deep); font-family: Georgia, serif; font-size: .78rem; }
+        .culture h2 { margin-bottom: .15rem; color: var(--color-gold-pale); font-family: Georgia, serif; font-size: 1.22rem; line-height: 1.1; }
+        .culture p { margin-bottom: 0; color: var(--color-muted); font-size: .76rem; line-height: 1.45; }
+
+        .legacy { padding: 1.15rem; background-position: center; background-size: cover; }
+        .legacy::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(120deg, rgba(2, 8, 23, .97), rgba(6, 26, 54, .76)); }
+        .legacy .number { display: block; margin-bottom: .25rem; font-size: 2.45rem; font-weight: 700; line-height: 1; }
+        .legacy h2 { margin-bottom: .15rem; color: var(--color-ivory); font-size: .92rem; }
+        .legacy p { margin-bottom: 0; color: var(--color-muted); font-size: .72rem; line-height: 1.4; }
+        .legacy-photo-1 { background-image: url("images_golden/retired-jerseys.jpg"); }
+        .legacy-photo-2 { background-image: url("images_golden/championship-2022.jpg"); }
+
+        .star { display: flex; align-items: end; background: var(--color-surface); }
+        .star img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; filter: saturate(.72) contrast(1.06); }
+        .star::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, rgba(2, 8, 23, .98), rgba(2, 8, 23, .04) 82%); }
+        .star-copy { position: relative; z-index: 2; width: 100%; padding: .75rem 1rem; }
+        .star .number { float: right; color: var(--color-warriors-gold); font-family: Georgia, serif; font-size: 1.55rem; line-height: 1; }
+        .star h2 { margin: 0; color: var(--color-ivory); font-size: .95rem; letter-spacing: .035em; }
+        .star p { margin: .15rem 0 0; color: var(--color-gold-pale); font-size: .67rem; }
+        .star-portrait img { object-position: center 18%; }
+        .star-blue { background: linear-gradient(135deg, var(--color-surface-soft), var(--color-warriors-blue)); }
+        .star-blue .star-copy { padding-bottom: 1.3rem; }
+        .star-blue .number { float: none; display: block; margin-bottom: .45rem; font-size: 2.4rem; }
+
+        .footer-panel { height: 230px; display: flex; align-items: center; background: var(--color-surface); }
+        .footer-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 56%; opacity: .34; }
+        .footer-panel::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, var(--color-bg) 0%, rgba(2, 8, 23, .82) 58%, rgba(2, 8, 23, .35)); }
+        .footer-content { position: relative; z-index: 2; width: 100%; padding: 2rem 3rem; display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
+        .footer-content h2 { margin-bottom: .2rem; font-size: clamp(2rem, 5vw, 4rem); line-height: .85; }
+        .footer-content p { max-width: 500px; margin-bottom: 0; color: var(--color-muted); font-size: .82rem; }
+        .footer-links { display: flex; flex-wrap: wrap; justify-content: end; gap: .6rem 1.25rem; }
+        .footer-links a { min-height: 44px; display: inline-flex; align-items: center; border-bottom: 1px solid var(--color-gold-deep); color: var(--color-ivory); text-decoration: none; font-size: .75rem; letter-spacing: .08em; transition: color var(--motion-fast), border-color var(--motion-fast); }
+        .footer-links a:hover { color: var(--color-warriors-gold); border-color: var(--color-warriors-gold); }
+        .credit { margin: 1rem 0 0; text-align: center; color: var(--color-muted); font-size: .68rem; }
+        .credit a:hover { color: var(--color-warriors-gold); }
+
+        @media (max-width: 767.98px) {
+            .hero.box01 { height: 480px; }
+            .hero-scrim { background: linear-gradient(0deg, rgba(2, 8, 23, .98), rgba(2, 8, 23, .24)); }
+            .hero-copy { padding: 2rem; }
+            .hero-lead { font-size: .9rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip-link" href="#main-content">跳至主要內容</a>
+    <main class="container" id="main-content">
+        <!-- 原版 header：col-12 d-md-none d-lg-block -->
+        <div class="row">
+            <div class="col-12 d-md-none d-lg-block">
+                <header class="box01 hero">
+                    <img class="hero-image" src="images_golden/hero-curry.jpg" width="1200" height="2613" alt="Stephen Curry 身穿金州勇士球衣站在球場上">
+                    <div class="hero-scrim" aria-hidden="true"></div>
+                    <div class="hero-copy">
+                        <div class="hero-mark">THE BAY · SINCE 1946</div>
+                        <h1 class="foil-text"><span>GOLDEN STATE WARRIORS</span>GOLDEN<br>BLOOD</h1>
+                        <p class="hero-lead">一條從費城、奧克蘭流向舊金山的金色血脈。以無私傳導、空間革命與冠軍意志，讓籃球的邊界在灣區重新被定義。</p>
+                        <div class="hero-meta"><span>7× NBA CHAMPIONS</span><span>STRENGTH IN NUMBERS</span><span>DUB NATION</span></div>
+                    </div>
+                </header>
+            </div>
+        </div>
+
+        <!-- 原版第一排：6 格球隊文化 -->
+        <section class="row" aria-label="勇士文化">
+            <div class="col-sm-6 col-lg-4 col-xxl-2"><article class="box01 culture"><span class="index">01 / CULTURE</span><div><h2>Strength in Numbers</h2><p>沒有誰大過團隊。分享球權、相信下一個人，是勇士王朝最深的信仰。</p></div></article></div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2"><article class="box01 culture"><span class="index">02 / MOTION</span><div><h2>Beautiful Game</h2><p>切入、掩護、傳導不停滯；快樂不是口號，而是球的移動方式。</p></div></article></div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2"><article class="box01 culture"><span class="index">03 / REVOLUTION</span><div><h2>Beyond the Arc</h2><p>把三分線變成新戰場，讓射程、節奏與空間重新書寫現代籃球。</p></div></article></div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2"><article class="box01 culture"><span class="index">04 / PEOPLE</span><div><h2>Dub Nation</h2><p>從 Roaracle 到 Chase Center，灣區球迷始終是最響亮的第六人。</p></div></article></div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2"><article class="box01 culture"><span class="index">05 / PLACE</span><div><h2>The Bay</h2><p>大橋連結的不只城市，也是奧克蘭根源、舊金山未來與灣區認同。</p></div></article></div>
+            <div class="col-sm-6 col-lg-4 col-xxl-2"><article class="box01 culture"><span class="index">06 / MINDSET</span><div><h2>Gold Standard</h2><p>紀律、韌性與冠軍細節，讓每一次投籃都承載超越勝負的標準。</p></div></article></div>
+        </section>
+
+        <!-- 原版第二排：6 格歷史，末 2 格僅 xxl 顯示 -->
+        <section class="row" aria-label="勇士歷史">
+            <div class="col-sm-6 col-lg-3 col-xxl-2"><article class="box01 legacy"><span class="number foil-text">1946</span><h2>費城誕生</h2><p>以 Philadelphia Warriors 之名加入 BAA，並贏得首屆冠軍。</p></article></div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2"><article class="box01 legacy"><span class="number foil-text">1962</span><h2>西遷灣區</h2><p>球隊前往舊金山，九年後正式成為 Golden State Warriors。</p></article></div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2"><article class="box01 legacy legacy-photo-1"><span class="number foil-text">7</span><h2>七座總冠軍</h2><p>1947、1956、1975、2015、2017、2018、2022。</p></article></div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2"><article class="box01 legacy"><span class="number foil-text">73–9</span><h2>歷史級球季</h2><p>2015–16 例行賽寫下當時 NBA 史上最佳戰績。</p></article></div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2 d-none d-xxl-block"><article class="box01 legacy legacy-photo-2"><span class="number foil-text">2022</span><h2>重返王座</h2><p>核心班底第四度登頂，完成王朝最動人的回歸。</p></article></div>
+            <div class="col-sm-6 col-lg-3 col-xxl-2 d-none d-xxl-block"><article class="box01 legacy" style="background-image:url('images_golden/chase-center.jpg')"><span class="number foil-text">2019</span><h2>Chase Center</h2><p>新主場落腳 Mission Bay，開啟灣區籃球的新篇章。</p></article></div>
+        </section>
+
+        <!-- 原版第三排：8 格當家球星與傳奇 -->
+        <section class="row" aria-label="勇士球星與傳奇">
+            <div class="col-md-6 col-xl-3"><article class="box01 star star-portrait"><img src="images_golden/hero-curry.jpg" width="1200" height="2613" loading="lazy" alt="Stephen Curry 勇士時期球場照片"><div class="star-copy"><span class="number">30</span><h2>Stephen Curry</h2><p>靈魂領袖 · 三分革命的起點</p></div></article></div>
+            <div class="col-md-6 col-xl-3"><article class="box01 star"><img src="images_golden/klay-thompson.jpg" width="1200" height="994" loading="lazy" alt="Klay Thompson 身穿勇士球衣切入"><div class="star-copy"><span class="number">11</span><h2>Klay Thompson</h2><p>傳奇射手 · Splash Brother</p></div></article></div>
+            <div class="col-md-6 col-xl-3"><article class="box01 star"><img src="images_golden/draymond-green.jpg" width="1200" height="800" loading="lazy" alt="Draymond Green 場邊照片"><div class="star-copy"><span class="number">23</span><h2>Draymond Green</h2><p>防守核心 · 王朝的競爭心臟</p></div></article></div>
+            <div class="col-md-6 col-xl-3"><article class="box01 star"><img src="images_golden/kevin-durant-parade.jpg" width="900" height="1200" loading="lazy" alt="Kevin Durant 參與勇士冠軍遊行"><div class="star-copy"><span class="number">35</span><h2>Kevin Durant</h2><p>兩屆 Finals MVP · 黃金篇章</p></div></article></div>
+            <div class="col-md-6 col-xl-3"><article class="box01 star star-blue"><div class="star-copy"><span class="number">13</span><h2>Wilt Chamberlain</h2><p>費城時代的史詩級支配者</p></div></article></div>
+            <div class="col-md-6 col-xl-3"><article class="box01 star"><img src="images_golden/rick-barry.jpg" width="900" height="1350" loading="lazy" alt="Rick Barry 出席勇士冠軍遊行"><div class="star-copy"><span class="number">24</span><h2>Rick Barry</h2><p>1975 Finals MVP · 冠軍傳奇</p></div></article></div>
+            <div class="col-md-6 col-xl-3"><article class="box01 star star-blue"><div class="star-copy"><span class="number">17</span><h2>Chris Mullin</h2><p>Run TMC · 灣區永恆射手</p></div></article></div>
+            <div class="col-md-6 col-xl-3"><article class="box01 star star-blue"><div class="star-copy"><span class="number">42</span><h2>Nate Thurmond</h2><p>名人堂中鋒 · 防守與力量象徵</p></div></article></div>
+        </section>
+
+        <!-- 原版 footer：col-12 d-none d-md-block -->
+        <div class="row">
+            <div class="col-12 d-none d-md-block">
+                <footer class="box01 footer-panel">
+                    <img src="images_golden/retired-jerseys.jpg" width="997" height="570" loading="lazy" alt="勇士隊史退休球衣陳列">
+                    <div class="footer-content">
+                        <div><span class="eyebrow">THE GOLDEN BLOOD COLLECTION</span><h2 class="foil-text">Wear the Legacy.</h2><p>把灣區的冠軍血脈穿在身上。球衣、外套、冠軍戒指靈感配件與限量典藏，以午夜藍和金屬金重構勇士經典。</p></div>
+                        <nav class="footer-links" aria-label="典藏系列"><a href="#">球衣典藏</a><a href="#">冠軍配件</a><a href="#">灣區生活</a></nav>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <p class="credit">非官方概念形象網站 · 圖片來源：<a href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>（各圖授權依原始頁面標示）</p>
+    </main>
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

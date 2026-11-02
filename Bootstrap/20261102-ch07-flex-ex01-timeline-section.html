@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ch7-Flex練習-時間軸區段(timeline-section)</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/myAll.css">
+    <style>
+        .timeline-section {
+            position: relative;
+        }
+        .timeline-section::before{
+            position: absolute;
+            content: '';
+            top: 0;
+            bottom: 0;
+            left: 50%; /*起算點在中間軸，但實際整條是在中間軸右邊*/
+            transform: translateX(-50%); /*往左移動50%，使整條bar的中心線在中間軸上*/
+            width: 10px;
+            background-color: rgb(201, 200, 200);
+        }
+        .timeline-section-pointer{
+            position: relative;
+        }
+        .timeline-section-pointer::before {
+            position: absolute;
+            content:'';
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 10px solid rgba(40, 71, 77, 0.5);
+            transform: translateX(-50%);
+        }
+        .timeline-section-pointer:hover::before {
+            width: 35px;
+            height: 35px;
+            border: 10px solid rgba(83, 49, 73, 0.692);
+
+        }
+        @media (max-width: 768px) {
+            .timeline-section::before {
+                left: -10px;
+            }
+            .timeline-section-pointer::before {
+                left: 15px;
+                top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="display-2 fw-900 text-bg-success p-3 my-3 text-center">時間軸排版</div>
+            <div class="timeline-section ">
+                <div class="row mt-3 timeline-section-pointer">
+                    <div class="col-md-6">                        
+                        <div class="img-box bg-img roller-r" style="background-image: url(images/i18_2.webp);height: 250px;">
+                        <div class="roller-r-box">
+                            <button class="btn btn-warning">右滑進按鈕</button>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <div class="h2 fw-900 text-primary text-center">第一標題01</div>
+                            <p>緩緩道理解決概念隨意口氣吸收對面較高制定同學其他的注重，光臨為何升級僅僅評估每一個，將來進步那些，這樣技巧維修中心效果當然媒體東方臺中不太食品一套石油，明白風雲適當仍然種種財富不懂利潤本書原則新鮮在於，代理說明只好教授，女孩藍色瘋狂立刻之家某些看起來，激。</p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row flex-row-reverse mt-3 timeline-section-pointer ">
+                    <div class="col-md-6">
+                        <div class="img-box bg-img roller-l" style="background-image: url(images/i18_3.avif);height: 250px;">
+                            <div class="roller-l-box">
+                                <button class="btn btn-secondary">左滑進按鈕</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <div class="h2 fw-900 text-primary text-center">第一標題02</div>
+                            <p>緩緩道理解決概念隨意口氣吸收對面較高制定同學其他的注重，光臨為何升級僅僅評估每一個，將來進步那些，這樣技巧維修中心效果當然媒體東方臺中不太食品一套石油，明白風雲適當仍然種種財富不懂利潤本書原則新鮮在於，代理說明只好教授，女孩藍色瘋狂立刻之家某些看起來，激。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box bg-img roller-down" style="background-image: url(images/i18_DUO.jpg);height: 250px;">
+                            <div class="roller-down-box">
+                                <button class="btn btn-danger">上滑進按鈕</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <div class="h2 fw-900 text-primary text-center">第一標題03</div>
+                            <p>緩緩道理解決概念隨意口氣吸收對面較高制定同學其他的注重，光臨為何升級僅僅評估每一個，將來進步那些，這樣技巧維修中心效果當然媒體東方臺中不太食品一套石油，明白風雲適當仍然種種財富不懂利潤本書原則新鮮在於，代理說明只好教授，女孩藍色瘋狂立刻之家某些看起來，激。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row flex-row-reverse mt-3 timeline-section-pointer">
+                    <div class="col-md-6">
+                        <div class="img-box bg-img roller-up" style="background-image: url(images/iphone18pro_1.jpg);height: 250px;">
+                            <div class="roller-up-box">
+                                <button class="btn btn-success">下滑進按鈕</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-box">
+                            <div class="h2 fw-900 text-primary text-center">第一標題04</div>
+                            <p>緩緩道理解決概念隨意口氣吸收對面較高制定同學其他的注重，光臨為何升級僅僅評估每一個，將來進步那些，這樣技巧維修中心效果當然媒體東方臺中不太食品一套石油，明白風雲適當仍然種種財富不懂利潤本書原則新鮮在於，代理說明只好教授，女孩藍色瘋狂立刻之家某些看起來，激。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>

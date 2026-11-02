@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/myAll.css">
+    <style>
+        .box01 {
+            height: 200px;
+        }
+        /* 1.右到左 */
+        .roller-r {
+            position: relative;
+            overflow: hidden; /*超出容器外的部分隱藏*/
+        }       
+        
+        .roller-r .roller-r-box {
+            position:absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateX(100%);
+            transition: transform 2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .roller-r:hover .roller-r-box {
+            transform: translateX(0);
+        }
+        /* 2.左到右 */
+        .roller-l {
+            position: relative;
+            overflow: hidden; /*超出容器外的部分隱藏*/
+        }
+        .roller-l:hover .roller-l-box {
+            transform: translateX(0);
+        }
+        .roller-l .roller-l-box {
+            position:absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateX(-100%);
+            transition: transform 2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            
+        }
+        .roller-l:hover .roller-l-box {
+            transform: translateX(0);
+        }
+        /* 3.下到上 */
+        .roller-down {
+            position: relative;
+            overflow: hidden; /*超出容器外的部分隱藏 */
+        }
+        .roller-down .roller-down-box {
+            position:absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(100%);
+            transition: transform 2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            
+        }
+        .roller-down:hover .roller-down-box {
+            transform: translateY(0);
+        }
+        /* 4.上到下 */
+        .roller-up {
+            position: relative;
+            overflow: hidden; /*超出容器外的部分隱藏 */
+        }
+        .roller-up .roller-up-box {
+            position:absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(-100%);
+            transition: transform 2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            
+        }
+        .roller-up:hover .roller-up-box {
+            transform: translateY(0);
+        }
+
+    </style>
+    <title>卷軸效果</title>
+</head>
+<body>
+    <div class="container my-5">
+        <h1>1.右到左</h1>
+        <div class="row">
+            <div class="col-6 roller-r bg-info">
+                <div class="roller-r-box">
+                    <button class="btn btn-secondary">了解更多</button>
+                </div>
+                <div class="box01"></div>
+            </div>
+        </div>
+        <h1>2.左到右</h1>
+        <div class="row">
+            <div class="col-6 roller-l bg-info">
+                <div class="roller-l-box">
+                    <button class="btn btn-success">了解更多</button>
+                </div>
+                <div class="box01"></div>
+            </div>
+        </div>
+        
+        <h1>3.下到上</h1>
+            <div class="row">
+                <div class="col-6 roller-down bg-info">
+                    <div class="roller-down-box">
+                        <button class="btn btn-danger">了解更多</button>
+                    </div>
+                    <div class="box01"></div>
+                </div>
+            </div>
+            <h1>4.上到下</h1>
+            <div class="row">
+                <div class="col-6 roller-up bg-info">
+                    <div class="roller-up-box">
+                        <button class="btn btn-warning">了解更多</button>
+                    </div>
+                    <div class="box01"></div>
+                </div>
+            </div>
+        </div>
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
