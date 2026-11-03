@@ -1,0 +1,22 @@
+{
+  "format": "justin-profile-v1",
+  "files": [
+    "cases/geospatial-platform/index.html",
+    "cases/private-ai/index.html",
+    "cases/workflow-automation/index.html",
+    "css/bootstrap.min.css",
+    "css/myAll.css",
+    "downloads/Justin-Chiu-Resume-ZH.docx",
+    "images/profile/avatar.svg",
+    "images/profile/clinic-cover.svg",
+    "images/profile/iceland-cover.svg",
+    "images/profile/workspace.jpg",
+    "index.html",
+    "js/profile.js",
+    "notes/equivalent-work-hours/index.html",
+    "notes/index.html",
+    "projects/clinic-scheduling/index.html",
+    "projects/iceland-map/index.html",
+    "projects/index.html"
+  ]
+}

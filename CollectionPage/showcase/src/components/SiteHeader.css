@@ -1,0 +1,27 @@
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--wall);
+  border-bottom: 1px solid var(--rule);
+}
+
+.masthead__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  min-height: var(--masthead-h);
+}
+
+.masthead__name {
+  font-size: var(--t-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.masthead__meta {
+  display: flex;
+  gap: var(--s6);
+}

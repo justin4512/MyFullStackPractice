@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>陳品儒 — 前端工程師與互動設計師｜作品輯</title>
+<meta name="description" content="六件前端與互動設計作品，每件附上實際負責範圍、關鍵決策與有來源的成果證據。">
+<meta name="color-scheme" content="light dark">
+<!-- 靜態設計稿｜對應路由 /（README 第 3 部 §3.2）
+     只有版面與視覺，不含任何 JS 控制與功能；主題跟隨系統偏好。
+     互動元件已放上正確的元素、ARIA 與狀態屬性，之後接邏輯時直接沿用。 -->
+<link rel="stylesheet" href="../assets/css/design-system.css">
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/home.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-workflow" viewBox="0 0 24 24"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+</svg>
+
+<a class="skip-link" href="#main">跳至主要內容</a>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true">陳</span><span class="brand__name">陳品儒</span></a>
+    <nav aria-label="主要導覽">
+      <ul class="nav__list" role="list">
+        <li><a class="nav__link" href="#work">作品</a></li>
+        <li><a class="nav__link" href="#about">關於我</a></li>
+        <li><a class="nav__link" href="#contact">聯絡</a></li>
+      </ul>
+    </nav>
+    <div class="theme-toggle" role="radiogroup" aria-label="主題選擇">
+      <button type="button" class="theme-toggle__btn" role="radio" aria-checked="false"><svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg><span class="theme-toggle__label">亮色</span></button>
+      <button type="button" class="theme-toggle__btn" role="radio" aria-checked="false"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg><span class="theme-toggle__label">暗色</span></button>
+      <button type="button" class="theme-toggle__btn" role="radio" aria-checked="true"><svg class="icon" aria-hidden="true"><use href="#i-monitor"/></svg><span class="theme-toggle__label">系統</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ── Hero：我是誰、做什麼、作品在哪（FR-2.6：不依賴動畫即完整可見）── -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="status-pill"><span class="status-pill__dot" aria-hidden="true"></span>可合作中 · 台北／遠端</p>
+        <h1 class="hero__title" id="hero-title">
+          <span class="hero__name">陳品儒</span><span class="visually-hidden">，</span>
+          <span class="hero__role">前端工程師與互動設計師</span>
+        </h1>
+        <p class="hero__lead">我把複雜流程收斂成<strong>看得懂、按得動</strong>的介面。六件作品都寫清楚我負責的範圍，成果數字一律附上來源。</p>
+        <div class="cta-group">
+          <a class="btn btn--primary btn--lg" href="#work">查看作品<svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          <!-- 待補：履歷 PDF 路徑 -->
+          <a class="btn btn--secondary btn--lg" href="#"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>下載履歷</a>
+        </div>
+      </div>
+
+      <aside class="proof" aria-labelledby="proof-title">
+        <div class="proof__head">
+          <p class="proof__title" id="proof-title">三個有來源的數字</p>
+          <p class="proof__note">量測方式寫在每件作品裡</p>
+        </div>
+        <ol class="proof__list" role="list">
+          <li class="proof__item">
+            <p class="proof__metric"><span class="proof__from">20 分鐘</span><svg class="icon proof__arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg><span class="visually-hidden">縮短至</span><span class="proof__to">90 秒</span></p>
+            <p class="proof__label">Tidal · 異常來源確認時間</p>
+            <p class="proof__source">5 位營運主管的任務計時測試（2026-06）</p>
+          </li>
+          <li class="proof__item">
+            <p class="proof__metric"><span class="proof__from">41%</span><svg class="icon proof__arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg><span class="visually-hidden">提升至</span><span class="proof__to">63%</span></p>
+            <p class="proof__label">Harbor · 開戶完成率</p>
+            <p class="proof__source">上線前後各 8 週漏斗分析，樣本 12,400 筆（2025-11）</p>
+          </li>
+          <li class="proof__item">
+            <p class="proof__metric"><span class="proof__from">每季 14 件</span><svg class="icon proof__arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg><span class="visually-hidden">降至</span><span class="proof__to">0 件</span></p>
+            <p class="proof__label">Atlas · 同步造成的資料覆蓋</p>
+            <p class="proof__source">同步稽核日誌，上線後連續四季（2024-12）</p>
+          </li>
+        </ol>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ── 作品輯：主視覺 ＋ 說明欄位 ＋ 切換控制 ＋ 索引 ── -->
+  <section class="section section--rule" id="work" aria-labelledby="work-title">
+    <div class="container">
+      <div class="work-head">
+        <header class="section-head">
+          <h2 class="section-label" id="work-title"><span class="section-label__num" aria-hidden="true">01</span>作品輯</h2>
+          <p class="section-statement">六件作品，每一件都說清楚我負責什麼。</p>
+          <p class="section-lead">角色、問題、決策、成果——每件作品用同一組欄位呈現，方便橫向比較，也方便你挑出跟自己最相關的那一件。</p>
+        </header>
+        <div class="legend">
+          <p class="legend__title" id="legend-title">成果依證據強度標示</p>
+          <ul class="legend__list" role="list" aria-labelledby="legend-title">
+            <li data-evidence="measured"><span class="evidence__badge">實測結果</span></li>
+            <li data-evidence="observed"><span class="evidence__badge">觀察行為</span></li>
+            <li data-evidence="qualitative"><span class="evidence__badge">質性回饋</span></li>
+            <li data-evidence="delivered"><span class="evidence__badge">交付事實</span></li>
+            <li data-evidence="unmeasured"><span class="evidence__badge">未量測</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="folio" role="group" aria-roledescription="作品輪播" aria-label="作品輯">
+
+        <figure class="folio-visual">
+          <img class="folio-visual__img" src="assets/img/tidal.svg" width="1600" height="1000" decoding="async" fetchpriority="high"
+               alt="Tidal 監控台主畫面，上方為依可行動性排序的告警清單，下方為選定告警的時間軸與相關指標圖">
+        </figure>
+
+        <article class="folio-panel" aria-labelledby="folio-title">
+          <header class="folio-head">
+            <p class="folio-head__meta"><span class="folio-head__index">01</span><span class="badge">Web App</span><span>2026</span></p>
+            <h2 class="folio-title" id="folio-title">Tidal 營運監控台</h2>
+            <p class="folio-summary">把三個後台的告警集中成一頁，讓值班人員不必在分頁之間追資訊。</p>
+          </header>
+
+          <section class="field" aria-labelledby="f-role">
+            <h3 class="field__label" id="f-role">我的角色與貢獻</h3>
+            <p class="field__lead">前端主要開發</p>
+            <dl class="pairs">
+              <div><dt>我負責</dt><dd>資訊架構、即時資料層、告警排序邏輯、鍵盤操作流程</dd></div>
+              <div><dt>團隊</dt><dd>與 1 位後端工程師、1 位營運主管共同定義告警優先級</dd></div>
+            </dl>
+          </section>
+
+          <section class="field" aria-labelledby="f-outcome">
+            <h3 class="field__label" id="f-outcome">關鍵成果</h3>
+            <div class="evidence" data-evidence="measured">
+              <span class="evidence__badge">實測結果</span>
+              <p class="evidence__metric"><span class="evidence__from">原 20 分鐘</span><span class="evidence__number">90</span><span class="evidence__unit">秒內</span></p>
+              <p class="evidence__text">異常來源確認時間由 20 分鐘縮短至 90 秒內</p>
+              <p class="evidence__source">來源：5 位營運主管的任務計時測試，前後各 3 次（2026-06）</p>
+            </div>
+          </section>
+
+          <!-- 深度層：原生 details，預設收合 -->
+          <div class="disclosure-group">
+            <details class="disclosure">
+              <summary class="disclosure__summary">
+                <h3 class="disclosure__title">問題與目標</h3>
+                <svg class="icon disclosure__icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+              </summary>
+              <div class="disclosure__body">
+                <dl class="pairs">
+                  <div><dt>問題</dt><dd>值班人員需要同時開三個後台才能判斷一次異常，平均要 20 分鐘才能確認問題來源。</dd></div>
+                  <div><dt>目標</dt><dd>讓最需要處理的告警在首屏就出現，並且不需要滑鼠就能完成處理流程。</dd></div>
+                </dl>
+              </div>
+            </details>
+            <details class="disclosure">
+              <summary class="disclosure__summary">
+                <h3 class="disclosure__title">關鍵決策</h3>
+                <span class="disclosure__count">3 項</span>
+                <svg class="icon disclosure__icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+              </summary>
+              <div class="disclosure__body">
+                <ol class="decision-list" role="list">
+                  <li class="decision">
+                    <p class="decision__what">告警排序以「可行動性」而非「時間」為第一鍵</p>
+                    <p class="decision__why">依時間排序會讓一則無法處理的舊告警永遠佔據首位；營運主管真正要的是「現在能做什麼」。</p>
+                  </li>
+                  <li class="decision">
+                    <p class="decision__what">即時更新採 SSE 而非 WebSocket</p>
+                    <p class="decision__why">資料流是單向的，SSE 的自動重連與 HTTP 快取語意直接可用，少維護一層連線狀態機。</p>
+                  </li>
+                  <li class="decision">
+                    <p class="decision__what">全流程可純鍵盤完成，不提供只有滑鼠能做的操作</p>
+                    <p class="decision__why">值班時常一手拿電話，鍵盤操作不是無障礙的附加項而是主要使用情境。</p>
+                  </li>
+                </ol>
+              </div>
+            </details>
+            <details class="disclosure">
+              <summary class="disclosure__summary">
+                <h3 class="disclosure__title">其他成果</h3>
+                <span class="disclosure__count">2 項</span>
+                <svg class="icon disclosure__icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+              </summary>
+              <div class="disclosure__body">
+                <ul class="evidence-list" role="list">
+                  <li class="evidence evidence--compact" data-evidence="observed">
+                    <span class="evidence__badge">觀察行為</span>
+                    <p class="evidence__text">上線兩個月後，值班人員的分頁開啟數由平均 4 個降為 1 個</p>
+                  </li>
+                  <li class="evidence evidence--compact" data-evidence="delivered">
+                    <span class="evidence__badge">交付事實</span>
+                    <p class="evidence__text">交付含 42 條告警規則的設定介面與匯出／匯入功能</p>
+                  </li>
+                </ul>
+              </div>
+            </details>
+          </div>
+
+          <section class="field" aria-labelledby="f-tech">
+            <h3 class="field__label" id="f-tech">技術棧</h3>
+            <ul class="chip-list" role="list">
+              <li class="chip chip--tech">TypeScript</li>
+              <li class="chip chip--tech">Server-Sent Events</li>
+              <li class="chip chip--tech">IndexedDB</li>
+              <li class="chip chip--tech">Playwright</li>
+            </ul>
+          </section>
+
+          <section class="field" aria-labelledby="f-links">
+            <h3 class="field__label" id="f-links">相關連結</h3>
+            <ul class="link-list" role="list">
+              <li><a class="link-pill" href="https://example.com/tidal" target="_blank" rel="noopener noreferrer">閱讀完整設計歷程<span class="visually-hidden">（在新分頁開啟）</span><svg class="icon icon--sm" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+              <li><a class="link-pill" href="https://example.com/tidal-src" target="_blank" rel="noopener noreferrer">檢視原始碼（已去識別化）<span class="visually-hidden">（在新分頁開啟）</span><svg class="icon icon--sm" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+            </ul>
+          </section>
+
+          <div class="folio-panel__foot">
+            <a class="btn btn--secondary" href="work.html">前往作品內頁<svg class="icon icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </div>
+        </article>
+
+        <div class="folio-controls" role="group" aria-label="切換作品">
+          <button type="button" class="icon-btn" aria-label="上一件作品"><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
+          <p class="folio-position"><span class="visually-hidden">第</span><strong>1</strong><span aria-hidden="true">/</span><span class="visually-hidden">件，共</span>6<span class="visually-hidden">件</span></p>
+          <button type="button" class="icon-btn" aria-label="下一件作品"><svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+          <p class="folio-controls__hint"><kbd>←</kbd><kbd>→</kbd>也可以切換</p>
+        </div>
+
+        <div class="work-index">
+          <p class="work-index__title" id="index-title">所有作品 <span class="work-index__count">06</span></p>
+          <ol class="index-list" role="list" aria-labelledby="index-title">
+            <li><button type="button" class="index-list__btn" aria-current="true">
+              <span class="index-list__num">01</span>
+              <span class="index-list__body"><span class="index-list__title">Tidal 營運監控台</span><span class="index-list__role">前端主要開發</span></span>
+              <span class="index-list__meta">Web App · 2026</span>
+            </button></li>
+            <li><button type="button" class="index-list__btn">
+              <span class="index-list__num">02</span>
+              <span class="index-list__body"><span class="index-list__title">Quiet Hours 專注時段</span><span class="index-list__role">獨立開發者</span></span>
+              <span class="index-list__meta">互動體驗 · 2025</span>
+            </button></li>
+            <li><button type="button" class="index-list__btn">
+              <span class="index-list__num">03</span>
+              <span class="index-list__body"><span class="index-list__title">Meridian 設計系統</span><span class="index-list__role">設計系統負責人</span></span>
+              <span class="index-list__meta">設計系統 · 2026</span>
+            </button></li>
+            <li><button type="button" class="index-list__btn">
+              <span class="index-list__num">04</span>
+              <span class="index-list__body"><span class="index-list__title">Cadence 動態實驗室</span><span class="index-list__role">互動設計與前端實作</span></span>
+              <span class="index-list__meta">互動體驗 · 2025</span>
+            </button></li>
+            <li><button type="button" class="index-list__btn">
+              <span class="index-list__num">05</span>
+              <span class="index-list__body"><span class="index-list__title">Harbor 開戶流程重製</span><span class="index-list__role">前端技術負責人</span></span>
+              <span class="index-list__meta">Web App · 2025</span>
+            </button></li>
+            <li><button type="button" class="index-list__btn">
+              <span class="index-list__num">06</span>
+              <span class="index-list__body"><span class="index-list__title">Atlas 田野調查回報</span><span class="index-list__role">前端開發</span></span>
+              <span class="index-list__meta">資料視覺化 · 2024</span>
+            </button></li>
+          </ol>
+        </div>
+
+      </div>
+
+      <div class="work-cta">
+        <p class="work-cta__text"><strong>沒看到跟你的產業接近的案例？</strong>告訴我你的情境，我可以挑兩件最相關的作品，細講當時怎麼做決策。</p>
+        <a class="btn btn--secondary" href="#contact">討論你的專案</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 關於我：能力範圍、合作流程、回饋（旅程階段 5「判斷」）── -->
+  <section class="section section--rule" id="about" aria-labelledby="about-title">
+    <div class="container">
+      <header class="section-head">
+        <h2 class="section-label" id="about-title"><span class="section-label__num" aria-hidden="true">02</span>關於我</h2>
+        <p class="section-statement">能被機器擋下的，就不要靠人記得。</p>
+      </header>
+
+      <div class="about-grid">
+        <div class="about-bio">
+          <p>八年前端經驗，近三年專注在設計系統與無障礙。我習慣把規範寫成可執行的檢查——對比驗證、資料契約、追溯矩陣——讓團隊不必靠記憶維持品質。</p>
+          <p>最常找上我的，是「功能都做得出來，但沒有人敢改」的介面：狀態散落各處、錯誤沒有被說清楚、改一個顏色要動十幾個檔案。</p>
+          <dl class="fact-list">
+            <div class="fact"><dt>前端經驗</dt><dd>8 年</dd></div>
+            <div class="fact"><dt>近期專注</dt><dd>設計系統、無障礙</dd></div>
+            <div class="fact"><dt>合作形式</dt><dd>專案制／顧問制</dd></div>
+            <div class="fact"><dt>所在地</dt><dd>台北，可遠端</dd></div>
+          </dl>
+        </div>
+
+        <section class="about-block" aria-labelledby="cap-title">
+          <h3 class="about-block__title" id="cap-title">能力範圍</h3>
+          <ul class="capability-list" role="list">
+            <li class="capability">
+              <div class="capability__head">
+                <span class="capability__icon"><svg class="icon" aria-hidden="true"><use href="#i-workflow"/></svg></span>
+                <h4 class="capability__title">複雜流程的前端架構</h4>
+              </div>
+              <p class="capability__text">把會出錯的地方建模成看得見的狀態：流程狀態機、離線同步、即時資料層與可續填的表單。</p>
+              <p class="capability__proof">代表作品：Harbor、Atlas、Tidal</p>
+            </li>
+            <li class="capability">
+              <div class="capability__head">
+                <span class="capability__icon"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
+                <h4 class="capability__title">設計系統與無障礙</h4>
+              </div>
+              <p class="capability__text">語意權杖、對比驗證 CI、WCAG 2.2 AA 表單元件——讓合規變成建置期檢查，而不是上線前的目視。</p>
+              <p class="capability__proof">代表作品：Meridian、Harbor</p>
+            </li>
+            <li class="capability">
+              <div class="capability__head">
+                <span class="capability__icon"><svg class="icon" aria-hidden="true"><use href="#i-activity"/></svg></span>
+                <h4 class="capability__title">互動與動態原型</h4>
+              </div>
+              <p class="capability__text">可調參數的動態原型與逐項的減少動態降級，讓團隊用數值、而不是形容詞討論動畫。</p>
+              <p class="capability__proof">代表作品：Cadence、Quiet Hours</p>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="about-block about-block--wide" aria-labelledby="process-title">
+        <h3 class="about-block__title" id="process-title">合作流程</h3>
+        <ol class="process" role="list">
+          <li class="process__step">
+            <h4 class="process__title">初談</h4>
+            <p class="process__meta">30 分鐘 · 不收費</p>
+            <p class="process__text">聊現況與卡住的地方，先確認我幫不幫得上忙。</p>
+          </li>
+          <li class="process__step">
+            <h4 class="process__title">現況盤點</h4>
+            <p class="process__meta">1–2 週</p>
+            <p class="process__text">讀程式碼與介面、訪談實際使用者，產出問題清單與優先序。</p>
+          </li>
+          <li class="process__step">
+            <h4 class="process__title">提案與報價</h4>
+            <p class="process__meta">盤點後 3 個工作天內</p>
+            <p class="process__text">依盤點結果提出範圍、時程與報價，驗收標準事先寫清楚。</p>
+          </li>
+          <li class="process__step">
+            <h4 class="process__title">迭代交付</h4>
+            <p class="process__meta">每兩週一次</p>
+            <p class="process__text">每次交付都能實際操作，並附上這一輪的決策紀錄。</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="about-block about-block--wide" aria-labelledby="quote-title">
+        <h3 class="about-block__title" id="quote-title">合作者與使用者怎麼說</h3>
+        <ul class="quote-list" role="list">
+          <li>
+            <figure class="quote">
+              <blockquote class="quote__text"><p>「不用再問設計師這個灰是哪個灰。」</p></blockquote>
+              <figcaption class="quote__cite"><strong>Meridian 導入後的前端工程師</strong>取自作品的質性回饋</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure class="quote">
+              <blockquote class="quote__text"><p>「它不會讓我覺得自己失敗了。」</p></blockquote>
+              <figcaption class="quote__cite"><strong>Quiet Hours 使用者</strong>回饋中最常出現的一句</figcaption>
+            </figure>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </section>
+
+  <!-- ── 聯絡（旅程階段 6「行動」）── -->
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="contact-panel surface-inverse">
+        <header class="section-head">
+          <h2 class="section-label" id="contact-title"><span class="section-label__num" aria-hidden="true">03</span>聯絡</h2>
+          <p class="section-statement"><span class="phrase">如果你的專案卡在</span><span class="phrase">「做得出來，但沒人敢改」，</span><span class="phrase">我大概能幫上忙。</span></p>
+          <p class="section-lead">不需要準備完整的需求書。一封信說明現況就好，我會在 2 個工作天內回覆。</p>
+        </header>
+        <div class="contact-actions">
+          <div class="cta-group">
+            <a class="btn btn--primary btn--lg" href="mailto:hello@example.com"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>寄信討論你的專案</a>
+          </div>
+          <p class="contact-note">或直接寫信到 <a class="text-link" href="mailto:hello@example.com">hello@example.com</a></p>
+          <ul class="link-list" role="list">
+            <li><a class="link-pill" href="https://example.com/github" target="_blank" rel="noopener noreferrer"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-github"/></svg>GitHub<span class="visually-hidden">（在新分頁開啟）</span></a></li>
+            <li><a class="link-pill" href="https://example.com/linkedin" target="_blank" rel="noopener noreferrer"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn<span class="visually-hidden">（在新分頁開啟）</span></a></li>
+            <!-- 待補：履歷 PDF 路徑 -->
+            <li><a class="link-pill" href="#"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-file-text"/></svg>履歷 PDF</a></li>
+          </ul>
+          <div class="prep">
+            <p class="prep__title">信裡寫上這三件事，回覆會更快</p>
+            <ul class="prep-list" role="list">
+              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>現在的產品或流程長什麼樣子</li>
+              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>卡住的地方，以及它已經造成的影響</li>
+              <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>期望的時程與合作形式</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true">陳</span><span class="brand__name">陳品儒</span></a>
+      <p>有專案想聊聊？寫信到 <a class="text-link" href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <nav aria-label="頁尾導覽">
+      <ul class="nav__list" role="list">
+        <li><a class="nav__link" href="#work">作品</a></li>
+        <li><a class="nav__link" href="#about">關於我</a></li>
+        <li><a class="nav__link" href="#contact">聯絡</a></li>
+      </ul>
+    </nav>
+    <div class="site-footer__bottom">
+      <p>© 2026 陳品儒</p>
+      <p>以原生 HTML 與 CSS 製作</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

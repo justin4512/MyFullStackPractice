@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>元件狀態總覽｜陳品儒 作品輯設計稿</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<!-- 設計稿附錄：把首頁與內頁看不到的狀態集中攤開（README 第 3 部 §5.3、3-B §5 九態）。
+     純靜態；hover／focus／active 以 .is-* 修飾類別固定在畫面上，僅供對照。 -->
+<link rel="stylesheet" href="../assets/css/design-system.css">
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/home.css">
+<link rel="stylesheet" href="assets/case.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-image-off" viewBox="0 0 24 24"><path d="m2 2 20 20"/><path d="M10.41 10.41a2 2 0 1 1-2.83-2.83"/><path d="m13.5 13.5-7.5 7.5"/><path d="m18 12 3 3"/><path d="M3.59 3.59A1.99 1.99 0 0 0 3 5v14a2 2 0 0 0 2 2h14c.55 0 1.05-.22 1.41-.59"/><path d="M21 15V5a2 2 0 0 0-2-2H9"/></symbol>
+  <symbol id="i-search-x" viewBox="0 0 24 24"><path d="m13.5 8.5-5 5"/><path d="m8.5 8.5 5 5"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></symbol>
+</svg>
+
+<a class="skip-link" href="#main">跳至主要內容</a>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true">陳</span><span class="brand__name">陳品儒</span></a>
+    <nav aria-label="主要導覽">
+      <ul class="nav__list" role="list">
+        <li><a class="nav__link" href="index.html#work">作品</a></li>
+        <li><a class="nav__link" href="index.html#about">關於我</a></li>
+        <li><a class="nav__link" href="index.html#contact">聯絡</a></li>
+      </ul>
+    </nav>
+    <div class="theme-toggle" role="radiogroup" aria-label="主題選擇">
+      <button type="button" class="theme-toggle__btn" role="radio" aria-checked="false"><svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg><span class="theme-toggle__label">亮色</span></button>
+      <button type="button" class="theme-toggle__btn" role="radio" aria-checked="false"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg><span class="theme-toggle__label">暗色</span></button>
+      <button type="button" class="theme-toggle__btn" role="radio" aria-checked="true"><svg class="icon" aria-hidden="true"><use href="#i-monitor"/></svg><span class="theme-toggle__label">系統</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+    <header class="board-head">
+      <p class="section-label"><span class="section-label__num">A1</span>設計稿附錄</p>
+      <h1 class="board-title">元件狀態總覽</h1>
+      <p class="board-lead">首頁與作品內頁呈現的是「一切正常」的畫面。這一頁把載入、錯誤、空狀態、邊界與互動狀態集中攤開，實作時可以逐張對照；每張卡片都標出對應的需求編號。</p>
+    </header>
+
+    <div class="board">
+
+      <article class="spec" aria-labelledby="s-loading">
+        <header class="spec__head">
+          <h2 class="spec__title" id="s-loading">載入中：文字先到，圖片佔位</h2>
+          <p class="spec__desc">主視覺以固定比例預留空間並顯示掃光骨架；說明文字不等圖片，立即可讀。減少動態時掃光停止。</p>
+          <p class="spec__tags"><span class="spec__tag">NFR-2.1</span><span class="spec__tag">NFR-2.5</span><span class="spec__tag">FR-2.8</span></p>
+        </header>
+        <div class="spec__stage">
+          <div class="mini-folio">
+            <div class="skeleton skeleton--visual" aria-busy="true"><span class="visually-hidden">主視覺載入中</span></div>
+            <div class="mini-panel">
+              <p class="meta-row"><span class="meta-row__index">03</span><span class="badge">設計系統</span><span>2026</span></p>
+              <h3 class="mini-panel__title">Meridian 設計系統</h3>
+              <p class="mini-panel__text">把散落在四個產品線的介面收斂為一套語意權杖與元件庫。</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="spec" aria-labelledby="s-error">
+        <header class="spec__head">
+          <h2 class="spec__title" id="s-error">主視覺載入失敗</h2>
+          <p class="spec__desc">版位不塌陷，改顯示替代說明與圖片內容描述；右側文字完全不受影響。</p>
+          <p class="spec__tags"><span class="spec__tag">failure test</span><span class="spec__tag">FR-3.7</span></p>
+        </header>
+        <div class="spec__stage">
+          <div class="mini-folio">
+            <div class="visual-box">
+              <div class="visual-fallback">
+                <span class="visual-fallback__icon"><svg class="icon" aria-hidden="true"><use href="#i-image-off"/></svg></span>
+                <p class="visual-fallback__title">圖片沒有載入成功</p>
+                <p class="visual-fallback__text">畫面內容：9 個步驟中第 4 步進行中，右側為續填提示卡片。</p>
+              </div>
+            </div>
+            <div class="mini-panel">
+              <p class="meta-row"><span class="meta-row__index">05</span><span class="badge">Web App</span><span>2025</span></p>
+              <h3 class="mini-panel__title">Harbor 開戶流程重製</h3>
+              <p class="mini-panel__text">把 9 步驟的金融開戶拆成可中斷、可續填的漸進式流程。</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="spec" aria-labelledby="s-filter">
+        <header class="spec__head">
+          <h2 class="spec__title" id="s-filter">分類篩選（作品超過 10 件才出現）</h2>
+          <p class="spec__desc">已選取＝品牌填色＋勾選圖示＋aria-pressed；篩選後位置指示改算子集合。</p>
+          <p class="spec__tags"><span class="spec__tag">FR-1.7</span><span class="spec__tag">SC 1.4.1</span></p>
+        </header>
+        <div class="spec__stage">
+          <div class="toolbar">
+            <div class="filter-bar" role="group" aria-label="依分類篩選">
+              <button type="button" class="chip chip--filter" aria-pressed="false">全部</button>
+              <button type="button" class="chip chip--filter" aria-pressed="true"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg>Web App</button>
+              <button type="button" class="chip chip--filter" aria-pressed="false">互動體驗</button>
+              <button type="button" class="chip chip--filter" aria-pressed="false">設計系統</button>
+              <button type="button" class="chip chip--filter" aria-pressed="false">資料視覺化</button>
+            </div>
+            <p class="filter-status" role="status">Web App · 共 2 件</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="spec" aria-labelledby="s-single">
+        <header class="spec__head">
+          <h2 class="spec__title" id="s-single">只剩一件：切換控制停用</h2>
+          <p class="spec__desc">按鈕留在原位不移除；以文字說明為什麼不能切換，而不是只把按鈕變灰。</p>
+          <p class="spec__tags"><span class="spec__tag">FR-1.5</span><span class="spec__tag">FR-1.7</span></p>
+        </header>
+        <div class="spec__stage">
+          <div class="controls-demo">
+            <button type="button" class="icon-btn" aria-label="上一件作品" aria-describedby="single-status" disabled><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
+            <p class="folio-position"><span class="visually-hidden">第</span><strong>1</strong><span aria-hidden="true">/</span><span class="visually-hidden">件，共</span>1<span class="visually-hidden">件</span></p>
+            <button type="button" class="icon-btn" aria-label="下一件作品" aria-describedby="single-status" disabled><svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+            <p class="controls-demo__status" id="single-status">只有 1 件符合篩選的作品，無法切換</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="spec" aria-labelledby="s-deeplink">
+        <header class="spec__head">
+          <h2 class="spec__title" id="s-deeplink">無效的分享連結</h2>
+          <p class="spec__desc"><code>?project=</code> 指向不存在的代號時，顯示第一件作品並說明發生了什麼事。</p>
+          <p class="spec__tags"><span class="spec__tag">FR-1.6</span><span class="spec__tag">failure test</span></p>
+        </header>
+        <div class="spec__stage">
+          <p class="notice" role="status"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span><span class="notice__title">找不到代號「tidal-v1」的作品</span>已為你顯示第一件作品。可以從下方的索引清單挑選其他作品。</span></p>
+        </div>
+      </article>
+
+      <article class="spec" aria-labelledby="s-confidential">
+        <header class="spec__head">
+          <h2 class="spec__title" id="s-confidential">保密說明</h2>
+          <p class="spec__desc">受保密約束的作品，在標題下方說明哪些內容經過處理。</p>
+          <p class="spec__tags"><span class="spec__tag">FR-3.9</span></p>
+        </header>
+        <div class="spec__stage">
+          <aside class="notice notice--confidential" role="note"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg><span><span class="notice__title">保密說明</span>客戶為受金管會監管的金融機構，介面截圖已替換為示意圖，實際數據區間經客戶審閱後公開。</span></aside>
+        </div>
+      </article>
+
+      <article class="spec spec--wide" aria-labelledby="s-empty">
+        <header class="spec__head">
+          <h2 class="spec__title" id="s-empty">空狀態：永遠附上下一步</h2>
+          <p class="spec__desc">篩選無結果時提供「清除篩選」；完全沒有作品時導向關於我與聯絡，不留白、不出現錯誤。</p>
+          <p class="spec__tags"><span class="spec__tag">FR-1.7</span><span class="spec__tag">boundary</span></p>
+        </header>
+        <div class="spec__stage">
+          <div class="empty-pair">
+            <div class="empty" role="status">
+              <svg class="icon" aria-hidden="true"><use href="#i-search-x"/></svg>
+              <p class="empty__title">「行動 App」分類目前沒有作品</p>
+              <p class="empty__text">其他分類還有 6 件作品，或許有你要找的類型。</p>
+              <button type="button" class="btn btn--secondary">清除篩選，顯示全部作品</button>
+            </div>
+            <div class="empty" role="status">
+              <svg class="icon" aria-hidden="true"><use href="#i-inbox"/></svg>
+              <p class="empty__title">作品整理中</p>
+              <p class="empty__text">目前沒有可以公開的作品。可以先看看我的背景，或直接寫信聊聊你的專案。</p>
+              <div class="cta-group">
+                <a class="btn btn--secondary" href="index.html#about">關於我</a>
+                <a class="btn btn--primary" href="mailto:hello@example.com">寄信給我</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="spec spec--wide" aria-labelledby="s-evidence">
+        <header class="spec__head">
+          <h2 class="spec__title" id="s-evidence">成果證據的五種強度</h2>
+          <p class="spec__desc">色條與文字標籤雙重標示；只有「實測結果」可以顯示大數字，而且必須附來源與量測期間。</p>
+          <p class="spec__tags"><span class="spec__tag">FR-3.5</span><span class="spec__tag">SC 1.4.1</span></p>
+        </header>
+        <div class="spec__stage">
+          <ul class="evidence-list evidence-grid" role="list">
+            <li class="evidence" data-evidence="measured">
+              <span class="evidence__badge">實測結果</span>
+              <p class="evidence__metric"><span class="evidence__from">原 41%</span><span class="evidence__number">63</span><span class="evidence__unit">%</span></p>
+              <p class="evidence__text">開戶完成率由 41% 提升至 63%</p>
+              <p class="evidence__source">來源：上線前後各 8 週的漏斗分析（2025-11）</p>
+            </li>
+            <li class="evidence" data-evidence="observed">
+              <span class="evidence__badge">觀察行為</span>
+              <p class="evidence__text">調查員開始主動在衝突介面留下註記，說明為何選擇某個版本</p>
+            </li>
+            <li class="evidence" data-evidence="qualitative">
+              <span class="evidence__badge">質性回饋</span>
+              <p class="evidence__text">工程師回饋「不用再問設計師這個灰是哪個灰」</p>
+            </li>
+            <li class="evidence" data-evidence="delivered">
+              <span class="evidence__badge">交付事實</span>
+              <p class="evidence__text">交付通過 WCAG 2.2 AA 稽核的表單元件庫，含 14 種錯誤情境的處理規格</p>
+            </li>
+            <li class="evidence" data-evidence="unmeasured">
+              <span class="evidence__badge">未量測</span>
+              <p class="evidence__text">本專案刻意不蒐集任何使用行為資料，因此沒有留存率或使用時長數字</p>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="spec spec--wide" aria-labelledby="s-states">
+        <header class="spec__head">
+          <h2 class="spec__title" id="s-states">互動狀態</h2>
+          <p class="spec__desc">hover 只在可精準指向的裝置生效；焦點一律用 2px 外框加 2px 間距；停用為 45% 透明度並保留原位。</p>
+          <p class="spec__tags"><span class="spec__tag">NFR-1.4</span><span class="spec__tag">NFR-1.8</span><span class="spec__tag">FR-1.5</span></p>
+        </header>
+        <div class="spec__stage">
+          <div class="state-grid">
+            <p class="state-row-title">主要按鈕</p>
+            <div class="state-cell"><span class="state-cell__label">default</span><button type="button" class="btn btn--primary">查看作品</button></div>
+            <div class="state-cell"><span class="state-cell__label">hover</span><button type="button" class="btn btn--primary is-hover">查看作品</button></div>
+            <div class="state-cell"><span class="state-cell__label">focus-visible</span><button type="button" class="btn btn--primary is-focus">查看作品</button></div>
+            <div class="state-cell"><span class="state-cell__label">active</span><button type="button" class="btn btn--primary is-active">查看作品</button></div>
+            <div class="state-cell"><span class="state-cell__label">disabled</span><button type="button" class="btn btn--primary" disabled>查看作品</button></div>
+
+            <p class="state-row-title">次要按鈕</p>
+            <div class="state-cell"><span class="state-cell__label">default</span><button type="button" class="btn btn--secondary">下載履歷</button></div>
+            <div class="state-cell"><span class="state-cell__label">hover</span><button type="button" class="btn btn--secondary is-hover">下載履歷</button></div>
+            <div class="state-cell"><span class="state-cell__label">focus-visible</span><button type="button" class="btn btn--secondary is-focus">下載履歷</button></div>
+            <div class="state-cell"><span class="state-cell__label">disabled</span><button type="button" class="btn btn--secondary" disabled>下載履歷</button></div>
+          </div>
+
+          <div class="state-grid state-grid--wide">
+            <p class="state-row-title">索引清單項</p>
+            <div class="state-cell"><span class="state-cell__label">default</span>
+              <button type="button" class="index-list__btn"><span class="index-list__num">02</span><span class="index-list__body"><span class="index-list__title">Quiet Hours 專注時段</span><span class="index-list__role">獨立開發者</span></span></button>
+            </div>
+            <div class="state-cell"><span class="state-cell__label">hover</span>
+              <button type="button" class="index-list__btn is-hover"><span class="index-list__num">02</span><span class="index-list__body"><span class="index-list__title">Quiet Hours 專注時段</span><span class="index-list__role">獨立開發者</span></span></button>
+            </div>
+            <div class="state-cell"><span class="state-cell__label">current（aria-current）</span>
+              <button type="button" class="index-list__btn" aria-current="true"><span class="index-list__num">01</span><span class="index-list__body"><span class="index-list__title">Tidal 營運監控台</span><span class="index-list__role">前端主要開發</span></span></button>
+            </div>
+            <div class="state-cell"><span class="state-cell__label">focus-visible</span>
+              <button type="button" class="index-list__btn is-focus"><span class="index-list__num">03</span><span class="index-list__body"><span class="index-list__title">Meridian 設計系統</span><span class="index-list__role">設計系統負責人</span></span></button>
+            </div>
+          </div>
+
+          <div class="state-grid state-grid--wide">
+            <p class="state-row-title">深度層（展開）</p>
+            <div class="disclosure-group" style="grid-column: 1 / -1">
+              <details class="disclosure" open>
+                <summary class="disclosure__summary">
+                  <h3 class="disclosure__title">關鍵決策</h3>
+                  <span class="disclosure__count">2 項</span>
+                  <svg class="icon disclosure__icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+                </summary>
+                <div class="disclosure__body">
+                  <ol class="decision-list" role="list">
+                    <li class="decision">
+                      <p class="decision__what">同步衝突一律不自動解決，改為並列呈現兩個版本讓使用者選擇</p>
+                      <p class="decision__why">後寫入者獲勝的規則會靜默丟棄現場觀察，而那正是這份資料最不可替代的部分。</p>
+                    </li>
+                    <li class="decision">
+                      <p class="decision__what">影像在裝置端壓縮後才排入同步佇列</p>
+                      <p class="decision__why">山區訊號斷續，一張未壓縮照片可能佔用整段可用連線時間。</p>
+                    </li>
+                  </ol>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true">陳</span><span class="brand__name">陳品儒</span></a>
+      <p>有專案想聊聊？寫信到 <a class="text-link" href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <nav aria-label="頁尾導覽">
+      <ul class="nav__list" role="list">
+        <li><a class="nav__link" href="index.html#work">作品</a></li>
+        <li><a class="nav__link" href="index.html#about">關於我</a></li>
+        <li><a class="nav__link" href="index.html#contact">聯絡</a></li>
+      </ul>
+    </nav>
+    <div class="site-footer__bottom">
+      <p>© 2026 陳品儒</p>
+      <p>以原生 HTML 與 CSS 製作</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

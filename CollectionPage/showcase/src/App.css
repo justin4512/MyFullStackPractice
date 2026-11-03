@@ -1,0 +1,20 @@
+.works {
+  padding-block: var(--s16) var(--s24);
+}
+
+.works__head {
+  display: grid;
+  gap: var(--s2);
+  margin-bottom: var(--s8);
+}
+
+.works__title {
+  font-size: var(--t-title);
+  letter-spacing: -0.02em;
+}
+
+.works__hint {
+  max-width: var(--measure);
+  font-size: var(--t-small);
+  color: var(--ink-soft);
+}

@@ -1,0 +1,46 @@
+.wall {
+  display: grid;
+  gap: var(--s12);
+}
+
+/* 每個日期一段，上緣一條分隔線；寬螢幕時日期移到左側邊欄當脊椎 */
+.wall__group {
+  display: grid;
+  gap: var(--s4);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--rule);
+}
+@media (min-width: 900px) {
+  .wall__group {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: var(--s8);
+  }
+}
+
+.wall__date {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  font-family: var(--latin);
+  font-size: var(--t-small);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 900px) {
+  .wall__date {
+    position: sticky;
+    top: calc(var(--masthead-h) + var(--s6));
+    align-self: start;
+    flex-direction: column;
+    gap: var(--s1);
+  }
+}
+
+.wall__plates {
+  position: relative;   /* popLayout 離場時以此為定位基準 */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--s8) var(--s6);
+  align-items: start;
+}

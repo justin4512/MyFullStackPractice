@@ -1,0 +1,190 @@
+{
+  "latte-course": {
+    "width": 640,
+    "height": 1600
+  },
+  "latte-course__1": {
+    "width": 640,
+    "height": 1600
+  },
+  "latte-course__2": {
+    "width": 640,
+    "height": 1600
+  },
+  "latte-course__3": {
+    "width": 640,
+    "height": 1600
+  },
+  "latte-course__4": {
+    "width": 640,
+    "height": 1600
+  },
+  "vibe-course": {
+    "width": 640,
+    "height": 1600
+  },
+  "vibe-course__1": {
+    "width": 640,
+    "height": 1600
+  },
+  "vibe-course__2": {
+    "width": 640,
+    "height": 1600
+  },
+  "vibe-course__3": {
+    "width": 640,
+    "height": 1600
+  },
+  "phishing-awareness": {
+    "width": 640,
+    "height": 1059
+  },
+  "taichung-travel": {
+    "width": 640,
+    "height": 400
+  },
+  "warriors-pagecut": {
+    "width": 640,
+    "height": 400
+  },
+  "warriors-pagecut__1": {
+    "width": 640,
+    "height": 400
+  },
+  "welcome-pagecut": {
+    "width": 640,
+    "height": 488
+  },
+  "welcome-pagecut__1": {
+    "width": 640,
+    "height": 407
+  },
+  "grid-course": {
+    "width": 640,
+    "height": 423
+  },
+  "grid-course__1": {
+    "width": 640,
+    "height": 509
+  },
+  "flex-navbar": {
+    "width": 640,
+    "height": 400
+  },
+  "flex-navbar__1": {
+    "width": 640,
+    "height": 400
+  },
+  "css-variables": {
+    "width": 640,
+    "height": 400
+  },
+  "bootstrap-vibe": {
+    "width": 640,
+    "height": 578
+  },
+  "bootstrap-typography": {
+    "width": 640,
+    "height": 1600
+  },
+  "todo-refactored": {
+    "width": 640,
+    "height": 400
+  },
+  "js-variables": {
+    "width": 640,
+    "height": 1440
+  },
+  "theme-preference": {
+    "width": 640,
+    "height": 400
+  },
+  "theme-preference__1": {
+    "width": 640,
+    "height": 446
+  },
+  "theme-preference__2": {
+    "width": 640,
+    "height": 446
+  },
+  "dynamic-cards": {
+    "width": 640,
+    "height": 400
+  },
+  "dynamic-cards__1": {
+    "width": 640,
+    "height": 400
+  },
+  "login-validation": {
+    "width": 640,
+    "height": 400
+  },
+  "course-shop": {
+    "width": 640,
+    "height": 1058
+  },
+  "course-shop__1": {
+    "width": 640,
+    "height": 1600
+  },
+  "dub-nation": {
+    "width": 640,
+    "height": 516
+  },
+  "dub-nation__1": {
+    "width": 640,
+    "height": 581
+  },
+  "stock-terminal": {
+    "width": 640,
+    "height": 773
+  },
+  "stock-terminal__1": {
+    "width": 640,
+    "height": 632
+  },
+  "seo-geo-lab": {
+    "width": 640,
+    "height": 1236
+  },
+  "seo-geo-lab__1": {
+    "width": 640,
+    "height": 1600
+  },
+  "smc-navigator": {
+    "width": 640,
+    "height": 829
+  },
+  "devtools-navigator": {
+    "width": 640,
+    "height": 865
+  },
+  "devtools-navigator__1": {
+    "width": 640,
+    "height": 400
+  },
+  "devtools-navigator__2": {
+    "width": 640,
+    "height": 400
+  },
+  "devtools-navigator__3": {
+    "width": 640,
+    "height": 1600
+  },
+  "devtools-navigator__4": {
+    "width": 640,
+    "height": 439
+  },
+  "devtools-navigator__5": {
+    "width": 640,
+    "height": 400
+  },
+  "devtools-navigator__6": {
+    "width": 640,
+    "height": 400
+  },
+  "duty-dashboard": {
+    "width": 640,
+    "height": 907
+  }
+}

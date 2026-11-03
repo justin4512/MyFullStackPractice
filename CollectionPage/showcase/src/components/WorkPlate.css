@@ -1,0 +1,88 @@
+.plate {
+  display: grid;
+  gap: var(--s2);
+  align-content: start;
+}
+
+/* 印樣框：截圖直接貼在牆上，沒有卡片殼；底邊那條色就是這件作品自己的取樣色 */
+.plate__frame {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-bottom: 3px solid var(--chip);
+  background: var(--plate);
+}
+
+.plate__shot {
+  width: 100%;
+  height: auto;
+  transform: translate3d(0, 0, 0);
+  transition: transform 800ms var(--ease);
+}
+
+/* 停留或鍵盤聚焦時，截圖以固定速率往下捲，把整頁看完 */
+@media (hover: hover) and (pointer: fine) {
+  .plate:hover .plate__shot {
+    transform: translate3d(0, var(--preview-shift), 0);
+    transition: transform 6s linear 150ms;
+  }
+}
+.plate:focus-within .plate__shot {
+  transform: translate3d(0, var(--preview-shift), 0);
+  transition: transform 6s linear 150ms;
+}
+
+.plate__title {
+  margin-top: var(--s2);
+  font-size: var(--t-plate);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+.plate__title a {
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-decoration-color var(--fast) var(--ease);
+}
+.plate__title a:hover,
+.plate__title a:focus-visible { text-decoration-color: currentColor; }
+
+.plate__summary {
+  font-size: var(--t-small);
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+.plate__versions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s1) var(--s4);
+  margin-top: var(--s1);
+  padding-top: var(--s2);
+  border-top: 1px solid var(--rule);
+}
+
+.plate__versions-count { color: var(--ink); }
+
+.plate__versions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--s4);
+}
+
+.plate__versions-list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  font-size: var(--t-meta);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate:hover .plate__shot,
+  .plate:focus-within .plate__shot { transform: none; }
+}

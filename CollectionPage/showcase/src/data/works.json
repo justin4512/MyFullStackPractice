@@ -1,0 +1,276 @@
+[
+  {
+    "id": "latte-course",
+    "title": "咖啡拉花體驗課 Landing Page",
+    "summary": "同一份需求交給五種 AI 工具產出，比較版面、字體與文案語氣的差異。",
+    "category": "landing",
+    "path": "00.BasicHtml/landing_page_Claude.html",
+    "added": "2026-09-14",
+    "tags": ["HTML", "CSS", "Google Fonts", "AI 協作"],
+    "featured": true,
+    "versions": [
+      { "label": "Claude", "path": "00.BasicHtml/landing_page_Claude.html" },
+      { "label": "ChatGPT", "path": "00.BasicHtml/landing_page_GPT.html" },
+      { "label": "Gemini", "path": "00.BasicHtml/landing_page_Gemini.html" },
+      { "label": "Gemini＋SDD", "path": "00.BasicHtml/landing_page_Gemini_SDD.html" },
+      { "label": "Copilot", "path": "00.BasicHtml/landing_page_cotpilot.html" }
+    ]
+  },
+  {
+    "id": "vibe-course",
+    "title": "VIBE AI 協作開發課",
+    "summary": "給程式新手的 AI 協作課程網站，保留多次改版：重構版、SDD 規格版與漸進增強版。",
+    "category": "landing",
+    "path": "00.BasicHtml/rebuilt2.html",
+    "added": "2026-09-14",
+    "tags": ["HTML", "CSS", "JavaScript", "SEO"],
+    "featured": true,
+    "versions": [
+      { "label": "重構版", "path": "00.BasicHtml/rebuilt2.html" },
+      { "label": "SDD 規格版", "path": "00.BasicHtml/SDD_CLAUDE.html" },
+      { "label": "ChatGPT 版", "path": "00.BasicHtml/index_GPT.html" },
+      { "label": "漸進增強版", "path": "00.BasicHtml/progressive_GPT.html" }
+    ]
+  },
+  {
+    "id": "phishing-awareness",
+    "title": "留一秒，辨識魚叉式網路釣魚",
+    "summary": "資安宣導單頁，教同事在日常工作中辨識並回報魚叉式網路釣魚。",
+    "category": "landing",
+    "path": "00.BasicHtml/temp.html",
+    "added": "2026-09-14",
+    "tags": ["HTML", "CSS"]
+  },
+  {
+    "id": "taichung-travel",
+    "title": "台中地區旅遊景點 TOP3",
+    "summary": "旅遊景點介紹網站的切版練習。",
+    "category": "layout",
+    "path": "PageCut/PageCut20260831_practice.html",
+    "added": "2026-09-01",
+    "tags": ["HTML", "CSS", "切版"]
+  },
+  {
+    "id": "warriors-pagecut",
+    "title": "勇士風格切版",
+    "summary": "同一份切版稿的手刻版與 AI 改寫版對照。",
+    "category": "layout",
+    "path": "PageCut/PageCut20260831_AI.html",
+    "added": "2026-09-01",
+    "tags": ["HTML", "CSS", "切版", "AI 協作"],
+    "versions": [
+      { "label": "AI 改寫版", "path": "PageCut/PageCut20260831_AI.html" },
+      { "label": "手刻版", "path": "PageCut/PageCut20260831.html" }
+    ]
+  },
+  {
+    "id": "welcome-pagecut",
+    "title": "歡迎光臨｜首頁切版",
+    "summary": "早期的切版練習，保留原始版與 AI 修改版方便比較。",
+    "category": "layout",
+    "path": "PageCut/PageCut20260824_1_AI_Edit.html",
+    "added": "2026-09-01",
+    "tags": ["HTML", "CSS", "切版"],
+    "versions": [
+      { "label": "AI 修改版", "path": "PageCut/PageCut20260824_1_AI_Edit.html" },
+      { "label": "原始版", "path": "PageCut/PageCut20260824_1.html" }
+    ]
+  },
+  {
+    "id": "grid-course",
+    "title": "Vibe Coding 學院｜Grid 版面",
+    "summary": "以 CSS Grid 排出課程網站的首頁區塊。",
+    "category": "layout",
+    "path": "CSS_Practice/03GridLayout_Gemini.html",
+    "added": "2026-08-26",
+    "tags": ["CSS Grid", "RWD"],
+    "versions": [
+      { "label": "Gemini", "path": "CSS_Practice/03GridLayout_Gemini.html" },
+      { "label": "ChatGPT", "path": "CSS_Practice/04GridLayout_GPT.html" }
+    ]
+  },
+  {
+    "id": "flex-navbar",
+    "title": "Flexbox 導覽列",
+    "summary": "用 Flexbox 排出網站頁首的導覽列。",
+    "category": "layout",
+    "path": "CSS_Practice/01FlexLayout_Gemini.html",
+    "added": "2026-08-26",
+    "tags": ["Flexbox"],
+    "versions": [
+      { "label": "Gemini", "path": "CSS_Practice/01FlexLayout_Gemini.html" },
+      { "label": "ChatGPT", "path": "CSS_Practice/02FlexLayout_GPT.html.html" }
+    ]
+  },
+  {
+    "id": "css-variables",
+    "title": "CSS Variables 品牌色彩管理",
+    "summary": "以 :root 自訂屬性集中管理品牌色，改一處就套用到整頁。",
+    "category": "layout",
+    "path": "CSS_Practice/rootcolor.html",
+    "added": "2026-08-26",
+    "tags": ["CSS Variables"]
+  },
+  {
+    "id": "bootstrap-vibe",
+    "title": "屬於你的 Vibe Coding",
+    "summary": "用 Bootstrap 的格線與元件組出課程介紹頁（第 1–2 章練習）。",
+    "category": "bootstrap",
+    "path": "Bootstrap/bootstrap1_ch01-02.html",
+    "added": "2026-09-14",
+    "tags": ["Bootstrap 5", "HTML"]
+  },
+  {
+    "id": "bootstrap-typography",
+    "title": "Bootstrap 文字排版練習",
+    "summary": "Bootstrap 的文字與排版工具類別練習（第 3–4 章）。",
+    "category": "bootstrap",
+    "path": "Bootstrap/bootstrap2_ch03-04.html",
+    "added": "2026-09-14",
+    "tags": ["Bootstrap 5", "Typography"]
+  },
+  {
+    "id": "todo-refactored",
+    "title": "待辦清單（重構版）",
+    "summary": "新增、完成與刪除待辦事項，並把邏輯重構成較好維護的結構。",
+    "category": "javascript",
+    "path": "JavaScriptPractice/TodoListRefactored.html",
+    "added": "2026-09-04",
+    "tags": ["JavaScript", "DOM"]
+  },
+  {
+    "id": "js-variables",
+    "title": "let、const、var 小白比較教學",
+    "summary": "用範例比較三種變數宣告在作用域與重新賦值上的差異。",
+    "category": "javascript",
+    "path": "JavaScriptPractice/JavaScriptcompare.html",
+    "added": "2026-09-01",
+    "tags": ["JavaScript", "教學"]
+  },
+  {
+    "id": "theme-preference",
+    "title": "偏好設定與主題切換",
+    "summary": "以 LocalStorage 記住使用者的主題偏好，重新整理後依然保留。",
+    "category": "javascript",
+    "path": "JavaScriptPractice/preference.html",
+    "added": "2026-09-04",
+    "tags": ["JavaScript", "LocalStorage"],
+    "versions": [
+      { "label": "主題切換", "path": "JavaScriptPractice/preference.html" },
+      { "label": "LocalStorage 基礎", "path": "JavaScriptPractice/LocalStorage.html" },
+      { "label": "SessionStorage 基礎", "path": "JavaScriptPractice/SessionStorage.html" }
+    ]
+  },
+  {
+    "id": "dynamic-cards",
+    "title": "動態新增與刪除卡片",
+    "summary": "透過 DOM 操作即時新增與刪除畫面上的卡片。",
+    "category": "javascript",
+    "path": "JavaScriptPractice/DynamicPage2.html",
+    "added": "2026-09-04",
+    "tags": ["JavaScript", "DOM"],
+    "versions": [
+      { "label": "卡片版", "path": "JavaScriptPractice/DynamicPage2.html" },
+      { "label": "待辦事項版", "path": "JavaScriptPractice/DynamicPage1.html" }
+    ]
+  },
+  {
+    "id": "login-validation",
+    "title": "登入表單驗證",
+    "summary": "在前端檢查登入表單的輸入內容。",
+    "category": "javascript",
+    "path": "JavaScriptPractice/Practice4_login.html",
+    "added": "2026-09-01",
+    "tags": ["JavaScript", "表單"]
+  },
+  {
+    "id": "course-shop",
+    "title": "AI 課程商業應用學院",
+    "summary": "桌遊風格的選課卡片，滑鼠移到卡片上就會翻牌顯示專屬折扣，並附單元測試頁。",
+    "category": "webapi",
+    "path": "WebApiTest/03.ShopWebV1/index.html",
+    "added": "2026-09-09",
+    "tags": ["JavaScript", "CSS 3D", "單元測試"],
+    "featured": true,
+    "versions": [
+      { "label": "網站", "path": "WebApiTest/03.ShopWebV1/index.html" },
+      { "label": "單元測試報告", "path": "WebApiTest/03.ShopWebV1/tests.html" }
+    ]
+  },
+  {
+    "id": "dub-nation",
+    "title": "DUB NATION 會員入口",
+    "summary": "金州勇士主題的球員名單（V1）與會員入口（V2）。",
+    "category": "webapi",
+    "path": "WebApiTest/01.GodenState2/index.html",
+    "added": "2026-09-09",
+    "tags": ["JavaScript", "Google Fonts"],
+    "versions": [
+      { "label": "V2 會員入口", "path": "WebApiTest/01.GodenState2/index.html" },
+      { "label": "V1 球員名單", "path": "WebApiTest/01.GodenState1/index.html" }
+    ]
+  },
+  {
+    "id": "stock-terminal",
+    "title": "零股清單 BLACK TERMINAL",
+    "summary": "終端機風格的零股持股清單。",
+    "category": "webapi",
+    "path": "WebApiTest/StockSum2/index.html",
+    "added": "2026-09-09",
+    "tags": ["JavaScript"],
+    "versions": [
+      { "label": "V2", "path": "WebApiTest/StockSum2/index.html" },
+      { "label": "V1", "path": "WebApiTest/02.StockSum/index.html" }
+    ]
+  },
+  {
+    "id": "seo-geo-lab",
+    "title": "SEO × GEO Growth Lab",
+    "summary": "以 8 維 GEO Readiness 等互動工具，檢視品牌在搜尋與 AI 世界中的能見度。",
+    "category": "tool",
+    "path": "TechLearningPath/GEO&SEO/GEO&SEOV2.html",
+    "added": "2026-09-02",
+    "tags": ["JavaScript", "SEO", "GEO"],
+    "featured": true,
+    "versions": [
+      { "label": "V2.2", "path": "TechLearningPath/GEO&SEO/GEO&SEOV2.html" },
+      { "label": "V1", "path": "TechLearningPath/GEO&SEO/GEO&SEOV1.html" }
+    ]
+  },
+  {
+    "id": "smc-navigator",
+    "title": "SMC 交易進場前檢查導航器",
+    "summary": "把交易進場前的檢查步驟做成給新手的互動導航。",
+    "category": "tool",
+    "path": "SMC_check.html",
+    "added": "2026-09-08",
+    "tags": ["JavaScript", "互動導航"]
+  },
+  {
+    "id": "devtools-navigator",
+    "title": "DevTools Debug 導航器",
+    "summary": "帶新手用瀏覽器 DevTools 排查常見錯誤，並附六個對應的練習頁。",
+    "category": "tool",
+    "path": "ch06_demo/devtools_debug_navigator.html",
+    "added": "2026-09-04",
+    "tags": ["JavaScript", "DevTools", "教學"],
+    "versions": [
+      { "label": "導航器", "path": "ch06_demo/devtools_debug_navigator.html" },
+      { "label": "表單送出失敗", "path": "ch06_demo/demo01.html" },
+      { "label": "API 載入失敗", "path": "ch06_demo/demo02.html" },
+      { "label": "商品列表卡頓", "path": "ch06_demo/demo03.html" },
+      { "label": "分頁與篩選異常", "path": "ch06_demo/demo04.html" },
+      { "label": "待辦清單", "path": "ch06_demo/demo05.html" },
+      { "label": "圖片效能", "path": "ch06_demo/demo06.html" }
+    ]
+  },
+  {
+    "id": "duty-dashboard",
+    "title": "值日與外掃儀表板",
+    "summary": "把班級的值日與外掃分工整理成一頁儀表板。",
+    "category": "tool",
+    "path": "index.html",
+    "added": "2026-08-25",
+    "tags": ["JavaScript", "儀表板"]
+  }
+]

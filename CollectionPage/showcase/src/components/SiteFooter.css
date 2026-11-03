@@ -1,0 +1,13 @@
+.site-footer {
+  border-top: 1px solid var(--rule);
+  padding-block: var(--s12);
+  color: var(--ink-soft);
+  font-size: var(--t-small);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s2) var(--s8);
+}

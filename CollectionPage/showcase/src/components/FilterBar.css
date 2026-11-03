@@ -1,0 +1,52 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s2) var(--s6);
+  margin-bottom: var(--s12);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* 窄螢幕時單列橫向捲動，篩選列不會長高擠掉內容 */
+.filters__row {
+  display: flex;
+  gap: var(--s6);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filters__row::-webkit-scrollbar { display: none; }
+
+.filters__item {
+  display: inline-flex;
+  flex: none;
+  align-items: baseline;
+  gap: var(--s2);
+  min-height: 44px;
+  padding: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-soft);
+  font-size: var(--t-body);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--fast) var(--ease), border-color var(--fast) var(--ease);
+}
+
+/* 已選取：墨色、粗體、底線三種提示，不單靠顏色 */
+.filters__item[aria-pressed='true'] {
+  color: var(--ink);
+  font-weight: 600;
+  border-bottom-color: var(--ink);
+}
+
+.filters__count { color: inherit; opacity: 0.7; }
+
+@media (hover: hover) and (pointer: fine) {
+  .filters__item:not([aria-pressed='true']):hover { color: var(--ink); }
+}
+
+.filters__status {
+  padding-bottom: var(--s2);
+  color: var(--ink);
+}

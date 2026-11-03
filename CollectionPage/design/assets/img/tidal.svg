@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <!-- 示意截圖：Tidal 監控台主畫面。上方為依可行動性排序的告警清單，下方為選定告警的時間軸。 -->
+  <defs>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </linearGradient>
+    <style>
+      text { font-family: system-ui, -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+      .t1 { fill: #e6edf3; } .t2 { fill: #8b98a5; } .t3 { fill: #5f6b78; }
+      .panel { fill: #131a24; stroke: #1f2937; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#0c1118"/>
+
+  <!-- 頂列 -->
+  <rect width="1600" height="64" fill="#111821"/>
+  <line x1="0" y1="64" x2="1600" y2="64" stroke="#1f2937" stroke-width="2"/>
+  <circle cx="48" cy="32" r="10" fill="#38bdf8"/>
+  <text x="68" y="40" font-size="22" font-weight="600" class="t1">Tidal</text>
+  <text x="180" y="39" font-size="16" class="t1">告警</text>
+  <rect x="180" y="58" width="32" height="3" rx="1.5" fill="#38bdf8"/>
+  <text x="244" y="39" font-size="16" class="t2">服務</text>
+  <text x="308" y="39" font-size="16" class="t2">值班表</text>
+  <rect x="1160" y="18" width="300" height="30" rx="7" fill="#0c1118" stroke="#243042" stroke-width="2"/>
+  <text x="1176" y="39" font-size="14" class="t3">搜尋告警、服務或值班人員</text>
+  <text x="1436" y="39" font-size="14" class="t3">/</text>
+  <circle cx="1528" cy="32" r="15" fill="#ff8a3d" fill-opacity=".9"/>
+
+  <!-- 告警清單 -->
+  <rect x="40" y="96" width="1000" height="504" rx="14" class="panel"/>
+  <text x="68" y="138" font-size="18" font-weight="600" class="t1">需要處理 · 依可行動性排序</text>
+  <rect x="872" y="116" width="140" height="30" rx="15" fill="#38bdf8" fill-opacity=".14"/>
+  <text x="894" y="137" font-size="14" fill="#7dd3fc">5 則可立即處理</text>
+
+  <!-- 列 1（選定） -->
+  <rect x="56" y="164" width="968" height="70" rx="10" fill="#172233" stroke="#2b4a66" stroke-width="2"/>
+  <rect x="56" y="174" width="4" height="50" rx="2" fill="#38bdf8"/>
+  <rect x="80" y="187" width="52" height="24" rx="12" fill="#f87171" fill-opacity=".18"/>
+  <text x="94" y="204" font-size="13" font-weight="600" fill="#fca5a5">P1</text>
+  <text x="152" y="194" font-size="18" class="t1">結帳服務 p95 延遲超過 800ms</text>
+  <text x="152" y="220" font-size="14" class="t2">checkout-api · 3 分鐘前 · 已合併 12 則重複通知</text>
+  <text x="832" y="205" font-size="15" class="t2">×12</text>
+  <rect x="908" y="183" width="96" height="32" rx="8" fill="#38bdf8"/>
+  <text x="940" y="204" font-size="14" font-weight="600" fill="#0c1118">處理</text>
+
+  <!-- 列 2–5 -->
+  <g>
+    <rect x="80" y="263" width="52" height="24" rx="12" fill="#f87171" fill-opacity=".18"/>
+    <text x="94" y="280" font-size="13" font-weight="600" fill="#fca5a5">P1</text>
+    <text x="152" y="270" font-size="18" class="t1">訂單佇列積壓 12,400 筆</text>
+    <text x="152" y="296" font-size="14" class="t2">order-worker · 6 分鐘前</text>
+    <rect x="908" y="259" width="96" height="32" rx="8" fill="none" stroke="#2f3b4c" stroke-width="2"/>
+    <text x="940" y="280" font-size="14" class="t1">處理</text>
+    <line x1="72" y1="320" x2="1008" y2="320" stroke="#1f2937" stroke-width="2"/>
+  </g>
+  <g>
+    <rect x="80" y="339" width="52" height="24" rx="12" fill="#fbbf24" fill-opacity=".16"/>
+    <text x="94" y="356" font-size="13" font-weight="600" fill="#fcd34d">P2</text>
+    <text x="152" y="346" font-size="18" class="t1">庫存同步連續失敗 3 次</text>
+    <text x="152" y="372" font-size="14" class="t2">inventory-sync · 11 分鐘前 · 已合併 3 則</text>
+    <text x="840" y="357" font-size="15" class="t2">×3</text>
+    <rect x="908" y="335" width="96" height="32" rx="8" fill="none" stroke="#2f3b4c" stroke-width="2"/>
+    <text x="940" y="356" font-size="14" class="t1">處理</text>
+    <line x1="72" y1="396" x2="1008" y2="396" stroke="#1f2937" stroke-width="2"/>
+  </g>
+  <g>
+    <rect x="80" y="415" width="52" height="24" rx="12" fill="#fbbf24" fill-opacity=".16"/>
+    <text x="94" y="432" font-size="13" font-weight="600" fill="#fcd34d">P2</text>
+    <text x="152" y="422" font-size="18" class="t1">CDN 快取命中率降至 71%</text>
+    <text x="152" y="448" font-size="14" class="t2">edge-cdn · 18 分鐘前</text>
+    <rect x="908" y="411" width="96" height="32" rx="8" fill="none" stroke="#2f3b4c" stroke-width="2"/>
+    <text x="940" y="432" font-size="14" class="t1">處理</text>
+    <line x1="72" y1="472" x2="1008" y2="472" stroke="#1f2937" stroke-width="2"/>
+  </g>
+  <g>
+    <rect x="80" y="491" width="52" height="24" rx="12" fill="#38bdf8" fill-opacity=".14"/>
+    <text x="94" y="508" font-size="13" font-weight="600" fill="#7dd3fc">P3</text>
+    <text x="152" y="498" font-size="18" class="t1">登入錯誤率 2.1%</text>
+    <text x="152" y="524" font-size="14" class="t2">auth-gateway · 24 分鐘前</text>
+    <rect x="908" y="487" width="96" height="32" rx="8" fill="none" stroke="#2f3b4c" stroke-width="2"/>
+    <text x="940" y="508" font-size="14" class="t1">處理</text>
+  </g>
+  <rect x="56" y="548" width="968" height="36" rx="8" fill="#0f151e"/>
+  <path d="M80 559l8 7-8 7z" fill="#5f6b78"/>
+  <text x="100" y="572" font-size="15" class="t2">追蹤中 3 則（已收合，交接時不必再口頭補充）</text>
+
+  <!-- 指標卡 -->
+  <rect x="1072" y="96" width="488" height="240" rx="14" class="panel"/>
+  <text x="1100" y="138" font-size="16" class="t2">p95 延遲 · checkout-api</text>
+  <text x="1100" y="214" font-size="60" font-weight="600" class="t1">842<tspan font-size="28" class="t2"> ms</tspan></text>
+  <text x="1100" y="252" font-size="16" fill="#fca5a5">較上週同時段 +38%</text>
+  <polyline points="1100,306 1150,300 1200,304 1250,296 1300,298 1350,288 1400,280 1450,262 1500,250 1532,244" fill="none" stroke="#f87171" stroke-width="3" stroke-linejoin="round"/>
+
+  <rect x="1072" y="360" width="488" height="240" rx="14" class="panel"/>
+  <text x="1100" y="402" font-size="16" class="t2">受影響訂單 · 近 30 分鐘</text>
+  <text x="1100" y="478" font-size="60" font-weight="600" class="t1">1,284</text>
+  <g fill="#38bdf8">
+    <rect x="1100" y="552" width="28" height="20" rx="3" fill-opacity=".35"/>
+    <rect x="1140" y="546" width="28" height="26" rx="3" fill-opacity=".35"/>
+    <rect x="1180" y="540" width="28" height="32" rx="3" fill-opacity=".4"/>
+    <rect x="1220" y="530" width="28" height="42" rx="3" fill-opacity=".45"/>
+    <rect x="1260" y="534" width="28" height="38" rx="3" fill-opacity=".45"/>
+    <rect x="1300" y="518" width="28" height="54" rx="3" fill-opacity=".55"/>
+    <rect x="1340" y="506" width="28" height="66" rx="3" fill-opacity=".65"/>
+    <rect x="1380" y="498" width="28" height="74" rx="3" fill-opacity=".75"/>
+    <rect x="1420" y="508" width="28" height="64" rx="3" fill-opacity=".85"/>
+    <rect x="1460" y="492" width="28" height="80" rx="3"/>
+    <rect x="1500" y="500" width="28" height="72" rx="3"/>
+  </g>
+
+  <!-- 時間軸 -->
+  <rect x="40" y="628" width="1520" height="336" rx="14" class="panel"/>
+  <text x="68" y="670" font-size="18" font-weight="600" class="t1">時間軸 · 結帳服務 p95 延遲</text>
+  <line x1="1188" y1="664" x2="1216" y2="664" stroke="#38bdf8" stroke-width="3"/>
+  <text x="1226" y="670" font-size="14" class="t2">p95 延遲</text>
+  <line x1="1330" y1="664" x2="1358" y2="664" stroke="#fbbf24" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="1368" y="670" font-size="14" class="t2">SLO 800ms</text>
+  <g stroke="#1b2430" stroke-width="2">
+    <line x1="80" y1="712" x2="1520" y2="712"/>
+    <line x1="80" y1="776" x2="1520" y2="776"/>
+    <line x1="80" y1="840" x2="1520" y2="840"/>
+    <line x1="80" y1="904" x2="1520" y2="904"/>
+  </g>
+  <line x1="80" y1="760" x2="1520" y2="760" stroke="#fbbf24" stroke-width="2" stroke-dasharray="10 7" stroke-opacity=".8"/>
+  <path d="M80 872L160 866L240 870L320 858L400 862L480 852L560 860L640 848L720 854L800 842L880 850L960 838L1040 844L1120 828L1200 820L1280 794L1360 752L1440 734L1520 742V904H80Z" fill="url(#area)"/>
+  <polyline points="80,872 160,866 240,870 320,858 400,862 480,852 560,860 640,848 720,854 800,842 880,850 960,838 1040,844 1120,828 1200,820 1280,794 1360,752 1440,734 1520,742" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linejoin="round"/>
+  <line x1="1200" y1="700" x2="1200" y2="904" stroke="#f87171" stroke-width="2" stroke-dasharray="6 6"/>
+  <rect x="1116" y="690" width="76" height="26" rx="6" fill="#2b0d0d"/>
+  <text x="1126" y="708" font-size="13" fill="#fca5a5">部署 v2.14</text>
+  <circle cx="1360" cy="752" r="7" fill="#f87171" stroke="#0c1118" stroke-width="3"/>
+  <g font-size="13" class="t3">
+    <text x="80" y="938" class="t3">02:00</text>
+    <text x="440" y="938" class="t3">02:15</text>
+    <text x="800" y="938" class="t3">02:30</text>
+    <text x="1160" y="938" class="t3">02:45</text>
+    <text x="1480" y="938" class="t3">03:00</text>
+  </g>
+</svg>

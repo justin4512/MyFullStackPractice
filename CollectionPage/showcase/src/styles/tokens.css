@@ -1,0 +1,47 @@
+/* ============================================================
+   練習印樣 — 設計權杖
+   牆面安靜、沒有全站強調色；顏色由每件作品的截圖取樣供給（--chip）
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* 展場牆與印樣 */
+  --wall: #e4e7e4;          /* 冷調石膏灰綠 */
+  --wall-deep: #d8ddd8;     /* 分段帶、hover 底 */
+  --plate: #f5f7f4;         /* 印樣底板 */
+  --ink: #1f2b4d;           /* 深靛，於牆面 11.1:1 */
+  --ink-soft: #56607a;      /* 次要文字，於牆面 5.03:1 */
+  --rule: #c7ccc6;          /* 髮絲線 */
+  --chip: var(--ink-soft);  /* 每件作品覆寫成自己的取樣色 */
+
+  /* 字體：拉丁字與數字走 Bricolage（紀錄層），中文交給系統字（人話層） */
+  --latin: 'Bricolage Grotesque', system-ui, sans-serif;
+  --han: 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', system-ui, sans-serif;
+  --text: var(--latin), var(--han);
+
+  /* 上限 4rem：中文詞組一行約 8 字，再大就會在詞組中間斷行 */
+  --t-display: clamp(2.5rem, 1.6rem + 3.4vw, 4rem);
+  --t-title: clamp(1.625rem, 1.3rem + 1.4vw, 2.25rem);
+  --t-plate: 1.1875rem;
+  --t-body: 1rem;
+  --t-small: 0.875rem;
+  --t-meta: 0.8125rem;
+
+  --lh-display: 0.98;
+  --lh-title: 1.2;
+  --lh-body: 1.75;   /* 中文內文需要比拉丁字更鬆的行距 */
+
+  /* 間距：4 的倍數 */
+  --s1: 0.25rem; --s2: 0.5rem;  --s3: 0.75rem; --s4: 1rem;
+  --s6: 1.5rem;  --s8: 2rem;    --s12: 3rem;   --s16: 4rem;
+  --s24: 6rem;   --s32: 8rem;
+
+  --measure: 34em;           /* 中文行長上限 */
+  --page: 1360px;
+  --masthead-h: 56px;
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --fast: 140ms;
+  --slow: 420ms;
+}
